@@ -20,6 +20,7 @@ def object_field_to_datetime(df,datetime_columns):
             df[col]=pd.to_datetime(df[col], errors='coerce')
     df.replace({np.nan:None},inplace=True)
 
+
 class PopulateModels:
     """
     Read, process, load models data into postgres.
@@ -181,7 +182,7 @@ class PopulateModels:
                         'ndc':row['NDC'],
                         'prod_strength':row['PROD_STRENGTH'],
                         'dose_val_rx':row['DOSE_VAL_RX'],
-                        'dose_unt':row['DOSE_UNIT'],
+                        'dose_unit_rx':row['DOSE_UNIT_RX'],
                         'form_val_disp':row['FORM_VAL_DISP'],
                         'form_unit_disp':row['FORM_UNIT_DISP'],
                         'route':row['ROUTE']
@@ -261,5 +262,3 @@ class PopulateModels:
             except Exception as e:
                     print(f"Exception on row_id {row['ROW_ID']}.")
                     raise (e)
-
-PopulateModels().load_transfers()
