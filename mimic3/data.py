@@ -69,11 +69,13 @@ def construct_pytorch_dataset():
         iter_df=df_categorical[df_categorical.hadm_id==adm]
         timestep1_df=pd.concat([timestep1_df,iter_df[0:3]])
         timestep2_df=pd.concat([timestep2_df,iter_df[3:6]])
-        timestep3_df=pd.concat([timestep3_df,iter_df[6:]])
+        timestep3_df=pd.concat([timestep3_df,iter_df[6:9]])
 
 
-    timestep1_df.to_csv("pytorch_t1_df.csv",index=False)
-    timestep2_df.to_csv("pytorch_t2_df.csv",index=False)
+    # timestep1_df.to_csv("pytorch_t1_df.csv",index=False)
+    # timestep2_df.to_csv("pytorch_t2_df.csv",index=False)
     timestep3_df.to_csv("pytorch_t3_df.csv",index=False)
     print('Done')
 
+
+construct_pytorch_dataset()
