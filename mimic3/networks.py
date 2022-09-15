@@ -1,3 +1,4 @@
+import os
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
@@ -104,13 +105,84 @@ train_loader2_1 = DataLoader(dataset=dataset2_1, batch_size=10)
 train_loader2_2 = DataLoader(dataset=dataset2_2, batch_size=10)
 train_loader_final = DataLoader(dataset=dataset_final, batch_size=10)
 
-train()
-# prediction
-with torch.no_grad():
-    features_t0,_=next(iter(train_loader1_1))
-    features_t1=model1(features_t0)
-    drugs_t1=model2(features_t0)
-    features_t2=model3(torch.concat([features_t1,drugs_t1],dim=1))
-    drugs_t2=model4(torch.concat([features_t1,drugs_t1],dim=1))
-    final_outcome=final_model(torch.concat([features_t2,drugs_t2],dim=1))
+# model1, model2, model3, model4, final_model=train()
+# # prediction
+# with torch.no_grad():
+#     features_t0,_=next(iter(train_loader1_1))
+#     features_t1=model1(features_t0)
+#     drugs_t1=model2(features_t0)
+#     features_t2=model3(torch.concat([features_t1,drugs_t1],dim=1))
+#     drugs_t2=model4(torch.concat([features_t1,drugs_t1],dim=1))
+#     final_outcome=final_model(torch.concat([features_t2,drugs_t2],dim=1))
 
+###### Approach 2 #######
+class Ensemble(nn.Module):
+    def __init__(self, model1, model2,model3,model4):
+        super(Ensemble, self).__init__()
+        self.model1 = model1
+        self.model2 = model2
+        self.model3 = model3
+        self.model4 = model4
+        self.classifier = nn.Linear(6, 1)
+
+    def forward(self, x1, x2):
+        """
+        Parameters:
+            x1: train_loader1 from timestep1.
+            x2: train_loader2 from timestep2.
+        The final outcome is trained not on the t3 actual results,
+        but on the predicted results of the previous timesteps.
+        t3 pred obtained from t2 models, t2 pred obtained from t1 models.
+        """
+        #t1
+        x1 = self.model1(x1)
+        x2 = self.model2(x2)
+        #t2
+        x3 = self.model3(torch.cat((x1, x2), dim=1))
+        x4 = self.model4(torch.cat((x1, x2), dim=1))
+        #t3
+        x =self.classifier(torch.relu(torch.cat((x3, x4), dim=1)))
+        return x
+
+
+# model1, model2, model3, model4, _=train()
+
+dir_=os.path.dirname(__file__)
+dir_=os.path.join(dir_,'weights')
+os.chdir(dir_)
+
+# torch.save(model1.state_dict(), 'model1.ckpt')
+# torch.save(model2.state_dict(), 'model2.ckpt')
+# torch.save(model3.state_dict(), 'model3.ckpt')
+# torch.save(model4.state_dict(), 'model4.ckpt')
+
+def train_ensemble(model,train_loader1,train_loader2,optimizer,epochs=10):
+    total_loss = []
+    epoch_loss=[]
+    for epoch in range(epochs):
+        for i,((x11,_), (x12,_),(_,y3)) in enumerate(zip(train_loader1,train_loader2,train_loader_final)):
+            yhat = model(x11,x12)
+            loss = criterion(yhat,y3)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            total_loss.append(loss.item())
+        epoch_loss.append(loss.item())
+        print(f'Epoch {epoch+1} completed.')
+
+    _, ax1 = plt.subplots()
+    color = 'tab:red'
+    ax1.plot(total_loss, color=color)
+    ax1.set_xlabel('Iteration', color=color)
+    ax1.set_ylabel('total loss', color=color)
+    ax1.tick_params(axis='y', color=color)
+    plt.show()
+
+model1.load_state_dict(torch.load('model1.ckpt'))
+model2.load_state_dict(torch.load('model2.ckpt'))
+model3.load_state_dict(torch.load('model3.ckpt'))
+model4.load_state_dict(torch.load('model4.ckpt'))
+
+ensemble_model=Ensemble(model1,model2,model3,model4)
+optimizer=torch.optim.SGD(ensemble_model.parameters(), lr=0.001)
+train_ensemble(ensemble_model,train_loader1_1,train_loader1_2,optimizer)
