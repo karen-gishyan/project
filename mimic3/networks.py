@@ -32,7 +32,7 @@ def train():
     1 model.
     """
 
-    def train_subnetwork(model1, criterion, train_loader1,optimizer,model2=None,train_loader2=None, epochs=10):
+    def train_subnetwork(model1, criterion, train_loader1,optimizer1,model2=None,train_loader2=None,optimizer2=None, epochs=10):
         """
         Each subnetwork minimizes cobmined loss of two models.
         """
@@ -44,11 +44,11 @@ def train():
             for epoch in range(epochs):
                 for i,((x1,y1), (x2,y2)) in enumerate(zip(train_loader1,train_loader2)):
                     yhat1 = model1(x1)
-                    yhat2 = model2(x1)
+                    yhat2 = model2(x2)
                     loss = criterion(yhat1, y1)+criterion(yhat2, y2)
-                    optimizer.zero_grad()
+                    optimizer1.zero_grad()
                     loss.backward()
-                    optimizer.step()
+                    optimizer1.step()
                     total_loss.append(loss.item())
                 epoch_loss.append(loss.item())
                 print(f'Epoch {epoch+1} completed.')
@@ -58,9 +58,9 @@ def train():
                 for i,(x,y) in enumerate((train_loader1)):
                     yhat = model1(x)
                     loss = criterion(yhat, y)
-                    optimizer.zero_grad()
+                    optimizer1.zero_grad()
                     loss.backward()
-                    optimizer.step()
+                    optimizer1.step()
                     total_loss.append(loss.item())
                 epoch_loss.append(loss.item())
                 print(f'Epoch {epoch+1} completed.')
@@ -74,6 +74,7 @@ def train():
 
         plt.show()
 
+    #uses variables from global context
     #train 1st subnetwork
     train_subnetwork(model1,criterion, train_loader1_1, optimizer1,model2=model2,train_loader2=train_loader1_2, epochs=10)
     #train 2nd subnetwork
@@ -88,8 +89,8 @@ model1=model2= Network(3,3)
 model3=model4= Network(6,3)
 final_model=Network(6,1)
 
-optimizer1 = torch.optim.SGD(model1.parameters(), lr=0.001)
-optimizer2 = torch.optim.SGD(model2.parameters(), lr=0.001)
+optimizer1 = torch.optim.SGD(list(model1.parameters())+list(model2.parameters()), lr=0.001)
+optimizer2 = torch.optim.SGD(list(model3.parameters())+list(model4.parameters()), lr=0.001)
 optimizer3 = torch.optim.SGD(final_model.parameters(), lr=0.001)
 criterion = nn.MSELoss()
 
@@ -178,10 +179,10 @@ def train_ensemble(model,train_loader1,train_loader2,optimizer,epochs=10):
     ax1.tick_params(axis='y', color=color)
     plt.show()
 
-model1.load_state_dict(torch.load('model1.ckpt'))
-model2.load_state_dict(torch.load('model2.ckpt'))
-model3.load_state_dict(torch.load('model3.ckpt'))
-model4.load_state_dict(torch.load('model4.ckpt'))
+# model1.load_state_dict(torch.load('model1.ckpt'))
+# model2.load_state_dict(torch.load('model2.ckpt'))
+# model3.load_state_dict(torch.load('model3.ckpt'))
+# model4.load_state_dict(torch.load('model4.ckpt'))
 
 ensemble_model=Ensemble(model1,model2,model3,model4)
 optimizer=torch.optim.SGD(ensemble_model.parameters(), lr=0.001)

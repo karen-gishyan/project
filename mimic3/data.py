@@ -3,13 +3,14 @@ configure()
 import os
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-
+import torch
+from torch.nn.utils.rnn import pad_sequence
 
 dir_=os.path.dirname(__file__)
 dir_=os.path.join(dir_,'datasets')
 os.chdir(dir_)
 
-def process_and_combine_datasets():
+def process_and_combine_datasets_limited():
     """
     We get each unique admissions last 10 'Drug and 'Heart Rate' feature values ordered by
     the care unit. In other words, what are the patient features based on the fact that they
@@ -46,12 +47,12 @@ def process_and_combine_datasets():
         care_units_with_admissions_copy.loc[lower:upper,list(df_admissions.columns)]=df_admissions.values
 
     care_units_with_admissions_copy.dropna(inplace=True)
-    care_units_with_admissions_copy.to_csv('combined.csv')
+    # care_units_with_admissions_copy.to_csv('combined.csv')
 
     return care_units_with_admissions_copy.dropna(inplace=True)
 
 
-def construct_pytorch_dataset():
+def construct_pytorch_dataset_limited():
     df=pd.read_csv('combined.csv')
     # remove some columns then select only categorical columns
     df_categorical=df.loc[:,~df.columns.isin(['startdate','enddate','charttime'])].\
@@ -78,4 +79,50 @@ def construct_pytorch_dataset():
     print('Done')
 
 
-construct_pytorch_dataset()
+class RNNData():
+    def __init__(self) :
+        drugs_df=pd.read_csv('rnn/drugs.csv')
+        features_df=pd.read_csv('rnn/features.csv')
+        drugs_df_admissions=list(drugs_df.hadm_id_id.unique())
+        features_df_admissions=list(features_df.hadm_id_id.unique())
+
+        self.admissions_intersection=sorted(list(set(drugs_df_admissions) & set(features_df_admissions)))
+        self.drugs_df=drugs_df[drugs_df.hadm_id_id.isin(self.admissions_intersection)]
+        self.features_df=features_df[features_df.hadm_id_id.isin(self.admissions_intersection)]
+
+    def feature_to_tensor(self):
+        feature_count_vector=self.features_df['itemid'].value_counts()
+        # select ids of 10 most frequently appearing features
+        #TODO feature length can be modified from here
+        feature_ids=feature_count_vector.index[:10]
+
+        total=[]
+        empty_admissions=[]
+        for adm_id in self.admissions_intersection:
+            adm_feature=[]
+            for feature_id in feature_ids:
+                values=torch.Tensor(self.features_df[(self.features_df['hadm_id_id']==adm_id) &\
+                    (self.features_df['itemid']==feature_id)]['value'].values)
+                adm_feature.append(values)
+            # if there are values for at least one feature, append to total
+            if any([len(i) for i in adm_feature]):
+                total.append(pad_sequence(adm_feature,batch_first=True).T)
+            else:
+                empty_admissions.append(adm_id)
+        self.feature_tensors=pad_sequence(total,batch_first=True)
+        torch.save(self.feature_tensors,'rnn/tensors/features.pt')
+        self.admissions_intersection=list(set(self.admissions_intersection)-set(empty_admissions))
+
+
+    def drug_to_tensor(self):
+        self.drugs_df['drug']=LabelEncoder().fit_transform(self.drugs_df['drug'])
+        total=[]
+        for adm_id in self.admissions_intersection:
+            drugs=torch.Tensor(self.drugs_df[self.drugs_df['hadm_id_id']==adm_id].drug.values).view(-1,1)
+            total.append(drugs)
+        self.drug_tensors=pad_sequence(total,batch_first=True)
+        torch.save(self.drug_tensors,'rnn/tensors/drugs.pt')
+
+    def __call__(self):
+        self.feature_to_tensor()
+        self.drug_to_tensor()
