@@ -113,16 +113,47 @@ class RNNData():
         torch.save(self.feature_tensors,'rnn/tensors/features.pt')
         self.admissions_intersection=list(set(self.admissions_intersection)-set(empty_admissions))
 
-
     def drug_to_tensor(self):
         self.drugs_df['drug']=LabelEncoder().fit_transform(self.drugs_df['drug'])
-        total=[]
+        self.drugs_df['discharge_location']=LabelEncoder().fit_transform(self.drugs_df['discharge_location'])
+        total_drugs,labels=[],[]
         for adm_id in self.admissions_intersection:
             drugs=torch.Tensor(self.drugs_df[self.drugs_df['hadm_id_id']==adm_id].drug.values).view(-1,1)
-            total.append(drugs)
-        self.drug_tensors=pad_sequence(total,batch_first=True)
+            total_drugs.append(drugs)
+            labels.append(self.drugs_df[self.drugs_df['hadm_id_id']==adm_id].discharge_location.iloc[0])
+        self.drug_tensors=pad_sequence(total_drugs,batch_first=True)
+        self.labels=torch.Tensor(labels)
         torch.save(self.drug_tensors,'rnn/tensors/drugs.pt')
+        torch.save(self.labels,'rnn/tensors/labels.pt')
+
+    def divide_tensors_to_timesteps(self):
+        def concat_and_save(list_of_tensors,features=True):
+            for i,t in enumerate(list_of_tensors):
+                t=torch.cat((*t,))
+                if features:
+                    torch.save(t,f'rnn/tensors/features_t{i+1}.pt')
+                else:
+                    torch.save(t,f'rnn/tensors/drugs_t{i+1}.pt')
+
+        features=torch.load('rnn/tensors/features.pt')
+        drugs=torch.load('rnn/tensors/drugs.pt')
+        features_t1,features_t2,features_t3=[],[],[]
+        drugs_t1,drugs_t2,drugs_t3=[],[],[]
+        for batch in features:
+            features_t1.append(batch[0:10].view(-1,10,10))
+            features_t2.append(batch[10:20].view(-1,10,10))
+            features_t3.append(batch[20:30].view(-1,10,10))
+
+        for batch in drugs:
+            drugs_t1.append(batch[0:10].view(-1,10,1))
+            drugs_t2.append(batch[10:20].view(-1,10,1))
+            drugs_t3.append(batch[20:30].view(-1,10,1))
+
+        concat_and_save([features_t1,features_t2,features_t3],features=True)
+        concat_and_save([drugs_t1,drugs_t2,drugs_t3],features=False)
 
     def __call__(self):
+        #feature_to_tensor() should be run first
         self.feature_to_tensor()
         self.drug_to_tensor()
+        self.divide_tensors_to_timesteps()
