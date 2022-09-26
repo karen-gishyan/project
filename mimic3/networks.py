@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from datasets import Data
+from datasets import Data,RNNData
 
 
 class Network(nn.Module):
@@ -118,6 +118,11 @@ train_loader_final = DataLoader(dataset=dataset_final, batch_size=10)
 
 ###### Approach 2 #######
 class Ensemble(nn.Module):
+    """
+    Drawback of this approach is that features and drugs at none of the timestep are
+    used for the loss calculation. Only the features, drugs at t_1 are used for predicting
+    the final output.
+    """
     def __init__(self, model1, model2,model3,model4):
         super(Ensemble, self).__init__()
         self.model1 = model1
@@ -148,9 +153,9 @@ class Ensemble(nn.Module):
 
 # model1, model2, model3, model4, _=train()
 
-dir_=os.path.dirname(__file__)
-dir_=os.path.join(dir_,'weights')
-os.chdir(dir_)
+# dir_=os.path.dirname(__file__)
+# dir_=os.path.join(dir_,'weights')
+# os.chdir(dir_)
 
 # torch.save(model1.state_dict(), 'model1.ckpt')
 # torch.save(model2.state_dict(), 'model2.ckpt')
@@ -184,6 +189,119 @@ def train_ensemble(model,train_loader1,train_loader2,optimizer,epochs=10):
 # model3.load_state_dict(torch.load('model3.ckpt'))
 # model4.load_state_dict(torch.load('model4.ckpt'))
 
-ensemble_model=Ensemble(model1,model2,model3,model4)
-optimizer=torch.optim.SGD(ensemble_model.parameters(), lr=0.001)
-train_ensemble(ensemble_model,train_loader1_1,train_loader1_2,optimizer)
+# ensemble_model=Ensemble(model1,model2,model3,model4)
+# optimizer=torch.optim.SGD(ensemble_model.parameters(), lr=0.001)
+# train_ensemble(ensemble_model,train_loader1_1,train_loader1_2,optimizer)
+
+
+###### Approach 3 ####
+class RNNNetwork(nn.Module):
+    def __init__(self,input_size,hidden_size,num_layers,output_size,batch_first=True):
+        super().__init__()
+        self.rnn=nn.RNN(input_size=input_size,hidden_size=hidden_size,
+                        num_layers=num_layers, batch_first=batch_first)
+        self.linear=nn.Linear(hidden_size,output_size)
+
+    def forward(self,X,hidden_state):
+        # r_out (batch, time_step, hidden_size)
+        r_out,h_state=self.rnn(X,hidden_state)
+        outs=[]
+
+        for time_step in range(r_out.size(1)):
+            outs.append(self.linear(r_out[:, time_step, :]))
+        return torch.stack(outs, dim=1), h_state
+
+class RNNEnsemble(nn.Module):
+    def __init__(self,model_feature,model_drug,model_otput):
+        super().__init__()
+        self.model_feature=model_feature
+        self.model_drug=model_drug
+        self.model_otput=model_otput
+
+    def forward(self,X1_t1,X2_t1,X1_t2,X2_t2,X1_t3,X2_t3,hidden_state):
+        X1_t1_pred,hidden_state=self.model_feature(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
+        X2_t1_pred,hidden_state=self.model_drug(torch.cat((X1_t1,X2_t2),dim=2),hidden_state)
+        X1_t2_pred,hidden_state=self.model_feature(torch.cat((X1_t2,X2_t2),dim=2),hidden_state)
+        X2_t2_pred,hidden_state=self.model_drug(torch.cat((X1_t2,X2_t2),dim=2),hidden_state)
+        output,hidden_state=self.model_otput(torch.cat((X1_t3,X2_t3),dim=2),hidden_state)
+
+        return X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output, hidden_state
+
+# in the prediction phase we assume the input drugs are known
+rnn_feature=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=10)
+rnn_drug=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=1)
+rnn_output=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=1)
+
+ensemble_model=RNNEnsemble(rnn_feature,rnn_drug,rnn_output)
+optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.001)
+# see which one works
+# optimizer = torch.optim.SGD(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.001)
+
+loss_func = nn.MSELoss()
+# for initial hidden state
+
+
+#t1
+X1_t1=RNNData(is_feature=True,timestep=1)
+X2_t1=RNNData(is_feature=False,timestep=1)
+#t2
+X1_t2=RNNData(is_feature=True,timestep=2)
+X2_t2=RNNData(is_feature=False,timestep=2)
+#t3
+X1_t3=RNNData(is_feature=True,timestep=3)
+X2_t3=RNNData(is_feature=False,timestep=3)
+
+#t1 dataloader
+X1_t1_loader=DataLoader(dataset=X1_t1, batch_size=10)
+X2_t1_loader=DataLoader(dataset=X2_t1, batch_size=10)
+#t2 dataloader
+X1_t2_loader=DataLoader(dataset=X1_t2, batch_size=10)
+X2_t2_loader=DataLoader(dataset=X2_t2, batch_size=10)
+#t3 dataloader
+X1_t3_loader=DataLoader(dataset=X1_t3, batch_size=10)
+X2_t3_loader=DataLoader(dataset=X2_t3, batch_size=10)
+
+
+def train_rnn_ensemble(epochs=10):
+    total_loss = []
+    epoch_loss=[]
+    h_state = None
+    for epoch in range(epochs):
+        for _,((x1_t1,y11), (x2_t1,y21),(x1_t2,y12),
+             (x2_t2,y22), (x1_t3,y),(x2_t3,y)) \
+                 in enumerate(zip(X1_t1_loader,X2_t1_loader,X1_t2_loader,X2_t2_loader,X1_t3_loader,X2_t3_loader)):
+            X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output,hidden_state=\
+                ensemble_model(x1_t1,x2_t1,x1_t2,x2_t2,x1_t3,x2_t3,h_state)
+
+            h_state = hidden_state.data
+            loss = criterion(X1_t1_pred,y11)+criterion(X2_t1_pred,y21)+\
+                criterion(X1_t2_pred,y12)+criterion(X2_t2_pred,y22)
+                    # criterion(output,y)
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            total_loss.append(loss.item())
+        epoch_loss.append(loss.item())
+        print(f'Epoch {epoch+1} completed.')
+
+    _, ax1 = plt.subplots()
+    color = 'tab:red'
+    ax1.plot(total_loss, color=color)
+    ax1.set_xlabel('Iteration', color=color)
+    ax1.set_ylabel('total loss', color=color)
+    ax1.tick_params(axis='y', color=color)
+    plt.show()
+
+
+train_rnn_ensemble()
+#TODO check the criterion part for the (output,y)
+#TODO check if multiple feature prediction is logical
+#TODO check the loss learning part
+#TODO consider gradient clipping
+#TODO
+        # think and research how to check if a function can be minimized or not, to understand
+        # whether the ensemble function is too complex or not.
+#TODO possible scenarios:
+        # loss on the final, optimization on the final/combined optimization or
+        # combined losses, optimization on the final/combined optimization.

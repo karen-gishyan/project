@@ -66,3 +66,40 @@ class Data(Dataset):
 
     def __len__(self):
         return len(self.t1_X)
+
+
+class RNNData(Dataset):
+    def __init__(self,is_feature=True,timestep=1):
+        self.is_feature=is_feature
+        self.timestep=timestep
+
+        self.X1_feature=torch.load('rnn/tensors/features_t1.pt')
+        self.Y1_feature=self.X2_feature=torch.load('rnn/tensors/features_t2.pt')
+        self.Y2_feature=self.X3_feature=torch.load('rnn/tensors/features_t3.pt')
+        #TODO y may need to be 3D as well
+        self.y3_feature=torch.load('rnn/tensors/labels.pt')
+
+        self.X1_drug=torch.load('rnn/tensors/drugs_t1.pt')
+        self.Y1_drug=self.X2_drug=torch.load('rnn/tensors/drugs_t2.pt')
+        self.Y2_drug=self.X3_drug=torch.load('rnn/tensors/drugs_t3.pt')
+        self.y3_drug=torch.load('rnn/tensors/labels.pt')
+
+    def __getitem__(self, index):
+        if self.is_feature:
+            if self.timestep==1:
+                return self.X1_feature[index].float(), self.Y1_feature[index].float()
+            elif self.timestep==2:
+                return self.X2_feature[index].float(), self.Y2_feature[index].float()
+            else:
+                return self.X3_feature[index].float(), self.y3_feature[index].float()
+        else:
+            if self.timestep==1:
+                return self.X1_drug[index].float(),self.Y1_drug[index].float()
+            elif self.timestep==2:
+                return self.X2_drug[index].float(), self.Y2_drug[index].float()
+            else:
+                return self.X3_drug[index].float(), self.y3_drug[index].float()
+
+    def __len__(self):
+        # all features and drugs for all timestep have the same length
+        return len(self.X1_feature)
