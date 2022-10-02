@@ -116,15 +116,16 @@ class RNNData():
     def drug_to_tensor(self):
         self.drugs_df['drug']=LabelEncoder().fit_transform(self.drugs_df['drug'])
         self.drugs_df['discharge_location']=LabelEncoder().fit_transform(self.drugs_df['discharge_location'])
-        total_drugs,labels=[],[]
+        total_drugs,total_labels=[],[]
         for adm_id in self.admissions_intersection:
             drugs=torch.Tensor(self.drugs_df[self.drugs_df['hadm_id_id']==adm_id].drug.values).view(-1,1)
             total_drugs.append(drugs)
-            labels.append(self.drugs_df[self.drugs_df['hadm_id_id']==adm_id].discharge_location.iloc[0])
+            labels=torch.Tensor(self.drugs_df[self.drugs_df['hadm_id_id']==adm_id].discharge_location.values).view(-1,1)
+            total_labels.append(labels)
         self.drug_tensors=pad_sequence(total_drugs,batch_first=True)
-        self.labels=torch.Tensor(labels)
+        self.label_tensors=pad_sequence(total_labels,batch_first=True)
         torch.save(self.drug_tensors,'rnn/tensors/drugs.pt')
-        torch.save(self.labels,'rnn/tensors/labels.pt')
+        torch.save(self.label_tensors,'rnn/tensors/labels.pt')
 
     def divide_tensors_to_timesteps(self):
         def concat_and_save(list_of_tensors,features=True):

@@ -98,7 +98,9 @@ class RNNData(Dataset):
             elif self.timestep==2:
                 return self.X2_drug[index].float(), self.Y2_drug[index].float()
             else:
-                return self.X3_drug[index].float(), self.y3_drug[index].float()
+                # for y we take the last 10 labels, but any 10 values could have been taken.
+                # all have the same value.
+                return self.X3_drug[index].float(), self.y3_drug[index][20:30].float()
 
     def __len__(self):
         # all features and drugs for all timestep have the same length

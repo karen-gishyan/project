@@ -1,4 +1,3 @@
-import os
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
@@ -220,12 +219,12 @@ class RNNEnsemble(nn.Module):
 
     def forward(self,X1_t1,X2_t1,X1_t2,X2_t2,X1_t3,X2_t3,hidden_state):
         X1_t1_pred,hidden_state=self.model_feature(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
-        X2_t1_pred,hidden_state=self.model_drug(torch.cat((X1_t1,X2_t2),dim=2),hidden_state)
+        X2_t1_pred,hidden_state=self.model_drug(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
         X1_t2_pred,hidden_state=self.model_feature(torch.cat((X1_t2,X2_t2),dim=2),hidden_state)
         X2_t2_pred,hidden_state=self.model_drug(torch.cat((X1_t2,X2_t2),dim=2),hidden_state)
         output,hidden_state=self.model_otput(torch.cat((X1_t3,X2_t3),dim=2),hidden_state)
 
-        return X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output, hidden_state
+        return X1_t1_pred,X2_t1_pred,X1_t2_pred,X2_t2_pred,output,hidden_state
 
 # in the prediction phase we assume the input drugs are known
 rnn_feature=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=10)
@@ -233,13 +232,11 @@ rnn_drug=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=1)
 rnn_output=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=1)
 
 ensemble_model=RNNEnsemble(rnn_feature,rnn_drug,rnn_output)
-optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.01)
 # see which one works
-# optimizer = torch.optim.SGD(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.001)
+# optimizer = torch.optim.SGD(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.01)
 
 loss_func = nn.MSELoss()
-# for initial hidden state
-
 
 #t1
 X1_t1=RNNData(is_feature=True,timestep=1)
@@ -262,7 +259,7 @@ X1_t3_loader=DataLoader(dataset=X1_t3, batch_size=10)
 X2_t3_loader=DataLoader(dataset=X2_t3, batch_size=10)
 
 
-def train_rnn_ensemble(epochs=10):
+def train_rnn_ensemble(epochs=30):
     total_loss = []
     epoch_loss=[]
     h_state = None
@@ -272,11 +269,13 @@ def train_rnn_ensemble(epochs=10):
                  in enumerate(zip(X1_t1_loader,X2_t1_loader,X1_t2_loader,X2_t2_loader,X1_t3_loader,X2_t3_loader)):
             X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output,hidden_state=\
                 ensemble_model(x1_t1,x2_t1,x1_t2,x2_t2,x1_t3,x2_t3,h_state)
-
             h_state = hidden_state.data
-            loss = criterion(X1_t1_pred,y11)+criterion(X2_t1_pred,y21)+\
-                criterion(X1_t2_pred,y12)+criterion(X2_t2_pred,y22)
-                    # criterion(output,y)
+
+            #TODO loss on this dataset should be improved
+            # loss=criterion(X1_t2_pred,y12)
+            loss=criterion(X1_t1_pred,y11)+criterion(X1_t2_pred,y12)+\
+                criterion(X2_t1_pred,y21)+\
+                criterion(X2_t2_pred,y22)+criterion(output,y)
 
             optimizer.zero_grad()
             loss.backward()
@@ -287,21 +286,13 @@ def train_rnn_ensemble(epochs=10):
 
     _, ax1 = plt.subplots()
     color = 'tab:red'
-    ax1.plot(total_loss, color=color)
-    ax1.set_xlabel('Iteration', color=color)
-    ax1.set_ylabel('total loss', color=color)
+    ax1.plot(epoch_loss, color=color)
+    ax1.set_xlabel('Epoch', color=color)
+    ax1.set_ylabel('Total Loss', color=color)
+
     ax1.tick_params(axis='y', color=color)
+    plt.title('Ensemble Model Results')
     plt.show()
 
 
 train_rnn_ensemble()
-#TODO check the criterion part for the (output,y)
-#TODO check if multiple feature prediction is logical
-#TODO check the loss learning part
-#TODO consider gradient clipping
-#TODO
-        # think and research how to check if a function can be minimized or not, to understand
-        # whether the ensemble function is too complex or not.
-#TODO possible scenarios:
-        # loss on the final, optimization on the final/combined optimization or
-        # combined losses, optimization on the final/combined optimization.
