@@ -91,7 +91,7 @@ class RNNData(Dataset):
             elif self.timestep==2:
                 return self.X2_feature[index].float(), self.Y2_feature[index].float()
             else:
-                return self.X3_feature[index].float(), self.y3_feature[index].float()
+                return self.X3_feature[index].float(), self.y3_feature[index][20:30].float()
         else:
             if self.timestep==1:
                 return self.X1_drug[index].float(),self.Y1_drug[index].float()
