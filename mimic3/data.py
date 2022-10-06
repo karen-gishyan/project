@@ -1,6 +1,7 @@
 from configure import configure
 configure()
 import os
+import json
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 import torch
@@ -114,8 +115,13 @@ class RNNData():
         self.admissions_intersection=list(set(self.admissions_intersection)-set(empty_admissions))
 
     def drug_to_tensor(self):
+        # fit without transforming and store labels
+        self.store_encoded_labels(self.drugs_df['drug'],'drug')
+        self.store_encoded_labels(self.drugs_df['discharge_location'],'discharge_location')
+        # transform actual column
         self.drugs_df['drug']=LabelEncoder().fit_transform(self.drugs_df['drug'])
         self.drugs_df['discharge_location']=LabelEncoder().fit_transform(self.drugs_df['discharge_location'])
+
         total_drugs,total_labels=[],[]
         for adm_id in self.admissions_intersection:
             drugs=torch.Tensor(self.drugs_df[self.drugs_df['hadm_id_id']==adm_id].drug.values).view(-1,1)
@@ -152,6 +158,16 @@ class RNNData():
 
         concat_and_save([features_t1,features_t2,features_t3],features=True)
         concat_and_save([drugs_t1,drugs_t2,drugs_t3],features=False)
+
+    def store_encoded_labels(self,series,col_name):
+        encoder=LabelEncoder()
+        encoder.fit(series)
+        # convert int32 to int to be json serializable
+        transform=list(map(lambda i:int(i),encoder.transform(encoder.classes_)))
+        drug_mapping=dict(zip(encoder.classes_,transform))
+        with open(f"../json/{col_name}_mapping.json",'w') as file:
+            json.dump(drug_mapping,file)
+
 
     def __call__(self):
         #feature_to_tensor() should be run first

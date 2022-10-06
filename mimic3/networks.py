@@ -200,7 +200,7 @@ def train_ensemble(model,train_loader1,train_loader2,optimizer,epochs=10):
 class RNNNetwork(nn.Module):
     def __init__(self,input_size,hidden_size,num_layers,output_size,batch_first=True):
         super().__init__()
-        self.rnn=nn.RNN(input_size=input_size,hidden_size=hidden_size,
+        self.rnn=nn.LSTM(input_size=input_size,hidden_size=hidden_size,
                         num_layers=num_layers, batch_first=batch_first)
         self.linear=nn.Linear(hidden_size,output_size)
 
@@ -221,6 +221,19 @@ class RNNEnsemble(nn.Module):
         self.model_otput=model_otput
 
     def forward(self,X1_t1,X2_t1,X1_t2,X2_t2,X1_t3,X2_t3,hidden_state):
+        """
+        Use timestep t features and drugs to predict t+1 features,drugs and output.
+        Args:
+            X1_t1 (torch.Tensor): Timestep-1 features
+            X2_t1 (torch.Tensor): Timestep-1 drugs
+            X1_t2 (torch.Tensor): Timestep-2 features
+            X2_t2 (torch.Tensor): Timestep-2 drugs
+            X1_t3 (torch.Tensor): Timestep-3 features
+            X2_t3 (torch.Tensor): Timestep-3 drugs
+            hidden_state (torch.Tensor): Hidden state
+        Returns:
+            Predicted features, drugs, output and hidden state
+        """
         X1_t1_pred,hidden_state=self.model_feature(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
         X2_t1_pred,hidden_state=self.model_drug(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
         X1_t2_pred,hidden_state=self.model_feature(torch.cat((X1_t2,X2_t2),dim=2),hidden_state)
@@ -229,17 +242,29 @@ class RNNEnsemble(nn.Module):
 
         return X1_t1_pred,X2_t1_pred,X1_t2_pred,X2_t2_pred,output,hidden_state
 
-# in the prediction phase we assume the input drugs are known
-rnn_feature=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=10)
-rnn_drug=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=1)
-rnn_output=RNNNetwork(input_size=11,hidden_size=32,num_layers=1,output_size=1)
+    def sequential_forward(self,X1_t1,X2_t1,hidden_state):
+        """
+        Perform successive forward using only timestep 1 features.
+        This will be used for evaluating trained subnetworks only on the output.
+        """
+        X1_t1_pred,hidden_state=self.model_feature(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
+        X2_t1_pred,hidden_state=self.model_drug(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
+
+        X1_t2_pred,hidden_state=self.model_feature(torch.cat((X1_t1_pred,X2_t1_pred),dim=2),hidden_state)
+        X2_t2_pred,hidden_state=self.model_drug(torch.cat((X1_t1_pred,X2_t1_pred),dim=2),hidden_state)
+        output,hidden_state=self.model_otput(torch.cat((X1_t2_pred,X2_t2_pred),dim=2),hidden_state)
+
+        return output,hidden_state
+
+
+rnn_feature=RNNNetwork(input_size=11,hidden_size=32,num_layers=2,output_size=10)
+rnn_drug=RNNNetwork(input_size=11,hidden_size=32,num_layers=2,output_size=1)
+rnn_output=RNNNetwork(input_size=11,hidden_size=32,num_layers=2,output_size=1)
 
 ensemble_model=RNNEnsemble(rnn_feature,rnn_drug,rnn_output)
 optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.01)
-# see which one works
-# optimizer = torch.optim.SGD(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.0001)
-
-loss_func = nn.MSELoss()
+# optimizer = torch.optim.Adam(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.0001)
+loss_func = nn.CrossEntropyLoss()
 
 #t1
 X1_t1=RNNData(is_feature=True,timestep=1)
@@ -252,6 +277,7 @@ X1_t3=RNNData(is_feature=True,timestep=3)
 X2_t3=RNNData(is_feature=False,timestep=3)
 
 #t1 dataloader
+#TODO functionality for train, test, valid loader.
 X1_t1_loader=DataLoader(dataset=X1_t1, batch_size=10)
 X2_t1_loader=DataLoader(dataset=X2_t1, batch_size=10)
 #t2 dataloader
@@ -262,27 +288,42 @@ X1_t3_loader=DataLoader(dataset=X1_t3, batch_size=10)
 X2_t3_loader=DataLoader(dataset=X2_t3, batch_size=10)
 
 
-def train_rnn_ensemble(epochs=15):
-    total_loss = []
-    epoch_loss=[]
+def train_rnn_ensemble(epochs=30):
+    total_loss,epoch_loss,sequential_epoch_loss=[],[],[]
+
     h_state = None
+    # any other load batch size could have been taken
+    batch_size=len(X1_t1_loader)
     for epoch in range(epochs):
-        for i,((x1_t1,y11), (x2_t1,y21),(x1_t2,y12),
-             (x2_t2,y22), (x1_t3,y),(x2_t3,y)) \
-                 in enumerate(zip(X1_t1_loader,X2_t1_loader,X1_t2_loader,X2_t2_loader,X1_t3_loader,X2_t3_loader)):
+        for i,((x1_t1,y11), (x2_t1,y21),(x1_t2,y12),(x2_t2,y22), (x1_t3,y),(x2_t3,y)) \
+                 in enumerate(zip(X1_t1_loader,X2_t1_loader,X1_t2_loader,\
+                     X2_t2_loader,X1_t3_loader,X2_t3_loader)):
+
+            # results of subnetworks training
+            #TODO output should be classification, not regression (one way is to convert
+            # the pred floats to int.)
             X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output,hidden_state=\
                 ensemble_model(x1_t1,x2_t1,x1_t2,x2_t2,x1_t3,x2_t3,h_state)
 
-            h_state = hidden_state.data
-            loss=criterion(X1_t1_pred,y11)+criterion(X1_t2_pred,y12)+\
+            # combined weighted loss of training subnetworks.
+            loss=(criterion(X1_t1_pred,y11)
+                  +criterion(X1_t2_pred,y12)+\
                 criterion(X2_t1_pred,y21)+\
-                criterion(X2_t2_pred,y22)+criterion(output,y)
+                criterion(X2_t2_pred,y22)+criterion(output,y))/batch_size
 
-            # X1_t2_pred,hidden_state=\
-            #     ensemble_model(x1_t1,x2_t1,x1_t2,x2_t2,x1_t3,x2_t3,h_state)
-            # h_state = hidden_state.data
-            # #TODO loss on this dataset should be improved
-            # loss=criterion(X1_t2_pred,y12)
+            #TODO model does not learn because parameters are updated to minimize the
+            # ys at t+1, but here are evaluated against a different y they have not learned
+            # for.
+            # output,hidden_state=ensemble_model.sequential_forward(x1_t1,x2_t1,h_state)
+            # sequential_loss=criterion(output,y)
+
+            # for lstm
+            # h_state = hidden_state[0].data
+
+            h_state=list(hidden_state)
+            h_state[0]=hidden_state[0].data
+            h_state[1]=hidden_state[1].data
+
 
             optimizer.zero_grad()
             loss.backward()
@@ -292,12 +333,18 @@ def train_rnn_ensemble(epochs=15):
             # logger.info(f'Epoch {epoch+1},Step {i+1}, Loss-Value {loss.item()}')
 
         epoch_loss.append(loss.item())
+        # sequential_epoch_loss.append(sequential_loss.item())
         print(f'Epoch: {epoch+1}, Loss Value:{loss.item()}')
+        # print(f'Epoch: {epoch+1}, Sequential-Loss Value:{sequential_loss.item()}\n')
         logger.info(f'Epoch: {epoch+1}, Loss Value:{loss.item()}')
+        if epoch+1==30:
+            break
 
-    plt.plot(epoch_loss)
-    # plt.plot(total_loss)
+    _, (ax1, ax2) = plt.subplots(1, 2, sharey=False)
+    ax1.plot(epoch_loss)
+    ax1.set_title('Epoch Loss of combined training.')
+    ax2.plot(sequential_epoch_loss)
+    ax2.set_title('Epoch Loss of forward training.')
     plt.show()
-
 
 train_rnn_ensemble()
