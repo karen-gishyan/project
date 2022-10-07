@@ -76,13 +76,15 @@ class RNNData(Dataset):
         self.X1_feature=torch.load('rnn/tensors/features_t1.pt')
         self.Y1_feature=self.X2_feature=torch.load('rnn/tensors/features_t2.pt')
         self.Y2_feature=self.X3_feature=torch.load('rnn/tensors/features_t3.pt')
-        #TODO y may need to be 3D as well
-        self.y3_feature=torch.load('rnn/tensors/labels.pt')
+        # we subset 20:30 (could have been any 10 length range withing 20:30),
+        # because final ys are not stored for each timestep.
+        self.Y3_feature=torch.load('rnn/tensors/labels.pt')[:,20:30]
 
         self.X1_drug=torch.load('rnn/tensors/drugs_t1.pt')
         self.Y1_drug=self.X2_drug=torch.load('rnn/tensors/drugs_t2.pt')
         self.Y2_drug=self.X3_drug=torch.load('rnn/tensors/drugs_t3.pt')
-        self.y3_drug=torch.load('rnn/tensors/labels.pt')
+        self.Y3_drug=torch.load('rnn/tensors/labels.pt')[:,20:30]
+
 
     def __getitem__(self, index):
         if self.is_feature:
@@ -91,17 +93,76 @@ class RNNData(Dataset):
             elif self.timestep==2:
                 return self.X2_feature[index].float(), self.Y2_feature[index].float()
             else:
-                return self.X3_feature[index].float(), self.y3_feature[index][20:30].float()
+                return self.X3_feature[index].float(), self.Y3_feature[index].float()
         else:
             if self.timestep==1:
                 return self.X1_drug[index].float(),self.Y1_drug[index].float()
             elif self.timestep==2:
                 return self.X2_drug[index].float(), self.Y2_drug[index].float()
             else:
-                # for y we take the last 10 labels, but any 10 values could have been taken.
-                # all have the same value.
-                return self.X3_drug[index].float(), self.y3_drug[index][20:30].float()
+                return self.X3_drug[index].float(), self.Y3_drug[index].float()
 
     def __len__(self):
         # all features and drugs for all timestep have the same length
         return len(self.X1_feature)
+
+
+class SplitRNNData(RNNData):
+    """
+    Inherit from RNNData to make datasets with splits.
+    """
+    def __init__(self, is_feature=True, timestep=1,split='train',split_size=None):
+        super().__init__(is_feature, timestep)
+        self.split=split
+
+        if split_size:
+            assert round(sum(split_size))==1, 'Percentages should sum to 1.'
+        else:
+            split_size=(0.7,0.2,0.1)
+        self.train_p,self.test_p,self.valid_p=split_size
+        train_size=int(self.train_p *(len(self.X1_feature)))
+        test_size=int(self.test_p *(len(self.X1_feature)))
+        valid_size=int(self.valid_p *(len(self.X1_feature)))
+
+        #TODO As __init__ is called for each timestep and feature/drug,
+        #ideally this should not
+        if self.split=='train':
+            if self.is_feature:
+                setattr(self,f"X{self.timestep}_feature",eval(f"self.X{self.timestep}_feature[:{train_size}]"))
+                setattr(self,f"Y{self.timestep}_feature",eval(f"self.Y{self.timestep}_feature[:{train_size}]"))
+                1
+            else:
+                setattr(self,f"X{self.timestep}_drug",eval(f"self.X{self.timestep}_drug[:{train_size}]"))
+                setattr(self,f"Y{self.timestep}_drug",eval(f"self.Y{self.timestep}_drug[:{train_size}]"))
+                1
+        elif self.split=='test':
+            if self.is_feature:
+                setattr(self,f"X{self.timestep}_feature",eval(f"self.X{self.timestep}_feature[{train_size}:{train_size+test_size}]"))
+                setattr(self,f"Y{self.timestep}_feature",eval(f"self.Y{self.timestep}_feature[{train_size}:{train_size+test_size}]"))
+                1
+            else:
+                setattr(self,f"X{self.timestep}_drug",eval(f"self.X{self.timestep}_drug[{train_size}:{train_size+test_size}]"))
+                setattr(self,f"Y{self.timestep}_drug",eval(f"self.Y{self.timestep}_drug[{train_size}:{train_size+test_size}]"))
+                1
+        elif self.split=='valid':
+            if self.is_feature:
+                setattr(self,f"X{self.timestep}_feature",eval(f"self.X{self.timestep}_feature[{train_size+test_size}:]"))
+                setattr(self,f"Y{self.timestep}_feature",eval(f"self.Y{self.timestep}_feature[{train_size+test_size}:]"))
+                1
+            else:
+                setattr(self,f"X{self.timestep}_drug",eval(f"self.X{self.timestep}_drug[{train_size+test_size}:]"))
+                setattr(self,f"Y{self.timestep}_drug",eval(f"self.Y{self.timestep}_drug[{train_size+test_size}:]"))
+                1
+        else:
+            raise ValueError(f"Unknown split '{self.split}' supplied.")
+
+
+    def __len__(self):
+        #TODO logic should be fixed.
+        # all features and drugs for all timesteps have the same length
+        if self.is_feature:
+            return len(eval(f"self.X{self.timestep}_feature"))
+        else:
+            return len(eval(f"self.X{self.timestep}_drug"))
+
+

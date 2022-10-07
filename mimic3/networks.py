@@ -1,4 +1,4 @@
-from helpers import configure_logger
+from helpers import configure_logger, create_split_loaders
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
@@ -206,6 +206,7 @@ class RNNNetwork(nn.Module):
 
     def forward(self,X,hidden_state):
         # r_out (batch, time_step, hidden_size)
+
         r_out,h_state=self.rnn(X,hidden_state)
         outs=[]
 
@@ -234,6 +235,7 @@ class RNNEnsemble(nn.Module):
         Returns:
             Predicted features, drugs, output and hidden state
         """
+
         X1_t1_pred,hidden_state=self.model_feature(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
         X2_t1_pred,hidden_state=self.model_drug(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
         X1_t2_pred,hidden_state=self.model_feature(torch.cat((X1_t2,X2_t2),dim=2),hidden_state)
@@ -266,26 +268,34 @@ optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.01)
 # optimizer = torch.optim.Adam(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.0001)
 loss_func = nn.CrossEntropyLoss()
 
-#t1
-X1_t1=RNNData(is_feature=True,timestep=1)
-X2_t1=RNNData(is_feature=False,timestep=1)
-#t2
-X1_t2=RNNData(is_feature=True,timestep=2)
-X2_t2=RNNData(is_feature=False,timestep=2)
-#t3
-X1_t3=RNNData(is_feature=True,timestep=3)
-X2_t3=RNNData(is_feature=False,timestep=3)
+# #t1
+# X1_t1=RNNData(is_feature=True,timestep=1)
+# X2_t1=RNNData(is_feature=False,timestep=1)
+# #t2
+# X1_t2=RNNData(is_feature=True,timestep=2)
+# X2_t2=RNNData(is_feature=False,timestep=2)
+# #t3
+# X1_t3=RNNData(is_feature=True,timestep=3)
+# X2_t3=RNNData(is_feature=False,timestep=3)
 
-#t1 dataloader
-#TODO functionality for train, test, valid loader.
-X1_t1_loader=DataLoader(dataset=X1_t1, batch_size=10)
-X2_t1_loader=DataLoader(dataset=X2_t1, batch_size=10)
-#t2 dataloader
-X1_t2_loader=DataLoader(dataset=X1_t2, batch_size=10)
-X2_t2_loader=DataLoader(dataset=X2_t2, batch_size=10)
-#t3 dataloader
-X1_t3_loader=DataLoader(dataset=X1_t3, batch_size=10)
-X2_t3_loader=DataLoader(dataset=X2_t3, batch_size=10)
+# #t1 dataloader
+# #TODO functionality for train, test, valid loader.
+# X1_t1_loader=DataLoader(dataset=X1_t1, batch_size=10)
+# X2_t1_loader=DataLoader(dataset=X2_t1, batch_size=10)
+# #t2 dataloader
+# X1_t2_loader=DataLoader(dataset=X1_t2, batch_size=10)
+# X2_t2_loader=DataLoader(dataset=X2_t2, batch_size=10)
+# #t3 dataloader
+# X1_t3_loader=DataLoader(dataset=X1_t3, batch_size=10)
+# X2_t3_loader=DataLoader(dataset=X2_t3, batch_size=10)
+
+#TODO when selecting the batch size, make sure the data length is divisible by batch size,
+X1_t1_train,X1_t1_test,X1_t1_valid=create_split_loaders(is_feature=True,timestep=1,batch_size=159)
+X2_t1_train,X2_t1_test,X2_t1_valid=create_split_loaders(is_feature=False,timestep=1,batch_size=159)
+X1_t2_train,X1_t2_test,X1_t2_valid=create_split_loaders(is_feature=True,timestep=2,batch_size=159)
+X2_t2_train,X2_t2_test,X2_t2_valid=create_split_loaders(is_feature=False,timestep=2,batch_size=159)
+X1_t3_train,X1_t3_test,X1_t3_valid=create_split_loaders(is_feature=True,timestep=3,batch_size=159)
+X2_t3_train,X2_t3_test,X2_t3_valid=create_split_loaders(is_feature=False,timestep=3,batch_size=159)
 
 
 def train_rnn_ensemble(epochs=30):
@@ -293,18 +303,17 @@ def train_rnn_ensemble(epochs=30):
 
     h_state = None
     # any other load batch size could have been taken
-    batch_size=len(X1_t1_loader)
+    batch_size=159
     for epoch in range(epochs):
         for i,((x1_t1,y11), (x2_t1,y21),(x1_t2,y12),(x2_t2,y22), (x1_t3,y),(x2_t3,y)) \
-                 in enumerate(zip(X1_t1_loader,X2_t1_loader,X1_t2_loader,\
-                     X2_t2_loader,X1_t3_loader,X2_t3_loader)):
+                 in enumerate(zip(X1_t1_train,X2_t1_train,X1_t2_train,\
+                     X2_t2_train,X1_t3_train,X2_t3_train)):
 
             # results of subnetworks training
             #TODO output should be classification, not regression (one way is to convert
             # the pred floats to int.)
             X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output,hidden_state=\
                 ensemble_model(x1_t1,x2_t1,x1_t2,x2_t2,x1_t3,x2_t3,h_state)
-
             # combined weighted loss of training subnetworks.
             loss=(criterion(X1_t1_pred,y11)
                   +criterion(X1_t2_pred,y12)+\
@@ -323,7 +332,6 @@ def train_rnn_ensemble(epochs=30):
             h_state=list(hidden_state)
             h_state[0]=hidden_state[0].data
             h_state[1]=hidden_state[1].data
-
 
             optimizer.zero_grad()
             loss.backward()
