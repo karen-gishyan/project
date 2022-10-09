@@ -1,4 +1,5 @@
 import logging
+import torch
 from torch.utils.data import DataLoader
 from datasets import SplitRNNData
 
@@ -27,3 +28,7 @@ def create_split_loaders(**kwargs):
         loaders.append(DataLoader(data,batch_size=kwargs['batch_size']))
     return loaders
 
+
+def accuracy(pred_y,y):
+    # return (pred_y.int()==y).numpy().mean()
+    return torch.mean((pred_y.int()-y)**2)

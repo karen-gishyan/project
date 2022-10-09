@@ -1,12 +1,13 @@
-from helpers import configure_logger, create_split_loaders
+from helpers import configure_logger, create_split_loaders, accuracy
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from datasets import Data,RNNData
+from datasets import Data, SplitRNNData
 from torch.nn.utils import clip_grad_norm_, clip_grad_value_
 
 logger=configure_logger()
+torch.seed()
 
 class Network(nn.Module):
     """
@@ -244,10 +245,35 @@ class RNNEnsemble(nn.Module):
 
         return X1_t1_pred,X2_t1_pred,X1_t2_pred,X2_t2_pred,output,hidden_state
 
-    def sequential_forward(self,X1_t1,X2_t1,hidden_state):
+    # untested
+    def evaluation_forward(self,X1,X2, timestep:int):
+        """
+        Supply drugs, features and timestep for predicting next timestep's drugs, features
+        or output.
+        Args:
+            X1 (torch.Tensor): Features
+            X2 (torch.Tensor): Drugs
+            timestep (int): timestep for making prediction.
+
+        Returns:
+            [torch.Tensor,torch.Tensor,Optional[torch.Tensor]]: Return output, hidden_state or
+            X1_pred,X2_pred and hidden state, depending on the timestep.
+        """
+        if timestep==3:
+            output,hidden_state=self.model_otput(torch.cat((X1,X2),dim=2),hidden_state)
+            return output, hidden_state
+        else:
+            X1_pred,hidden_state=self.model_feature(torch.cat((X1,X2),dim=2),hidden_state)
+            X2_pred,hidden_state=self.model_drug(torch.cat((X1,X2),dim=2),hidden_state)
+            return X1_pred,X2_pred, hidden_state
+
+
+    def sequential_evaluation_forward(self,X1_t1,X2_t1,hidden_state):
         """
         Perform successive forward using only timestep 1 features.
         This will be used for evaluating trained subnetworks only on the output.
+        Here you rely only on your input features to do drug feature prediction for
+        all successive timesteps, including the final output.
         """
         X1_t1_pred,hidden_state=self.model_feature(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
         X2_t1_pred,hidden_state=self.model_drug(torch.cat((X1_t1,X2_t1),dim=2),hidden_state)
@@ -323,7 +349,7 @@ def train_rnn_ensemble(epochs=30):
             #TODO model does not learn because parameters are updated to minimize the
             # ys at t+1, but here are evaluated against a different y they have not learned
             # for.
-            # output,hidden_state=ensemble_model.sequential_forward(x1_t1,x2_t1,h_state)
+            # output,hidden_state=ensemble_model.sequential_evaluation_forward(x1_t1,x2_t1,h_state)
             # sequential_loss=criterion(output,y)
 
             # for lstm
@@ -355,4 +381,15 @@ def train_rnn_ensemble(epochs=30):
     ax2.set_title('Epoch Loss of forward training.')
     plt.show()
 
-train_rnn_ensemble()
+    return hidden_state
+
+hidden_state=train_rnn_ensemble()
+
+## Validation
+#labels
+y=SplitRNNData(is_feature=True,timestep=3,split='valid').Y3_feature
+t1_feature=SplitRNNData(is_feature=True,timestep=1,split='valid').X1_feature
+t1_drugs=SplitRNNData(is_feature=False,timestep=1,split='valid').X1_drug
+#TODO hidde_size.shape batch size dim needs to match to the forward dfs batch size dim.
+output,_=ensemble_model.sequential_evaluation_forward(t1_feature,t1_drugs,hidden_state=hidden_state)
+print(accuracy(output,y))
