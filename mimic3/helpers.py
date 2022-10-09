@@ -1,7 +1,9 @@
 import logging
 import torch
+import json
 from torch.utils.data import DataLoader
 from datasets import SplitRNNData
+
 
 
 def configure_logger():
@@ -28,7 +30,33 @@ def create_split_loaders(**kwargs):
         loaders.append(DataLoader(data,batch_size=kwargs['batch_size']))
     return loaders
 
+def accuracy(pred_y,y,feature=False):
+    if not feature:
+        return (pred_y.int()==y).numpy().mean()
+        # return torch.mean((pred_y.int()-y)**2)
+    else:
+        n_columns=pred_y.shape[1]
+        accuracy_per_feature={}
+        for col in range(n_columns):
+            # accuracy=(pred_y[:,:,col].int()==y.int()[:,:,col]).numpy().mean()
+            accuracy=torch.mean((pred_y[:,:,col].int()-y[:,:,col])**2)
+            accuracy_per_feature.update({f"Col{col+1}":accuracy})
+        # total_accuracy=(pred_y.int()==y).numpy().mean()
+        total_accuracy=torch.mean((pred_y.int()-y)**2)
+        return accuracy_per_feature,total_accuracy
 
-def accuracy(pred_y,y):
-    # return (pred_y.int()==y).numpy().mean()
-    return torch.mean((pred_y.int()-y)**2)
+
+
+def pred_to_labels(tensor,drugs=True):
+    if drugs:
+        with open("../json/drug_mapping.json",'r')as file:
+            mappings=json.load(file)
+    else:
+        with open("../json/discharge_location_mapping.json",'r')as file:
+            mappings=json.load(file)
+
+    key_list = list(mappings.keys())
+    val_list = list(mappings.values())
+
+    res=list(map(lambda i:key_list[val_list.index(i)],tensor))
+    return res
