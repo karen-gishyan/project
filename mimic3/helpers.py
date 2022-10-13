@@ -35,7 +35,7 @@ def accuracy(pred_y,y,feature=False):
         return (pred_y.int()==y).numpy().mean()
         # return torch.mean((pred_y.int()-y)**2)
     else:
-        n_columns=pred_y.shape[1]
+        n_columns=pred_y.shape[2]
         accuracy_per_feature={}
         for col in range(n_columns):
             # accuracy=(pred_y[:,:,col].int()==y.int()[:,:,col]).numpy().mean()
@@ -43,7 +43,8 @@ def accuracy(pred_y,y,feature=False):
             accuracy_per_feature.update({f"Col{col+1}":accuracy})
         # total_accuracy=(pred_y.int()==y).numpy().mean()
         total_accuracy=torch.mean((pred_y.int()-y)**2)
-        return accuracy_per_feature,total_accuracy
+        mean_col_accuracy={"Column mean accuracy":total_accuracy}
+        return accuracy_per_feature,mean_col_accuracy
 
 
 

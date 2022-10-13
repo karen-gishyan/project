@@ -324,7 +324,7 @@ X1_t3_train,X1_t3_test,X1_t3_valid=create_split_loaders(is_feature=True,timestep
 X2_t3_train,X2_t3_test,X2_t3_valid=create_split_loaders(is_feature=False,timestep=3,batch_size=159)
 
 
-def train_rnn_ensemble(epochs=15):
+def train_rnn_ensemble(epochs=300):
     total_loss=[]
     l11_epoch_loss,l21_epoch_loss,lout_epoch_loss=[],[],[]
     l12_epoch_loss,l22_epoch_loss=[],[]
@@ -340,32 +340,34 @@ def train_rnn_ensemble(epochs=15):
                      X2_t2_train,X1_t3_train,X2_t3_train)):
 
             # results of subnetworks training
-
             X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output,hidden_state=\
                 ensemble_model(x1_t1,x2_t1,x1_t2,x2_t2,x1_t3,x2_t3,h_state)
 
+            # type comes first (drug/feature), timestep comes second in this l logic
             #feature_t1
             l11=regression_loss(X1_t1_pred,y11)
             l11_batch_loss.append(l11.item())
             #feature_t2
-            l21=regression_loss(X2_t1_pred,y21)
-            l21_batch_loss.append(l21.item())
+            l12=regression_loss(X1_t2_pred,y12)
+            l12_batch_loss.append(l12.item())
             #output
             lout=regression_loss(output,y)
             lout_batch_loss.append(lout.item())
 
-            regression_losses=(l11+l21+lout)/batch_size
+            regression_losses=(l11+l12+lout)/batch_size
 
             #drug_t1
-            l12=regression_loss(X1_t2_pred,y12)
-            l12_batch_loss.append(l12.item())
+            l21=regression_loss(X2_t1_pred,y21)
+            l21_batch_loss.append(l21.item())
             #drug_t2
             l22=regression_loss(X2_t2_pred,y22)
             l22_batch_loss.append(l22.item())
 
-            classification_losses=(l12+l22)/batch_size
+            classification_losses=(l21+l22)/batch_size
             # combined weighted loss of training subnetworks.
-            loss=regression_losses+classification_losses
+            # each loss updates only the weights of its relevant network(tested),
+            # for that reason combining losses makes sense.
+            loss=classification_losses+regression_losses
 
             # for lstm
             # h_state = hidden_state[0].data
@@ -379,15 +381,16 @@ def train_rnn_ensemble(epochs=15):
             optimizer.step()
             total_loss.append(loss.item())
             # logger.info(f'Epoch {epoch+1},Step {i+1}, Loss-Value {l11.item()}')
+        print(f"Epoch {epoch+1} completed.")
 
-        l11_epoch_loss.append(mean(l11_batch_loss))
-        l21_epoch_loss.append(mean(l21_batch_loss))
-        l12_epoch_loss.append(mean(l12_batch_loss))
-        l22_epoch_loss.append(mean(l22_batch_loss))
-        lout_epoch_loss.append(mean(lout_batch_loss))
+        if l11_batch_loss: l11_epoch_loss.append(mean(l11_batch_loss))
+        if l21_batch_loss: l21_epoch_loss.append(mean(l21_batch_loss))
+        if l12_batch_loss: l12_epoch_loss.append(mean(l12_batch_loss))
+        if l22_batch_loss: l22_epoch_loss.append(mean(l22_batch_loss))
+        if lout_batch_loss: lout_epoch_loss.append(mean(lout_batch_loss))
         # print(f'Epoch: {epoch+1}, Loss Value:{loss.item()}')
-        logger.info(f'Epoch: {epoch+1}, Drug t1 Average Batch Loss Value:{l12}')
-        logger.info(f'Epoch: {epoch+1}, Drug t2 Average Batch Loss Value:{l22}')
+        # logger.info(f'Epoch: {epoch+1}, Drug t1 Average Batch Loss Value:{l12}')
+        # logger.info(f'Epoch: {epoch+1}, Drug t2 Average Batch Loss Value:{l22}')
 
     _, (ax1, ax2,ax3,ax4,ax5) = plt.subplots(1, 5, sharey=False)
     ax1.plot(l11_epoch_loss)
@@ -404,47 +407,38 @@ def train_rnn_ensemble(epochs=15):
 
     return hidden_state
 
-hidden_state=train_rnn_ensemble()
-
-## Validation (Sequential Forward)
-import json
-# same y if we took t3_drug for the final output.
-t3_feature=SplitRNNData(is_feature=True,timestep=3,split='valid')
+logger.info("Accuracy Before training.")
+### Validation (Regular Forward)
 t1_feature=SplitRNNData(is_feature=True,timestep=1,split='valid')
 t1_drug=SplitRNNData(is_feature=False,timestep=1,split='valid')
-
-#hidde_size.shape batch size dim needs to match to the forward dfs batch size dim.
-output,_=ensemble_model.sequential_evaluation_forward(t1_feature.X1_feature,t1_drug.X1_drug,hidden_state=hidden_state)
-logger.info("Sequential Forward.")
-logger.info("Output:{}".format(accuracy(output,t3_feature.Y3_feature)))
-
-### Validation (Regular Forward)
 t2_feature=SplitRNNData(is_feature=True,timestep=2,split='valid')
 t2_drug=SplitRNNData(is_feature=False,timestep=2,split='valid')
 t3_feature=SplitRNNData(is_feature=True,timestep=3,split='valid')
 t3_drug=SplitRNNData(is_feature=False,timestep=3,split='valid')
+
+hidden_state=None
+# forward
 X1_t1_pred,X2_t1_pred,X1_t2_pred,X2_t2_pred,output,hidden_state=\
     ensemble_model(t1_feature.X1_feature,t1_drug.X1_drug,t2_feature.X2_feature,t2_drug.X2_drug,t3_feature.X3_feature,t3_drug.X3_drug,hidden_state)
 
-logger.info("Forward.")
 logger.info("Feature_t1:{}".format(accuracy(X1_t1_pred,t1_feature.Y1_feature,feature=True)))
-logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug)))
+logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug,feature=True)))
 logger.info("Feature_t2:{}".format(accuracy(X1_t2_pred,t2_feature.Y2_feature,feature=True)))
-logger.info("Drug_t2:{}".format(accuracy(X2_t2_pred,t2_drug.Y2_drug)))
+logger.info("Drug_t2:{}".format(accuracy(X2_t2_pred,t2_drug.Y2_drug,feature=True)))
 # last two should provide the same results.
-logger.info('Output:{}'.format(accuracy(output,t3_feature.Y3_feature)))
+logger.info('Output:{}'.format(accuracy(output,t3_feature.Y3_feature,feature=True)))
 # print(accuracy(output,t3_drug.Y3_drug))
 
-### Validation ( Evaluation forward)
-# t1 drug
-X1_t1_pred,X2_t1_pred, hidden_state=ensemble_model.evaluation_forward(t1_feature.X1_feature,t1_drug.X1_drug,hidden_state,1)
-result=pred_to_labels(X2_t1_pred.int().flatten())
-logger.info('Evaluation Forward.')
-# logger.info("Drug_t1 mapping:{}".format(result))
-logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug)))
+#train
+hidden_state=train_rnn_ensemble()
 
-# output
-output, hidden_state=ensemble_model.evaluation_forward(t3_feature.X3_feature,t3_drug.X3_drug,hidden_state,3)
-result=pred_to_labels(output.int().flatten(),drugs=False)
-# logger.info("Output mapping:{}".format(result))
-logger.info("Output:{}".format(accuracy(output,t3_feature.Y3_feature)))
+logger.info('After Training.')
+X1_t1_pred,X2_t1_pred,X1_t2_pred,X2_t2_pred,output,hidden_state=\
+    ensemble_model(t1_feature.X1_feature,t1_drug.X1_drug,t2_feature.X2_feature,t2_drug.X2_drug,t3_feature.X3_feature,t3_drug.X3_drug,hidden_state)
+
+logger.info("Feature_t1:{}".format(accuracy(X1_t1_pred,t1_feature.Y1_feature,feature=True)))
+logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug,feature=True)))
+logger.info("Feature_t2:{}".format(accuracy(X1_t2_pred,t2_feature.Y2_feature,feature=True)))
+logger.info("Drug_t2:{}".format(accuracy(X2_t2_pred,t2_drug.Y2_drug,feature=True)))
+# last two should provide the same results.
+logger.info('Output:{}'.format(accuracy(output,t3_feature.Y3_feature,feature=True)))

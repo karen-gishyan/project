@@ -1,0 +1,12 @@
+Accuracy Before training.
+Feature_t1:({'Col1': tensor(7053.9404), 'Col2': tensor(390.1031), 'Col3': tensor(9027.6797), 'Col4': tensor(13127.6377), 'Col5': tensor(5468.7471), 'Col6': tensor(3718.1768), 'Col7': tensor(4716.7764), 'Col8': tensor(1957.4019), 'Col9': tensor(1063.2466), 'Col10': tensor(3996.0842)}, {'Column mean accuracy': tensor(5051.9790)})
+Drug_t1:({'Col1': tensor(241362.9531)}, {'Column mean accuracy': tensor(241362.9531)})
+Feature_t2:({'Col1': tensor(6119.0498), 'Col2': tensor(337.9327), 'Col3': tensor(7752.6094), 'Col4': tensor(11016.0557), 'Col5': tensor(4588.0444), 'Col6': tensor(20419.4863), 'Col7': tensor(3216.8708), 'Col8': tensor(2113.1892), 'Col9': tensor(1248.2189), 'Col10': tensor(4058.6082)}, {'Column mean accuracy': tensor(6087.0068)})
+Drug_t2:({'Col1': tensor(241113.2344)}, {'Column mean accuracy': tensor(241113.2344)})
+Output:({'Col1': tensor(39.8748)}, {'Column mean accuracy': tensor(39.8748)})
+After Training.
+Feature_t1:({'Col1': tensor(486.1367), 'Col2': tensor(39.0547), 'Col3': tensor(300.0038), 'Col4': tensor(1398.3044), 'Col5': tensor(575.5937), 'Col6': tensor(479.6591), 'Col7': tensor(1239.4539), 'Col8': tensor(172.8962), 'Col9': tensor(86.8547), 'Col10': tensor(263.8434)}, {'Column mean accuracy': tensor(504.1800)})
+Drug_t1:({'Col1': tensor(65820.9609)}, {'Column mean accuracy': tensor(65820.9609)})
+Feature_t2:({'Col1': tensor(688.1509), 'Col2': tensor(52.5547), 'Col3': tensor(697.9132), 'Col4': tensor(1886.4384), 'Col5': tensor(795.2566), 'Col6': tensor(17476.7500), 'Col7': tensor(1720.2766), 'Col8': tensor(321.6761), 'Col9': tensor(215.8811), 'Col10': tensor(422.0660)}, {'Column mean accuracy': tensor(2427.6958)})
+Drug_t2:({'Col1': tensor(78338.8984)}, {'Column mean accuracy': tensor(78338.8984)})
+Output:({'Col1': tensor(20.9352)}, {'Column mean accuracy': tensor(20.9352)})
