@@ -1,5 +1,6 @@
 from helpers import configure_logger, create_split_loaders, accuracy, pred_to_labels
 import matplotlib.pyplot as plt
+from statistics import mean
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -150,7 +151,7 @@ class Ensemble(nn.Module):
         x3 = self.model3(torch.cat((x1, x2), dim=1))
         x4 = self.model4(torch.cat((x1, x2), dim=1))
         #t3
-        x =self.classifier(torch.relu(torch.cat((x3, x4), dim=1)))
+        x =self.classifier(torch.cat((x3, x4), dim=1))
         return x
 
 
@@ -294,7 +295,6 @@ optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.01)
 # optimizer = torch.optim.Adam(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.0001)
 regression_loss = nn.MSELoss()
 classification_loss=nn.CrossEntropyLoss()
-
 # #t1
 # X1_t1=RNNData(is_feature=True,timestep=1)
 # X2_t1=RNNData(is_feature=False,timestep=1)
@@ -315,7 +315,7 @@ classification_loss=nn.CrossEntropyLoss()
 # X1_t3_loader=DataLoader(dataset=X1_t3, batch_size=10)
 # X2_t3_loader=DataLoader(dataset=X2_t3, batch_size=10)
 
-#TODO when selecting the batch size, make sure the data length is divisible by batch size,
+#when selecting the batch size, make sure the data length is divisible by batch size.
 X1_t1_train,X1_t1_test,X1_t1_valid=create_split_loaders(is_feature=True,timestep=1,batch_size=159)
 X2_t1_train,X2_t1_test,X2_t1_valid=create_split_loaders(is_feature=False,timestep=1,batch_size=159)
 X1_t2_train,X1_t2_test,X1_t2_valid=create_split_loaders(is_feature=True,timestep=2,batch_size=159)
@@ -324,32 +324,51 @@ X1_t3_train,X1_t3_test,X1_t3_valid=create_split_loaders(is_feature=True,timestep
 X2_t3_train,X2_t3_test,X2_t3_valid=create_split_loaders(is_feature=False,timestep=3,batch_size=159)
 
 
-def train_rnn_ensemble(epochs=300):
-    total_loss,epoch_loss,sequential_epoch_loss=[],[],[]
+def train_rnn_ensemble(epochs=15):
+    total_loss=[]
+    l11_epoch_loss,l21_epoch_loss,lout_epoch_loss=[],[],[]
+    l12_epoch_loss,l22_epoch_loss=[],[]
 
     h_state = None
     # any other load batch size could have been taken
     batch_size=159
     for epoch in range(epochs):
+        l11_batch_loss,l21_batch_loss,lout_batch_loss=[],[],[]
+        l12_batch_loss,l22_batch_loss=[],[]
         for i,((x1_t1,y11), (x2_t1,y21),(x1_t2,y12),(x2_t2,y22), (x1_t3,y),(x2_t3,y)) \
                  in enumerate(zip(X1_t1_train,X2_t1_train,X1_t2_train,\
                      X2_t2_train,X1_t3_train,X2_t3_train)):
 
             # results of subnetworks training
-            #TODO For the output training with classification results in negative predictions.
-            #TODO model does not learn for drugs.
+
             X1_t1_pred,X2_t1_pred, X1_t2_pred, X2_t2_pred, output,hidden_state=\
                 ensemble_model(x1_t1,x2_t1,x1_t2,x2_t2,x1_t3,x2_t3,h_state)
+
+            #feature_t1
+            l11=regression_loss(X1_t1_pred,y11)
+            l11_batch_loss.append(l11.item())
+            #feature_t2
+            l21=regression_loss(X2_t1_pred,y21)
+            l21_batch_loss.append(l21.item())
+            #output
+            lout=regression_loss(output,y)
+            lout_batch_loss.append(lout.item())
+
+            regression_losses=(l11+l21+lout)/batch_size
+
+            #drug_t1
+            l12=regression_loss(X1_t2_pred,y12)
+            l12_batch_loss.append(l12.item())
+            #drug_t2
+            l22=regression_loss(X2_t2_pred,y22)
+            l22_batch_loss.append(l22.item())
+
+            classification_losses=(l12+l22)/batch_size
             # combined weighted loss of training subnetworks.
-            loss=(regression_loss(X1_t1_pred,y11)
-                  +classification_loss(X1_t2_pred,y12)+\
-                regression_loss(X2_t1_pred,y21)+\
-                classification_loss(X2_t2_pred,y22)+\
-                regression_loss(output,y))/batch_size
+            loss=regression_losses+classification_losses
 
             # for lstm
             # h_state = hidden_state[0].data
-
             h_state=list(hidden_state)
             h_state[0]=hidden_state[0].data
             h_state[1]=hidden_state[1].data
@@ -359,19 +378,28 @@ def train_rnn_ensemble(epochs=300):
             # clip_grad_norm_(ensemble_model.parameters(), 0.001)
             optimizer.step()
             total_loss.append(loss.item())
-            # logger.info(f'Epoch {epoch+1},Step {i+1}, Loss-Value {loss.item()}')
+            # logger.info(f'Epoch {epoch+1},Step {i+1}, Loss-Value {l11.item()}')
 
-        epoch_loss.append(loss.item())
-        # sequential_epoch_loss.append(sequential_loss.item())
-        print(f'Epoch: {epoch+1}, Loss Value:{loss.item()}')
-        # print(f'Epoch: {epoch+1}, Sequential-Loss Value:{sequential_loss.item()}\n')
-        logger.info(f'Epoch: {epoch+1}, Loss Value:{loss.item()}')
+        l11_epoch_loss.append(mean(l11_batch_loss))
+        l21_epoch_loss.append(mean(l21_batch_loss))
+        l12_epoch_loss.append(mean(l12_batch_loss))
+        l22_epoch_loss.append(mean(l22_batch_loss))
+        lout_epoch_loss.append(mean(lout_batch_loss))
+        # print(f'Epoch: {epoch+1}, Loss Value:{loss.item()}')
+        logger.info(f'Epoch: {epoch+1}, Drug t1 Average Batch Loss Value:{l12}')
+        logger.info(f'Epoch: {epoch+1}, Drug t2 Average Batch Loss Value:{l22}')
 
-    _, (ax1, ax2) = plt.subplots(1, 2, sharey=False)
-    ax1.plot(epoch_loss)
-    ax1.set_title('Epoch Loss of combined training.')
-    ax2.plot(sequential_epoch_loss)
-    ax2.set_title('Epoch Loss of forward training.')
+    _, (ax1, ax2,ax3,ax4,ax5) = plt.subplots(1, 5, sharey=False)
+    ax1.plot(l11_epoch_loss)
+    ax1.set_title('t1 Features')
+    ax2.plot(l12_epoch_loss)
+    ax2.set_title('t1 Drugs')
+    ax3.plot(l21_epoch_loss)
+    ax3.set_title('t2 Features')
+    ax4.plot(l22_epoch_loss)
+    ax4.set_title('t2 Drugs')
+    ax5.plot(lout_epoch_loss)
+    ax5.set_title('Discharge')
     plt.show()
 
     return hidden_state
@@ -384,7 +412,8 @@ import json
 t3_feature=SplitRNNData(is_feature=True,timestep=3,split='valid')
 t1_feature=SplitRNNData(is_feature=True,timestep=1,split='valid')
 t1_drug=SplitRNNData(is_feature=False,timestep=1,split='valid')
-#TODO hidde_size.shape batch size dim needs to match to the forward dfs batch size dim.
+
+#hidde_size.shape batch size dim needs to match to the forward dfs batch size dim.
 output,_=ensemble_model.sequential_evaluation_forward(t1_feature.X1_feature,t1_drug.X1_drug,hidden_state=hidden_state)
 logger.info("Sequential Forward.")
 logger.info("Output:{}".format(accuracy(output,t3_feature.Y3_feature)))
