@@ -32,17 +32,16 @@ def create_split_loaders(**kwargs):
 
 def accuracy(pred_y,y,feature=False):
     if not feature:
-        return (pred_y.int()==y).numpy().mean()
-        # return torch.mean((pred_y.int()-y)**2)
+        pred_y_max=torch.argmax(pred_y,dim=2)
+        y_max=torch.argmax(y,dim=2)
+        return (pred_y_max==y_max).numpy().mean()
     else:
         n_columns=pred_y.shape[2]
         accuracy_per_feature={}
         for col in range(n_columns):
-            # accuracy=(pred_y[:,:,col].int()==y.int()[:,:,col]).numpy().mean()
-            accuracy=torch.mean((pred_y[:,:,col].int()-y[:,:,col])**2)
+            accuracy=torch.mean((pred_y[:,:,col]-y[:,:,col])**2)
             accuracy_per_feature.update({f"Col{col+1}":accuracy})
-        # total_accuracy=(pred_y.int()==y).numpy().mean()
-        total_accuracy=torch.mean((pred_y.int()-y)**2)
+        total_accuracy=torch.mean((pred_y-y)**2)
         mean_col_accuracy={"Column mean accuracy":total_accuracy}
         return accuracy_per_feature,mean_col_accuracy
 
@@ -67,10 +66,10 @@ def count_uniques_in_pred_and_output(pred_tensor,y_tensor):
     Return dictionary of unique values and the number of unique occurences of each
     for prediction and output tensors.
     """
-    vals,counts=unique(pred_tensor.detach().int().numpy(),return_counts=True)
+    vals,counts=unique(pred_tensor.detach().numpy(),return_counts=True)
     pred_counts=dict(zip(vals,counts))
 
-    vals,counts=unique(y_tensor.int().numpy(),return_counts=True)
+    vals,counts=unique(y_tensor.numpy(),return_counts=True)
     actual_counts=dict(zip(vals,counts))
 
     return pred_counts, actual_counts

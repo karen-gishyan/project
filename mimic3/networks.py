@@ -202,11 +202,13 @@ def train_ensemble(model,train_loader1,train_loader2,optimizer,epochs=10):
 
 ###### Approach 3 ####
 class RNNNetwork(nn.Module):
-    def __init__(self,input_size,hidden_size,num_layers,output_size,batch_first=True):
+    def __init__(self,input_size,hidden_size,num_layers,output_size,batch_first=True,
+                 apply_softmax=True):
         super().__init__()
         self.rnn=nn.LSTM(input_size=input_size,hidden_size=hidden_size,
                         num_layers=num_layers, batch_first=batch_first)
         self.linear=nn.Linear(hidden_size,output_size)
+        self.apply_softmax=apply_softmax
 
     def forward(self,X,hidden_state):
         # r_out (batch, time_step, hidden_size)
@@ -215,7 +217,11 @@ class RNNNetwork(nn.Module):
         outs=[]
 
         for time_step in range(r_out.size(1)):
-            outs.append(self.linear(r_out[:, time_step, :]))
+            if self.apply_softmax:
+                out=torch.softmax(self.linear(r_out[:, time_step, :]),dim=-1)
+            else:
+                out=self.linear(r_out[:, time_step, :])
+            outs.append(out)
         return torch.stack(outs, dim=1), h_state
 
 class RNNEnsemble(nn.Module):
@@ -287,10 +293,10 @@ class RNNEnsemble(nn.Module):
 
         return output,hidden_state
 
-
-rnn_feature=RNNNetwork(input_size=11,hidden_size=32,num_layers=2,output_size=10)
-rnn_drug=RNNNetwork(input_size=11,hidden_size=32,num_layers=2,output_size=1)
-rnn_output=RNNNetwork(input_size=11,hidden_size=32,num_layers=2,output_size=1)
+#input of each network is dim(features)+dim(drugs)
+rnn_feature=RNNNetwork(input_size=912,hidden_size=32,num_layers=1,output_size=10,apply_softmax=False)
+rnn_drug=RNNNetwork(input_size=912,hidden_size=32,num_layers=1,output_size=902)
+rnn_output=RNNNetwork(input_size=912,hidden_size=32,num_layers=1,output_size=13)
 
 ensemble_model=RNNEnsemble(rnn_feature,rnn_drug,rnn_output)
 optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.01)
@@ -326,7 +332,7 @@ X1_t3_train,X1_t3_test,X1_t3_valid=create_split_loaders(is_feature=True,timestep
 X2_t3_train,X2_t3_test,X2_t3_valid=create_split_loaders(is_feature=False,timestep=3,batch_size=159)
 
 
-def train_rnn_ensemble(epochs=15):
+def train_rnn_ensemble(epochs=30):
     total_loss=[]
     l11_epoch_loss,l21_epoch_loss,lout_epoch_loss=[],[],[]
     l12_epoch_loss,l22_epoch_loss=[],[]
@@ -352,25 +358,24 @@ def train_rnn_ensemble(epochs=15):
             #feature_t2
             l12=regression_loss(X1_t2_pred,y12)
             l12_batch_loss.append(l12.item())
+
+            regression_losses=(l11+l12)/batch_size
+
+            #drug_t1
+            l21=classification_loss(X2_t1_pred,y21)
+            l21_batch_loss.append(l21.item())
+            #drug_t2
+            l22=classification_loss(X2_t2_pred,y22)
+            l22_batch_loss.append(l22.item())
             #output
             lout=classification_loss(output,y)
             lout_batch_loss.append(lout.item())
 
-            regression_losses=(l11+l12+lout)/batch_size
-
-            #drug_t1
-            l21=regression_loss(X2_t1_pred,y21)
-            l21_batch_loss.append(l21.item())
-            #drug_t2
-            l22=regression_loss(X2_t2_pred,y22)
-            l22_batch_loss.append(l22.item())
-
-            classification_losses=(l21+l22)/batch_size
+            classification_losses=(l21+l22+lout)/batch_size
             # combined weighted loss of training subnetworks.
             # each loss updates only the weights of its relevant network(tested),
             # for that reason combining losses makes sense.
-            # loss=classification_losses+regression_losses
-            loss=regression_losses+classification_losses
+            loss=regression_losses+classification_losses+
             # for lstm
             # h_state = hidden_state[0].data
             h_state=list(hidden_state)
@@ -380,6 +385,7 @@ def train_rnn_ensemble(epochs=15):
             optimizer.zero_grad()
             loss.backward()
             # clip_grad_norm_(ensemble_model.parameters(), 0.001)
+            #TODO step of one model slighly affects other models as well.
             optimizer.step()
             total_loss.append(loss.item())
             # logger.info(f'Epoch {epoch+1},Step {i+1}, Loss-Value {l11.item()}')
@@ -424,9 +430,9 @@ X1_t1_pred,X2_t1_pred,X1_t2_pred,X2_t2_pred,output,hidden_state=\
     ensemble_model(t1_feature.X1_feature,t1_drug.X1_drug,t2_feature.X2_feature,t2_drug.X2_drug,t3_feature.X3_feature,t3_drug.X3_drug,hidden_state)
 
 logger.info("Feature_t1:{}".format(accuracy(X1_t1_pred,t1_feature.Y1_feature,feature=True)))
-logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug,feature=True)))
+logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug)))
 logger.info("Feature_t2:{}".format(accuracy(X1_t2_pred,t2_feature.Y2_feature,feature=True)))
-logger.info("Drug_t2:{}".format(accuracy(X2_t2_pred,t2_drug.Y2_drug,feature=True)))
+logger.info("Drug_t2:{}".format(accuracy(X2_t2_pred,t2_drug.Y2_drug)))
 # last two should provide the same results.
 logger.info('Output:{}'.format(accuracy(output,t3_feature.Y3_feature)))
 # print(accuracy(output,t3_drug.Y3_drug))
@@ -440,15 +446,10 @@ logger.info('After Training.')
 X1_t1_pred,X2_t1_pred,X1_t2_pred,X2_t2_pred,output,hidden_state=\
     ensemble_model(t1_feature.X1_feature,t1_drug.X1_drug,t2_feature.X2_feature,t2_drug.X2_drug,t3_feature.X3_feature,t3_drug.X3_drug,hidden_state)
 
+#TODO drugs are not learning well, loss curves should be improved.
 logger.info("Feature_t1:{}".format(accuracy(X1_t1_pred,t1_feature.Y1_feature,feature=True)))
-logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug,feature=True)))
+logger.info("Drug_t1:{}".format(accuracy(X2_t1_pred,t1_drug.Y1_drug)))
 logger.info("Feature_t2:{}".format(accuracy(X1_t2_pred,t2_feature.Y2_feature,feature=True)))
-logger.info("Drug_t2:{}".format(accuracy(X2_t2_pred,t2_drug.Y2_drug,feature=True)))
+logger.info("Drug_t2:{}".format(accuracy(X2_t2_pred,t2_drug.Y2_drug)))
 # last two should provide the same results.
 logger.info('Output:{}'.format(accuracy(output,t3_feature.Y3_feature)))
-
-
-pred_counts, actual_counts=count_uniques_in_pred_and_output(output,t3_feature.Y3_feature)
-
-#do label mapping
-# pred_counts, output_counts=pred_to_labels(output.int().flatten(),drugs=False)

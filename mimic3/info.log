@@ -1,12 +1,12 @@
 Accuracy Before training.
-Feature_t1:({'Col1': tensor(7053.9404), 'Col2': tensor(390.1031), 'Col3': tensor(9027.6797), 'Col4': tensor(13127.6377), 'Col5': tensor(5468.7471), 'Col6': tensor(3718.1768), 'Col7': tensor(4716.7764), 'Col8': tensor(1957.4019), 'Col9': tensor(1063.2466), 'Col10': tensor(3996.0842)}, {'Column mean accuracy': tensor(5051.9790)})
-Drug_t1:({'Col1': tensor(241362.9531)}, {'Column mean accuracy': tensor(241362.9531)})
-Feature_t2:({'Col1': tensor(6119.0498), 'Col2': tensor(337.9327), 'Col3': tensor(7752.6094), 'Col4': tensor(11016.0557), 'Col5': tensor(4588.0444), 'Col6': tensor(20419.4863), 'Col7': tensor(3216.8708), 'Col8': tensor(2113.1892), 'Col9': tensor(1248.2189), 'Col10': tensor(4058.6082)}, {'Column mean accuracy': tensor(6087.0068)})
-Drug_t2:({'Col1': tensor(241113.2344)}, {'Column mean accuracy': tensor(241113.2344)})
-Output:({'Col1': tensor(39.8748)}, {'Column mean accuracy': tensor(39.8748)})
+Feature_t1:({'Col1': tensor(7046.3096, grad_fn=<MeanBackward0>), 'Col2': tensor(379.2085, grad_fn=<MeanBackward0>), 'Col3': tensor(9104.7168, grad_fn=<MeanBackward0>), 'Col4': tensor(13071.7129, grad_fn=<MeanBackward0>), 'Col5': tensor(5459.5259, grad_fn=<MeanBackward0>), 'Col6': tensor(3667.4575, grad_fn=<MeanBackward0>), 'Col7': tensor(4716.5439, grad_fn=<MeanBackward0>), 'Col8': tensor(1953.6359, grad_fn=<MeanBackward0>), 'Col9': tensor(1051.1278, grad_fn=<MeanBackward0>), 'Col10': tensor(4005.8787, grad_fn=<MeanBackward0>)}, {'Column mean accuracy': tensor(5045.6108, grad_fn=<MeanBackward0>)})
+Drug_t1:0.0006289308176100629
+Feature_t2:({'Col1': tensor(6105.0693, grad_fn=<MeanBackward0>), 'Col2': tensor(335.8674, grad_fn=<MeanBackward0>), 'Col3': tensor(7831.8433, grad_fn=<MeanBackward0>), 'Col4': tensor(10960.0654, grad_fn=<MeanBackward0>), 'Col5': tensor(4573.3398, grad_fn=<MeanBackward0>), 'Col6': tensor(20389.6465, grad_fn=<MeanBackward0>), 'Col7': tensor(3206.4548, grad_fn=<MeanBackward0>), 'Col8': tensor(2100.9177, grad_fn=<MeanBackward0>), 'Col9': tensor(1238.4509, grad_fn=<MeanBackward0>), 'Col10': tensor(4070.5938, grad_fn=<MeanBackward0>)}, {'Column mean accuracy': tensor(6081.2251, grad_fn=<MeanBackward0>)})
+Drug_t2:0.0
+Output:0.0729559748427673
 After Training.
-Feature_t1:({'Col1': tensor(486.1367), 'Col2': tensor(39.0547), 'Col3': tensor(300.0038), 'Col4': tensor(1398.3044), 'Col5': tensor(575.5937), 'Col6': tensor(479.6591), 'Col7': tensor(1239.4539), 'Col8': tensor(172.8962), 'Col9': tensor(86.8547), 'Col10': tensor(263.8434)}, {'Column mean accuracy': tensor(504.1800)})
-Drug_t1:({'Col1': tensor(65820.9609)}, {'Column mean accuracy': tensor(65820.9609)})
-Feature_t2:({'Col1': tensor(688.1509), 'Col2': tensor(52.5547), 'Col3': tensor(697.9132), 'Col4': tensor(1886.4384), 'Col5': tensor(795.2566), 'Col6': tensor(17476.7500), 'Col7': tensor(1720.2766), 'Col8': tensor(321.6761), 'Col9': tensor(215.8811), 'Col10': tensor(422.0660)}, {'Column mean accuracy': tensor(2427.6958)})
-Drug_t2:({'Col1': tensor(78338.8984)}, {'Column mean accuracy': tensor(78338.8984)})
-Output:({'Col1': tensor(20.9352)}, {'Column mean accuracy': tensor(20.9352)})
+Feature_t1:({'Col1': tensor(1551.1077, grad_fn=<MeanBackward0>), 'Col2': tensor(44.0792, grad_fn=<MeanBackward0>), 'Col3': tensor(2233.2246, grad_fn=<MeanBackward0>), 'Col4': tensor(4976.8428, grad_fn=<MeanBackward0>), 'Col5': tensor(1353.7698, grad_fn=<MeanBackward0>), 'Col6': tensor(769.8041, grad_fn=<MeanBackward0>), 'Col7': tensor(2678.3823, grad_fn=<MeanBackward0>), 'Col8': tensor(1484.4818, grad_fn=<MeanBackward0>), 'Col9': tensor(803.9683, grad_fn=<MeanBackward0>), 'Col10': tensor(2997.9617, grad_fn=<MeanBackward0>)}, {'Column mean accuracy': tensor(1889.3622, grad_fn=<MeanBackward0>)})
+Drug_t1:0.0
+Feature_t2:({'Col1': tensor(1400.3558, grad_fn=<MeanBackward0>), 'Col2': tensor(65.3344, grad_fn=<MeanBackward0>), 'Col3': tensor(1921.0736, grad_fn=<MeanBackward0>), 'Col4': tensor(4190.5171, grad_fn=<MeanBackward0>), 'Col5': tensor(1284.8086, grad_fn=<MeanBackward0>), 'Col6': tensor(17836.7715, grad_fn=<MeanBackward0>), 'Col7': tensor(2433.9414, grad_fn=<MeanBackward0>), 'Col8': tensor(1612.9172, grad_fn=<MeanBackward0>), 'Col9': tensor(960.6097, grad_fn=<MeanBackward0>), 'Col10': tensor(3032.7166, grad_fn=<MeanBackward0>)}, {'Column mean accuracy': tensor(3473.9045, grad_fn=<MeanBackward0>)})
+Drug_t2:0.0
+Output:0.23459119496855346

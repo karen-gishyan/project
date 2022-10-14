@@ -100,7 +100,7 @@ class RNNData(Dataset):
         drug_binarizer=LabelBinarizer()
         drug_binarizer.fit(val_list)
         # first convert to 2d to use the binarizer then convert back to the original shape.
-        self.Y1_drug=self.X1_drug=torch.from_numpy(drug_binarizer.transform(self.X1_drug.reshape(-1,1)).reshape(-1,10,n_classes))
+        self.X1_drug=torch.from_numpy(drug_binarizer.transform(self.X1_drug.reshape(-1,1)).reshape(-1,10,n_classes))
         self.Y1_drug=self.X2_drug=torch.from_numpy(drug_binarizer.transform(self.X2_drug.reshape(-1,1)).reshape(-1,10,n_classes))
         self.Y2_drug=self.X3_drug=torch.from_numpy(drug_binarizer.transform(self.X3_drug.reshape(-1,1)).reshape(-1,10,n_classes))
 
