@@ -2,7 +2,10 @@ import pandas as pd
 import numpy as np
 import torch
 from torch.utils.data import Dataset
+from sklearn.preprocessing import LabelBinarizer
+import json
 import os
+
 
 dir_=os.path.dirname(__file__)
 dir_=os.path.join(dir_,'datasets')
@@ -85,6 +88,35 @@ class RNNData(Dataset):
         self.Y2_drug=self.X3_drug=torch.load('rnn/tensors/drugs_t3.pt')
         self.Y3_drug=torch.load('rnn/tensors/labels.pt')[:,20:30]
 
+    def encode_drugs(self):
+        """
+        Encode drugs fro multiclass classification.
+        """
+        with open("../json/drug_mapping.json",'r')as file:
+            mappings=json.load(file)
+
+        val_list = list(mappings.values())
+        n_classes=len(val_list)
+        drug_binarizer=LabelBinarizer()
+        drug_binarizer.fit(val_list)
+        # first convert to 2d to use the binarizer then convert back to the original shape.
+        self.Y1_drug=self.X1_drug=torch.from_numpy(drug_binarizer.transform(self.X1_drug.reshape(-1,1)).reshape(-1,10,n_classes))
+        self.Y1_drug=self.X2_drug=torch.from_numpy(drug_binarizer.transform(self.X2_drug.reshape(-1,1)).reshape(-1,10,n_classes))
+        self.Y2_drug=self.X3_drug=torch.from_numpy(drug_binarizer.transform(self.X3_drug.reshape(-1,1)).reshape(-1,10,n_classes))
+
+    def encode_output(self):
+        """
+        Encode output for multiclass classification.
+        """
+        with open("../json/discharge_location_mapping.json",'r')as file:
+            mappings=json.load(file)
+
+        val_list = list(mappings.values())
+        n_classes=len(val_list)
+        output_binarizer=LabelBinarizer()
+        output_binarizer.fit(val_list)
+        self.Y3_feature=self.Y3_drug=torch.from_numpy(output_binarizer.transform(self.Y3_feature.reshape(-1,1)).reshape(-1,10,n_classes))
+
 
     def __getitem__(self, index):
         if self.is_feature:
@@ -113,6 +145,8 @@ class SplitRNNData(RNNData):
     """
     def __init__(self, is_feature=True, timestep=1,split='train',split_size=None):
         super().__init__(is_feature, timestep)
+        super().encode_drugs()
+        super().encode_output()
         self.split=split
 
         if split_size:
@@ -164,5 +198,3 @@ class SplitRNNData(RNNData):
             return len(eval(f"self.X{self.timestep}_feature"))
         else:
             return len(eval(f"self.X{self.timestep}_drug"))
-
-

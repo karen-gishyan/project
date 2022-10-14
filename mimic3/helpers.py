@@ -2,8 +2,8 @@ import logging
 import torch
 import json
 from torch.utils.data import DataLoader
+from numpy import unique
 from datasets import SplitRNNData
-
 
 
 def configure_logger():
@@ -61,3 +61,16 @@ def pred_to_labels(tensor,drugs=True):
 
     res=list(map(lambda i:key_list[val_list.index(i)],tensor))
     return res
+
+def count_uniques_in_pred_and_output(pred_tensor,y_tensor):
+    """
+    Return dictionary of unique values and the number of unique occurences of each
+    for prediction and output tensors.
+    """
+    vals,counts=unique(pred_tensor.detach().int().numpy(),return_counts=True)
+    pred_counts=dict(zip(vals,counts))
+
+    vals,counts=unique(y_tensor.int().numpy(),return_counts=True)
+    actual_counts=dict(zip(vals,counts))
+
+    return pred_counts, actual_counts
