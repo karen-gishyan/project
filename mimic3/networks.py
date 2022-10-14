@@ -301,8 +301,7 @@ rnn_output=RNNNetwork(input_size=912,hidden_size=32,num_layers=1,output_size=13)
 ensemble_model=RNNEnsemble(rnn_feature,rnn_drug,rnn_output)
 optimizer = torch.optim.Adam(ensemble_model.parameters(), lr=0.01)
 # optimizer = torch.optim.Adam(list(rnn_feature.parameters())+list(rnn_drug.parameters())+list(rnn_output.parameters()), lr=0.0001)
-regression_loss = nn.MSELoss()
-classification_loss=nn.CrossEntropyLoss()
+regression_loss=classification_loss= nn.MSELoss()
 # #t1
 # X1_t1=RNNData(is_feature=True,timestep=1)
 # X2_t1=RNNData(is_feature=False,timestep=1)
@@ -332,7 +331,7 @@ X1_t3_train,X1_t3_test,X1_t3_valid=create_split_loaders(is_feature=True,timestep
 X2_t3_train,X2_t3_test,X2_t3_valid=create_split_loaders(is_feature=False,timestep=3,batch_size=159)
 
 
-def train_rnn_ensemble(epochs=30):
+def train_rnn_ensemble(epochs=100):
     total_loss=[]
     l11_epoch_loss,l21_epoch_loss,lout_epoch_loss=[],[],[]
     l12_epoch_loss,l22_epoch_loss=[],[]
@@ -359,8 +358,6 @@ def train_rnn_ensemble(epochs=30):
             l12=regression_loss(X1_t2_pred,y12)
             l12_batch_loss.append(l12.item())
 
-            regression_losses=(l11+l12)/batch_size
-
             #drug_t1
             l21=classification_loss(X2_t1_pred,y21)
             l21_batch_loss.append(l21.item())
@@ -371,11 +368,12 @@ def train_rnn_ensemble(epochs=30):
             lout=classification_loss(output,y)
             lout_batch_loss.append(lout.item())
 
-            classification_losses=(l21+l22+lout)/batch_size
             # combined weighted loss of training subnetworks.
             # each loss updates only the weights of its relevant network(tested),
             # for that reason combining losses makes sense.
-            loss=regression_losses+classification_losses+
+            #TODO some updates happen for other networks as well, needs to be investigated.
+            loss=(l11+l12+l21+l22+lout)/batch_size
+
             # for lstm
             # h_state = hidden_state[0].data
             h_state=list(hidden_state)
