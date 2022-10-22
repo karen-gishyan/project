@@ -215,7 +215,8 @@ class RNNNetwork(nn.Module):
 
         r_out,h_state=self.rnn(X,hidden_state)
         outs=[]
-
+        #TODO instead of seperating each row applying linear on each,then stacking,
+        # we can apply linear directly to r_out
         for time_step in range(r_out.size(1)):
             if self.apply_softmax:
                 out=torch.softmax(self.linear(r_out[:, time_step, :]),dim=-1)
@@ -332,16 +333,16 @@ X2_t3_train,X2_t3_test,X2_t3_valid=create_split_loaders(is_feature=False,timeste
 
 
 def train_rnn_ensemble(epochs=100):
-    total_loss=[]
     l11_epoch_loss,l21_epoch_loss,lout_epoch_loss=[],[],[]
     l12_epoch_loss,l22_epoch_loss=[],[]
-
+    combined_epoch_loss=[]
     h_state = None
     # any other load batch size could have been taken
     batch_size=159
     for epoch in range(epochs):
         l11_batch_loss,l21_batch_loss,lout_batch_loss=[],[],[]
         l12_batch_loss,l22_batch_loss=[],[]
+        combined_batch_loss=[]
         for i,((x1_t1,y11), (x2_t1,y21),(x1_t2,y12),(x2_t2,y22), (x1_t3,y),(x2_t3,y)) \
                  in enumerate(zip(X1_t1_train,X2_t1_train,X1_t2_train,\
                      X2_t2_train,X1_t3_train,X2_t3_train)):
@@ -353,20 +354,20 @@ def train_rnn_ensemble(epochs=100):
             # type comes first (drug/feature), timestep comes second in this l logic
             #feature_t1
             l11=regression_loss(X1_t1_pred,y11)
-            l11_batch_loss.append(l11.item())
+            l11_batch_loss.append(round(l11.item(),3))
             #feature_t2
             l12=regression_loss(X1_t2_pred,y12)
-            l12_batch_loss.append(l12.item())
+            l12_batch_loss.append(round(l12.item(),3))
 
             #drug_t1
             l21=classification_loss(X2_t1_pred,y21)
-            l21_batch_loss.append(l21.item())
+            l21_batch_loss.append(round(l21.item(),3))
             #drug_t2
             l22=classification_loss(X2_t2_pred,y22)
-            l22_batch_loss.append(l22.item())
+            l22_batch_loss.append(round(l22.item(),3))
             #output
             lout=classification_loss(output,y)
-            lout_batch_loss.append(lout.item())
+            lout_batch_loss.append(round(lout.item(),2))
 
             # combined weighted loss of training subnetworks.
             # each loss updates only the weights of its relevant network(tested),
@@ -385,7 +386,7 @@ def train_rnn_ensemble(epochs=100):
             # clip_grad_norm_(ensemble_model.parameters(), 0.001)
             #TODO step of one model slighly affects other models as well.
             optimizer.step()
-            total_loss.append(loss.item())
+            combined_batch_loss.append(round(loss.item(),3))
             # logger.info(f'Epoch {epoch+1},Step {i+1}, Loss-Value {l11.item()}')
         print(f"Epoch {epoch+1} completed.")
 
@@ -394,21 +395,30 @@ def train_rnn_ensemble(epochs=100):
         if l12_batch_loss: l12_epoch_loss.append(mean(l12_batch_loss))
         if l22_batch_loss: l22_epoch_loss.append(mean(l22_batch_loss))
         if lout_batch_loss: lout_epoch_loss.append(mean(lout_batch_loss))
+        if loss: combined_epoch_loss.append(mean(combined_batch_loss))
         # print(f'Epoch: {epoch+1}, Loss Value:{loss.item()}')
         # logger.info(f'Epoch: {epoch+1}, Drug t1 Average Batch Loss Value:{l12}')
         # logger.info(f'Epoch: {epoch+1}, Drug t2 Average Batch Loss Value:{l22}')
 
     _, (ax1, ax2,ax3,ax4,ax5) = plt.subplots(1, 5, sharey=False)
     ax1.plot(l11_epoch_loss)
-    ax1.set_title('t1 Features')
+    ax1.set_title('T1 Features')
     ax2.plot(l12_epoch_loss)
-    ax2.set_title('t1 Drugs')
+    ax2.set_title('T1 Drugs')
     ax3.plot(l21_epoch_loss)
-    ax3.set_title('t2 Features')
+    ax3.set_title('T2 Features')
     ax4.plot(l22_epoch_loss)
-    ax4.set_title('t2 Drugs')
+    ax4.set_title('T2 Drugs')
     ax5.plot(lout_epoch_loss)
-    ax5.set_title('Discharge')
+    ax5.set_title('Output')
+    plt.ylabel('MSE Loss per Epoch')
+    plt.xlabel('Epochs')
+    plt.show()
+
+    plt.plot(combined_epoch_loss)
+    plt.ylabel('Loss ')
+    plt.xlabel('Epochs')
+    plt.title('Combined loss from five subnetworks')
     plt.show()
 
     return hidden_state
