@@ -81,6 +81,16 @@ def construct_pytorch_dataset_limited():
 
 
 class RNNData():
+    """
+    Logical issues:
+        1. Stage lengths do not match between drugs.
+            e.g. first 10 drugs in 2 days, becomes stage1, second 10 drugs in 5 days, becomes stage 2.
+        2. Stage lengtsh do not match between drugs and features.
+            e.g first 10 feature measurements are taken over 7 days, but as the count is 10,
+            is included in the first stage with the drugs given in 2 days.
+            Clearly some of the measrumenets are taken after the drugs are given and would need
+            to be part of stage two.
+    """
     def __init__(self) :
         drugs_df=pd.read_csv('rnn/drugs.csv')
         features_df=pd.read_csv('rnn/features.csv')
@@ -90,6 +100,7 @@ class RNNData():
         self.admissions_intersection=sorted(list(set(drugs_df_admissions) & set(features_df_admissions)))
         self.drugs_df=drugs_df[drugs_df.hadm_id_id.isin(self.admissions_intersection)]
         self.features_df=features_df[features_df.hadm_id_id.isin(self.admissions_intersection)]
+
 
     def feature_to_tensor(self):
         feature_count_vector=self.features_df['itemid'].value_counts()
@@ -174,3 +185,147 @@ class RNNData():
         self.feature_to_tensor()
         self.drug_to_tensor()
         self.divide_tensors_to_timesteps()
+
+
+class TimeStageRNNData():
+    def __init__(self) -> None:
+        """
+        Patients which have been given between 30 and 50 drugs each,
+        have a list of features which have been given measured between 30 and 50 times each,
+        and have stayed between 6 and 8 days (each two days is a timestep, the last timestep
+        can have more than 2 days).
+        """
+        drugs_df=pd.read_csv('rnn-improved/drugs.csv')
+        features_df=pd.read_csv('rnn-improved/features.csv')
+
+        drugs_df[['admittime','dischtime','startdate','enddate']] =drugs_df[['admittime','dischtime','startdate','enddate']] .\
+            apply(lambda x: pd.to_datetime(x).dt.date)
+        drugs_df['stay_length']=(drugs_df['dischtime']-drugs_df['admittime']).dt.days
+        drugs_df=drugs_df[(drugs_df['stay_length']>=6) & (drugs_df['stay_length']<=8)]
+
+        features_df[['admittime','dischtime','charttime']]=features_df[['admittime','dischtime','charttime']].\
+            apply(lambda x: pd.to_datetime(x).dt.date)
+        features_df['stay_length']=(features_df['dischtime']-features_df['admittime']).dt.days
+        features_df=features_df[(features_df['stay_length']>=6) & (features_df['stay_length']<=8)]
+
+        drugs_df_admissions=list(drugs_df.hadm_id_id.unique())
+        features_df_admissions=list(features_df.hadm_id_id.unique())
+
+        self.admissions_intersection=sorted(list(set(drugs_df_admissions) & set(features_df_admissions)))
+        self.drugs_df=drugs_df[drugs_df.hadm_id_id.isin(self.admissions_intersection)]
+        self.features_df=features_df[features_df.hadm_id_id.isin(self.admissions_intersection)]
+
+    def feature_and_drugs_to_timsetep_tensors(self,no_padding=True):
+        """
+        For each admission, obtain the values for features for each stage.
+        Args:
+            no_padding (bool, optional): _description_. Defaults to True.
+        """
+        feature_count_vector=self.features_df['itemid'].value_counts()
+        feature_ids=feature_count_vector.index[:10]
+
+        #generating feature data
+        t1_feature_data,t2_feature_data,t3_feature_data=[],[],[]
+        t1_drug_data,t2_drug_data,t3_drug_data=[],[],[]
+        output_labels=[]
+        for c, adm_id in enumerate(self.admissions_intersection):
+            admission_df=self.features_df[self.features_df['hadm_id_id']==adm_id]
+            admittime=admission_df['admittime'].iloc[0]
+            dischtime=admission_df['dischtime'].iloc[0]
+            # create a date range between admission start and end dates
+            date_range=pd.date_range(admittime,dischtime,freq='d')
+            date_range_df={i.date():index+1 for index, i in enumerate(date_range)}
+            t1_feature_batch,t2_feature_batch,t3_feature_batch=[],[],[]
+
+            for feature_id in feature_ids:
+                admission_feature_df=admission_df[admission_df['itemid']==feature_id]
+                t1_single_feature,t2_single_feature,t3_single_feature=[],[],[]
+                for _, row in admission_feature_df.iterrows():
+                    try:
+                        if date_range_df[row['charttime']] in [1,2]:
+
+                            t1_single_feature.append(row['value'])
+                        elif date_range_df[row['charttime']] in [3,4]:
+                            t2_single_feature.append(row['value'])
+                        else:
+                            t3_single_feature.append(row['value'])
+                    except:
+                        # db issue, such cases are not ok
+                        # feature value simply stays empty
+                        print(f'Exception on iteration: {c}')
+                        print("Chartevent date not a date from patient's staying interval")
+                        continue
+                t1_feature_batch.append(torch.Tensor(t1_single_feature))
+                t2_feature_batch.append(torch.Tensor(t2_single_feature))
+                t3_feature_batch.append(torch.Tensor(t3_single_feature))
+
+            # first pad the features to have the same length
+            t1_feature_data.append(pad_sequence((*t1_feature_batch,)))
+            t2_feature_data.append(pad_sequence((*t2_feature_batch,)))
+            t3_feature_data.append(pad_sequence((*t3_feature_batch,)))
+            print(f"Iter {c}completed for features.")
+
+            #generating output and drugs data
+            self.drugs_df['drug']=LabelEncoder().fit_transform(self.drugs_df['drug'])
+            admission_drugs_df=self.drugs_df[self.drugs_df['hadm_id_id']==adm_id]
+
+            discharge=admission_drugs_df['discharge_location'].iloc[0]
+            # three output labels, 2 being the best.
+            if discharge=="DEAD/EXPIRED":
+                 output_labels.append(0)
+            elif discharge=="HOME":
+                output_labels.append(2)
+            else:
+                output_labels.append(1)
+
+            t1_drug, t2_drug, t3_drug=[],[],[]
+            for _, row in admission_drugs_df.iterrows():
+                drug_startdate=row['startdate']
+                drug_enddate=row['enddate']
+                try:
+                    drug_date_range=list(map(lambda i:i.date(),pd.date_range(drug_startdate,drug_enddate,freq='d')))
+                except ValueError:
+                    print('Exception on date-range generation.')
+                    continue
+                for drug_date in drug_date_range:
+                    try:
+                        if date_range_df[drug_date] in [1,2]:
+                            t1_drug.append(row['drug'])
+                        elif date_range_df[drug_date] in [3,4]:
+                            t2_drug.append(row['drug'])
+                        else:
+                            t3_drug.append(row['drug'])
+                    except:
+                        print(f'Exception on iteration: {c}')
+                        print("Drug date not a date from patient's staying interval")
+                        continue
+
+
+            t1_drug_data.append(torch.Tensor(t1_drug))
+            t2_drug_data.append(torch.Tensor(t2_drug))
+            t3_drug_data.append(torch.Tensor(t3_drug))
+            print(f"Iter {c}completed for drugs.")
+
+        # second pad the feature batches within each t to have the same length
+        t1_feature_data=pad_sequence((*t1_feature_data,),batch_first=True)
+        t2_feature_data=pad_sequence((*t2_feature_data,),batch_first=True)
+        t3_feature_data=pad_sequence((*t3_feature_data,),batch_first=True)
+        torch.save(t1_feature_data,'rnn-improved/tensors/features_t1.pt')
+        torch.save(t2_feature_data,'rnn-improved/tensors/features_t2.pt')
+        torch.save(t3_feature_data,'rnn-improved/tensors/features_t3.pt')
+
+        t1_drug_data=pad_sequence((*t1_drug_data,),batch_first=True)
+        t2_drug_data=pad_sequence((*t2_drug_data,),batch_first=True)
+        t3_drug_data=pad_sequence((*t3_drug_data,),batch_first=True)
+        torch.save(t1_drug_data,'rnn-improved/tensors/drugs_t1.pt')
+        torch.save(t2_drug_data,'rnn-improved/tensors/drugs_t2.pt')
+        torch.save(t3_drug_data,'rnn-improved/tensors/drugs_t3.pt')
+        torch.save(torch.Tensor(output_labels),'rnn-improved/tensors/outputs.pt')
+
+        #TODO we may need to then padd across staged as well (and across features and drugs).
+        #TODO output should also be encoded and stored, data may need to be reshaped here.
+
+
+TimeStageRNNData().feature_and_drugs_to_timsetep_tensors()
+
+
