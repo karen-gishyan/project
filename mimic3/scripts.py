@@ -309,7 +309,7 @@ class PopulateModels:
 
 	def load_chartevents(self) -> None:
 		chartevents_df_path=os.path.join(self.main_path, 'CHARTEVENTS.csv')
-		self.chartevents_df=pd.read_csv(chartevents_df_path,nrows=3000000)
+		self.chartevents_df=pd.read_csv(chartevents_df_path,nrows=5000000)
 		self.datetime_columns=['CHARTTIME','STORETIME']
 		object_field_to_datetime(self.chartevents_df,self.datetime_columns)
 		for _, row in self.chartevents_df.iterrows():
@@ -388,4 +388,3 @@ class PopulateModels:
 			except Exception as e:
 					print(f"Exception on row_id {row['ROW_ID']}.")
 					raise (e)
-

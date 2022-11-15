@@ -2,6 +2,7 @@ from configure import configure
 configure()
 import os
 import json
+import yaml
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 import torch
@@ -10,74 +11,6 @@ from torch.nn.utils.rnn import pad_sequence
 dir_=os.path.dirname(__file__)
 dir_=os.path.join(dir_,'datasets')
 os.chdir(dir_)
-
-def process_and_combine_datasets_limited():
-    """
-    We get each unique admissions last 10 'Drug and 'Heart Rate' feature values ordered by
-    the care unit. In other words, what are the patient features based on the fact that they
-    have been admitted to a given care unit.
-    Returns:
-        pf.DataFrame: Combined/concatinated dataframe.
-    """
-
-    care_units_with_admissions=pd.read_csv('care_units_with_admisisons_and_drugs.csv',usecols=[i for i in range(7)])
-    care_units_with_admissions.rename(columns={'hadm_id_id':'hadm_id'},inplace=True)
-    # copied for joining purposes
-    care_units_with_admissions_copy=care_units_with_admissions.copy().reset_index()
-    admissions_and_patient_features=pd.read_csv('admissions_and_patient_features.csv',usecols=[i for i in range(5)])
-    admissions_and_patient_features=admissions_and_patient_features[admissions_and_patient_features.itemid==220045]
-
-    care_units_admissions_col=list(care_units_with_admissions.hadm_id.unique())
-    admissions_admissions_col=list(admissions_and_patient_features.hadm_id_id.unique())
-    admisisons_intersection=sorted(list(set(care_units_admissions_col) & set(admissions_admissions_col)))
-
-    care_units_with_admissions_copy=care_units_with_admissions_copy.reindex(columns=list(care_units_with_admissions.columns)
-                                            +list(admissions_and_patient_features.columns))
-    for admission_id in care_units_admissions_col:
-        if not admission_id in admisisons_intersection:
-            continue
-        subset_index=care_units_with_admissions[care_units_with_admissions.hadm_id==admission_id].index
-        df_admissions=admissions_and_patient_features[(admissions_and_patient_features.hadm_id_id==admission_id)
-                                                      &(admissions_and_patient_features.itemid==220045)]
-
-        df_admissions.index=subset_index
-        lower,upper=list(subset_index)[0],list(subset_index)[-1]
-        # copy values from the second df to the first df
-        # if concat did not append the same columns for each concact operations it
-        # would have been a better solution.
-        care_units_with_admissions_copy.loc[lower:upper,list(df_admissions.columns)]=df_admissions.values
-
-    care_units_with_admissions_copy.dropna(inplace=True)
-    # care_units_with_admissions_copy.to_csv('combined.csv')
-
-    return care_units_with_admissions_copy.dropna(inplace=True)
-
-
-def construct_pytorch_dataset_limited():
-    df=pd.read_csv('combined.csv')
-    # remove some columns then select only categorical columns
-    df_categorical=df.loc[:,~df.columns.isin(['startdate','enddate','charttime'])].\
-        select_dtypes(include=['object'])
-
-    # encode labels into a single column
-    for col in df_categorical.columns:
-        df_categorical[col]=LabelEncoder().fit_transform(df_categorical[col])
-    df_categorical['value']=df['value']
-    df_categorical['hadm_id']=df['hadm_id']
-
-    unique_admissions=df_categorical.hadm_id.unique()
-    timestep1_df,timestep2_df, timestep3_df=pd.DataFrame(),pd.DataFrame(),pd.DataFrame()
-    for adm in unique_admissions:
-        iter_df=df_categorical[df_categorical.hadm_id==adm]
-        timestep1_df=pd.concat([timestep1_df,iter_df[0:3]])
-        timestep2_df=pd.concat([timestep2_df,iter_df[3:6]])
-        timestep3_df=pd.concat([timestep3_df,iter_df[6:9]])
-
-
-    # timestep1_df.to_csv("pytorch_t1_df.csv",index=False)
-    # timestep2_df.to_csv("pytorch_t2_df.csv",index=False)
-    timestep3_df.to_csv("pytorch_t3_df.csv",index=False)
-    print('Done')
 
 
 class RNNData():
@@ -179,7 +112,6 @@ class RNNData():
         with open(f"../json/{col_name}_mapping.json",'w') as file:
             json.dump(drug_mapping,file)
 
-
     def __call__(self):
         #feature_to_tensor() should be run first
         self.feature_to_tensor()
@@ -187,16 +119,22 @@ class RNNData():
         self.divide_tensors_to_timesteps()
 
 
-class TimeStageRNNData():
-    def __init__(self) -> None:
+class DataWithStages:
+
+    drugs_df=pd.read_csv('sqldata/drugs.csv')
+    features_df=pd.read_csv('sqldata/features.csv')
+
+    def __init__(self,diagnosis_name=None) -> None:
         """
         Patients which have been given between 30 and 50 drugs each,
         have a list of features which have been given measured between 30 and 50 times each,
         and have stayed between 6 and 8 days (each two days is a timestep, the last timestep
         can have more than 2 days).
         """
-        drugs_df=pd.read_csv('rnn-improved/drugs.csv')
-        features_df=pd.read_csv('rnn-improved/features.csv')
+
+        drugs_df= self.drugs_df[self.drugs_df.diagnosis==diagnosis_name]
+        features_df=self.features_df[self.features_df.diagnosis==diagnosis_name]
+        self.diagnosis_name=diagnosis_name
 
         drugs_df[['admittime','dischtime','startdate','enddate']] =drugs_df[['admittime','dischtime','startdate','enddate']] .\
             apply(lambda x: pd.to_datetime(x).dt.date)
@@ -215,7 +153,7 @@ class TimeStageRNNData():
         self.drugs_df=drugs_df[drugs_df.hadm_id_id.isin(self.admissions_intersection)]
         self.features_df=features_df[features_df.hadm_id_id.isin(self.admissions_intersection)]
 
-    def feature_and_drugs_to_timsetep_tensors(self,no_padding=True):
+    def feature_and_drugs_to_timsetep_tensors(self):
         """
         For each admission, obtain the values for features for each stage.
         Args:
@@ -244,11 +182,11 @@ class TimeStageRNNData():
                     try:
                         if date_range_df[row['charttime']] in [1,2]:
 
-                            t1_single_feature.append(row['value'])
+                            t1_single_feature.append(float(row['value']))
                         elif date_range_df[row['charttime']] in [3,4]:
-                            t2_single_feature.append(row['value'])
+                            t2_single_feature.append(float(row['value']))
                         else:
-                            t3_single_feature.append(row['value'])
+                            t3_single_feature.append(float(row['value']))
                     except:
                         # db issue, such cases are not ok
                         # feature value simply stays empty
@@ -270,13 +208,11 @@ class TimeStageRNNData():
             admission_drugs_df=self.drugs_df[self.drugs_df['hadm_id_id']==adm_id]
 
             discharge=admission_drugs_df['discharge_location'].iloc[0]
-            # three output labels, 2 being the best.
-            if discharge=="DEAD/EXPIRED":
-                 output_labels.append(0)
-            elif discharge=="HOME":
-                output_labels.append(2)
-            else:
+
+            if discharge=="HOME":
                 output_labels.append(1)
+            else:
+                output_labels.append(0)
 
             t1_drug, t2_drug, t3_drug=[],[],[]
             for _, row in admission_drugs_df.iterrows():
@@ -300,32 +236,52 @@ class TimeStageRNNData():
                         print("Drug date not a date from patient's staying interval")
                         continue
 
-
             t1_drug_data.append(torch.Tensor(t1_drug))
             t2_drug_data.append(torch.Tensor(t2_drug))
             t3_drug_data.append(torch.Tensor(t3_drug))
             print(f"Iter {c}completed for drugs.")
 
-        # second pad the feature batches within each t to have the same length
+        #list cannot be converted to Tensor if Tensors inside have unequal shapes.
+        #second pad the feature batches within each t to have the same length
         t1_feature_data=pad_sequence((*t1_feature_data,),batch_first=True)
         t2_feature_data=pad_sequence((*t2_feature_data,),batch_first=True)
         t3_feature_data=pad_sequence((*t3_feature_data,),batch_first=True)
-        torch.save(t1_feature_data,'rnn-improved/tensors/features_t1.pt')
-        torch.save(t2_feature_data,'rnn-improved/tensors/features_t2.pt')
-        torch.save(t3_feature_data,'rnn-improved/tensors/features_t3.pt')
 
         t1_drug_data=pad_sequence((*t1_drug_data,),batch_first=True)
         t2_drug_data=pad_sequence((*t2_drug_data,),batch_first=True)
         t3_drug_data=pad_sequence((*t3_drug_data,),batch_first=True)
-        torch.save(t1_drug_data,'rnn-improved/tensors/drugs_t1.pt')
-        torch.save(t2_drug_data,'rnn-improved/tensors/drugs_t2.pt')
-        torch.save(t3_drug_data,'rnn-improved/tensors/drugs_t3.pt')
-        torch.save(torch.Tensor(output_labels),'rnn-improved/tensors/outputs.pt')
 
-        #TODO we may need to then padd across staged as well (and across features and drugs).
-        #TODO output should also be encoded and stored, data may need to be reshaped here.
+        general_path=os.path.join(dir_,f"{self.diagnosis_name}")
+        t1_path=os.path.join(general_path,"t1")
+        t2_path=os.path.join(general_path,"t2")
+        t3_path=os.path.join(general_path,"t3")
+
+        if not os.path.isdir(t1_path):os.makedirs(t1_path)
+        if not os.path.isdir(t2_path):os.makedirs(t2_path)
+        if not os.path.isdir(t3_path):os.makedirs(t3_path)
+
+        #save first timestage data
+        torch.save(torch.Tensor(t1_feature_data),os.path.join(t1_path,'features.pt'))
+        torch.save(torch.Tensor(t1_drug_data),os.path.join(t1_path,'drugs.pt'))
+
+        #save second timestage data
+        torch.save(torch.Tensor(t2_feature_data),os.path.join(t2_path,'features.pt'))
+        torch.save(torch.Tensor(t2_drug_data),os.path.join(t2_path,'drugs.pt'))
+
+        # save third timestage data
+        torch.save(torch.Tensor(t3_feature_data),os.path.join(t3_path,'features.pt'))
+        torch.save(torch.Tensor(t3_drug_data),os.path.join(t3_path,'drugs.pt'))
+
+        # save output
+        torch.save(torch.Tensor(output_labels),os.path.join(general_path,'output.pt'))
 
 
-TimeStageRNNData().feature_and_drugs_to_timsetep_tensors()
+def save_data():
+    with open('sqldata/stats.yaml','r') as file:
+        stats=yaml.safe_load(file)
+
+    diagnoses=stats['diagnosis_for_selection']
+    for diagnosis in diagnoses:
+        DataWithStages(diagnosis_name=diagnosis).feature_and_drugs_to_timsetep_tensors()
 
 
