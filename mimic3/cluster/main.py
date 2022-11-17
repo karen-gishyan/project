@@ -5,13 +5,13 @@ from model import DistanceModel
 
 dir_=os.path.dirname(__file__)
 os.chdir(dir_)
-print(os.getcwd())
 
 
 def calculate_distances():
     """
-    Calculate distances using the metrics for each diagnosis and each timestep.
+    Calculate distances  for each diagnosis and each timestep using the predefined metrics.
     """
+
     with open('../datasets/sqldata/stats.yaml') as stats, open('info.yaml') as info:
         stats=yaml.safe_load(stats)
         info=yaml.safe_load(info)
@@ -25,4 +25,3 @@ def calculate_distances():
                 DistanceModel(diagnosis=diagnosis,timestep=t)(similarity_function=eval(f))
 
 calculate_distances()
-
