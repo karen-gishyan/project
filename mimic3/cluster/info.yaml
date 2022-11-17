@@ -1,0 +1,8 @@
+similarity_functions:
+  - mean_squared_error
+  - median_absolute_error
+
+timesteps:
+  - 1
+  - 2
+  - 3
