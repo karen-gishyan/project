@@ -198,9 +198,9 @@ class DataWithStages:
                 t3_feature_batch.append(torch.Tensor(t3_single_feature))
 
             # first pad the features to have the same length
-            t1_feature_data.append(pad_sequence((*t1_feature_batch,)))
-            t2_feature_data.append(pad_sequence((*t2_feature_batch,)))
-            t3_feature_data.append(pad_sequence((*t3_feature_batch,)))
+            t1_feature_data.append(pad_sequence((*t1_feature_batch,),padding_value=-1))
+            t2_feature_data.append(pad_sequence((*t2_feature_batch,),padding_value=-1))
+            t3_feature_data.append(pad_sequence((*t3_feature_batch,),padding_value=-1))
             print(f"Iter {c}completed for features.")
 
             #generating output and drugs data
@@ -236,20 +236,20 @@ class DataWithStages:
                         print("Drug date not a date from patient's staying interval")
                         continue
 
-            t1_drug_data.append(torch.Tensor(t1_drug))
-            t2_drug_data.append(torch.Tensor(t2_drug))
-            t3_drug_data.append(torch.Tensor(t3_drug))
+            t1_drug_data.append(torch.IntTensor(t1_drug))
+            t2_drug_data.append(torch.IntTensor(t2_drug))
+            t3_drug_data.append(torch.IntTensor(t3_drug))
             print(f"Iter {c}completed for drugs.")
 
         #list cannot be converted to Tensor if Tensors inside have unequal shapes.
         #second pad the feature batches within each t to have the same length
-        t1_feature_data=pad_sequence((*t1_feature_data,),batch_first=True)
-        t2_feature_data=pad_sequence((*t2_feature_data,),batch_first=True)
-        t3_feature_data=pad_sequence((*t3_feature_data,),batch_first=True)
+        t1_feature_data=pad_sequence((*t1_feature_data,),batch_first=True, padding_value=-1)
+        t2_feature_data=pad_sequence((*t2_feature_data,),batch_first=True,padding_value=-1)
+        t3_feature_data=pad_sequence((*t3_feature_data,),batch_first=True,padding_value=-1)
 
-        t1_drug_data=pad_sequence((*t1_drug_data,),batch_first=True)
-        t2_drug_data=pad_sequence((*t2_drug_data,),batch_first=True)
-        t3_drug_data=pad_sequence((*t3_drug_data,),batch_first=True)
+        t1_drug_data=pad_sequence((*t1_drug_data,),batch_first=True,padding_value=-1)
+        t2_drug_data=pad_sequence((*t2_drug_data,),batch_first=True,padding_value=-1)
+        t3_drug_data=pad_sequence((*t3_drug_data,),batch_first=True,padding_value=-1)
 
         general_path=os.path.join(dir_,f"{self.diagnosis_name}")
         t1_path=os.path.join(general_path,"t1")
@@ -262,18 +262,18 @@ class DataWithStages:
 
         #save first timestage data
         torch.save(torch.Tensor(t1_feature_data),os.path.join(t1_path,'features.pt'))
-        torch.save(torch.Tensor(t1_drug_data),os.path.join(t1_path,'drugs.pt'))
+        torch.save(torch.IntTensor(t1_drug_data),os.path.join(t1_path,'drugs.pt'))
 
         #save second timestage data
         torch.save(torch.Tensor(t2_feature_data),os.path.join(t2_path,'features.pt'))
-        torch.save(torch.Tensor(t2_drug_data),os.path.join(t2_path,'drugs.pt'))
+        torch.save(torch.IntTensor(t2_drug_data),os.path.join(t2_path,'drugs.pt'))
 
         # save third timestage data
         torch.save(torch.Tensor(t3_feature_data),os.path.join(t3_path,'features.pt'))
-        torch.save(torch.Tensor(t3_drug_data),os.path.join(t3_path,'drugs.pt'))
+        torch.save(torch.IntTensor(t3_drug_data),os.path.join(t3_path,'drugs.pt'))
 
         # save output
-        torch.save(torch.Tensor(output_labels),os.path.join(general_path,'output.pt'))
+        torch.save(torch.IntTensor(output_labels),os.path.join(general_path,'output.pt'))
 
 
 def save_data():
@@ -283,5 +283,3 @@ def save_data():
     diagnoses=stats['diagnosis_for_selection']
     for diagnosis in diagnoses:
         DataWithStages(diagnosis_name=diagnosis).feature_and_drugs_to_timsetep_tensors()
-
-

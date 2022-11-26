@@ -2,6 +2,9 @@ similarity_functions:
   - mean_squared_error
   - median_absolute_error
 
+clustering_functions:
+  - KMeans
+
 timesteps:
   - 1
   - 2
