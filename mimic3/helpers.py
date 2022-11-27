@@ -73,3 +73,19 @@ def count_uniques_in_pred_and_output(pred_tensor,y_tensor):
     actual_counts=dict(zip(vals,counts))
 
     return pred_counts, actual_counts
+
+
+def convert_drugs_dummy_data_format(drug_tensor):
+    with open("../json/drug_mapping.json") as file:
+        drug_mappings=json.load(file)
+
+    len_total_drugs=len(list(drug_mappings))
+    dummy_format=torch.zeros(drug_tensor.shape[0],len_total_drugs)
+
+    # for a given rows 1 will indicate that drug was given, else we leave as 0
+    for i, row in enumerate(drug_tensor):
+        for drug_index in row:
+            if drug_index!=-1:
+                dummy_format[i][drug_index]=1
+
+    return dummy_format

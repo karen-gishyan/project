@@ -6,7 +6,6 @@ from torch.utils.data import Dataset,DataLoader
 import torch.nn as nn
 from torch import sigmoid
 import matplotlib.pyplot as plt
-from statistics import mean
 
 
 dir_=os.path.dirname(__file__)
@@ -14,6 +13,9 @@ dir_=os.path.join(dir_,'datasets')
 os.chdir(dir_)
 
 def combine_timestep_data_rnn_and_dummy_format(diagnosis):
+    """
+    The data in a dummy format is the input to the EvaluationBaseModel.
+    """
     #rnn 3d format
     t1_drugs=torch.load(f"{diagnosis}/t1/drugs.pt")
     t2_drugs=torch.load(f"{diagnosis}/t2/drugs.pt")
