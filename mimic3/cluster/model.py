@@ -1,11 +1,15 @@
 import os
 import json
 import torch
+import numpy as np
+from scipy.stats import shapiro, kstest
+import matplotlib.pyplot as plt
 from typing import Callable
+from sklearn.cluster import KMeans
 
 
 class DistanceModel:
-    def __init__(self,diagnosis,timestep) -> None:
+    def __init__(self,diagnosis,timestep):
         """Load a batch of 2D Tensors using the diagnosis and timestep.
         Tensor is padded twice, and each batch (and each feature in each batch)
         has the same number of rows.
@@ -49,7 +53,10 @@ class DistanceModel:
 
     def calculate_similarity(self,similarity_function:Callable,
                                                   **kwargs):
-
+        """
+        Calculate similarity of testing batches with the training instances,
+        select and save indices of most similar features.
+        """
         combined_test_similarities={}
         for i,test_batch in enumerate(self.test_data):
             similarities={}
@@ -82,10 +89,7 @@ class DistanceModel:
         test_size=len(good_train_indices)
         max_number_of_drugs=good_drugs.shape[1]
 
-        #TODO maybe drug sequences need to be transposed
-        #TODO maybe storing in 2d is a better option
-        # first dimension is each unique test instance, rows are the different drugs, columns
-        # are the drugs lengths
+        #TODO issue here
         t=torch.cat(combined_drugs_for_test).view(test_size,-1,max_number_of_drugs).int()
         torch.save(t,os.path.join(self.path,'drug_sequences.pt'))
 
@@ -95,3 +99,67 @@ class DistanceModel:
         self.average_feature_time_series().train_test().select_good_batches_based_on_output()
         # calculation and saving
         self.calculate_similarity(similarity_function=similarity_function).get_drug_sequences()
+
+
+class ClusteringModel(DistanceModel):
+    def perform_clustering(self,clustering_function,**kwargs):
+
+        output=clustering_function(**kwargs).fit(self.train_data.numpy())
+        train_clusters=output.predict(self.train_data.numpy())
+        test_clusters=output.predict(self.test_data.numpy())
+        combined_cluster_indices={}
+        for i,cluster in enumerate(test_clusters):
+            #TODO here no indice is better or worse, selection is based on first 5
+            #TODO for some clusters, there are not 5 batches to select from train,
+            # which results in torch.cat error(unequal number of drug sequences for tests)
+            similar_train_batch_indices=np.where(train_clusters==cluster)[0][:5]
+            similar_train_batch_indices=list(map(int,similar_train_batch_indices))
+            combined_cluster_indices.update({i:similar_train_batch_indices})
+
+        self.path=f"{self.diagnosis}/cluster/{clustering_function.__name__}/t{self.timestep}"
+        self.save_path=os.path.join(self.path,'train_keys.json')
+
+        if not os.path.exists(self.path): os.makedirs(self.path)
+        with open(self.save_path,'w') as file:
+            json.dump(combined_cluster_indices,file,indent=4)
+
+        return self
+
+    def __call__(self,clustering_function):
+        # data processing
+        self.average_feature_time_series().train_test()
+        # calculation and saving
+        self.perform_clustering(clustering_function=clustering_function).get_drug_sequences()
+
+
+class DistributionModel(DistanceModel):
+
+    def calculate_similarity_based_on_distribution(self):
+        self.final_tensors=torch.load(f"../datasets/{self.diagnosis}/t{3}/features.pt")
+        self.final_tensors=self.final_tensors.mean(dim=1)
+        indices=range(self.train_data.shape[0])
+        self.final_tensors=self.feature_tensors.index_select(0,torch.IntTensor(indices))
+
+        combined_similarity_scores={}
+        for i, data in enumerate(self.train_data):
+            similarity_scores={}
+            for j,final in enumerate(self.final_tensors):
+                test=kstest(data,final)
+                similarity_scores.update({j:test.pvalue})
+
+            #TODO explore p value of 1
+            keys=[t[0] for t in sorted(similarity_scores.items(),key=lambda dict_:dict_[1],reverse=True)]
+            keys=keys[:5]
+            combined_similarity_scores.update({i:keys})
+
+        self.path=f"{self.diagnosis}/ktest/t{self.timestep}"
+        self.save_path=os.path.join(self.path,'train_keys.json')
+
+        if not os.path.exists(self.path): os.makedirs(self.path)
+        with open(self.save_path,'w') as file:
+            json.dump(combined_similarity_scores,file,indent=4)
+        return self
+
+    def __call__(self, ):
+        self.average_feature_time_series().train_test()
+        self.calculate_similarity_based_on_distribution().get_drug_sequences()
