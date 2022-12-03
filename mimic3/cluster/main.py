@@ -1,7 +1,8 @@
 import os
 import yaml
+# metrics, cluster imports are not unused and are used as arguments for DistanceModel, ClusteringModel.
 from sklearn.metrics import mean_squared_error, median_absolute_error
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, MiniBatchKMeans
 from model import DistanceModel,ClusteringModel, DistributionModel
 
 dir_=os.path.dirname(__file__)
@@ -26,12 +27,11 @@ def calculate_distances():
             for t in timesteps:
                 DistanceModel(diagnosis=diagnosis,timestep=t)(similarity_function=eval(f))
 
-        # for c in clustering_functions:
-        #     for t in timesteps:
-        #         ClusteringModel(diagnosis=diagnosis,timestep=t)(clustering_function=eval(c))
+        for c in clustering_functions:
+            for t in timesteps:
+                ClusteringModel(diagnosis=diagnosis,timestep=t)(clustering_function=eval(c))
 
         for t in timesteps:
             DistributionModel(diagnosis=diagnosis, timestep=t)()
-
 
 calculate_distances()

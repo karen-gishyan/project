@@ -2,10 +2,11 @@ import os
 import json
 import torch
 import numpy as np
-from scipy.stats import shapiro, kstest
+from scipy.stats import kstest
+from torch.nn.utils.rnn import pad_sequence
 import matplotlib.pyplot as plt
 from typing import Callable
-from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
 
 
 class DistanceModel:
@@ -89,8 +90,8 @@ class DistanceModel:
         test_size=len(good_train_indices)
         max_number_of_drugs=good_drugs.shape[1]
 
-        #TODO issue here
-        t=torch.cat(combined_drugs_for_test).view(test_size,-1,max_number_of_drugs).int()
+        # pad -1 for places where number of related training instances is less than 5
+        t=pad_sequence((*combined_drugs_for_test,),batch_first=True,padding_value=-1)
         torch.save(t,os.path.join(self.path,'drug_sequences.pt'))
 
     def __call__(self,similarity_function):
@@ -102,16 +103,15 @@ class DistanceModel:
 
 
 class ClusteringModel(DistanceModel):
+
     def perform_clustering(self,clustering_function,**kwargs):
 
-        output=clustering_function(**kwargs).fit(self.train_data.numpy())
-        train_clusters=output.predict(self.train_data.numpy())
-        test_clusters=output.predict(self.test_data.numpy())
+        self.output=clustering_function(**kwargs).fit(self.train_data.numpy())
+        train_clusters=self.output.predict(self.train_data.numpy())
+        self.test_clusters=self.output.predict(self.test_data.numpy())
         combined_cluster_indices={}
-        for i,cluster in enumerate(test_clusters):
-            #TODO here no indice is better or worse, selection is based on first 5
-            #TODO for some clusters, there are not 5 batches to select from train,
-            # which results in torch.cat error(unequal number of drug sequences for tests)
+        for i,cluster in enumerate(self.test_clusters):
+            #here no indice is better or worse, selection is based on first 5
             similar_train_batch_indices=np.where(train_clusters==cluster)[0][:5]
             similar_train_batch_indices=list(map(int,similar_train_batch_indices))
             combined_cluster_indices.update({i:similar_train_batch_indices})
@@ -125,11 +125,30 @@ class ClusteringModel(DistanceModel):
 
         return self
 
+    def visualize_clusters(self):
+        """
+        Visualize test data points with respect to their clusters.
+        """
+        colors=np.random.rand(len(self.output.cluster_centers_),3)
+        clusters=range(len(self.output.cluster_centers_))
+        color_map={clusters[i]:colors[i] for i in clusters}
+        Y=PCA(n_components=2).fit_transform(self.test_data)
+        x_values=range(len(self.test_data))
+        c_labels=[color_map[i] for i in self.test_clusters]
+
+        ax = plt.axes(projection='3d')
+        #TODO scatter and colors should be improved
+        ax.scatter(x_values,Y[:,0],Y[:,1],c=c_labels)
+        # plt.show()
+
+        return self
+
     def __call__(self,clustering_function):
         # data processing
         self.average_feature_time_series().train_test()
         # calculation and saving
-        self.perform_clustering(clustering_function=clustering_function).get_drug_sequences()
+        self.perform_clustering(clustering_function=clustering_function,n_clusters=3).get_drug_sequences()
+        self.visualize_clusters()
 
 
 class DistributionModel(DistanceModel):
@@ -160,6 +179,8 @@ class DistributionModel(DistanceModel):
             json.dump(combined_similarity_scores,file,indent=4)
         return self
 
-    def __call__(self, ):
+    def __call__(self,):
         self.average_feature_time_series().train_test()
         self.calculate_similarity_based_on_distribution().get_drug_sequences()
+
+#TODO function for combining drugs from multiple timesteps

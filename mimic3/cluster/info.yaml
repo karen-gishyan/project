@@ -4,6 +4,8 @@ similarity_functions:
 
 clustering_functions:
   - KMeans
+  - MiniBatchKMeans
+
 
 timesteps:
   - 1

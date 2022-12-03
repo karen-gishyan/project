@@ -16,4 +16,4 @@ def remove_file_from_subdirectories(file_name):
                 if str(user_input)=='yes':
                     os.remove(path)
 
-remove_file_from_subdirectories('key.json')
+# remove_file_from_subdirectories('key.json')
