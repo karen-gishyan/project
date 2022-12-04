@@ -1,4 +1,5 @@
 import os
+import sys
 import yaml
 from utils import DataConversion
 import torch
@@ -10,6 +11,14 @@ import matplotlib.pyplot as plt
 dir_=os.path.dirname(__file__)
 os.chdir(dir_)
 
+parent_parent_path=os.path.dirname(dir_)
+sys.path.append(parent_parent_path)
+from helpers import configure_logger
+
+
+logger=configure_logger()
+# for file readability
+logger.info('\n')
 with open('../datasets/sqldata/stats.yaml') as stats, open('info.yaml') as info:
     stats=yaml.safe_load(stats)
     info=yaml.safe_load(info)
@@ -98,8 +107,30 @@ for diagnosis in diagnoses:
     fig.supxlabel('Epochs')
     fig.supylabel('MSE Loss per Epoch')
     fig.suptitle(f"{diagnosis}")
-    plt.show()
+    # plt.show()
 
-#TODO train-test
-#TODO experimentation with hidden layers
-#TODO better increase in learning
+    #TODO experimentation with hidden layers
+
+    # train accuracy output
+    _,_,_,_,out=multistage_model(features_t1.train_X,drug_t1.train_X)
+    out=(out>0.5).float().flatten()
+    logger.info(f"{diagnosis}\n Train Accuracy on output: {(torch.sum(out.detach()==features_t3.train_Y)/len(out)).item()}")
+
+    #test accuracy output
+    _,_,_,_,out=multistage_model(features_t1.test_X,drug_t1.test_X)
+    out=(out>0.5).float().flatten()
+    logger.info(f"{diagnosis}\n Test Accuracy on output: {(torch.sum(out.detach()==features_t3.test_y)/len(out)).item()}")
+
+    #train accuracy drugs (how well it predicts the presence of the drug in the procedure)
+    _,drug_Xt2,_,drug_Xt3,_=multistage_model(features_t1.train_X,drug_t1.train_X)
+    drug_Xt2=(drug_Xt2>0.5).float()
+    drug_Xt3=(drug_Xt3>0.5).float()
+    #first over the columns (per row), then average
+    logger.info(f"{diagnosis}\n Drug t2 Train Accuracy: {torch.mean(torch.sum(drug_Xt2.detach()==drug_t1.train_Y,dim=1)/drug_Xt2.shape[1]).item()}")
+    logger.info(f"{diagnosis}\n Drug t3 Train Accuracy: {torch.mean(torch.sum(drug_Xt3.detach()==drug_t2.train_Y,dim=1)/drug_Xt3.shape[1]).item()}")
+
+    _,drug_Xt2,_,drug_Xt3,_=multistage_model(features_t1.test_X,drug_t1.test_X)
+    drug_Xt2=(drug_Xt2>0.5).float()
+    drug_Xt3=(drug_Xt3>0.5).float()
+    logger.info(f"{diagnosis}\n Drug t2 Test Accuracy: {torch.mean(torch.sum(drug_Xt2.detach()==drug_t1.test_y,dim=1)/drug_Xt2.shape[1]).item()}")
+    logger.info(f"{diagnosis}\n Drug t3 Test Accuracy: {torch.mean(torch.sum(drug_Xt3.detach()==drug_t2.test_y,dim=1)/drug_Xt3.shape[1]).item()}")
