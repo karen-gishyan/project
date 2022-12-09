@@ -44,7 +44,17 @@ class DistanceModel:
         self.test_data=self.feature_tensors[train_size:,:]
 
         self.output_train=self.output[:train_size]
+        self.output_test=self.output[train_size:]
         self.drugs_train=self.drug_tensors[:train_size,:]
+        return self
+
+    def save_test_output(self):
+        """
+        Output will be the same for all models and sub approaches.
+        """
+        path=f"{self.diagnosis}/test_output.pt"
+        if not os.path.exists(path=path):
+            torch.save(self.output_test,path)
         return self
 
     def select_good_batches_based_on_output(self):
@@ -91,10 +101,11 @@ class DistanceModel:
         t=pad_sequence((*combined_drugs_for_test,),batch_first=True,padding_value=-1)
         torch.save(t,os.path.join(self.path,'drug_sequences.pt'))
 
+
     def __call__(self,similarity_function):
 
         # data processing
-        self.average_feature_time_series().train_test().select_good_batches_based_on_output()
+        self.average_feature_time_series().train_test().save_test_output().select_good_batches_based_on_output()
         # calculation and saving
         self.calculate_similarity(similarity_function=similarity_function).get_drug_sequences()
 

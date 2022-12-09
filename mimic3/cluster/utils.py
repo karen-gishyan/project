@@ -59,3 +59,12 @@ def combine_drug_sequences(diagnosis,dir_name,method=None):
 		torch.save(final_tensor,os.path.join(cd,diagnosis,dir_name,method,"combined_drugs.pt"))
 	else:
 		torch.save(final_tensor,os.path.join(cd,diagnosis,dir_name,"combined_drugs.pt"))
+
+
+	# increase the amount of test size based on the expansion of product
+	test_output=torch.load(f'{diagnosis}/test_output.pt')
+	expand_count=final_tensor.shape[0]/test_output.shape[0]
+	test_output_expanded=torch.Tensor(np.repeat(test_output.numpy(),expand_count))
+	path=f'{diagnosis}/test_output_expanded.pt'
+	if not os.path.exists(path):
+		torch.save(test_output_expanded,path)
