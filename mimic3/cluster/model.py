@@ -87,9 +87,6 @@ class DistanceModel:
             good_drugs=self.drugs_train.index_select(0,torch.IntTensor(indices))
             combined_drugs_for_test.append(good_drugs)
 
-        test_size=len(good_train_indices)
-        max_number_of_drugs=good_drugs.shape[1]
-
         # pad -1 for places where number of related training instances is less than 5
         t=pad_sequence((*combined_drugs_for_test,),batch_first=True,padding_value=-1)
         torch.save(t,os.path.join(self.path,'drug_sequences.pt'))
@@ -171,7 +168,7 @@ class DistributionModel(DistanceModel):
             keys=keys[:5]
             combined_similarity_scores.update({i:keys})
 
-        self.path=f"{self.diagnosis}/ktest/t{self.timestep}"
+        self.path=f"{self.diagnosis}/kstest/t{self.timestep}"
         self.save_path=os.path.join(self.path,'train_keys.json')
 
         if not os.path.exists(self.path): os.makedirs(self.path)
@@ -182,5 +179,3 @@ class DistributionModel(DistanceModel):
     def __call__(self,):
         self.average_feature_time_series().train_test()
         self.calculate_similarity_based_on_distribution().get_drug_sequences()
-
-#TODO function for combining drugs from multiple timesteps

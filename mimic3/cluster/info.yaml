@@ -6,6 +6,8 @@ clustering_functions:
   - KMeans
   - MiniBatchKMeans
 
+distribution_function:
+  - kstest
 
 timesteps:
   - 1
