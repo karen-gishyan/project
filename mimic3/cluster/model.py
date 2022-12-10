@@ -168,7 +168,7 @@ class DistributionModel(DistanceModel):
         self.final_tensors=self.feature_tensors.index_select(0,torch.IntTensor(indices))
 
         combined_similarity_scores={}
-        for i, data in enumerate(self.train_data):
+        for i, data in enumerate(self.test_data):
             similarity_scores={}
             for j,final in enumerate(self.final_tensors):
                 test=kstest(data,final)

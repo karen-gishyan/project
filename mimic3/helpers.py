@@ -86,6 +86,6 @@ def convert_drugs_dummy_data_format(drug_tensor):
     for i, row in enumerate(drug_tensor):
         for drug_index in row:
             if drug_index!=-1:
-                dummy_format[i][drug_index]=1
+                dummy_format[i][drug_index.long()]=1
 
     return dummy_format
