@@ -3,11 +3,11 @@ import os
 import sys
 import torch
 import networkx as nx
-from networkx.drawing.nx_agraph import graphviz_layout
 from networkx.algorithms.traversal import dfs_tree
 from networkx.algorithms.shortest_paths import has_path,astar_path, shortest_path
-from sklearn.metrics import mean_squared_error, median_absolute_error
+from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
+from utils import hierarchy_pos, topo_pos
 
 
 path=os.path.dirname(os.path.dirname(__file__))
@@ -17,7 +17,9 @@ dir_=os.path.dirname(__file__)
 os.chdir(dir_)
 
 from cluster.model import DistanceModel
+from helpers import configure_logger
 
+logger=configure_logger()
 
 class Graph:
     def __init__(self,diagnosis):
@@ -97,8 +99,15 @@ class Graph:
 
     def astar_path(self,graph,start_node,end_node,**kwargs):
         path=list(astar_path(graph,start_node,end_node,**kwargs))
-        print(self.diagnosis)
-        print(f"'astar path' method :{path}")
+
+        t=f"'astar path' method :{path}"
+        print(self.diagnosis,f"\n{t}")
+        heuristic=kwargs.get('heuristic')
+        if heuristic:
+            logger.info(f"With heuristic \n{t}")
+        else:
+            logger.info(t)
+
         return path
 
     def shortest_path(self,graph,start_node,end_node,**kwargs):
@@ -110,8 +119,23 @@ class Graph:
         print(f"'shortest path' method: {path}")
         return path
 
-    def visualize_tree(self):
-        raise NotImplementedError
+    def astar_heuristic(self,start_node,end_node):
+        """
+        Optimal heuristic between a node at depth i and a final depth j is (j-i)
+        for f(n)=h(n)+g(n), assuming f(n) is a distance based measure.
+        """
+        #TODO path stays the same with this heuristic
+        # start_node is not used as part of the heuristics calculation,
+        # otherwise would be the equal to 'end_node_depth'
+        start_node_depth=int(re.findall("\d+",start_node)[0])
+        end_node_depth=int(re.findall("\d+",end_node)[0])
+        return end_node_depth-start_node_depth
+
+    def visualize_tree(self,graph,root):
+        # pos = hierarchy_pos(graph,root)
+        pos=topo_pos(graph)
+        nx.draw(graph, pos,with_labels=True)
+        plt.show()
 
     def __call__(self):
         test_graphs=self.make_graphs()
@@ -119,8 +143,12 @@ class Graph:
         shortest_paths=[]
         for graph in test_graphs:
             start_node,end_node=self.set_start_and_end(graph)
-            astar_paths.append(self.astar_path(graph,start_node,end_node))
+            astar_paths.append(self.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic))
             # shortest_paths.append(self.shortest_path(graph,start_node,end_node,method='bellman-ford'))
+
+            # only the first patient's graph for each diagnosis
+            if len(astar_paths)==1:
+                self.visualize_tree(graph,start_node)
 
         assertion_test="Number of paths does not match to the number of testing data instances."
         if astar_paths:
