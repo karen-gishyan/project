@@ -21,6 +21,8 @@ from helpers import configure_logger
 
 logger=configure_logger()
 
+
+#TODO explore why nx has graph not a tree
 class Graph:
     def __init__(self,diagnosis):
         self.diagnosis=diagnosis
@@ -28,6 +30,7 @@ class Graph:
     def make_graphs(self,n_childs=5):
         """
         One graph is made for each testing instance.
+        Each node has n_child nodes based on mean_score_error similarity weight.
         """
         models=[]
         for t in [1,2,3]:
@@ -39,14 +42,23 @@ class Graph:
         model3.average_feature_time_series()
 
         self.n_test=len(model1.test_data)
-        #TODO fix -1 issue
+        # for empty values having 0 or -1 makes no difference as long as it is the
+        # same for all train and test instances
         test_data_graphs=[]
         for i,test_x in enumerate(model1.test_data):
+            # if no values for a given test instance, continue
+            if torch.all(test_x==-1):
+                continue
             # one graph for each testing instance
             self.graph=nx.DiGraph()
             similarity_scores=[]
             for j,train_x in enumerate(model1.train_data):
-                score=mean_squared_error(test_x,train_x)
+                #score is 0 when two vectors are exactly the same (e.g.all values for each vector is -1).
+                if torch.all(train_x==-1):
+                    # fixed penalty of value of 1024
+                    score=2**len(train_x)
+                else:
+                    score=mean_squared_error(test_x,train_x)
                 similarity_scores.append((f"start:{i}",f"t1:{j}",score))
 
             stage1_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -58,7 +70,10 @@ class Graph:
                 # remove node's to prevent (node,node) score calculation
                 stage2_data=torch.cat((model2.feature_tensors[:node],model2.feature_tensors[node+1:]))
                 for j, train_x in enumerate(stage2_data):
-                    score=mean_squared_error(model2.feature_tensors[node],train_x)
+                    if torch.all(train_x==-1):
+                        score=2**len(train_x)
+                    else:
+                        score=mean_squared_error(test_x,train_x)
                     similarity_scores.append((f"t1:{node}",f"t2:{j}",score))
 
                 stage2_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -68,14 +83,16 @@ class Graph:
                     node=int(re.findall("\d+",tuple_[1])[1])
                     stage3_data=torch.cat((model3.feature_tensors[:node],model3.feature_tensors[node+1:]))
                     for j, train_x in enumerate(stage3_data):
-                        score=mean_squared_error(model3.feature_tensors[node],train_x)
+                        if torch.all(train_x==-1):
+                            score=2**len(train_x)
+                        else:
+                            score=mean_squared_error(test_x,train_x)
                         similarity_scores.append((f"t2:{node}",f"t3:{j}",score))
 
                     stage3_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
                     self.graph.add_weighted_edges_from(stage3_top_closest)
 
             test_data_graphs.append(self.graph)
-            #TODO some weights are 0 but are not identical
 
         return test_data_graphs
 
@@ -134,6 +151,7 @@ class Graph:
     def visualize_tree(self,graph,root):
         # pos = hierarchy_pos(graph,root)
         pos=topo_pos(graph)
+        plt.title(f"{self.diagnosis}")
         nx.draw(graph, pos,with_labels=True)
         plt.show()
 
@@ -149,9 +167,3 @@ class Graph:
             # only the first patient's graph for each diagnosis
             if len(astar_paths)==1:
                 self.visualize_tree(graph,start_node)
-
-        assertion_test="Number of paths does not match to the number of testing data instances."
-        if astar_paths:
-            assert len(astar_paths)==self.n_test,assertion_test
-        if shortest_paths:
-             assert len(shortest_paths)==self.n_test,assertion_test
