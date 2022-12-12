@@ -103,7 +103,6 @@ class DistanceModel:
 
 
     def __call__(self,similarity_function):
-
         # data processing
         self.average_feature_time_series().train_test().save_test_output().select_good_batches_based_on_output()
         # calculation and saving
@@ -111,9 +110,7 @@ class DistanceModel:
 
 
 class ClusteringModel(DistanceModel):
-
     def perform_clustering(self,clustering_function,**kwargs):
-
         self.output=clustering_function(**kwargs).fit(self.train_data.numpy())
         train_clusters=self.output.predict(self.train_data.numpy())
         self.test_clusters=self.output.predict(self.test_data.numpy())
@@ -141,13 +138,12 @@ class ClusteringModel(DistanceModel):
         clusters=range(len(self.output.cluster_centers_))
         color_map={clusters[i]:colors[i] for i in clusters}
         Y=PCA(n_components=2).fit_transform(self.test_data)
-        x_values=range(len(self.test_data))
         c_labels=[color_map[i] for i in self.test_clusters]
 
-        ax = plt.axes(projection='3d')
-        #TODO scatter and colors should be improved
-        ax.scatter(x_values,Y[:,0],Y[:,1],c=c_labels)
-        # plt.show()
+        ax = plt.axes()
+        ax.scatter(Y[:,0],Y[:,1],c=c_labels)
+        ax.set_title(f"{self.diagnosis} diagnosis cluster results with PCA: Timestep {self.timestep}")
+        plt.show()
 
         return self
 
@@ -155,12 +151,13 @@ class ClusteringModel(DistanceModel):
         # data processing
         self.average_feature_time_series().train_test()
         # calculation and saving
-        self.perform_clustering(clustering_function=clustering_function,n_clusters=3).get_drug_sequences()
-        self.visualize_clusters()
+        self.perform_clustering(clustering_function=clustering_function,n_clusters=3)
+        # for existing cluster methods visualize only for the first timestep
+        if self.timestep==1:
+            self.visualize_clusters()
 
 
 class DistributionModel(DistanceModel):
-
     def calculate_similarity_based_on_distribution(self):
         self.final_tensors=torch.load(f"../datasets/{self.diagnosis}/t{3}/features.pt")
         self.final_tensors=self.final_tensors.mean(dim=1)
@@ -171,10 +168,11 @@ class DistributionModel(DistanceModel):
         for i, data in enumerate(self.test_data):
             similarity_scores={}
             for j,final in enumerate(self.final_tensors):
+                # some test scores are completely the same even though tensors are completely different
+                # 0,3,8 so on
                 test=kstest(data,final)
                 similarity_scores.update({j:test.pvalue})
 
-            #TODO explore p value of 1
             keys=[t[0] for t in sorted(similarity_scores.items(),key=lambda dict_:dict_[1],reverse=True)]
             keys=keys[:5]
             combined_similarity_scores.update({i:keys})

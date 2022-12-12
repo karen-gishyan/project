@@ -82,18 +82,17 @@ def combine_drug_sequences(diagnosis,dir_name,method=None):
      f"Number of rows do not match {diagnosis},{dir_name},{method}"
     torch.save(test_output_expanded,path)
 
-
 def train_individual(diagnosis, dirname,method=None):
     dataset=DataSet(diagnosis,dirname,method)
     input_size=dataset.train_X.shape[1]
     output_size=dataset.train_y.shape[1]
 
-    loader=DataLoader(dataset,shuffle=True,batch_size=100)
+    loader=DataLoader(dataset,shuffle=True,batch_size=50)
     model=EvaluationModel(input_size=input_size,output_size=output_size)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)
     criterion= nn.MSELoss()
 
-    epochs=100
+    epochs=150
     total_loss=[]
     for _ in range(epochs):
         for _, (x,y) in enumerate(loader):
@@ -105,12 +104,20 @@ def train_individual(diagnosis, dirname,method=None):
 
         total_loss.append(loss.item())
 
-    plt.plot(range(epochs),total_loss)
-    plt.show()
+    plt.plot(total_loss)
+    title=f"Diagnosis:{diagnosis}, Type:{dirname}, Method:{method}" if method else \
+        f"Diagnosis:{diagnosis}, Type:{dirname}"
+    plt.title(title)
+    # plt.show()
 
     #pred
     test_X=dataset.test_X
     test_y=dataset.test_y
+    print(f"{diagnosis},{dirname},{method}")
+    if torch.all(test_X==0):
+        print("All test inputs are zero.")
+    if torch.all(test_y==0):
+        print("All test outputs are zero.")
     test_pred=model(test_X.float())
     test_pred=(test_pred>0.5).float().flatten()
     print("Accuracy",torch.sum(test_pred.detach()==test_y.flatten())/len(test_pred))

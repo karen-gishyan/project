@@ -35,7 +35,6 @@ def calculate_distances():
             DistributionModel(diagnosis=diagnosis, timestep=t)()
 
 def combine_store_drug_sequences():
-    #TODO remove hardcodes
     for diagnosis in diagnoses:
         for dir_name in ['distance','cluster','kstest']:
             if dir_name=='distance':
@@ -48,7 +47,6 @@ def combine_store_drug_sequences():
                 combine_drug_sequences(diagnosis,dir_name)
 
 
-#TODO debug tensor accuracy
 def train():
     for diagnosis in diagnoses:
         for dir_name in ['distance','cluster','kstest']:
@@ -65,5 +63,5 @@ def train():
 plots configs in train() may be affected by the configs in calculate_distances(), better to run seperately
 """
 # calculate_distances()
-combine_store_drug_sequences()
+# combine_store_drug_sequences()
 train()

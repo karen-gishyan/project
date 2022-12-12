@@ -2,7 +2,7 @@
 import os
 import sys
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, random_split
 import torch.nn as nn
 from torch import sigmoid
 
@@ -32,11 +32,13 @@ class DataSet(Dataset):
             drug_tensor=torch.load(self.drug_path)
 
         train_size=int(len(drug_tensor)*0.7)
-
-        self.train_X=drug_tensor[:train_size]
-        self.train_y=output_tensor[:train_size]
-        self.test_X=drug_tensor[train_size:]
-        self.test_y=output_tensor[train_size:]
+        test_size=len(drug_tensor)-train_size
+        # we could use train, test directly, but we rather deal with tensors than Subdatasets.
+        train,test=random_split(drug_tensor,[train_size,test_size])
+        self.train_X=drug_tensor[train.indices]
+        self.train_y=output_tensor[train.indices]
+        self.test_X=drug_tensor[test.indices]
+        self.test_y=output_tensor[test.indices]
 
     def __getitem__(self, index):
         return self.train_X[index].float(),self.train_y[index].float()
