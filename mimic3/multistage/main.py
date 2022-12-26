@@ -65,11 +65,14 @@ for diagnosis in diagnoses:
                      loader_drug_t2,loader_features_t3,loader_drug_t3)):
             feature_Xt2,drug_Xt2,feature_Xt3,drug_Xt3,out=multistage_model(x1_t1,x2_t1)
 
+            #first digit is the timeperiod
+            #features
             l11=criterion(feature_Xt2,y11)
+            #drugs
             l12=criterion(drug_Xt2,y21)
+            #features
             l21=criterion(feature_Xt3,y12)
-
-            #drug_t2
+            #drug
             l22=criterion(drug_Xt3,y22)
 
             #output
