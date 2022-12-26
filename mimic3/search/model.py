@@ -22,7 +22,8 @@ from helpers import configure_logger
 logger=configure_logger()
 
 
-#TODO explore why nx has graph not a tree
+#TODO explore why nx has graph not a tree :low priority
+#TODO there may be a need to construct multiple paths depending on different end_nodes.
 class Graph:
     def __init__(self,diagnosis):
         self.diagnosis=diagnosis
@@ -41,6 +42,10 @@ class Graph:
         model2.average_feature_time_series()
         model3.average_feature_time_series()
 
+        # third timestep should have only the good indices, only one of them is goal currently
+        good_indices=(model3.output==1).nonzero().flatten()
+        model3.feature_tensors=model3.feature_tensors.index_select(0,good_indices)
+
         self.n_test=len(model1.test_data)
         # for empty values having 0 or -1 makes no difference as long as it is the
         # same for all train and test instances
@@ -58,7 +63,8 @@ class Graph:
                     # fixed penalty of value of 1024
                     score=2**len(train_x)
                 else:
-                    score=mean_squared_error(test_x,train_x)
+                    #+1 for the lowest cost to be 1 instead of 0
+                    score=1+mean_squared_error(test_x,train_x)
                 similarity_scores.append((f"start:{i}",f"t1:{j}",score))
 
             stage1_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -73,7 +79,7 @@ class Graph:
                     if torch.all(train_x==-1):
                         score=2**len(train_x)
                     else:
-                        score=mean_squared_error(test_x,train_x)
+                        score=1+mean_squared_error(test_x,train_x)
                     similarity_scores.append((f"t1:{node}",f"t2:{j}",score))
 
                 stage2_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -86,7 +92,7 @@ class Graph:
                         if torch.all(train_x==-1):
                             score=2**len(train_x)
                         else:
-                            score=mean_squared_error(test_x,train_x)
+                            score=1+mean_squared_error(test_x,train_x)
                         similarity_scores.append((f"t2:{node}",f"t3:{j}",score))
 
                     stage3_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -99,7 +105,7 @@ class Graph:
     def set_start_and_end(self,graph):
         # start_node number represent the testing instance_id
         start_node=list(graph.nodes)[0]
-        #TODO there should be an end_node logic
+        #TODO end_node logic may need to be more complex
         end_node=sorted(list(graph.nodes))[-1]
         assert has_path(graph, start_node,end_node),\
             "There is no path between start and end nodes."
@@ -131,9 +137,12 @@ class Graph:
         """
         method is 'dijkstra or 'bellman-ford'.
         """
+
+        method=kwargs.get('method') if kwargs.get('method') else 'dijkstra'
+        # kwargs are fixed, any non-existent kwarg will raise an error
         path=list(shortest_path(graph, start_node,end_node,**kwargs))
         print(self.diagnosis)
-        print(f"'shortest path' method: {path}")
+        print(f"{method} 'shortest path' method: {path}")
         return path
 
     def astar_heuristic(self,start_node,end_node):
@@ -146,7 +155,7 @@ class Graph:
         # otherwise would be the equal to 'end_node_depth'
         start_node_depth=int(re.findall("\d+",start_node)[0])
         end_node_depth=int(re.findall("\d+",end_node)[0])
-        return end_node_depth-start_node_depth
+        return 1+(end_node_depth-start_node_depth)
 
     def visualize_tree(self,graph,root):
         # pos = hierarchy_pos(graph,root)
@@ -158,11 +167,13 @@ class Graph:
     def __call__(self):
         test_graphs=self.make_graphs()
         astar_paths=[]
-        shortest_paths=[]
+        shortest_paths_dijkstra=[]
+        shortest_paths_bellman_ford=[]
         for graph in test_graphs:
             start_node,end_node=self.set_start_and_end(graph)
             astar_paths.append(self.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic))
-            # shortest_paths.append(self.shortest_path(graph,start_node,end_node,method='bellman-ford'))
+            # shortest_paths_dijkstra.append(self.shortest_path(graph,start_node,end_node))
+            # shortest_paths_bellman_ford.append(self.shortest_path(graph,start_node,end_node,method='bellman-ford'))
 
             # only the first patient's graph for each diagnosis
             if len(astar_paths)==1:

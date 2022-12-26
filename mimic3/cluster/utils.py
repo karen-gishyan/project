@@ -92,6 +92,7 @@ def train_individual(diagnosis, dirname,method=None):
     optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)
     criterion= nn.MSELoss()
 
+    torch.seed()
     epochs=150
     total_loss=[]
     for _ in range(epochs):

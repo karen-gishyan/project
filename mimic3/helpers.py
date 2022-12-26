@@ -6,10 +6,13 @@ from numpy import unique
 from datasets import SplitRNNData
 
 
-def configure_logger():
+def configure_logger(default=True):
     logger = logging.getLogger('mimic3')
     logger.setLevel(logging.INFO)
-    file_handler = logging.FileHandler('../info.log',mode='a')
+    if default:
+        file_handler = logging.FileHandler('../info.log',mode='w')
+    else:
+        file_handler = logging.FileHandler('info.log',mode='w')
     # file_handler.setLevel(logging.INFO)
     logger.addHandler(file_handler)
     return logger

@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset,DataLoader
 from torch import sigmoid
+from torch.nn import ReLU
+
 
 
 class BaseDataset(Dataset):
@@ -49,15 +51,18 @@ class DrugDataset(FeatureDataset):
             self.Y=torch.load(f"../datasets/{diagnosis}/output.pt")
         self.train_test_split()
 
-
 class Model(nn.Module):
-    def __init__(self,input_size,output_size):
+    def __init__(self,input_size,output_size,sigmoid_activation=False):
         super().__init__()
         self.linear=nn.Linear(input_size,output_size)
+        self.sigmoid_activation=sigmoid_activation
 
     def forward(self,x):
-         out=sigmoid(self.linear(x))
-         return out
+        if self.sigmoid_activation:
+            out=sigmoid(self.linear(x))
+        else:
+            out=ReLU()(self.linear(x))
+        return out
 
 class MultiStageModel(nn.Module):
     def __init__(self,feature_model, drug_model,output_model):

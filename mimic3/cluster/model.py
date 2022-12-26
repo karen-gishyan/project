@@ -34,6 +34,9 @@ class DistanceModel:
         self.output=torch.load(f"../datasets/{diagnosis}/output.pt")
 
     def average_feature_time_series(self):
+        #TODO should -1 be converted to 0 before averaging as in multistage?
+        # maybe not because here not the value itself is important, but the similarity
+        # train-test value similarity. If both are averaged the same, way, should be ok.
         self.feature_tensors=self.feature_tensors.mean(dim=1)
         return self
 
@@ -125,6 +128,8 @@ class ClusteringModel(DistanceModel):
         self.save_path=os.path.join(self.path,'train_keys.json')
 
         if not os.path.exists(self.path): os.makedirs(self.path)
+        #json indexes change a lot during rewriting,
+        # I think it is ok as filtering is for the first 5 (there are no good and bad.)
         with open(self.save_path,'w') as file:
             json.dump(combined_cluster_indices,file,indent=4)
 

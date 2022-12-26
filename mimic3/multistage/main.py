@@ -16,9 +16,8 @@ sys.path.append(parent_parent_path)
 from helpers import configure_logger
 
 
-logger=configure_logger()
-# for file readability
-logger.info('\n')
+logger=configure_logger(default=False)
+
 with open('../datasets/sqldata/stats.yaml') as stats, open('info.yaml') as info:
     stats=yaml.safe_load(stats)
     info=yaml.safe_load(info)
@@ -45,12 +44,12 @@ for diagnosis in diagnoses:
 
     feature_model=Model(912,10)
     drug_model=Model(912,902)
-    outpt_model=Model(912,1)
+    outpt_model=Model(912,1,sigmoid_activation=True)
 
     multistage_model=MultiStageModel(feature_model,drug_model,outpt_model)
     optimizer = torch.optim.SGD(multistage_model.parameters(), lr=0.01)
     criterion= nn.MSELoss()
-    epochs=50
+    epochs=150
 
     combined_loader=zip(loader_features_t1,loader_drug_t1,loader_features_t2,\
                      loader_drug_t2,loader_features_t3,loader_drug_t3)
@@ -107,9 +106,7 @@ for diagnosis in diagnoses:
     fig.supxlabel('Epochs')
     fig.supylabel('MSE Loss per Epoch')
     fig.suptitle(f"{diagnosis}")
-    # plt.show()
-
-    #TODO experimentation with hidden layers
+    plt.show()
 
     # train accuracy output
     _,_,_,_,out=multistage_model(features_t1.train_X,drug_t1.train_X)
