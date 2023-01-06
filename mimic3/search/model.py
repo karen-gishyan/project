@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from utils import hierarchy_pos, topo_pos
 from collections import deque
-
+from math import sqrt
 
 path=os.path.dirname(os.path.dirname(__file__))
 sys.path.append(path)
@@ -44,7 +44,7 @@ class Graph:
     def make_graphs(self,n_childs=5):
         """
         One graph is made for each testing instance.
-        Each node has n_child nodes based on mean_score_error similarity weight.
+        Each node has n_child nodes based on root mean_score_error similarity weight.
 
         Logic: Base Case:
                          If a node is at depth 5 or more, return the graph
@@ -63,7 +63,6 @@ class Graph:
                         Update child's features based on the effectiviness probability.
                     Add the child node and features to the node que.
                     Recursively call above functionality for each child node in the node que.
-        TODO: add cycle logic
         """
         self.make_models()
         # third timestep should have only the good indices, only one of them is goal currently
@@ -86,7 +85,7 @@ class Graph:
                 else:
                     #+1 for the lowest cost to be 1 instead of 0
                     #NOTE: may need to change to rmse
-                    score=1+mean_squared_error(test_x,train_x)
+                    score=1+sqrt(sqrt(mean_squared_error(test_x,train_x)))
                 similarity_scores.append((f"start:{i}",f"t1:{j}",score))
 
             stage1_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -101,7 +100,7 @@ class Graph:
                     if torch.all(train_x==-1):
                         score=2**len(train_x)
                     else:
-                        score=1+mean_squared_error(test_x,train_x)
+                        score=1+sqrt(mean_squared_error(test_x,train_x))
                     similarity_scores.append((f"t1:{node}",f"t2:{j}",score))
 
                 stage2_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -114,7 +113,7 @@ class Graph:
                         if torch.all(train_x==-1):
                             score=2**len(train_x)
                         else:
-                            score=1+mean_squared_error(test_x,train_x)
+                            score=1+sqrt(mean_squared_error(test_x,train_x))
                         similarity_scores.append((f"t2:{node}",f"t3:{j}",score))
 
                     stage3_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -125,34 +124,41 @@ class Graph:
         return test_data_graphs
 
     #TODO divide testing into two stages (allow_cycles=True and False), in both cases should work.
-    def create_relationships(self,n_childs=3,allow_cycles=False):
+    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=False):
         try:
-              node=self.node_que.popleft()
+              node=self.frontier_que.popleft()
               self.explored_nodes.append(node['label'])
         except IndexError:
-            # this means that other base conditions have not been met either,
-            # but there is nothing else to explore
+            # reason: all nodes in the frontier_que have no children (nothing else to explore),
+            # because each new child will result in a cycle formation.
             print('Explored without finding a solution.')
             return self.graph
         features=node['features']
-        diff=mean_squared_error(features,self.target_features)
+        diff=sqrt(mean_squared_error(features,self.target_features))
 
         # max depth is three
         try:
             # len of 2 means a depth of 1, for that reason we subtract
             tree_depth=len(shortest_path(self.graph,self.start_node['label'],node['label']))-1
-            if tree_depth>=7:
+            if tree_depth>=4:
                 # this means maximum 7 treatments
                 # return without finding the goal
-                print("Reached Maximum exploration depth.")
-                return self.graph
+                # the last node;s features should at least be better than the start'nodes,
+                # before returning the graph
+                #TODO this block has not been reached yet
+                if diff<sqrt(mean_squared_error(self.start_node[features],self.target_features)):
+                    print("Reached Maximum exploration depth with acceptable features..")
+                    self.graph.graph['intermediary_goal_node']=node
+                    return self.graph
         except:
             pass
 
         if diff<=self.threshold_value:
-            #FIXME: base case may be reached without goal nodes.
-            self.graph.graph['goal_nodes']=self.graph.graph['goal_nodes'].append(node)
-            print('Found state with desired features.')
+            #TODO if start node is a goal_node, should it be allowed or the threshhold need
+            # to be modified.
+            self.graph.graph['goal_node']=node
+            print('Found a goal state with desired features.')
+
             return self.graph
         else:
             similarity_scores=[]
@@ -163,8 +169,7 @@ class Graph:
                     score=2**len(train_x)
                 else:
                     #+1 for the lowest cost to be 1 instead of 0
-                    #TODO this may need to change to RMSE
-                    score=1+mean_squared_error(features,train_x)
+                    score=1+sqrt(mean_squared_error(features,train_x))
                 similarity_scores.append((f"{node['label']}",f"t1:{j}",score))
 
             #stage2
@@ -174,7 +179,7 @@ class Graph:
                     score=2**len(train_x)
                 else:
                     #+1 for the lowest cost to be 1 instead of 0
-                    score=1+mean_squared_error(features,train_x)
+                    score=1+sqrt(mean_squared_error(features,train_x))
                 similarity_scores.append((f"{node['label']}",f"t2:{j}",score))
 
             #stage3
@@ -184,21 +189,19 @@ class Graph:
                     score=2**len(train_x)
                 else:
                     #+1 for the lowest cost to be 1 instead of 0
-                    score=1+mean_squared_error(features,train_x)
-                similarity_scores.append((f"{node['label']}",f"t3:{j}",score))
-
+                    score=1+sqrt(mean_squared_error(features,train_x))
             top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
             for i,tuple_ in enumerate(top_closest):
                 t,int_node=map(lambda i:int(i),re.findall("\d+",tuple_[1]))
                 if t==1:
                     features=self.model1.feature_tensors[int_node]
-                    close_target_score=mean_squared_error(features,self.target_features)
+                    close_target_score=sqrt(mean_squared_error(features,self.target_features))
                 elif t==2:
                     features=self.model2.feature_tensors[int_node]
-                    close_target_score=mean_squared_error(features,self.target_features)
+                    close_target_score=sqrt(mean_squared_error(features,self.target_features))
                 else:
                     features=self.model3.feature_tensors[int_node]
-                    close_target_score=mean_squared_error(features,self.target_features)
+                    close_target_score=sqrt(mean_squared_error(features,self.target_features))
 
                 # convert to a list to be able to assign and convert back to tuple
                 top_closest[i]=list(top_closest[i])
@@ -234,18 +237,29 @@ class Graph:
 
                     #NOTE: this label may not be used
                     self.graph.nodes[key]['label']=key
-                    self.node_que.append(self.graph.nodes[key])
+                    self.frontier_que.append(self.graph.nodes[key])
                 # 10% of the cases we assign an effectiveness measure, and obtain
                 # new features of the node based on this logic.
                 else:
                     probability_of_effectiveness=round(np.random.uniform(0.8,0.9),2)
-                    #FIXME the logic needs to change the feature by probability_of_effectiveness
-                    # standard deviation, otherwise currently will reduce each feature by probabilitiy_of_effectiveness.
-                    self.graph.nodes[key]['features']=probability_of_effectiveness*features
+                    change_percentage=1-probability_of_effectiveness
+                    # decide how much each feature will change
+                    # e.g if probability_of_effectiveness = 0.8, each feature will deviate
+                    # by +- 20%.
+                    features=torch.Tensor(list(map(lambda i:i* \
+                        np.random.uniform(1-change_percentage,1+change_percentage),features)))
+                    self.graph.nodes[key]['features']=features
+                    if incremental_improvement:
+                        # NOTE: this is a strong logical change based on incremental state
+                        # improvement. If the child features are not at least as similar as
+                        # the patients one, then do not add the child node.
+                        if not sqrt(mean_squared_error(features,self.target_features))<=diff:
+                            self.graph.remove_node(key)
+                            continue
                     self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}"
                     rename={key:f"{key}:{probability_of_effectiveness}"}
                     nx.relabel_nodes(self.graph,rename,copy=False)
-                    self.node_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
+                    self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
 
             return self.create_relationships()
 
@@ -257,18 +271,18 @@ class Graph:
         # equivalent to random selection no specific logic
         self.target_features=self.model3.feature_tensors[0]
         test_data_graphs=[]
-        self.threshold_value=800
+        self.threshold_value=20
         vis_for_diagnosis=True
         for i,test_x in enumerate(self.model1.test_data):
             if torch.all(test_x==-1):
                 continue
-            self.node_que=deque()
+            # que for storing nodes yet to be explored
+            self.frontier_que=deque()
             self.explored_nodes=[]
-            #FIXME goal_nodes is empty in the end
-            self.graph=nx.DiGraph(goal_nodes=[])
+            self.graph=nx.DiGraph(goal_node=None,intermediary_goal_node=None)
             self.graph.add_node(f"start:{i}",features=test_x,label=f"start:{i}")
             self.start_node=self.graph.nodes[f"start:{i}"]
-            self.node_que.append(self.start_node)
+            self.frontier_que.append(self.start_node)
             #NOTE currently works with cycles
             test_data_graphs.append(self.create_relationships())
             if vis_for_diagnosis:
@@ -280,16 +294,24 @@ class Graph:
         return test_data_graphs
 
 
-    def set_start_and_end(self,graph):
+    def set_start_and_end(self,graph,method='independent'):
         # start_node number represent the testing instance_id
-        #TODO end_node logic may need to be more complex
         start_node=list(graph.nodes)[0]
-        # FIXME: make_graphs_stage_independent(), end_node should be chosen from goal_nodes.
-        # end_node=sorted(list(graph.goal_nodes))[-1]
-        end_node=sorted(list(graph.nodes))[-1]
+
+        end_node=None
+        if method!='independent':
+        #NOTE: end_node logic may need to be more complex
+            end_node=sorted(list(graph.nodes))[-1]
+        else:
+            if graph.graph['intermediary_goal_node']:
+                end_node=sorted(list(graph.nodes))[-1]
+            elif graph.graph['goal_node']:
+                end_node=graph.graph['goal_node']['label']
+
         #BUG in some cases there is no path between start and end_node
-        assert has_path(graph, start_node,end_node),\
-            "There is no path between start and end nodes."
+        if end_node:
+            assert has_path(graph, start_node,end_node),\
+                "There is no path between start and end nodes."
 
         return start_node,end_node
 
@@ -371,7 +393,8 @@ class Graph:
         shortest_paths_bellman_ford=[]
         for graph in test_graphs2:
             start_node,end_node=self.set_start_and_end(graph)
-            astar_paths.append(self.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic))
+            if end_node:
+                astar_paths.append(self.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic))
             # shortest_paths_dijkstra.append(self.shortest_path(graph,start_node,end_node))
             # shortest_paths_bellman_ford.append(self.shortest_path(graph,start_node,end_node,method='bellman-ford'))
 
