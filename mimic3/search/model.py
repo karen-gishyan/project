@@ -24,7 +24,7 @@ from helpers import configure_logger
 logger=configure_logger()
 
 
-#TODO explore why nx has graph not a tree :low priority
+#NOTE: explore why nx has graph not a tree :low priority
 #NOTE: there may be a need to construct multiple paths depending on different end_nodes.
 class Graph:
     def __init__(self,diagnosis):
@@ -76,6 +76,8 @@ class Graph:
             # if no values for a given test instance, continue
             if torch.all(test_x==-1):
                 continue
+
+            self.graph=nx.DiGraph()
             similarity_scores=[]
             for j,train_x in enumerate(self.model1.train_data):
                 #score is 0 when two vectors are exactly the same (e.g.all values for each vector is -1).
@@ -123,8 +125,8 @@ class Graph:
 
         return test_data_graphs
 
-    #TODO divide testing into two stages (allow_cycles=True and False), in both cases should work.
-    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=False):
+    #NOTE: initially tested with 'no cycles' and 'incremental_improvement' all four combinations
+    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=True):
         try:
               node=self.frontier_que.popleft()
               self.explored_nodes.append(node['label'])
@@ -140,22 +142,29 @@ class Graph:
         try:
             # len of 2 means a depth of 1, for that reason we subtract
             tree_depth=len(shortest_path(self.graph,self.start_node['label'],node['label']))-1
-            if tree_depth>=4:
+            #NOTE: tree depth base case is mostly reached when we allow cycles.
+            # without cycles, other base conditions are met much sooner.
+            #NOTE: decrease depth to relax meeting the base-case criteria.
+            if tree_depth>=3:
                 # this means maximum 7 treatments
                 # return without finding the goal
                 # the last node;s features should at least be better than the start'nodes,
                 # before returning the graph
-                #TODO this block has not been reached yet
-                if diff<sqrt(mean_squared_error(self.start_node[features],self.target_features)):
-                    print("Reached Maximum exploration depth with acceptable features..")
+                if diff<sqrt(mean_squared_error(self.start_node['features'],self.target_features)):
+                    print("Reached Maximum exploration depth with acceptable features.")
                     self.graph.graph['intermediary_goal_node']=node
                     return self.graph
-        except:
-            pass
+            if tree_depth>=5:
+                print('Explored without finding a solution.')
+                return self.graph
+        except Exception as e:
+            print(e)
+            return self.graph
 
         if diff<=self.threshold_value:
-            #TODO if start node is a goal_node, should it be allowed or the threshhold need
-            # to be modified.
+            #NOTE: if start node satisfies the threshhold, we return the node without start node.
+            # This is similar to real-world scenarios. If target features are met, no more
+            # exploration.
             self.graph.graph['goal_node']=node
             print('Found a goal state with desired features.')
 
@@ -227,6 +236,9 @@ class Graph:
                             pass
                         else:
                             self.graph.remove_edge(i[0],i[1])
+                    else:
+                        child_nodes.append(i[1])
+
 
             # not efficient to create then again loop through each node
             for i,key in enumerate(child_nodes):
@@ -237,7 +249,9 @@ class Graph:
 
                     #NOTE: this label may not be used
                     self.graph.nodes[key]['label']=key
-                    self.frontier_que.append(self.graph.nodes[key])
+                    if not key in self.label_que:
+                        self.label_que.append(key)
+                        self.frontier_que.append(self.graph.nodes[key])
                 # 10% of the cases we assign an effectiveness measure, and obtain
                 # new features of the node based on this logic.
                 else:
@@ -248,20 +262,32 @@ class Graph:
                     # by +- 20%.
                     features=torch.Tensor(list(map(lambda i:i* \
                         np.random.uniform(1-change_percentage,1+change_percentage),features)))
+                    #NOTE: with cycles, same node features may be modified multiple times
                     self.graph.nodes[key]['features']=features
                     if incremental_improvement:
                         # NOTE: this is a strong logical change based on incremental state
                         # improvement. If the child features are not at least as similar as
                         # the patients one, then do not add the child node.
                         if not sqrt(mean_squared_error(features,self.target_features))<=diff:
-                            self.graph.remove_node(key)
+                            if not allow_cycles:
+                                #NOTE: do not remove the node with no cycles
+                                # for this reason:
+                                # node A is good, keep add to frontier
+                                # later encounter, node A is bad with modified features,
+                                # remove node A, but frontier already contains node A,
+                                # error will be raised.
+                                #TODO think if this can be removed for the case when no cycles
+                                self.graph.remove_node(key)
                             continue
                     self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}"
                     rename={key:f"{key}:{probability_of_effectiveness}"}
                     nx.relabel_nodes(self.graph,rename,copy=False)
-                    self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
+                    if not key in self.label_que:
+                        self.label_que.append(key)
+                        self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
 
             return self.create_relationships()
+
 
     def make_graphs_stage_independent(self):
         self.make_models()
@@ -273,22 +299,34 @@ class Graph:
         test_data_graphs=[]
         self.threshold_value=20
         vis_for_diagnosis=True
+        #NOTE changing recursion limit stops the program but does not raise an error
         for i,test_x in enumerate(self.model1.test_data):
             if torch.all(test_x==-1):
                 continue
             # que for storing nodes yet to be explored
             self.frontier_que=deque()
+            self.label_que=deque()
             self.explored_nodes=[]
             self.graph=nx.DiGraph(goal_node=None,intermediary_goal_node=None)
             self.graph.add_node(f"start:{i}",features=test_x,label=f"start:{i}")
             self.start_node=self.graph.nodes[f"start:{i}"]
             self.frontier_que.append(self.start_node)
-            #NOTE currently works with cycles
+            #NOTE this is specifically for the cases when cycles are allowed
+            self.label_que.append(f"start:{i}")
             test_data_graphs.append(self.create_relationships())
             if vis_for_diagnosis:
                 # visualize once per diagnosis
-                self.visualize_tree(self.graph,self.start_node)
+                try:
+                    nx.find_cycle(self.graph)
+                except nx.exception.NetworkXNoCycle:
+                    # if no cycle
+                    self.visualize_tree(self.graph,self.start_node)
+                else:
+                    # if cycle
+                    nx.draw(self.graph,with_labels=True)
+                    plt.show()
                 vis_for_diagnosis=False
+
             print(f"{i} successful.")
 
         return test_data_graphs
@@ -308,11 +346,9 @@ class Graph:
             elif graph.graph['goal_node']:
                 end_node=graph.graph['goal_node']['label']
 
-        #BUG in some cases there is no path between start and end_node
         if end_node:
-            assert has_path(graph, start_node,end_node),\
-                "There is no path between start and end nodes."
-
+                assert has_path(graph, start_node,end_node),\
+                    "There is no path between start and end nodes."
         return start_node,end_node
 
     def depth_first_search(self,graph):
@@ -392,6 +428,7 @@ class Graph:
         shortest_paths_dijkstra=[]
         shortest_paths_bellman_ford=[]
         for graph in test_graphs2:
+            # start_node,end_node=self.set_start_and_end(graph,method='base')
             start_node,end_node=self.set_start_and_end(graph)
             if end_node:
                 astar_paths.append(self.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic))
