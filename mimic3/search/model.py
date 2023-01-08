@@ -126,7 +126,7 @@ class Graph:
         return test_data_graphs
 
     #NOTE: initially tested with 'no cycles' and 'incremental_improvement' all four combinations
-    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=True):
+    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=False):
         try:
               node=self.frontier_que.popleft()
               self.explored_nodes.append(node['label'])
@@ -169,124 +169,153 @@ class Graph:
             print('Found a goal state with desired features.')
 
             return self.graph
-        else:
-            similarity_scores=[]
-            #stage 1
-            for j,train_x in enumerate(self.model1.train_data):
-                if torch.all(train_x==-1):
-                    # fixed penalty of value of 1024
-                    score=2**len(train_x)
-                else:
-                    #+1 for the lowest cost to be 1 instead of 0
-                    score=1+sqrt(mean_squared_error(features,train_x))
-                similarity_scores.append((f"{node['label']}",f"t1:{j}",score))
 
-            #stage2
-            for j,train_x in enumerate(self.model2.feature_tensors):
-                if torch.all(train_x==-1):
-                    # fixed penalty of value of 1024
-                    score=2**len(train_x)
-                else:
-                    #+1 for the lowest cost to be 1 instead of 0
-                    score=1+sqrt(mean_squared_error(features,train_x))
-                similarity_scores.append((f"{node['label']}",f"t2:{j}",score))
+        similarity_scores=[]
+        #stage 1
+        for j,train_x in enumerate(self.model1.train_data):
+            if torch.all(train_x==-1):
+                # fixed penalty of value of 1024
+                score=2**len(train_x)
+            else:
+                #+1 for the lowest cost to be 1 instead of 0
+                score=1+sqrt(mean_squared_error(features,train_x))
+            similarity_scores.append((f"{node['label']}",f"t1:{j}",score))
 
-            #stage3
-            for j,train_x in enumerate(self.model3.feature_tensors):
-                if torch.all(train_x==-1):
-                    # fixed penalty of value of 1024
-                    score=2**len(train_x)
-                else:
-                    #+1 for the lowest cost to be 1 instead of 0
-                    score=1+sqrt(mean_squared_error(features,train_x))
-            top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
-            for i,tuple_ in enumerate(top_closest):
-                t,int_node=map(lambda i:int(i),re.findall("\d+",tuple_[1]))
-                if t==1:
-                    features=self.model1.feature_tensors[int_node]
-                    close_target_score=sqrt(mean_squared_error(features,self.target_features))
-                elif t==2:
-                    features=self.model2.feature_tensors[int_node]
-                    close_target_score=sqrt(mean_squared_error(features,self.target_features))
-                else:
-                    features=self.model3.feature_tensors[int_node]
-                    close_target_score=sqrt(mean_squared_error(features,self.target_features))
+        #stage2
+        for j,train_x in enumerate(self.model2.feature_tensors):
+            if torch.all(train_x==-1):
+                # fixed penalty of value of 1024
+                score=2**len(train_x)
+            else:
+                #+1 for the lowest cost to be 1 instead of 0
+                score=1+sqrt(mean_squared_error(features,train_x))
+            similarity_scores.append((f"{node['label']}",f"t2:{j}",score))
 
-                # convert to a list to be able to assign and convert back to tuple
-                top_closest[i]=list(top_closest[i])
-                # 50% of the cost is how close it is to parent (child to parent),
-                # the other 50% how close it is to target (child to target).
-                top_closest[i][2]=0.5*tuple_[2]+0.5*close_target_score
-                top_closest[i]=tuple(top_closest[i])
+        #stage3
+        for j,train_x in enumerate(self.model3.feature_tensors):
+            if torch.all(train_x==-1):
+                # fixed penalty of value of 1024
+                score=2**len(train_x)
+            else:
+                #+1 for the lowest cost to be 1 instead of 0
+                score=1+sqrt(mean_squared_error(features,train_x))
+        top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
+        for i,tuple_ in enumerate(top_closest):
+            t,int_node=map(lambda i:int(i),re.findall("\d+",tuple_[1]))
+            if t==1:
+                features=self.model1.feature_tensors[int_node]
+                close_target_score=sqrt(mean_squared_error(features,self.target_features))
+            elif t==2:
+                features=self.model2.feature_tensors[int_node]
+                close_target_score=sqrt(mean_squared_error(features,self.target_features))
+            else:
+                features=self.model3.feature_tensors[int_node]
+                close_target_score=sqrt(mean_squared_error(features,self.target_features))
 
-                # self.graph.add_weighted_edges_from(top_closest)
+            # convert to a list to be able to assign and convert back to tuple
+            top_closest[i]=list(top_closest[i])
+            # 50% of the cost is how close it is to parent (child to parent),
+            # the other 50% how close it is to target (child to target).
+            top_closest[i][2]=0.5*tuple_[2]+0.5*close_target_score
+            top_closest[i]=tuple(top_closest[i])
 
-                # we add iteratively and not with bulk to allow removing an edge
-                # if a cycle is formed
-                child_nodes=[]
-                for i in top_closest:
-                    self.graph.add_edge(i[0],i[1],weight=i[2])
-                    if not allow_cycles:
-                        try:
-                            # even an undirected cycle is not allowed
-                            nx.find_cycle(self.graph,orientation='ignore')
-                        except nx.exception.NetworkXNoCycle:
-                            # if no cycle, add to child_nodes
-                            child_nodes.append(i[1])
-                            pass
-                        else:
-                            self.graph.remove_edge(i[0],i[1])
-                    else:
+            # self.graph.add_weighted_edges_from(top_closest)
+
+            # we add iteratively and not with bulk to allow removing an edge
+            # if a cycle is formed
+            child_nodes=[]
+            for i in top_closest:
+                self.graph.add_edge(i[0],i[1],weight=i[2])
+                if not allow_cycles:
+                    try:
+                        # even an undirected cycle is not allowed
+                        nx.find_cycle(self.graph,orientation='ignore')
+                    except nx.exception.NetworkXNoCycle:
+                        # if no cycle, add to child_nodes
                         child_nodes.append(i[1])
+                        pass
+                    else:
+                        self.graph.remove_edge(i[0],i[1])
+                else:
+                    child_nodes.append(i[1])
 
+        for i,key in enumerate(child_nodes):
+            # 90 % of the cases features are the child features
+            if np.random.choice([True,False],p=[0.9,0.1]):
+                if not allow_cycles:
+                    if incremental_improvement:
+                        if not sqrt(mean_squared_error(features,self.target_features))<=diff:
+                            self.graph.remove_node(key)
+                            continue
 
-            # not efficient to create then again loop through each node
-            for i,key in enumerate(child_nodes):
-                # 90 % of the cases features are the child features
-                # child_nodes=self.graph.nodes
-                if np.random.choice([True,False],p=[0.9,0.1]):
                     self.graph.nodes[key]['features']=features
-
-                    #NOTE: this label may not be used
                     self.graph.nodes[key]['label']=key
+                    self.frontier_que.append(self.graph.nodes[key])
+
+                else:
+                    if incremental_improvement:
+                        # NOTE: label_que contains those node labels which for sure have features.
+                        if key in self.label_que:
+                            # if the current features are not better than previously explored featured,pass
+                            if not sqrt(mean_squared_error(features,self.target_features))<=\
+                                sqrt(mean_squared_error(self.graph.nodes[key]['features'],self.target_features)):
+                                continue
+
+                    # if not incremental, node features can change depending on the most recent parent node
+                    self.graph.nodes[key]['features']=features
+                    self.graph.nodes[key]['label']=key
+
                     if not key in self.label_que:
                         self.label_que.append(key)
                         self.frontier_que.append(self.graph.nodes[key])
-                # 10% of the cases we assign an effectiveness measure, and obtain
-                # new features of the node based on this logic.
-                else:
-                    probability_of_effectiveness=round(np.random.uniform(0.8,0.9),2)
-                    change_percentage=1-probability_of_effectiveness
-                    # decide how much each feature will change
-                    # e.g if probability_of_effectiveness = 0.8, each feature will deviate
-                    # by +- 20%.
-                    features=torch.Tensor(list(map(lambda i:i* \
-                        np.random.uniform(1-change_percentage,1+change_percentage),features)))
-                    #NOTE: with cycles, same node features may be modified multiple times
-                    self.graph.nodes[key]['features']=features
+
+            else:
+                probability_of_effectiveness=round(np.random.uniform(0.8,0.9),2)
+                change_percentage=1-probability_of_effectiveness
+                # decide how much each feature will change
+                # e.g if probability_of_effectiveness = 0.8, each feature will deviate
+                # by +- 20%.
+                features=torch.Tensor(list(map(lambda i:i* \
+                    np.random.uniform(1-change_percentage,1+change_percentage),features)))
+                #NOTE: with cycles, same node features may be modified multiple times
+                if not allow_cycles:
                     if incremental_improvement:
-                        # NOTE: this is a strong logical change based on incremental state
-                        # improvement. If the child features are not at least as similar as
-                        # the patients one, then do not add the child node.
                         if not sqrt(mean_squared_error(features,self.target_features))<=diff:
-                            if not allow_cycles:
-                                #NOTE: do not remove the node with no cycles
-                                # for this reason:
-                                # node A is good, keep add to frontier
-                                # later encounter, node A is bad with modified features,
-                                # remove node A, but frontier already contains node A,
-                                # error will be raised.
-                                #TODO think if this can be removed for the case when no cycles
-                                self.graph.remove_node(key)
+                            self.graph.remove_node(key)
                             continue
+
+                    self.graph.nodes[key]['features']=features
                     self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}"
                     rename={key:f"{key}:{probability_of_effectiveness}"}
                     nx.relabel_nodes(self.graph,rename,copy=False)
-                    if not key in self.label_que:
-                        self.label_que.append(key)
+                    self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
+
+                else:
+                    if incremental_improvement:
+                        # if has been explored
+                        if key in self.label_que:
+                            if not sqrt(mean_squared_error(features,self.target_features))\
+                                <=sqrt(mean_squared_error(self.graph.nodes[key]['features'],self.target_features)):
+                                continue
+
+                    self.graph.nodes[key]['features']=features
+                    self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}"
+                    rename={key:f"{key}:{probability_of_effectiveness}"}
+                    nx.relabel_nodes(self.graph,rename,copy=False)
+                    try:
+                        #NOTE: this is related to relabeling
+                        # (t1:10) is in the label que, becomes (t1:10:0.85)
+                        # then in the incremental improvement block, (t1:10) will exist
+                        # without features, as it has been relabeled.
+                        #TODO: worth thinking about improvement
+                        self.label_que.remove(key)
+                    except:
+                        pass
+                    if not f"{key}:{probability_of_effectiveness}" in self.label_que:
+                        self.label_que.append(f"{key}:{probability_of_effectiveness}")
                         self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
 
-            return self.create_relationships()
+        return self.create_relationships()
 
 
     def make_graphs_stage_independent(self):
