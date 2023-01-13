@@ -24,14 +24,22 @@ from helpers import configure_logger
 logger=configure_logger()
 
 
-#NOTE: explore why nx has graph not a tree :low priority
-#NOTE: there may be a need to construct multiple paths depending on different end_nodes.
 class Graph:
+    """
+    Class for performing DAG (graph with no directed cycles) and tree (graph with no
+    undirected cycles) constructions for optimal medical treatments.
+    make_graphs(), make_graphs_stage_independent() perform the main functionalities.
+    Other methods include tree, graph visualizations, shortest path calculations.
+
+    """
     def __init__(self,diagnosis):
         self.diagnosis=diagnosis
 
-
     def make_models(self):
+        """
+        Using DistanceModel, bring stage features to the format that can be used
+        for make_graphs() and create_relationships().
+        """
         models=[]
         for t in [1,2,3]:
             models.append(DistanceModel(diagnosis=self.diagnosis,timestep=t))
@@ -42,6 +50,28 @@ class Graph:
         self.model3.average_feature_time_series()
 
     def make_graphs(self,n_childs=5):
+        """
+        Constructs DAGs (can be checked with is_directed_acyclic_graph(G)).
+        Formal description:
+        1. Select training instances from timestep 3, where the output is 1 (discharge to Home).
+        2. Select features corresponding to indices of step 1.
+        3. For each testing instance, calculate the top 5 most similar features from stage 1
+        based on an RMSE score. Create a directed graph, create nodes with these 5 instances,
+        and weighted edges from the starting instance to these nodes.
+            3.1 Repeat the same procedure described in 3, this time selecting the top 5 most
+            similar features from stage 2 for each of the nodes generated in 3.
+            3.2 Repeat the same procedure desctibed in 3, this time selecting the top 5 most
+            similar features from stage 3 for each of the nodes generated in 3.1.
+        4. Visualize the first graph for each diagnosis.
+        5. Calculate A star shortest path for each graph.
+        6. Return the list of directed graphs (for each testing instance).
+
+        Args:
+            n_childs (int, optional): Number of child nodes each parent can have, default is 5.
+
+        Returns:
+            _type_: List[nx.DiGraph]
+        """
         self.make_models()
         # third timestep should have only the good indices, only one of them is goal currently
         good_indices=(self.model3.output==1).nonzero().flatten()
@@ -50,6 +80,7 @@ class Graph:
         # for empty values having 0 or -1 makes no difference as long as it is the
         # same for all train and test instances
         test_data_graphs=[]
+        visualize=True
         for i,test_x in enumerate(self.model1.test_data):
             # if no values for a given test instance, continue
             if torch.all(test_x==-1):
@@ -57,7 +88,6 @@ class Graph:
 
             self.graph=nx.DiGraph()
             similarity_scores=[]
-            visualize=True
             for j,train_x in enumerate(self.model1.train_data):
                 #score is 0 when two vectors are exactly the same (e.g.all values for each vector is -1).
                 if torch.all(train_x==-1):
@@ -113,7 +143,9 @@ class Graph:
     def create_relationships(self,n_childs=5,allow_cycles=False,incremental_improvement=False):
         """
         For each testing instance with admission features, the goal is
-        to construct a graph which will store the path of the optimal treatment.
+        to construct a DAG which will store the path of the optimal treatment.
+        If allow_cycles is False, each DAG is a tree because there are no undirected cycles
+        (can be checked with nx.is_tree(G)).
         A treatment is optimal if it results in features which are withing certain
         distance away from the target features.
         The graph construction starts from the start node with initial features,
@@ -121,8 +153,8 @@ class Graph:
         We recursively call create_relationships(), and each call explores a single
         child node to see whether the node's features satsify one of the base
         case criterias. If they do satisfy, the graph is returned, else the algorithm
-        continues (continuation means adding child nodes to the que based on similarity to be
-        further explored). Each edge represents a treatment, and the node's features
+        continues (continuation means adding child nodes to the que based on similarity
+        to be further explored). Each edge represents a treatment, and the node's features
         are the result of the treatment.
 
         Base cases:
@@ -130,7 +162,7 @@ class Graph:
             to be explored. This case is reached frequently when we do not allow cycles, meaning
             each new node wil result in a cycle, thus is not added to the que. Here the graph
             is returned, and we fail to output a path where the end node has desired features.
-            2. (No solution case): If the tree reaches a depth of 5 (five treatments) and still
+            2. (No solution case): If the DAG reaches a depth of 5 (five treatments) and still
             no nodes with target features, the algorithm is terminated adn the graph is returned.
             3. (Acceptable solution case): After the graph reaches a depth of three, we start to check
             if the node's features are more similar to target features than the start node's features.
@@ -170,8 +202,16 @@ class Graph:
                     10.2.3: Repeat the process defined in step 10.1.1
                     10.2.4: Assign node's features and add the node to the frontier que.
                     10.2.5: Relabel the node based on the probability of change.
-
             11. Perform recursion.
+
+        Args:
+            n_childs (int, optional): Number of child nodes each parent can have, default is 5.
+            allow_cycles (bool, optional): Whether undirected cycles are allowed or not, default is False.
+            incremental_improvement (bool, optional): Whether each child node should have features better than the parent,
+                                                      default is False.
+
+        Returns:
+            _type_: _description_
         """
 
         try:
@@ -276,8 +316,8 @@ class Graph:
                 if not allow_cycles:
                     try:
                         #FIXME no path error when we allow undirected cycles
-                        # orientation='ignore' means even the edges which result
-                        # in undirected cycles are not added
+                        #NOTE orientation='ignore' is a stricter condition, it can spot both directed and
+                        # undirected cycles, while orientation=None cannot spot undirected cycles.
                         nx.find_cycle(self.graph,orientation='ignore')
                     except nx.exception.NetworkXNoCycle:
                         # if no cycle, add to child_nodes
@@ -373,6 +413,18 @@ class Graph:
 
 
     def make_graphs_stage_independent(self):
+        """
+        Perform create_relationship() fucntionality for each of the testing instances.
+        Visualize, make sure there are no isolated nodes, then calculate all possible
+        shortest paths with Djikstra's method. Without cycles, there should be exactly
+        1 shortest path for each graph.
+
+        Raises:
+            Exception: Raise exception if there are isolated nodes in any graph.
+
+        Returns:
+            _type_: List[nx.Digraph]
+        """
         self.make_models()
         good_indices=(self.model3.output==1).nonzero().flatten()
         self.model3.feature_tensors=self.model3.feature_tensors.index_select(0,good_indices)
