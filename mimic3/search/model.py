@@ -42,28 +42,6 @@ class Graph:
         self.model3.average_feature_time_series()
 
     def make_graphs(self,n_childs=5):
-        """
-        One graph is made for each testing instance.
-        Each node has n_child nodes based on root mean_score_error similarity weight.
-
-        Logic: Base Case:
-                         If a node is at depth 5 or more, return the graph
-                 Recursive Case:
-                If the nodes features are within a threshold to target's features,
-                add to goal_nodes list, continue execution
-                Find closest childs for a given node across three stages.
-                Calculate the cost from parent to child by:
-                    1. How similar it's features are to parent
-                    2. How similar it's features are to target
-                    3. Weight this similarities equally.
-                    By 90-10 probability, decide if the child will keep existing historical
-                    features or they will be updated.
-                    If updated,define an drug effectiveness measure rangin from (0.8 to 0.9)
-                    For each child node:
-                        Update child's features based on the effectiviness probability.
-                    Add the child node and features to the node que.
-                    Recursively call above functionality for each child node in the node que.
-        """
         self.make_models()
         # third timestep should have only the good indices, only one of them is goal currently
         good_indices=(self.model3.output==1).nonzero().flatten()
@@ -79,6 +57,7 @@ class Graph:
 
             self.graph=nx.DiGraph()
             similarity_scores=[]
+            visualize=True
             for j,train_x in enumerate(self.model1.train_data):
                 #score is 0 when two vectors are exactly the same (e.g.all values for each vector is -1).
                 if torch.all(train_x==-1):
@@ -122,11 +101,79 @@ class Graph:
                     self.graph.add_weighted_edges_from(stage3_top_closest)
 
             test_data_graphs.append(self.graph)
+            if visualize:
+                self.visualize_tree(self.graph)
+                visualize=False
+            self.compute_path(self.graph,method='ordinary')
 
         return test_data_graphs
 
-    #NOTE: initially tested with 'no cycles' and 'incremental_improvement' all four combinations
-    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=False):
+    #NOTE: tested with 'no cycles' and 'incremental_improvement' all four combinations
+    #BUG in rare cases, in one of the diagnosis there are disconnected nodes
+    def create_relationships(self,n_childs=5,allow_cycles=False,incremental_improvement=False):
+        """
+        For each testing instance with admission features, the goal is
+        to construct a graph which will store the path of the optimal treatment.
+        A treatment is optimal if it results in features which are withing certain
+        distance away from the target features.
+        The graph construction starts from the start node with initial features,
+        which is added to the frontier que (que storing the nodes to be explored).
+        We recursively call create_relationships(), and each call explores a single
+        child node to see whether the node's features satsify one of the base
+        case criterias. If they do satisfy, the graph is returned, else the algorithm
+        continues (continuation means adding child nodes to the que based on similarity to be
+        further explored). Each edge represents a treatment, and the node's features
+        are the result of the treatment.
+
+        Base cases:
+            1. (No solution case): The frontier que is empty as there are no more child nodes
+            to be explored. This case is reached frequently when we do not allow cycles, meaning
+            each new node wil result in a cycle, thus is not added to the que. Here the graph
+            is returned, and we fail to output a path where the end node has desired features.
+            2. (No solution case): If the tree reaches a depth of 5 (five treatments) and still
+            no nodes with target features, the algorithm is terminated adn the graph is returned.
+            3. (Acceptable solution case): After the graph reaches a depth of three, we start to check
+            if the node's features are more similar to target features than the start node's features.
+            This means the acceptable threshold similarity is not yet reached, but we have been able to
+            move the patient to a better state. If yes, then the graph is returned.
+            4. (Good solution case): The node's features are within the acceptable threshold, meaning
+            we have found a good solution and the graph is returned.
+
+        Formal Description:
+            1. Try to take out a node from the frontier que in a FIFO manner.
+                1.1 If no node, the base-case 1 is reached, termination.
+            2. Add the node to the list of explored nodes.
+            3. Obtain node's features, calculate diff=RMSE(node-features,target-features).
+            4. If the node is at a depth of three or more.
+               4.1 Check if diff <=RMSE(start-node features,target-features).
+               If yes, base-case 3 is reached, termination.
+            5. If the node is at a depth of five or more, based-case 2 is reached, termination.
+            6. If diff <=threshold_distance, base-case 4 is reached, termination.
+            7. From the data available for three stages, obtain three most similar node's
+                as child nodes, add to child nodes list.
+                7.1 If cycles not allowed, and if a given child node results in a cycle (undirected),
+                remove from the child nodes list.
+            8. Add edges between node and child nodes from child nodes list.
+            9. # allow cycles can be True or False, incremental_improvement can be True or False.
+               # we explore 4 combinations.
+            10. With probability drawn from a normal distribution, decide if the child nodes
+                features take existing features (90% probability) or change (10% probability).
+                10.1 If they do not change:
+                    10.1.1: If incremental improvement is True, check if the child node's features
+                    are better than parent's features.
+                        If not, remove the child node and continue to the next node.
+                    10.1.2: Assign node's features and add the node to the frontier que.
+                10.2 If they change:
+                    10.2.1:  Based on probability (between 80% and 90%) decide how similar they
+                    will be to the original child node's features.
+                    10.2.2: Calculate new features.
+                    10.2.3: Repeat the process defined in step 10.1.1
+                    10.2.4: Assign node's features and add the node to the frontier que.
+                    10.2.5: Relabel the node based on the probability of change.
+
+            11. Perform recursion.
+        """
+
         try:
               node=self.frontier_que.popleft()
               self.explored_nodes.append(node['label'])
@@ -228,14 +275,20 @@ class Graph:
                 self.graph.add_edge(i[0],i[1],weight=i[2])
                 if not allow_cycles:
                     try:
-                        # even an undirected cycle is not allowed
+                        #FIXME no path error when we allow undirected cycles
+                        # orientation='ignore' means even the edges which result
+                        # in undirected cycles are not added
                         nx.find_cycle(self.graph,orientation='ignore')
                     except nx.exception.NetworkXNoCycle:
                         # if no cycle, add to child_nodes
                         child_nodes.append(i[1])
                         pass
                     else:
+                        #NOTE i[1] should stay, only edge should be removed as it is
+                        # the node to which we check for the cycle
                         self.graph.remove_edge(i[0],i[1])
+                        #NOTE for debugging
+                        # self.visualize_tree(self.graph)
                 else:
                     child_nodes.append(i[1])
 
@@ -245,6 +298,7 @@ class Graph:
                 if not allow_cycles:
                     if incremental_improvement:
                         if not sqrt(mean_squared_error(features,self.target_features))<=diff:
+                            #NOTE node instead of edge should be removed
                             self.graph.remove_node(key)
                             continue
 
@@ -327,7 +381,7 @@ class Graph:
         self.target_features=self.model3.feature_tensors[0]
         test_data_graphs=[]
         self.threshold_value=20
-        vis_for_diagnosis=True
+        visualize=True
         #NOTE changing recursion limit stops the program but does not raise an error
         for i,test_x in enumerate(self.model1.test_data):
             if torch.all(test_x==-1):
@@ -343,42 +397,61 @@ class Graph:
             #NOTE this is specifically for the cases when cycles are allowed
             self.label_que.append(f"start:{i}")
             test_data_graphs.append(self.create_relationships())
-            if vis_for_diagnosis:
+            if visualize:
                 # visualize once per diagnosis
                 try:
                     nx.find_cycle(self.graph)
                 except nx.exception.NetworkXNoCycle:
                     # if no cycle
-                    self.visualize_tree(self.graph,self.start_node)
+                    self.visualize_tree(self.graph)
                 else:
                     # if cycle
                     nx.draw(self.graph,with_labels=True)
                     plt.show()
-                vis_for_diagnosis=False
 
-            print(f"{i} successful.")
+                visualize=False
+
+            isolated_nodes=self.check_isolates(self.graph)
+            if not isolated_nodes:
+                print(f"{i}th iteration successful.")
+            else:
+                raise Exception(f"Isolate nodes found for {i}th instance.")
+            self.compute_path(self.graph)
 
         return test_data_graphs
 
-
-    def set_start_and_end(self,graph,method='independent'):
+    def compute_path(self,graph,method='independent'):
         # start_node number represent the testing instance_id
         start_node=list(graph.nodes)[0]
-
         end_node=None
+
         if method!='independent':
-        #NOTE: end_node logic may need to be more complex
             end_node=sorted(list(graph.nodes))[-1]
+            assert has_path(graph, start_node,end_node),\
+                    "There is no path between start and end nodes."
+            self.astar_path(graph,start_node,end_node)
+
         else:
             if graph.graph['intermediary_goal_node']:
-                end_node=sorted(list(graph.nodes))[-1]
+                # both end_node obtaining methods are equivalent
+                end_node=graph.graph['intermediary_goal_node']['label']
+                # end_node=self.explored_nodes[-1]
             elif graph.graph['goal_node']:
+                # both end_node obtaining methods are equivalent
                 end_node=graph.graph['goal_node']['label']
+                # end_node=self.explored_nodes[-1]
 
-        if end_node:
-                assert has_path(graph, start_node,end_node),\
-                    "There is no path between start and end nodes."
-        return start_node,end_node
+            if end_node:
+                    assert has_path(graph, start_node,end_node),\
+                        "There is no path between start and end nodes."
+                    #NOTE this shows that without undirected cycles there is only 1 shortest path
+                    # we thus search with default='djikstra', without performing a heuristic search.
+                    print(list(nx.all_shortest_paths(graph,start_node,end_node)))
+
+
+    def check_isolates(self,graph):
+        print('Isolated nodes')
+        print(list(nx.isolates(graph)))
 
     def depth_first_search(self,graph):
         """
@@ -425,7 +498,7 @@ class Graph:
         end_node_depth=int(re.findall("\d+",end_node)[0])
         return 1+(end_node_depth-start_node_depth)
 
-    def visualize_tree(self,graph,root):
+    def visualize_tree(self,graph):
         # pos = hierarchy_pos(graph,root)
         pos=topo_pos(graph)
         plt.title(f"{self.diagnosis}")
@@ -449,22 +522,5 @@ class Graph:
         pass
 
     def __call__(self):
-        # test_graphs=self.make_graphs()
-        #NOTE for independent graph construction, searching after construction
-        # may not be needed.
-        test_graphs2=self.make_graphs_stage_independent()
-        astar_paths=[]
-        shortest_paths_dijkstra=[]
-        shortest_paths_bellman_ford=[]
-        for graph in test_graphs2:
-            # start_node,end_node=self.set_start_and_end(graph,method='base')
-            start_node,end_node=self.set_start_and_end(graph)
-            if end_node:
-                astar_paths.append(self.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic))
-            # shortest_paths_dijkstra.append(self.shortest_path(graph,start_node,end_node))
-            # shortest_paths_bellman_ford.append(self.shortest_path(graph,start_node,end_node,method='bellman-ford'))
-
-            ## only the first patient's graph for each diagnosis
-            ## ! if cycle exists, tree visualization will not work
-            # if len(astar_paths)==1:
-            #     self.visualize_tree(graph,start_node)
+        # self.make_graphs()
+        self.make_graphs_stage_independent()
