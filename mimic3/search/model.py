@@ -1,3 +1,17 @@
+"""
+1st experiment:
+    DAG construction:
+    1.1 multiple shortest paths per DAG without weights (default=1)
+    1.1 one shortest path per DAG with weights.
+    1.2 Astar seach with heuristics.
+2nd experiment:
+    Graph construction: (not a DAG, directed cycles are allowed), experimental
+    2.1 multiple shortest paths per graph without weights, one path with weights,
+    no Astar search
+    Tree construction (undirected cycles are not allowed)
+    2.2 one path for the tree, 'weight' does not affect number of paths, no Astar search
+
+"""
 import re
 import os
 import sys
@@ -211,7 +225,7 @@ class Graph:
                                                       default is False.
 
         Returns:
-            _type_: _description_
+            _type_: List[nx.DiGraph]
         """
 
         try:
@@ -315,7 +329,7 @@ class Graph:
                 self.graph.add_edge(i[0],i[1],weight=i[2])
                 if not allow_cycles:
                     try:
-                        #FIXME no path error when we allow undirected cycles
+                        #FIXME if we try to make a DAG and not a tree, isolated and disconnected nodes arise
                         #NOTE orientation='ignore' is a stricter condition, it can spot both directed and
                         # undirected cycles, while orientation=None cannot spot undirected cycles.
                         nx.find_cycle(self.graph,orientation='ignore')
@@ -330,6 +344,7 @@ class Graph:
                         #NOTE for debugging
                         # self.visualize_tree(self.graph)
                 else:
+                    # even directed cycles are allowed, so not a DAG
                     child_nodes.append(i[1])
 
         for i,key in enumerate(child_nodes):
@@ -449,6 +464,8 @@ class Graph:
             #NOTE this is specifically for the cases when cycles are allowed
             self.label_que.append(f"start:{i}")
             test_data_graphs.append(self.create_relationships())
+            #Note The DAG is always a tree without cycles except for the rare bug case when there are isolated nodes
+            # print(nx.is_tree(self.graph))
             if visualize:
                 # visualize once per diagnosis
                 try:
@@ -463,11 +480,13 @@ class Graph:
 
                 visualize=False
 
-            isolated_nodes=self.check_isolates(self.graph)
+            isolated_nodes=list(nx.isolates((self.graph)))
             if not isolated_nodes:
                 print(f"{i}th iteration successful.")
             else:
-                raise Exception(f"Isolate nodes found for {i}th instance.")
+                print(f"Isolated nodes found for {i}th instance.")
+            #NOTE we are mostly interest in the tree version as in graph version
+            #we allow directed cycles.
             self.compute_path(self.graph)
 
         return test_data_graphs
@@ -481,6 +500,10 @@ class Graph:
             end_node=sorted(list(graph.nodes))[-1]
             assert has_path(graph, start_node,end_node),\
                     "There is no path between start and end nodes."
+            #NOTE for each graph there are multiple shortest paths if
+            # weight is not provided (weight=1 by default).
+            #NOTE even if multiple shortest paths exist, astar returns only 1.
+            print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
             self.astar_path(graph,start_node,end_node)
 
         else:
@@ -497,13 +520,9 @@ class Graph:
                     assert has_path(graph, start_node,end_node),\
                         "There is no path between start and end nodes."
                     #NOTE this shows that without undirected cycles there is only 1 shortest path
-                    # we thus search with default='djikstra', without performing a heuristic search.
-                    print(list(nx.all_shortest_paths(graph,start_node,end_node)))
-
-
-    def check_isolates(self,graph):
-        print('Isolated nodes')
-        print(list(nx.isolates(graph)))
+                    # we thus search without performing a heuristic search.
+                    #NOTE for the tree version, weight argument can be None as there is only 1 path
+                    print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
 
     def depth_first_search(self,graph):
         """
