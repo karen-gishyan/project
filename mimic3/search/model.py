@@ -17,7 +17,6 @@ import os
 import sys
 import torch
 import networkx as nx
-from networkx.algorithms.traversal import dfs_tree
 from networkx.algorithms.shortest_paths import has_path,astar_path, shortest_path
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
@@ -35,7 +34,7 @@ os.chdir(dir_)
 from cluster.model import DistanceModel
 from helpers import configure_logger
 
-logger=configure_logger()
+logger=configure_logger(default=False)
 
 
 class Graph:
@@ -110,7 +109,7 @@ class Graph:
                 else:
                     #+1 for the lowest cost to be 1 instead of 0
                     #NOTE: may need to change to rmse
-                    score=1+sqrt(sqrt(mean_squared_error(test_x,train_x)))
+                    score=1+sqrt(mean_squared_error(test_x,train_x))
                 similarity_scores.append((f"start:{i}",f"t1:{j}",score))
 
             stage1_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
@@ -148,12 +147,13 @@ class Graph:
             if visualize:
                 self.visualize_tree(self.graph)
                 visualize=False
+
             self.compute_path(self.graph,method='ordinary')
 
         return test_data_graphs
 
+    #BUG: rarely appearing bug of isolated nodes when cycles are node allowed
     #NOTE: tested with 'no cycles' and 'incremental_improvement' all four combinations
-    #BUG in rare cases, in one of the diagnosis there are disconnected nodes
     def create_relationships(self,n_childs=5,allow_cycles=False,incremental_improvement=False):
         """
         For each testing instance with admission features, the goal is
@@ -234,6 +234,7 @@ class Graph:
         except IndexError:
             # reason: all nodes in the frontier_que have no children (nothing else to explore),
             # because each new child will result in a cycle formation.
+            print(self.diagnosis)
             print('Explored without finding a solution.')
             return self.graph
         features=node['features']
@@ -252,10 +253,12 @@ class Graph:
                 # the last node;s features should at least be better than the start'nodes,
                 # before returning the graph
                 if diff<sqrt(mean_squared_error(self.start_node['features'],self.target_features)):
+                    print(self.diagnosis)
                     print("Reached Maximum exploration depth with acceptable features.")
                     self.graph.graph['intermediary_goal_node']=node
                     return self.graph
             if tree_depth>=5:
+                print(self.diagnosis)
                 print('Explored without finding a solution.')
                 return self.graph
         except Exception as e:
@@ -267,6 +270,7 @@ class Graph:
             # This is similar to real-world scenarios. If target features are met, no more
             # exploration.
             self.graph.graph['goal_node']=node
+            print(self.diagnosis)
             print('Found a goal state with desired features.')
 
             return self.graph
@@ -465,7 +469,7 @@ class Graph:
             self.label_que.append(f"start:{i}")
             test_data_graphs.append(self.create_relationships())
             #Note The DAG is always a tree without cycles except for the rare bug case when there are isolated nodes
-            # print(nx.is_tree(self.graph))
+            logger.info(f"{self.diagnosis}\n {i}\n is_tree:{nx.is_tree(self.graph)}")
             if visualize:
                 # visualize once per diagnosis
                 try:
@@ -484,7 +488,9 @@ class Graph:
             if not isolated_nodes:
                 print(f"{i}th iteration successful.")
             else:
+                #NOTE when there is only start node as isolated it is OK
                 print(f"Isolated nodes found for {i}th instance.")
+                logger.info(f"{self.diagnosis}\n {i}\n {isolated_nodes}")
             #NOTE we are mostly interest in the tree version as in graph version
             #we allow directed cycles.
             self.compute_path(self.graph)
@@ -503,8 +509,11 @@ class Graph:
             #NOTE for each graph there are multiple shortest paths if
             # weight is not provided (weight=1 by default).
             #NOTE even if multiple shortest paths exist, astar returns only 1.
+            print(self.diagnosis)
+            print('djikstra shortest paths.')
             print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
-            self.astar_path(graph,start_node,end_node)
+            print('astar shortest path.')
+            print(list(nx.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic)))
 
         else:
             if graph.graph['intermediary_goal_node']:
@@ -524,50 +533,55 @@ class Graph:
                     #NOTE for the tree version, weight argument can be None as there is only 1 path
                     print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
 
-    def depth_first_search(self,graph):
-        """
-        Useful for checking tree connectivity.
-        """
-        print("Depth First Search.")
-        tree=list(dfs_tree(graph))
-        print(tree)
 
-    def astar_path(self,graph,start_node,end_node,**kwargs):
-        path=list(astar_path(graph,start_node,end_node,**kwargs))
-
-        t=f"'astar path' method :{path}"
-        print(self.diagnosis,f"\n{t}")
-        heuristic=kwargs.get('heuristic')
-        if heuristic:
-            logger.info(f"With heuristic \n{t}")
-        else:
-            logger.info(t)
-
-        return path
-
-    def shortest_path(self,graph,start_node,end_node,**kwargs):
+    def astar_heuristic(self,node,end_node):
         """
-        method is 'dijkstra or 'bellman-ford'.
-        """
+        Heuristics is successful if it is able to affect in choosing the shortest
+        path and does not always provide the same result as 'djikstra'.
+        In a few of the cases we see:
 
-        method=kwargs.get('method') if kwargs.get('method') else 'dijkstra'
-        # kwargs are fixed, any non-existent kwarg will raise an error
-        path=list(shortest_path(graph, start_node,end_node,**kwargs))
-        print(self.diagnosis)
-        print(f"{method} 'shortest path' method: {path}")
-        return path
+        Heuristic function, not always admissible, measures the shortest distance between
+        the node and the target node.
 
-    def astar_heuristic(self,start_node,end_node):
+        djikstra shortest path:
+        ['start:1', 't1:28', 't2:30', 't3:9']
+        ['start:4', 't1:22', 't2:25', 't3:9']
+        'astar path' shortest path:
+        ['start:1', 't1:45', 't2:31', 't3:9']
+        ['start:4', 't1:45', 't2:26', 't3:9']
+
+        Args:
+            node str: A node in the graph
+            end_node str: The end node of the graph
+
+        Returns:
+            float: Admissible heuristic value
         """
-        Optimal heuristic between a node at depth i and a final depth j is (j-i)
-        for f(n)=h(n)+g(n), assuming f(n) is a distance based measure.
-        """
-        #TODO path stays the same with this heuristic
-        # start_node is not used as part of the heuristics calculation,
-        # otherwise would be the equal to 'end_node_depth'
-        start_node_depth=int(re.findall("\d+",start_node)[0])
-        end_node_depth=int(re.findall("\d+",end_node)[0])
-        return 1+(end_node_depth-start_node_depth)
+        try:
+            shortest_path_length=nx.shortest_path_length(self.graph,node,end_node,weight='weight')
+        except nx.exception.NetworkXNoPath:
+            shortest_path_length=None
+            pass
+        node_stage,node_feature_id=list(map(int,re.findall("\d+",node)))
+        end_node_stage,end_node_feature_id=list(map(int,re.findall("\d+",end_node)))
+
+        #dynamically get variables
+        node_features=getattr(self,f"model{node_stage}").feature_tensors[node_feature_id]
+        end_node_features=getattr(self,f"model{end_node_stage}").feature_tensors[end_node_feature_id]
+
+        heuristic_cost=1+sqrt(mean_squared_error(node_features,end_node_features))
+
+        # if shortest_path_length:
+        #     #NOTE we say that the heurisics is a good one, but is not admissble
+        #     #NOTE note admissible heuristics is actually good, otherwise it would
+        #     #mean there is always a hypothetical shortest path to the goal by skipping the
+        #     #traditional procedures.
+        #     if not heuristic_cost<=shortest_path_length:
+        #         print(f'not admissible for {node} and {end_node}')
+        # else:
+        #     #acceptable
+        #     print('No path between node and end_node, same depth.')
+        return heuristic_cost
 
     def visualize_tree(self,graph):
         # pos = hierarchy_pos(graph,root)
@@ -575,22 +589,6 @@ class Graph:
         plt.title(f"{self.diagnosis}")
         nx.draw(graph, pos,with_labels=True)
         plt.show()
-
-    def straight_line_heuristic(self):
-        """
-        The mse between each node features and target node features will
-        be an admissible heuristic. Analogous to a straight line heuristic.
-        """
-        pass
-
-    def subvector_heuristic(self):
-        """
-        Calculate and store the subvector mse (e.g. with 5 features).
-        For each node do a search(astar, shortest) to the end goal using the subvector mse,
-        obtain store this value the value.
-        Use this value as a heuristic value between each node and the goal state.
-        """
-        pass
 
     def __call__(self):
         # self.make_graphs()
