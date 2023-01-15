@@ -13,12 +13,15 @@
 
 """
 import re
+import random
+import string
 import os
 import sys
 import torch
 import networkx as nx
-from networkx.algorithms.shortest_paths import has_path,astar_path, shortest_path
+from networkx.algorithms.shortest_paths import has_path,shortest_path
 from sklearn.metrics import mean_squared_error
+from scipy.stats import kstest
 import matplotlib.pyplot as plt
 import numpy as np
 from utils import hierarchy_pos, topo_pos
@@ -152,7 +155,6 @@ class Graph:
 
         return test_data_graphs
 
-    #BUG: rarely appearing bug of isolated nodes when cycles are node allowed
     #NOTE: tested with 'no cycles' and 'incremental_improvement' all four combinations
     def create_relationships(self,n_childs=5,allow_cycles=False,incremental_improvement=False):
         """
@@ -304,6 +306,7 @@ class Graph:
             else:
                 #+1 for the lowest cost to be 1 instead of 0
                 score=1+sqrt(mean_squared_error(features,train_x))
+
         top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
         for i,tuple_ in enumerate(top_closest):
             t,int_node=map(lambda i:int(i),re.findall("\d+",tuple_[1]))
@@ -324,36 +327,32 @@ class Graph:
             top_closest[i][2]=0.5*tuple_[2]+0.5*close_target_score
             top_closest[i]=tuple(top_closest[i])
 
-            # self.graph.add_weighted_edges_from(top_closest)
-
-            # we add iteratively and not with bulk to allow removing an edge
-            # if a cycle is formed
-            child_nodes=[]
-            for i in top_closest:
-                self.graph.add_edge(i[0],i[1],weight=i[2])
-                if not allow_cycles:
-                    try:
-                        #FIXME if we try to make a DAG and not a tree, isolated and disconnected nodes arise
-                        #NOTE orientation='ignore' is a stricter condition, it can spot both directed and
-                        # undirected cycles, while orientation=None cannot spot undirected cycles.
-                        nx.find_cycle(self.graph,orientation='ignore')
-                    except nx.exception.NetworkXNoCycle:
-                        # if no cycle, add to child_nodes
-                        child_nodes.append(i[1])
-                        pass
-                    else:
-                        #NOTE i[1] should stay, only edge should be removed as it is
-                        # the node to which we check for the cycle
-                        self.graph.remove_edge(i[0],i[1])
-                        #NOTE for debugging
-                        # self.visualize_tree(self.graph)
-                else:
-                    # even directed cycles are allowed, so not a DAG
+        child_nodes=[]
+        for i in top_closest:
+            self.graph.add_edge(i[0],i[1],weight=i[2])
+            if not allow_cycles:
+                try:
+                    #NOTE orientation='ignore' is a stricter condition, it can spot both directed and
+                    # undirected cycles, while orientation=None cannot spot undirected cycles.
+                    nx.find_cycle(self.graph,orientation='ignore')
+                except nx.exception.NetworkXNoCycle:
+                    # if no cycle, add to child_nodes
                     child_nodes.append(i[1])
+                else:
+                    #NOTE i[1] should stay, we need to remove the cycle edge not the
+                    #node itself
+                    self.graph.remove_edge(i[0],i[1])
+                    #NOTE for debugging
+                    # self.visualize_tree(self.graph)
+            else:
+                # even directed cycles are allowed, so not a DAG
+                child_nodes.append(i[1])
 
         for i,key in enumerate(child_nodes):
-            # 90 % of the cases features are the child features
-            if np.random.choice([True,False],p=[0.9,0.1]):
+            # 70 % of the cases features are the child features
+            #NOTE switching the p e.g(0.3,0.7) will result in more node relabeling,
+            # less cycle formation, more child nodes and bigger graphs
+            if np.random.choice([True,False],p=[0.7,0.3]):
                 if not allow_cycles:
                     if incremental_improvement:
                         if not sqrt(mean_squared_error(features,self.target_features))<=diff:
@@ -398,10 +397,14 @@ class Graph:
                             continue
 
                     self.graph.nodes[key]['features']=features
-                    self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}"
-                    rename={key:f"{key}:{probability_of_effectiveness}"}
+                    #NOTE id imposes extra randomnes so as cycles are not formed after relabeling
+                    #NOTE there is 1 / 72**3 probability that a cycle can be formed at
+                    #this stage, but it is ok
+                    unique_id=''.join(random.choices(string.ascii_letters + string.digits, k=3))
+                    self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}:{unique_id}"
+                    rename={key:f"{key}:{probability_of_effectiveness}:{unique_id}"}
                     nx.relabel_nodes(self.graph,rename,copy=False)
-                    self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
+                    self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}:{unique_id}"])
 
                 else:
                     if incremental_improvement:
@@ -412,8 +415,9 @@ class Graph:
                                 continue
 
                     self.graph.nodes[key]['features']=features
-                    self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}"
-                    rename={key:f"{key}:{probability_of_effectiveness}"}
+                    unique_id=''.join(random.choices(string.ascii_letters + string.digits, k=3))
+                    self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}:{unique_id}"
+                    rename={key:f"{key}:{probability_of_effectiveness}:{unique_id}"}
                     nx.relabel_nodes(self.graph,rename,copy=False)
                     try:
                         #NOTE: this is related to relabeling
@@ -424,9 +428,9 @@ class Graph:
                         self.label_que.remove(key)
                     except:
                         pass
-                    if not f"{key}:{probability_of_effectiveness}" in self.label_que:
-                        self.label_que.append(f"{key}:{probability_of_effectiveness}")
-                        self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}"])
+                    if not f"{key}:{probability_of_effectiveness}:{unique_id}" in self.label_que:
+                        self.label_que.append(f"{key}:{probability_of_effectiveness}:{unique_id}")
+                        self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}:{unique_id}"])
 
         return self.create_relationships()
 
@@ -487,7 +491,7 @@ class Graph:
             isolated_nodes=list(nx.isolates((self.graph)))
             if not isolated_nodes:
                 print(f"{i}th iteration successful.")
-            else:
+            elif len(isolated_nodes)>1:
                 #NOTE when there is only start node as isolated it is OK
                 print(f"Isolated nodes found for {i}th instance.")
                 logger.info(f"{self.diagnosis}\n {i}\n {isolated_nodes}")
@@ -513,7 +517,7 @@ class Graph:
             print('djikstra shortest paths.')
             print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
             print('astar shortest path.')
-            print(list(nx.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic)))
+            print(list(nx.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic_v1)))
 
         else:
             if graph.graph['intermediary_goal_node']:
@@ -534,14 +538,10 @@ class Graph:
                     print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
 
 
-    def astar_heuristic(self,node,end_node):
+    def astar_heuristic_v1(self,node,end_node):
         """
-        Heuristics is successful if it is able to affect in choosing the shortest
-        path and does not always provide the same result as 'djikstra'.
-        In a few of the cases we see:
-
-        Heuristic function, not always admissible, measures the shortest distance between
-        the node and the target node.
+        Not admissible heuristic based on rmse between node and end_node.
+        Results in two cases differ from djikstra.
 
         djikstra shortest path:
         ['start:1', 't1:28', 't2:30', 't3:9']
@@ -551,17 +551,12 @@ class Graph:
         ['start:4', 't1:45', 't2:26', 't3:9']
 
         Args:
-            node str: A node in the graph
-            end_node str: The end node of the graph
+            node (str): node in the graph
+            end_node (str): end node of the graph
 
         Returns:
-            float: Admissible heuristic value
+            float:  heuristic value
         """
-        try:
-            shortest_path_length=nx.shortest_path_length(self.graph,node,end_node,weight='weight')
-        except nx.exception.NetworkXNoPath:
-            shortest_path_length=None
-            pass
         node_stage,node_feature_id=list(map(int,re.findall("\d+",node)))
         end_node_stage,end_node_feature_id=list(map(int,re.findall("\d+",end_node)))
 
@@ -571,17 +566,65 @@ class Graph:
 
         heuristic_cost=1+sqrt(mean_squared_error(node_features,end_node_features))
 
-        # if shortest_path_length:
-        #     #NOTE we say that the heurisics is a good one, but is not admissble
-        #     #NOTE note admissible heuristics is actually good, otherwise it would
-        #     #mean there is always a hypothetical shortest path to the goal by skipping the
-        #     #traditional procedures.
-        #     if not heuristic_cost<=shortest_path_length:
-        #         print(f'not admissible for {node} and {end_node}')
-        # else:
-        #     #acceptable
-        #     print('No path between node and end_node, same depth.')
+        self.check_admissibility(node,end_node,heuristic_cost)
+
         return heuristic_cost
+
+    def astar_heuristic_v2(self,node,end_node):
+        """
+        Admissible heuristic based on depth and distribution similarity.
+        Provides the same results as djikstra.
+
+        Args:
+            node (str): node in the graph
+            end_node (str): end node of the graph
+
+        Returns:
+            float: heuristic value
+        """
+
+        node_stage,node_feature_id=list(map(int,re.findall("\d+",node)))
+        end_node_stage,end_node_feature_id=list(map(int,re.findall("\d+",end_node)))
+
+        #dynamically get variables
+        node_features=getattr(self,f"model{node_stage}").feature_tensors[node_feature_id]
+        end_node_features=getattr(self,f"model{end_node_stage}").feature_tensors[end_node_feature_id]
+
+        #lower p value, higher the cost
+        weight=1-kstest(node_features,end_node_features).pvalue
+        depth=end_node_stage-node_stage
+        heuristic_cost=weight* depth
+
+        self.check_admissibility(node,end_node,heuristic_cost)
+
+        return heuristic_cost
+
+    def check_admissibility(self,node,end_node,heuristic_cost):
+        """
+        Check if the heuristic is admissible for a given node.
+
+        Args:
+            node str: start node
+            end_node str: end node
+            heuristic_cost float: value of the heuristic function for the given node
+        """
+
+        try:
+            shortest_path_length=nx.shortest_path_length(self.graph,node,end_node,weight='weight')
+        except nx.exception.NetworkXNoPath:
+            shortest_path_length=None
+            pass
+
+        if shortest_path_length:
+            #NOTE we say that the heurisics is a good one, but is not admissble
+            if not heuristic_cost<=shortest_path_length:
+                print(f'not admissible for {node} and {end_node}')
+            print(f"heuristics_cost:{heuristic_cost}\n \
+                    shortest_path_legnth:{shortest_path_length}")
+        else:
+            #acceptable
+            # print('No path between node and end_node, same depth.')
+            pass
 
     def visualize_tree(self,graph):
         # pos = hierarchy_pos(graph,root)
@@ -591,5 +634,6 @@ class Graph:
         plt.show()
 
     def __call__(self):
+        #TODO explore shortest paths of nodes at the same level
         # self.make_graphs()
         self.make_graphs_stage_independent()
