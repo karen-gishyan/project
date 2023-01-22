@@ -156,7 +156,7 @@ class Graph:
         return test_data_graphs
 
     #NOTE: tested with 'no cycles' and 'incremental_improvement' all four combinations
-    def create_relationships(self,n_childs=5,allow_cycles=False,incremental_improvement=False):
+    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=True):
         """
         For each testing instance with admission features, the goal is
         to construct a DAG which will store the path of the optimal treatment.
@@ -197,28 +197,19 @@ class Graph:
                If yes, base-case 3 is reached, termination.
             5. If the node is at a depth of five or more, based-case 2 is reached, termination.
             6. If diff <=threshold_distance, base-case 4 is reached, termination.
-            7. From the data available for three stages, obtain three most similar node's
-                as child nodes, add to child nodes list.
-                7.1 If cycles not allowed, and if a given child node results in a cycle (undirected),
-                remove from the child nodes list.
-            8. Add edges between node and child nodes from child nodes list.
-            9. # allow cycles can be True or False, incremental_improvement can be True or False.
-               # we explore 4 combinations.
-            10. With probability drawn from a normal distribution, decide if the child nodes
-                features take existing features (90% probability) or change (10% probability).
-                10.1 If they do not change:
-                    10.1.1: If incremental improvement is True, check if the child node's features
-                    are better than parent's features.
-                        If not, remove the child node and continue to the next node.
-                    10.1.2: Assign node's features and add the node to the frontier que.
-                10.2 If they change:
-                    10.2.1:  Based on probability (between 80% and 90%) decide how similar they
-                    will be to the original child node's features.
-                    10.2.2: Calculate new features.
-                    10.2.3: Repeat the process defined in step 10.1.1
-                    10.2.4: Assign node's features and add the node to the frontier que.
-                    10.2.5: Relabel the node based on the probability of change.
-            11. Perform recursion.
+            7. From the data available for three stages, for each of the n most similar child
+               nodes do:
+                7.1 If cycles are allowed:
+                    7.1.1 If incremental improvement is True, make sure each node's features
+                    are better than parent's features. If not, continue.
+                    7.1.2 Else, add the child node to the que to be explored.
+                7.2 If cycles are not allowed:
+                    Remove an edge if it results in an undirected cycle, continue.
+                    Calculate node's features based on probability deviation.
+                    7.2.1 If incremental improvement is True, make sure each node's features
+                    are better than parent's features. If not. continue.
+                    7.2.2 Else, relabel the child node and add to the que to be explored.
+            8. Perform recursion.
 
         Args:
             n_childs (int, optional): Number of child nodes each parent can have, default is 5.
@@ -232,7 +223,7 @@ class Graph:
 
         try:
               node=self.frontier_que.popleft()
-              self.explored_nodes.append(node['label'])
+              self.explored_nodes[node['label']]=True
         except IndexError:
             # reason: all nodes in the frontier_que have no children (nothing else to explore),
             # because each new child will result in a cycle formation.
@@ -280,6 +271,9 @@ class Graph:
         similarity_scores=[]
         #stage 1
         for j,train_x in enumerate(self.model1.train_data):
+            if node['label']==f"t1:{j}":
+                # no self loops
+                continue
             if torch.all(train_x==-1):
                 # fixed penalty of value of 1024
                 score=2**len(train_x)
@@ -290,6 +284,8 @@ class Graph:
 
         #stage2
         for j,train_x in enumerate(self.model2.feature_tensors):
+            if node['label']==f"t2:{j}":
+                continue
             if torch.all(train_x==-1):
                 # fixed penalty of value of 1024
                 score=2**len(train_x)
@@ -300,6 +296,8 @@ class Graph:
 
         #stage3
         for j,train_x in enumerate(self.model3.feature_tensors):
+            if node['label']==f"t3:{j}":
+                continue
             if torch.all(train_x==-1):
                 # fixed penalty of value of 1024
                 score=2**len(train_x)
@@ -311,14 +309,14 @@ class Graph:
         for i,tuple_ in enumerate(top_closest):
             t,int_node=map(lambda i:int(i),re.findall("\d+",tuple_[1]))
             if t==1:
-                features=self.model1.feature_tensors[int_node]
-                close_target_score=sqrt(mean_squared_error(features,self.target_features))
+                node_features=self.model1.feature_tensors[int_node]
+                close_target_score=sqrt(mean_squared_error(node_features,self.target_features))
             elif t==2:
-                features=self.model2.feature_tensors[int_node]
-                close_target_score=sqrt(mean_squared_error(features,self.target_features))
+                node_features=self.model2.feature_tensors[int_node]
+                close_target_score=sqrt(mean_squared_error(node_features,self.target_features))
             else:
-                features=self.model3.feature_tensors[int_node]
-                close_target_score=sqrt(mean_squared_error(features,self.target_features))
+                node_features=self.model3.feature_tensors[int_node]
+                close_target_score=sqrt(mean_squared_error(node_features,self.target_features))
 
             # convert to a list to be able to assign and convert back to tuple
             top_closest[i]=list(top_closest[i])
@@ -327,110 +325,59 @@ class Graph:
             top_closest[i][2]=0.5*tuple_[2]+0.5*close_target_score
             top_closest[i]=tuple(top_closest[i])
 
-        child_nodes=[]
-        for i in top_closest:
-            self.graph.add_edge(i[0],i[1],weight=i[2])
-            if not allow_cycles:
+            #without adding the actual edge, cycle cannot be checked
+            self.graph.add_edge(tuple_[0],tuple_[1],weight=tuple_[2])
+
+            # deterministic block (graph construction without self loops)
+            if allow_cycles:
+                if incremental_improvement:
+                    if not sqrt(mean_squared_error(node_features,self.target_features))<=diff:
+                        #backtrack
+                        self.graph.remove_node(tuple_[1])
+                        continue
+
+                self.graph.nodes[tuple_[1]]['features']=node_features
+                self.graph.nodes[tuple_[1]]['label']=tuple_[1]
+                # do not explore the same node, if it has been previously explored
+                if not self.explored_nodes.get(tuple_[1],False):
+                    self.explored_nodes.update({tuple_[1]:True})
+                    self.frontier_que.append(self.graph.nodes[tuple_[1]])
+
+            # non deterministic block (tree construction)
+            else:
                 try:
-                    #NOTE orientation='ignore' is a stricter condition, it can spot both directed and
-                    # undirected cycles, while orientation=None cannot spot undirected cycles.
+                    #NOTE orientation='ignore' is a stricter condition,
+                    # it can spot both directed and undirected cycles,
+                    # while orientation=None cannot spot undirected cycles.
                     nx.find_cycle(self.graph,orientation='ignore')
                 except nx.exception.NetworkXNoCycle:
-                    # if no cycle, add to child_nodes
-                    child_nodes.append(i[1])
+                    pass
                 else:
-                    #NOTE i[1] should stay, we need to remove the cycle edge not the
-                    #node itself
-                    self.graph.remove_edge(i[0],i[1])
-                    #NOTE for debugging
-                    # self.visualize_tree(self.graph)
-            else:
-                # even directed cycles are allowed, so not a DAG
-                child_nodes.append(i[1])
+                    #backtrack
+                    # node should stay, edge should be removed
+                    self.graph.remove_edge(tuple_[0],tuple_[1])
+                    continue
 
-        for i,key in enumerate(child_nodes):
-            # 70 % of the cases features are the child features
-            #NOTE switching the p e.g(0.3,0.7) will result in more node relabeling,
-            # less cycle formation, more child nodes and bigger graphs
-            if np.random.choice([True,False],p=[0.7,0.3]):
-                if not allow_cycles:
-                    if incremental_improvement:
-                        if not sqrt(mean_squared_error(features,self.target_features))<=diff:
-                            #NOTE node instead of edge should be removed
-                            self.graph.remove_node(key)
-                            continue
-
-                    self.graph.nodes[key]['features']=features
-                    self.graph.nodes[key]['label']=key
-                    self.frontier_que.append(self.graph.nodes[key])
-
-                else:
-                    if incremental_improvement:
-                        # NOTE: label_que contains those node labels which for sure have features.
-                        if key in self.label_que:
-                            # if the current features are not better than previously explored featured,pass
-                            if not sqrt(mean_squared_error(features,self.target_features))<=\
-                                sqrt(mean_squared_error(self.graph.nodes[key]['features'],self.target_features)):
-                                continue
-
-                    # if not incremental, node features can change depending on the most recent parent node
-                    self.graph.nodes[key]['features']=features
-                    self.graph.nodes[key]['label']=key
-
-                    if not key in self.label_que:
-                        self.label_que.append(key)
-                        self.frontier_que.append(self.graph.nodes[key])
-
-            else:
                 probability_of_effectiveness=round(np.random.uniform(0.8,0.9),2)
                 change_percentage=1-probability_of_effectiveness
-                # decide how much each feature will change
-                # e.g if probability_of_effectiveness = 0.8, each feature will deviate
-                # by +- 20%.
-                features=torch.Tensor(list(map(lambda i:i* \
+                #NOTE as each node_features is a non-deterministic vector,
+                # with almost 100% probability cycles will not be formed,
+                # logically, however, it is good to check.
+                node_features=torch.Tensor(list(map(lambda i:i* \
                     np.random.uniform(1-change_percentage,1+change_percentage),features)))
-                #NOTE: with cycles, same node features may be modified multiple times
-                if not allow_cycles:
-                    if incremental_improvement:
-                        if not sqrt(mean_squared_error(features,self.target_features))<=diff:
-                            self.graph.remove_node(key)
-                            continue
 
-                    self.graph.nodes[key]['features']=features
-                    #NOTE id imposes extra randomnes so as cycles are not formed after relabeling
-                    #NOTE there is 1 / 72**3 probability that a cycle can be formed at
-                    #this stage, but it is ok
-                    unique_id=''.join(random.choices(string.ascii_letters + string.digits, k=3))
-                    self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}:{unique_id}"
-                    rename={key:f"{key}:{probability_of_effectiveness}:{unique_id}"}
-                    nx.relabel_nodes(self.graph,rename,copy=False)
-                    self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}:{unique_id}"])
+                if incremental_improvement:
+                    if not sqrt(mean_squared_error(node_features,self.target_features))<=diff:
+                        #backtrack
+                        self.graph.remove_node(tuple_[1])
+                        continue
 
-                else:
-                    if incremental_improvement:
-                        # if has been explored
-                        if key in self.label_que:
-                            if not sqrt(mean_squared_error(features,self.target_features))\
-                                <=sqrt(mean_squared_error(self.graph.nodes[key]['features'],self.target_features)):
-                                continue
-
-                    self.graph.nodes[key]['features']=features
-                    unique_id=''.join(random.choices(string.ascii_letters + string.digits, k=3))
-                    self.graph.nodes[key]['label']=f"{key}:{probability_of_effectiveness}:{unique_id}"
-                    rename={key:f"{key}:{probability_of_effectiveness}:{unique_id}"}
-                    nx.relabel_nodes(self.graph,rename,copy=False)
-                    try:
-                        #NOTE: this is related to relabeling
-                        # (t1:10) is in the label que, becomes (t1:10:0.85)
-                        # then in the incremental improvement block, (t1:10) will exist
-                        # without features, as it has been relabeled.
-                        #TODO: worth thinking about improvement
-                        self.label_que.remove(key)
-                    except:
-                        pass
-                    if not f"{key}:{probability_of_effectiveness}:{unique_id}" in self.label_que:
-                        self.label_que.append(f"{key}:{probability_of_effectiveness}:{unique_id}")
-                        self.frontier_que.append(self.graph.nodes[f"{key}:{probability_of_effectiveness}:{unique_id}"])
+                self.graph.nodes[tuple_[1]]['features']=node_features
+                unique_id=''.join(random.choices(string.ascii_letters + string.digits, k=3))
+                self.graph.nodes[tuple_[1]]['label']=f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}"
+                rename={tuple_[1]:f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}"}
+                nx.relabel_nodes(self.graph,rename,copy=False)
+                self.frontier_que.append(self.graph.nodes[f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}"])
 
         return self.create_relationships()
 
@@ -453,6 +400,8 @@ class Graph:
         self.model3.feature_tensors=self.model3.feature_tensors.index_select(0,good_indices)
 
         # equivalent to random selection no specific logic
+        #TODO think about feature weighting logic for comparing with the threshhold with rmse
+        #TODO target_features may need to be averages.
         self.target_features=self.model3.feature_tensors[0]
         test_data_graphs=[]
         self.threshold_value=20
@@ -463,14 +412,12 @@ class Graph:
                 continue
             # que for storing nodes yet to be explored
             self.frontier_que=deque()
-            self.label_que=deque()
-            self.explored_nodes=[]
+            self.explored_nodes={}
             self.graph=nx.DiGraph(goal_node=None,intermediary_goal_node=None)
             self.graph.add_node(f"start:{i}",features=test_x,label=f"start:{i}")
             self.start_node=self.graph.nodes[f"start:{i}"]
             self.frontier_que.append(self.start_node)
             #NOTE this is specifically for the cases when cycles are allowed
-            self.label_que.append(f"start:{i}")
             test_data_graphs.append(self.create_relationships())
             #Note The DAG is always a tree without cycles except for the rare bug case when there are isolated nodes
             logger.info(f"{self.diagnosis}\n {i}\n is_tree:{nx.is_tree(self.graph)}")
