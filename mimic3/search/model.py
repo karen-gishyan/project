@@ -24,7 +24,7 @@ from sklearn.metrics import mean_squared_error
 from scipy.stats import kstest
 import matplotlib.pyplot as plt
 import numpy as np
-from utils import hierarchy_pos, topo_pos
+from utils import hierarchy_pos, topo_pos, Costs_and_Thresholds
 from collections import deque
 from math import sqrt
 
@@ -156,7 +156,7 @@ class Graph:
         return test_data_graphs
 
     #NOTE: tested with 'no cycles' and 'incremental_improvement' all four combinations
-    def create_relationships(self,n_childs=3,allow_cycles=False,incremental_improvement=True):
+    def create_relationships(self,cost_callable,n_childs=2,allow_cycles=False,incremental_improvement=False):
         """
         For each testing instance with admission features, the goal is
         to construct a DAG which will store the path of the optimal treatment.
@@ -231,7 +231,7 @@ class Graph:
             print('Explored without finding a solution.')
             return self.graph
         features=node['features']
-        diff=sqrt(mean_squared_error(features,self.target_features))
+        diff=1+cost_callable(features,self.target_features)
 
         # max depth is three
         try:
@@ -245,7 +245,7 @@ class Graph:
                 # return without finding the goal
                 # the last node;s features should at least be better than the start'nodes,
                 # before returning the graph
-                if diff<sqrt(mean_squared_error(self.start_node['features'],self.target_features)):
+                if diff<1+cost_callable(features,self.target_features):
                     print(self.diagnosis)
                     print("Reached Maximum exploration depth with acceptable features.")
                     self.graph.graph['intermediary_goal_node']=node
@@ -279,7 +279,7 @@ class Graph:
                 score=2**len(train_x)
             else:
                 #+1 for the lowest cost to be 1 instead of 0
-                score=1+sqrt(mean_squared_error(features,train_x))
+                score=1+cost_callable(features,train_x)
             similarity_scores.append((f"{node['label']}",f"t1:{j}",score))
 
         #stage2
@@ -291,7 +291,7 @@ class Graph:
                 score=2**len(train_x)
             else:
                 #+1 for the lowest cost to be 1 instead of 0
-                score=1+sqrt(mean_squared_error(features,train_x))
+                score=1+cost_callable(features,train_x)
             similarity_scores.append((f"{node['label']}",f"t2:{j}",score))
 
         #stage3
@@ -303,20 +303,20 @@ class Graph:
                 score=2**len(train_x)
             else:
                 #+1 for the lowest cost to be 1 instead of 0
-                score=1+sqrt(mean_squared_error(features,train_x))
+                score=1+cost_callable(features,train_x)
 
         top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
         for i,tuple_ in enumerate(top_closest):
             t,int_node=map(lambda i:int(i),re.findall("\d+",tuple_[1]))
             if t==1:
                 node_features=self.model1.feature_tensors[int_node]
-                close_target_score=sqrt(mean_squared_error(node_features,self.target_features))
+                close_target_score=1+cost_callable(node_features,self.target_features)
             elif t==2:
                 node_features=self.model2.feature_tensors[int_node]
-                close_target_score=sqrt(mean_squared_error(node_features,self.target_features))
+                close_target_score=1+cost_callable(node_features,self.target_features)
             else:
                 node_features=self.model3.feature_tensors[int_node]
-                close_target_score=sqrt(mean_squared_error(node_features,self.target_features))
+                close_target_score=1+cost_callable(node_features,self.target_features)
 
             # convert to a list to be able to assign and convert back to tuple
             top_closest[i]=list(top_closest[i])
@@ -331,7 +331,7 @@ class Graph:
             # deterministic block (graph construction without self loops)
             if allow_cycles:
                 if incremental_improvement:
-                    if not sqrt(mean_squared_error(node_features,self.target_features))<=diff:
+                    if not 1+cost_callable(features,self.target_features)<=diff:
                         #backtrack
                         self.graph.remove_node(tuple_[1])
                         continue
@@ -343,6 +343,7 @@ class Graph:
                     self.explored_nodes.update({tuple_[1]:True})
                     self.frontier_que.append(self.graph.nodes[tuple_[1]])
 
+            #TODO trees are very big
             # non deterministic block (tree construction)
             else:
                 try:
@@ -367,7 +368,7 @@ class Graph:
                     np.random.uniform(1-change_percentage,1+change_percentage),features)))
 
                 if incremental_improvement:
-                    if not sqrt(mean_squared_error(node_features,self.target_features))<=diff:
+                    if not 1+cost_callable(features,self.target_features) <=diff:
                         #backtrack
                         self.graph.remove_node(tuple_[1])
                         continue
@@ -379,10 +380,10 @@ class Graph:
                 nx.relabel_nodes(self.graph,rename,copy=False)
                 self.frontier_que.append(self.graph.nodes[f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}"])
 
-        return self.create_relationships()
+        return self.create_relationships(cost_callable)
 
 
-    def make_graphs_stage_independent(self):
+    def make_graphs_stage_independent(self,cost_method=3):
         """
         Perform create_relationship() fucntionality for each of the testing instances.
         Visualize, make sure there are no isolated nodes, then calculate all possible
@@ -402,15 +403,21 @@ class Graph:
         # equivalent to random selection no specific logic
         #TODO think about feature weighting logic for comparing with the threshhold with rmse
         #TODO target_features may need to be averages.
-        self.target_features=self.model3.feature_tensors[0]
         test_data_graphs=[]
-        self.threshold_value=20
+        self.target_features=torch.mean(self.model3.feature_tensors,dim=0)
+        self.costs_thresholds=Costs_and_Thresholds(self.model3.feature_tensors)
+        # sum of standard deviations across features
+
+        threshold_callable=eval(f"self.costs_thresholds.threshold_v{cost_method}")
+        cost_callable=eval(f"self.costs_thresholds.cost_v{cost_method}")
+        self.threshold_value=threshold_callable()
         visualize=True
         #NOTE changing recursion limit stops the program but does not raise an error
         for i,test_x in enumerate(self.model1.test_data):
             if torch.all(test_x==-1):
                 continue
             # que for storing nodes yet to be explored
+
             self.frontier_que=deque()
             self.explored_nodes={}
             self.graph=nx.DiGraph(goal_node=None,intermediary_goal_node=None)
@@ -418,7 +425,7 @@ class Graph:
             self.start_node=self.graph.nodes[f"start:{i}"]
             self.frontier_que.append(self.start_node)
             #NOTE this is specifically for the cases when cycles are allowed
-            test_data_graphs.append(self.create_relationships())
+            test_data_graphs.append(self.create_relationships(cost_callable))
             #Note The DAG is always a tree without cycles except for the rare bug case when there are isolated nodes
             logger.info(f"{self.diagnosis}\n {i}\n is_tree:{nx.is_tree(self.graph)}")
             if visualize:

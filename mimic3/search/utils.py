@@ -1,6 +1,9 @@
 import networkx as nx
 import random
 import torch
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+
 
 # this is an external visualization function.
 # for reference please see: https://stackoverflow.com/questions/29586520/can-one-get-hierarchical-graphs-from-networkx-with-python-3#:~:text=scroll%20down%20a%20bit%20to%20see%20what%20kind%20of%20output%20the%20code%20produces%5D
@@ -82,54 +85,12 @@ def topo_pos(G):
 
     return pos_dict
 
-class Costs_and_Threshholds:
-    def __init__(self,target_features):
-        self.target_features=target_features
+class Costs_and_Thresholds:
+    def __init__(self,third_stage_features):
+        self.third_stage_features=third_stage_features
 
-    def normalize_target_feature_tensors(self):
+    def cost_v1(self,node_features,target_features):
         """
-        Obtain target feature tensors and normalize, also returning mean and standard deviation (std).
-        """
-        features_min=torch.min(self.target_features,dim=0)[0]
-        features_max=torch.max(self.target_features,dim=0)[0]
-        #z scaling
-        normalized_features=(self.target_features-features_min)/(features_max-features_min)
-        mean_normalized=torch.mean(normalized_features,dim=0)
-        std_normalized=torch.std(normalized_features,dim=0)
-
-        self.normalized_results={'features_min':features_min,
-                'features_max':features_max,
-                'vector_mean_normalized':mean_normalized,
-                'vector_std_normalized':std_normalized
-                }
-
-        return self.normalized_results
-
-    def normalize_node_features(self,node_features):
-        """
-        Normalize features of the node based on mean, std from target_feature tensors.
-        """
-        self.normalize_target_feature_tensors()
-        # NOTE the scaled dataset does not contain the node_features,
-        # so node_feautes may contain values bigger/smaller than 'features_max' and 'features_min'
-        # and it may not be scaled between (0 and 1)
-        max_=torch.maximum(self.normalized_results['features_max'],node_features)
-        min_=torch.minimum(self.normalized_results['features_min'],node_features)
-        normalized_node_features=(node_features-min_)\
-            /(max_- min_)
-
-        # if all the features are not between 0 and 1
-        if not (not all(normalized_node_features>1) and not all(normalized_node_features<0)):
-            raise Exception("Features are not between 0 and 1.")
-
-        return normalized_node_features
-
-    def cost_v1(self,node_features):
-        """
-        node_features:        [f1,f2,...,f10]
-        mean_targe_features:  [mean1,mean2,...,mean10]
-        std_target_features:  [std1,std2,...,std10]
-
         Calculates √(f1-mean1)^2+√(f2-mean2)^2+ --- √(f10-mean10)^2
         to be used later for the comparison.
         √(f1-mean1)^2+√(f2-mean2)^2+ --- √(f10-mean10)^2 <= std1+std2+---+std10
@@ -139,48 +100,51 @@ class Costs_and_Threshholds:
 
         Args:
             node_features (Tensor): _description_
-            mean_target_features (Tensor): vector showing the mean of each feature
-            std_target_features (Tensor): vector showing the std of each feature
+            target_features (Tensor): either node features or the averaged mean features of third timestep.
 
         Returns:
             Optional[bool]: return true if the features are acceptable
         """
-        mean_target_features=torch.mean(self.target_features,dim=0)
-        diff=torch.sum(torch.sqrt(torch.sub(node_features,mean_target_features)**2))
+        diff=torch.sum(torch.sqrt(torch.sub(node_features,target_features)**2))
         return diff
 
-    def cost_v1_normalized(self,node_features):
-        normalized_node_features=self.normalize_node_features(node_features)
-        diff=torch.sum(torch.sqrt(torch.sub(\
-            normalized_node_features,self.normalized_results['vector_mean_normalized'])**2))
-        return diff
-
-    def threshhold_v1(self):
-        std_target_features=torch.std(self.target_features,dim=0)
+    def threshold_v1(self):
+        """
+        Sum of standard deviations across features (shows acceptable deviation range.)
+        """
+        std_target_features=torch.std(self.third_stage_features,dim=0)
         return torch.sum(std_target_features)
 
-    def threshhold_v1_normalized(self):
-        #NOTE self.normalize_target_feature_tensors() should already be called
-        return torch.sum(self.normalized_results['vector_std_normalized'])
-
-    def cost_v2(self,node_features):
+    def cost_v2(self,node_features,target_features):
         """
-        Calculate how much features are within the acceptable deviation range
-        Range is [0,10].
-
-        Args:
-            node_features (Tensor): _description_
-            mean_target_features (Tensor): vector showing the mean of each feature
-            std_target_features (Tensor): vector showing the std of each feature
-
-        Returns:
-            Optional[bool]: return count of features that are within the accepted range
+        Calculate the count where the deviation is smaller than the accepted standard
+        deviation for each feature.
         """
-        mean_target_features=torch.mean(self.target_features,dim=0)
-        std_target_features=torch.mean(self.target_features,dim=0)
-        deviation_vector=torch.sqrt(torch.sub(node_features,mean_target_features)**2)
-        diff=deviation_vector<std_target_features
+        std_third_stage_features=torch.mean(self.third_stage_features,dim=0)
+        deviation_vector=torch.sqrt(torch.sub(node_features,target_features)**2)
+        diff=deviation_vector<std_third_stage_features
         return 10-torch.sum(diff).item()
 
-    def threshhold_v2(self,acceptable_count=8):
+    def threshold_v2(self,acceptable_count=2):
+        """
+        Returns the count showing the maximum number of cases where deviation may be bigger
+        than the standard deviation.
+        """
+        #TODO currently the threshold is strict, solutions are not found
         return acceptable_count
+
+    def cost_v3(self, features, target_features):
+        """
+        Default cost function showing the average standard deviation across features.
+        """
+        return sqrt(mean_squared_error(features,target_features))
+
+    def threshold_v3(self):
+        """
+        Calculate average rmse between the third_stage_features.
+        """
+        total_rmse=0
+        for x in self.third_stage_features:
+            for y in self.third_stage_features:
+                total_rmse+=sqrt(mean_squared_error(x,y))
+        return total_rmse/len(self.third_stage_features)**2
