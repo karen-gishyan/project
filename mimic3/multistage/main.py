@@ -112,25 +112,25 @@ for diagnosis in diagnoses:
     plt.show()
 
     # train accuracy output
-    _,_,_,_,out=multistage_model(features_t1.train_X,drug_t1.train_X)
+    _,_,_,_,out=multistage_model(features_t1.X,drug_t1.X)
     out=(out>0.5).float().flatten()
-    logger.info(f"{diagnosis}\n Train Accuracy on output: {(torch.sum(out.detach()==features_t3.train_Y)/len(out)).item()}")
+    logger.info(f"{diagnosis}\n Train Accuracy on output: {(torch.sum(out.detach()==features_t3.Y)/len(out)).item()}")
 
-    #test accuracy output
-    _,_,_,_,out=multistage_model(features_t1.test_X,drug_t1.test_X)
-    out=(out>0.5).float().flatten()
-    logger.info(f"{diagnosis}\n Test Accuracy on output: {(torch.sum(out.detach()==features_t3.test_y)/len(out)).item()}")
+    # #test accuracy output
+    # _,_,_,_,out=multistage_model(features_t1.test_X,drug_t1.test_X)
+    # out=(out>0.5).float().flatten()
+    # logger.info(f"{diagnosis}\n Test Accuracy on output: {(torch.sum(out.detach()==features_t3.test_y)/len(out)).item()}")
 
     #train accuracy drugs (how well it predicts the presence of the drug in the procedure)
-    _,drug_Xt2,_,drug_Xt3,_=multistage_model(features_t1.train_X,drug_t1.train_X)
+    _,drug_Xt2,_,drug_Xt3,_=multistage_model(features_t1.X,drug_t1.X)
     drug_Xt2=(drug_Xt2>0.5).float()
     drug_Xt3=(drug_Xt3>0.5).float()
     #first over the columns (per row), then average
-    logger.info(f"{diagnosis}\n Drug t2 Train Accuracy: {torch.mean(torch.sum(drug_Xt2.detach()==drug_t1.train_Y,dim=1)/drug_Xt2.shape[1]).item()}")
-    logger.info(f"{diagnosis}\n Drug t3 Train Accuracy: {torch.mean(torch.sum(drug_Xt3.detach()==drug_t2.train_Y,dim=1)/drug_Xt3.shape[1]).item()}")
+    logger.info(f"{diagnosis}\n Drug t2 Train Accuracy: {torch.mean(torch.sum(drug_Xt2.detach()==drug_t1.Y,dim=1)/drug_Xt2.shape[1]).item()}")
+    logger.info(f"{diagnosis}\n Drug t3 Train Accuracy: {torch.mean(torch.sum(drug_Xt3.detach()==drug_t2.Y,dim=1)/drug_Xt3.shape[1]).item()}")
 
-    _,drug_Xt2,_,drug_Xt3,_=multistage_model(features_t1.test_X,drug_t1.test_X)
-    drug_Xt2=(drug_Xt2>0.5).float()
-    drug_Xt3=(drug_Xt3>0.5).float()
-    logger.info(f"{diagnosis}\n Drug t2 Test Accuracy: {torch.mean(torch.sum(drug_Xt2.detach()==drug_t1.test_y,dim=1)/drug_Xt2.shape[1]).item()}")
-    logger.info(f"{diagnosis}\n Drug t3 Test Accuracy: {torch.mean(torch.sum(drug_Xt3.detach()==drug_t2.test_y,dim=1)/drug_Xt3.shape[1]).item()}")
+    # _,drug_Xt2,_,drug_Xt3,_=multistage_model(features_t1.test_X,drug_t1.test_X)
+    # drug_Xt2=(drug_Xt2>0.5).float()
+    # drug_Xt3=(drug_Xt3>0.5).float()
+    # logger.info(f"{diagnosis}\n Drug t2 Test Accuracy: {torch.mean(torch.sum(drug_Xt2.detach()==drug_t1.test_y,dim=1)/drug_Xt2.shape[1]).item()}")
+    # logger.info(f"{diagnosis}\n Drug t3 Test Accuracy: {torch.mean(torch.sum(drug_Xt3.detach()==drug_t2.test_y,dim=1)/drug_Xt3.shape[1]).item()}")

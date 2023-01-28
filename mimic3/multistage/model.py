@@ -24,7 +24,8 @@ class BaseDataset(Dataset):
 
     def __getitem__(self, index) :
         # test will not be iterated.
-        return self.train_X[index].float(),self.train_Y[index].float()
+        #NOTE there is so little data that it makes no sense to do train-test, some tests have only 0s
+        return self.X[index].float(),self.Y[index].float()
 
     def __len__(self):
         return len(self.train_X)
