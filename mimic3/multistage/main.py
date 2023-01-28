@@ -47,7 +47,7 @@ for diagnosis in diagnoses:
     outpt_model=Model(912,1,sigmoid_activation=True)
 
     multistage_model=MultiStageModel(feature_model,drug_model,outpt_model)
-    optimizer = torch.optim.SGD(multistage_model.parameters(), lr=0.01)
+    optimizer = torch.optim.Adamax(multistage_model.parameters(), lr=0.001)
     criterion= nn.MSELoss()
     epochs=150
 

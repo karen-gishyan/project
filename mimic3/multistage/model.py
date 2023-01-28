@@ -58,10 +58,12 @@ class Model(nn.Module):
         self.sigmoid_activation=sigmoid_activation
 
     def forward(self,x):
+
+        out=(self.linear(x))
+        out=ReLU()(out)
+        out=(self.linear(x))
         if self.sigmoid_activation:
             out=sigmoid(self.linear(x))
-        else:
-            out=ReLU()(self.linear(x))
         return out
 
 class MultiStageModel(nn.Module):
