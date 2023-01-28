@@ -91,8 +91,9 @@ class Graph:
 		self.make_models()
 		# third timestep should have only the good indices, only one of them is goal currently
 		good_indices=(self.model3.output==1).nonzero().flatten()
+		#NOTE "DIABETIC KETOACIDOSIS", "SEPSIS" "CONGESTIVE HEART FAILURE" have only 1 non -1 t3 node
+		# "ALTERED MENTAL STATUS" has 0, so end node is chosen from t2 nodes.
 		self.model3.feature_tensors=self.model3.feature_tensors.index_select(0,good_indices)
-
 		# for empty values having 0 or -1 makes no difference as long as it is the
 		# same for all train and test instances
 		test_data_graphs=[]
@@ -120,28 +121,30 @@ class Graph:
 
 			for tuple_ in stage1_top_closest:
 				similarity_scores=[]
-				node=int(re.findall("\d+",tuple_[1])[1])
-				# remove node's to prevent (node,node) score calculation
-				stage2_data=torch.cat((self.model2.feature_tensors[:node],self.model2.feature_tensors[node+1:]))
-				for j, train_x in enumerate(stage2_data):
+				int_node=int(re.findall("\d+",tuple_[1])[1])
+				node_features=self.model1.feature_tensors[int_node]
+				for j, train_x in enumerate(self.model2.feature_tensors):
 					if torch.all(train_x==-1):
 						score=2**len(train_x)
 					else:
-						score=1+sqrt(mean_squared_error(test_x,train_x))
-					similarity_scores.append((f"t1:{node}",f"t2:{j}",score))
+						score=1+sqrt(mean_squared_error(node_features,train_x))
+					similarity_scores.append((f"t1:{int_node}",f"t2:{j}",score))
 
 				stage2_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
 				self.graph.add_weighted_edges_from(stage2_top_closest)
 				for tuple_ in stage2_top_closest:
 					similarity_scores=[]
-					node=int(re.findall("\d+",tuple_[1])[1])
-					stage3_data=torch.cat((self.model3.feature_tensors[:node],self.model3.feature_tensors[node+1:]))
-					for j, train_x in enumerate(stage3_data):
+					int_node=int(re.findall("\d+",tuple_[1])[1])
+					node_features=self.model2.feature_tensors[int_node]
+					for j, train_x in enumerate(self.model3.feature_tensors):
 						if torch.all(train_x==-1):
 							score=2**len(train_x)
+							#NOTE we continue here but not above, as there is a chance
+							# that this 3rd timestep node is later selected as a final node
+							continue
 						else:
-							score=1+sqrt(mean_squared_error(test_x,train_x))
-						similarity_scores.append((f"t2:{node}",f"t3:{j}",score))
+							score=1+sqrt(mean_squared_error(node_features,train_x))
+						similarity_scores.append((f"t2:{int_node}",f"t3:{j}",score))
 
 					stage3_top_closest=list(sorted(similarity_scores,key=lambda i:i[2])[:n_childs])
 					self.graph.add_weighted_edges_from(stage3_top_closest)
@@ -507,19 +510,9 @@ class Graph:
 					#NOTE for the tree version, weight argument can be None as there is only 1 path
 					print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
 
-
+	#NOTE heurstics is admissible but imo cannot be proved, data plays a role
 	def astar_heuristic_v1(self,node,end_node):
 		"""
-		Not admissible heuristic based on rmse between node and end_node.
-		Results in two cases differ from djikstra.
-
-		djikstra shortest path:
-		['start:1', 't1:28', 't2:30', 't3:9']
-		['start:4', 't1:22', 't2:25', 't3:9']
-		'astar path' shortest path:
-		['start:1', 't1:45', 't2:31', 't3:9']
-		['start:4', 't1:45', 't2:26', 't3:9']
-
 		Args:
 			node (str): node in the graph
 			end_node (str): end node of the graph
@@ -533,7 +526,7 @@ class Graph:
 		#dynamically get variables
 		node_features=getattr(self,f"model{node_stage}").feature_tensors[node_feature_id]
 		end_node_features=getattr(self,f"model{end_node_stage}").feature_tensors[end_node_feature_id]
-
+		#NOTE if the node is 1 step away from the goal, heuristic and actual cost will be the same,logical``
 		heuristic_cost=1+sqrt(mean_squared_error(node_features,end_node_features))
 
 		self.check_admissibility(node,end_node,heuristic_cost)
@@ -583,14 +576,14 @@ class Graph:
 			shortest_path_length=nx.shortest_path_length(self.graph,node,end_node,weight='weight')
 		except nx.exception.NetworkXNoPath:
 			shortest_path_length=None
-			pass
+
 
 		if shortest_path_length:
 			#NOTE we say that the heurisics is a good one, but is not admissble
 			if not heuristic_cost<=shortest_path_length:
 				print(f'not admissible for {node} and {end_node}')
-			print(f"heuristics_cost:{heuristic_cost}\n \
-					shortest_path_legnth:{shortest_path_length}")
+			print(f"heuristic_cost for ({node}):{heuristic_cost}\n \
+					shortest_path_length for ({node}):{shortest_path_length}")
 		else:
 			#acceptable
 			# print('No path between node and end_node, same depth.')
@@ -605,5 +598,5 @@ class Graph:
 
 	def __call__(self):
 		#TODO explore shortest paths of nodes at the same level
-		# self.make_graphs()
-		self.make_graphs_stage_independent()
+		self.make_graphs()
+		# self.make_graphs_stage_indgependent()
