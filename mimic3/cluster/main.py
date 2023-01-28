@@ -64,4 +64,5 @@ plots configs in train() may be affected by the configs in calculate_distances()
 """
 # calculate_distances()
 # combine_store_drug_sequences()
+#NOTE some diagnosis datasets have only 0s in test. Only 2 datasets will be used.
 train()
