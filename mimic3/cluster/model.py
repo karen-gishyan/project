@@ -56,8 +56,7 @@ class DistanceModel:
         Output will be the same for all models and sub approaches.
         """
         path=f"{self.diagnosis}/test_output.pt"
-        if not os.path.exists(path=path):
-            torch.save(self.output_test,path)
+        torch.save(self.output_test,path)
         return self
 
     def select_good_batches_based_on_output(self):
@@ -156,7 +155,7 @@ class ClusteringModel(DistanceModel):
         # data processing
         self.average_feature_time_series().train_test()
         # calculation and saving
-        self.perform_clustering(clustering_function=clustering_function,n_clusters=3)
+        self.perform_clustering(clustering_function=clustering_function,n_clusters=3).get_drug_sequences()
         # for existing cluster methods visualize only for the first timestep
         if self.timestep==1:
             self.visualize_clusters()

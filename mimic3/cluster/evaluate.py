@@ -25,6 +25,8 @@ class DataSet(Dataset):
         output_tensor=torch.load(self.output_path).view(-1,1)
 
         self.drug_path=os.path.join(os.path.split(self.drug_path)[0],"combined_drugs_dummy.pt")
+        #NOTE in case output, data generation logic changes, removing reading from existing
+        # and generate new dummy data.
         if not os.path.exists(self.drug_path):
             drug_tensor=convert_drugs_dummy_data_format(drug_tensor)
             torch.save(drug_tensor,self.drug_path)
