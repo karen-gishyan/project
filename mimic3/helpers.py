@@ -1,3 +1,4 @@
+import os
 import logging
 import torch
 import json
@@ -6,13 +7,16 @@ from numpy import unique
 from datasets import SplitRNNData
 
 
-def configure_logger(default=True):
+def configure_logger(default=True,path=None):
     logger = logging.getLogger('mimic3')
     logger.setLevel(logging.INFO)
     if default:
         file_handler = logging.FileHandler('../info.log',mode='w')
     else:
-        file_handler = logging.FileHandler('info.log',mode='w')
+        if path:
+            file_handler = logging.FileHandler(os.path.join(path,'info.log'),mode='w')
+        else:
+            file_handler = logging.FileHandler('info.log',mode='w')
     # file_handler.setLevel(logging.INFO)
     logger.addHandler(file_handler)
     return logger

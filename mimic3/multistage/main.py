@@ -16,7 +16,8 @@ sys.path.append(parent_parent_path)
 from helpers import configure_logger
 
 
-logger=configure_logger(default=False)
+path=os.path.dirname(__file__)
+logger=configure_logger(default=False,path=path)
 
 with open('../datasets/sqldata/stats.yaml') as stats, open('info.yaml') as info:
     stats=yaml.safe_load(stats)

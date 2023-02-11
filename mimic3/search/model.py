@@ -158,7 +158,7 @@ class Graph:
 
 		return test_data_graphs
 
-	def create_relationships(self,cost_callable,n_childs=3,allow_cycles=False,non_deterministic=True,incremental_improvement=False):
+	def create_relationships(self,cost_callable,n_childs=3,allow_cycles=False,non_deterministic=False,incremental_improvement=False):
 		"""
 		For each testing instance with admission features, the goal is
 		to construct a DAG which will store the path of the optimal treatment.
@@ -431,7 +431,7 @@ class Graph:
 
 		threshold_callable=eval(f"self.costs_thresholds.threshold_v{cost_method}")
 		cost_callable=eval(f"self.costs_thresholds.cost_v{cost_method}")
-		self.threshold_value=threshold_callable()
+		self.threshold_value=1+threshold_callable()
 		visualize=True
 		for i,test_x in enumerate(self.model1.test_data):
 			if torch.all(test_x==-1):
@@ -456,6 +456,8 @@ class Graph:
 					self.visualize_tree(self.graph)
 				else:
 					# if cycle
+					plt.figure()
+					plt.title(self.diagnosis)
 					nx.draw(self.graph,with_labels=True)
 					plt.show()
 
@@ -490,7 +492,7 @@ class Graph:
 			print('djikstra shortest paths.')
 			print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
 			print('astar shortest path.')
-			print(list(nx.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic_v1)))
+			print(list(nx.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic_v2)))
 
 		else:
 			if graph.graph['intermediary_goal_node']:
@@ -556,7 +558,10 @@ class Graph:
 		#lower p value, higher the cost
 		weight=1-kstest(node_features,end_node_features).pvalue
 		depth=end_node_stage-node_stage
-		heuristic_cost=weight* depth
+		#NOTE, heuristic cost can be 0 because of depth (t3 node and there is no path
+  		# our proof is for the cases when there is path.) and when there is identical p value of 1
+		# (in the proof noted that can be 0.)
+		heuristic_cost=weight*depth
 
 		self.check_admissibility(node,end_node,heuristic_cost)
 
@@ -598,5 +603,5 @@ class Graph:
 
 	def __call__(self):
 		#TODO explore shortest paths of nodes at the same level
-		self.make_graphs()
-		# self.make_graphs_stage_indgependent()
+		# self.make_graphs()
+		self.make_graphs_stage_independent()

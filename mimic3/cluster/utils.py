@@ -7,6 +7,12 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from evaluate import DataSet, EvaluationModel
+from helpers import configure_logger
+
+
+path=os.path.dirname(__file__)
+logger=configure_logger(default=False,path=path)
+
 
 def remove_file_from_subdirectories(file_name):
     """
@@ -115,10 +121,14 @@ def train_individual(diagnosis, dirname,method=None):
     test_X=dataset.test_X
     test_y=dataset.test_y
     print(f"{diagnosis},{dirname},{method}")
+    logger.info(f"{diagnosis},{dirname},{method}")
     if torch.all(test_X==0):
         print("All test inputs are zero.")
+        logger.info("All test inputs are zero.")
     if torch.all(test_y==0):
         print("All test outputs are zero.")
+        logger.info("All test outputs are zero.")
     test_pred=model(test_X.float())
     test_pred=(test_pred>0.5).float().flatten()
     print("Accuracy",torch.sum(test_pred.detach()==test_y.flatten())/len(test_pred))
+    logger.info(f"Accuracy:{torch.sum(test_pred.detach()==test_y.flatten())/len(test_pred)}")

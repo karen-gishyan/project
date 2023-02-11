@@ -120,7 +120,7 @@ class Costs_and_Thresholds:
         Calculate the count where the deviation is smaller than the accepted standard
         deviation for each feature.
         """
-        std_third_stage_features=torch.mean(self.third_stage_features,dim=0)
+        std_third_stage_features=torch.std(self.third_stage_features,dim=0)
         deviation_vector=torch.sqrt(torch.sub(node_features,target_features)**2)
         diff=deviation_vector<std_third_stage_features
         return 10-torch.sum(diff).item()
