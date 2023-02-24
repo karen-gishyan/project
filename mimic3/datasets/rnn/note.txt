@@ -1,3 +1,0 @@
-The same datasets as admissions_and_patient_features and care_units_with_admissions_and_drugs
-except each drug and feature instead of appearing exactly 10 times appears between 10 and
-30 times. We give more variation and relax the condition of equality.
