@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset,DataLoader
+from torch.utils.data import Dataset
 from torch import sigmoid
-from torch.nn import ReLU
+import pandas as pd
 
 
 
@@ -17,40 +17,39 @@ class BaseDataset(Dataset):
         if self.timestep not in [1,2,3]:
             raise ValueError(f"timestep {self.timestep} not supported.")
 
-    def train_test_split(self):
-        train_size = int(0.8 * len(self.X))
-        self.train_X, self.test_X = self.X[:train_size],self.X[train_size:]
-        self.train_Y,self.test_y=self.Y[:train_size],self.Y[train_size:]
-
     def __getitem__(self, index) :
-        # test will not be iterated.
-        #NOTE there is so little data that it makes no sense to do train-test, some tests have only 0s
         return self.X[index].float(),self.Y[index].float()
 
     def __len__(self):
-        return len(self.train_X)
+        return len(self.X)
 
 
 class FeatureDataset(BaseDataset):
     def __init__(self,diagnosis, timestep):
         super().__init__(diagnosis, timestep)
-        self.X=torch.load(f"{diagnosis}/t{timestep}/features.pt")
-        if timestep in [1,2]:
-            self.Y=torch.load(f"{diagnosis}/t{timestep+1}/features.pt")
+        self.X=torch.Tensor(pd.read_csv(f"{diagnosis}/t{timestep}/features_synthetic.csv").values)
+        if timestep==1:
+            self.Y=torch.Tensor(pd.read_csv(f"{diagnosis}/t{timestep+1}/features_synthetic.csv").values)
+        elif timestep==2:
+            self.Y=torch.Tensor(pd.read_csv(f"{diagnosis}/t{timestep+1}/features_synthetic.csv").iloc[:,:-1].values)
         else:
-            self.Y=torch.load(f"../datasets/{diagnosis}/output.pt")
-        self.train_test_split()
+            self.Y=torch.Tensor(pd.read_csv(f"{diagnosis}/t3/features_synthetic.csv").iloc[:,-1].values)
+
 
 
 class DrugDataset(FeatureDataset):
     def __init__(self,diagnosis, timestep):
-        super().__init__(diagnosis, timestep)
-        self.X=torch.load(f"{diagnosis}/t{timestep}/drugs.pt")
-        if timestep in [1,2]:
-            self.Y=torch.load(f"{diagnosis}/t{timestep+1}/drugs.pt")
+        self.diagnosis=diagnosis
+        self.timestep=timestep
+        self.X=torch.Tensor(pd.read_csv(f"{diagnosis}/t{timestep}/drugs_synthetic.csv").values)
+        if timestep==1:
+            self.Y=torch.Tensor(pd.read_csv(f"{diagnosis}/t{timestep+1}/drugs_synthetic.csv").values)
+        elif timestep==2:
+            self.Y=torch.Tensor(pd.read_csv(f"{diagnosis}/t{timestep+1}/drugs_synthetic.csv").iloc[:,:-1].values)
         else:
-            self.Y=torch.load(f"../datasets/{diagnosis}/output.pt")
-        self.train_test_split()
+            # should be t3 feautures, it is correct
+            self.Y=torch.Tensor(pd.read_csv(f"{diagnosis}/t3/features_synthetic.csv").iloc[:,-1].values)
+
 
 class Model(nn.Module):
     def __init__(self,input_size,output_size,sigmoid_activation=False):
@@ -60,11 +59,7 @@ class Model(nn.Module):
 
     def forward(self,x):
 
-        out=(self.linear(x))
-        out=ReLU()(out)
-        out=(self.linear(x))
-        if self.sigmoid_activation:
-            out=sigmoid(self.linear(x))
+        out=self.linear(x)
         return out
 
 class MultiStageModel(nn.Module):
@@ -74,20 +69,21 @@ class MultiStageModel(nn.Module):
         self.drug_model=drug_model
         self.output_model=output_model
 
-    def forward(self,feature_Xt1,drug_Xt1):
+    def forward(self,features_t1,drugs_t1):
         #t2 pred
-        X=torch.cat((feature_Xt1,drug_Xt1),dim=1)
-        feature_Xt2=self.feature_model(X)
-        drug_Xt2=self.drug_model(X)
+        X=torch.cat((features_t1,drugs_t1),dim=1)
+        features_t2_pred=self.feature_model(X)
+        drugs_t2_pred=sigmoid(self.drug_model(X))
 
         #t3 pred
-        X=torch.cat((feature_Xt2,drug_Xt2),dim=1)
-        feature_Xt3=self.feature_model(X)
-        drug_Xt3=self.drug_model(X)
+        X=torch.cat((features_t2_pred,drugs_t2_pred),dim=1)
+        features_t3_pred=self.feature_model(X)
+        drugs_t3_pred=sigmoid(self.drug_model(X))
 
         #output pred
-        X=torch.cat((feature_Xt3,drug_Xt3),dim=1)
-        out=self.output_model(X)
+        X=torch.cat((features_t3_pred,drugs_t3_pred),dim=1)
+        output_pred=sigmoid(self.output_model(X))
+        #NOTE feature preds are returned but not used
+        return features_t2_pred,drugs_t2_pred,features_t3_pred,drugs_t3_pred,output_pred
 
-        return feature_Xt2,drug_Xt2,feature_Xt3,drug_Xt3,out
 

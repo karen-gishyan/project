@@ -1,30 +1,180 @@
 PNEUMONIA
- Train Accuracy on output: 1.0
+ fold:0,drugs t2 accuracy: 92.791
 PNEUMONIA
- Drug t2 Train Accuracy: 0.8054406642913818
+ fold:0,drugs t3 accuracy: 92.44
 PNEUMONIA
- Drug t3 Train Accuracy: 0.9680477380752563
+ fold:0, output accuracy:1.0
+PNEUMONIA
+ fold:1,drugs t2 accuracy: 91.741
+PNEUMONIA
+ fold:1,drugs t3 accuracy: 91.349
+PNEUMONIA
+ fold:1, output accuracy:1.0
+PNEUMONIA
+ fold:2,drugs t2 accuracy: 92.817
+PNEUMONIA
+ fold:2,drugs t3 accuracy: 92.45
+PNEUMONIA
+ fold:2, output accuracy:1.0
+PNEUMONIA
+ fold:3,drugs t2 accuracy: 89.643
+PNEUMONIA
+ fold:3,drugs t3 accuracy: 89.263
+PNEUMONIA
+ fold:3, output accuracy:1.0
+PNEUMONIA
+ fold:4,drugs t2 accuracy: 92.996
+PNEUMONIA
+ fold:4,drugs t3 accuracy: 92.61
+PNEUMONIA
+ fold:4, output accuracy:1.0
+PNEUMONIA
+ drugs t2 accuracy (folds average): 91.99759999999999
+PNEUMONIA
+ drugs t3 accuracy (folds average): 91.6224
+PNEUMONIA
+ output accuracy (folds average): 99.84
 CONGESTIVE HEART FAILURE
- Train Accuracy on output: 1.0
+ fold:0,drugs t2 accuracy: 87.537
 CONGESTIVE HEART FAILURE
- Drug t2 Train Accuracy: 0.709657609462738
+ fold:0,drugs t3 accuracy: 87.321
 CONGESTIVE HEART FAILURE
- Drug t3 Train Accuracy: 0.9607045650482178
+ fold:0, output accuracy:1.0
+CONGESTIVE HEART FAILURE
+ fold:1,drugs t2 accuracy: 91.908
+CONGESTIVE HEART FAILURE
+ fold:1,drugs t3 accuracy: 91.609
+CONGESTIVE HEART FAILURE
+ fold:1, output accuracy:1.0
+CONGESTIVE HEART FAILURE
+ fold:2,drugs t2 accuracy: 90.201
+CONGESTIVE HEART FAILURE
+ fold:2,drugs t3 accuracy: 89.892
+CONGESTIVE HEART FAILURE
+ fold:2, output accuracy:1.0
+CONGESTIVE HEART FAILURE
+ fold:3,drugs t2 accuracy: 90.033
+CONGESTIVE HEART FAILURE
+ fold:3,drugs t3 accuracy: 89.723
+CONGESTIVE HEART FAILURE
+ fold:3, output accuracy:1.0
+CONGESTIVE HEART FAILURE
+ fold:4,drugs t2 accuracy: 91.947
+CONGESTIVE HEART FAILURE
+ fold:4,drugs t3 accuracy: 91.645
+CONGESTIVE HEART FAILURE
+ fold:4, output accuracy:1.0
+CONGESTIVE HEART FAILURE
+ drugs t2 accuracy (folds average): 90.3252
+CONGESTIVE HEART FAILURE
+ drugs t3 accuracy (folds average): 90.038
+CONGESTIVE HEART FAILURE
+ output accuracy (folds average): 100.0
 SEPSIS
- Train Accuracy on output: 1.0
+ fold:0,drugs t2 accuracy: 93.409
 SEPSIS
- Drug t2 Train Accuracy: 0.6635013818740845
+ fold:0,drugs t3 accuracy: 93.343
 SEPSIS
- Drug t3 Train Accuracy: 0.9651499390602112
+ fold:0, output accuracy:1.0
+SEPSIS
+ fold:1,drugs t2 accuracy: 94.475
+SEPSIS
+ fold:1,drugs t3 accuracy: 94.409
+SEPSIS
+ fold:1, output accuracy:0.99
+SEPSIS
+ fold:2,drugs t2 accuracy: 93.255
+SEPSIS
+ fold:2,drugs t3 accuracy: 93.185
+SEPSIS
+ fold:2, output accuracy:1.0
+SEPSIS
+ fold:3,drugs t2 accuracy: 93.505
+SEPSIS
+ fold:3,drugs t3 accuracy: 93.434
+SEPSIS
+ fold:3, output accuracy:1.0
+SEPSIS
+ fold:4,drugs t2 accuracy: 89.399
+SEPSIS
+ fold:4,drugs t3 accuracy: 89.327
+SEPSIS
+ fold:4, output accuracy:0.99
+SEPSIS
+ drugs t2 accuracy (folds average): 92.8086
+SEPSIS
+ drugs t3 accuracy (folds average): 92.7396
+SEPSIS
+ output accuracy (folds average): 99.5
 ALTERED MENTAL STATUS
- Train Accuracy on output: 1.0
+ fold:0,drugs t2 accuracy: 88.324
 ALTERED MENTAL STATUS
- Drug t2 Train Accuracy: 0.7322246432304382
+ fold:0,drugs t3 accuracy: 88.119
 ALTERED MENTAL STATUS
- Drug t3 Train Accuracy: 0.9659276604652405
+ fold:0, output accuracy:1.0
+ALTERED MENTAL STATUS
+ fold:1,drugs t2 accuracy: 90.447
+ALTERED MENTAL STATUS
+ fold:1,drugs t3 accuracy: 90.244
+ALTERED MENTAL STATUS
+ fold:1, output accuracy:1.0
+ALTERED MENTAL STATUS
+ fold:2,drugs t2 accuracy: 90.368
+ALTERED MENTAL STATUS
+ fold:2,drugs t3 accuracy: 90.163
+ALTERED MENTAL STATUS
+ fold:2, output accuracy:1.0
+ALTERED MENTAL STATUS
+ fold:3,drugs t2 accuracy: 91.053
+ALTERED MENTAL STATUS
+ fold:3,drugs t3 accuracy: 90.849
+ALTERED MENTAL STATUS
+ fold:3, output accuracy:1.0
+ALTERED MENTAL STATUS
+ fold:4,drugs t2 accuracy: 89.58
+ALTERED MENTAL STATUS
+ fold:4,drugs t3 accuracy: 89.375
+ALTERED MENTAL STATUS
+ fold:4, output accuracy:1.0
+ALTERED MENTAL STATUS
+ drugs t2 accuracy (folds average): 89.95439999999999
+ALTERED MENTAL STATUS
+ drugs t3 accuracy (folds average): 89.75
+ALTERED MENTAL STATUS
+ output accuracy (folds average): 100.0
 DIABETIC KETOACIDOSIS
- Train Accuracy on output: 0.9375
+ fold:0,drugs t2 accuracy: 98.75
 DIABETIC KETOACIDOSIS
- Drug t2 Train Accuracy: 0.6981707215309143
+ fold:0,drugs t3 accuracy: 98.625
 DIABETIC KETOACIDOSIS
- Drug t3 Train Accuracy: 0.978866457939148
+ fold:0, output accuracy:0.96
+DIABETIC KETOACIDOSIS
+ fold:1,drugs t2 accuracy: 99.093
+DIABETIC KETOACIDOSIS
+ fold:1,drugs t3 accuracy: 98.972
+DIABETIC KETOACIDOSIS
+ fold:1, output accuracy:0.95
+DIABETIC KETOACIDOSIS
+ fold:2,drugs t2 accuracy: 99.214
+DIABETIC KETOACIDOSIS
+ fold:2,drugs t3 accuracy: 99.087
+DIABETIC KETOACIDOSIS
+ fold:2, output accuracy:0.96
+DIABETIC KETOACIDOSIS
+ fold:3,drugs t2 accuracy: 98.124
+DIABETIC KETOACIDOSIS
+ fold:3,drugs t3 accuracy: 98.0
+DIABETIC KETOACIDOSIS
+ fold:3, output accuracy:0.99
+DIABETIC KETOACIDOSIS
+ fold:4,drugs t2 accuracy: 99.123
+DIABETIC KETOACIDOSIS
+ fold:4,drugs t3 accuracy: 98.996
+DIABETIC KETOACIDOSIS
+ fold:4, output accuracy:0.96
+DIABETIC KETOACIDOSIS
+ drugs t2 accuracy (folds average): 98.86080000000001
+DIABETIC KETOACIDOSIS
+ drugs t3 accuracy (folds average): 98.73599999999999
+DIABETIC KETOACIDOSIS
+ output accuracy (folds average): 96.32
