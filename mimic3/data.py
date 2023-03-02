@@ -1,7 +1,6 @@
 from configure import configure
 configure()
 import os
-import json
 import yaml
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder

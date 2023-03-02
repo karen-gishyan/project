@@ -1,0 +1,117 @@
+PNEUMONIA
+ 0
+ is_tree:True
+PNEUMONIA
+ 1
+ is_tree:True
+PNEUMONIA
+ 2
+ is_tree:True
+PNEUMONIA
+ 3
+ is_tree:True
+PNEUMONIA
+ 4
+ is_tree:True
+PNEUMONIA
+ 5
+ is_tree:True
+PNEUMONIA
+ 6
+ is_tree:True
+PNEUMONIA
+ 7
+ is_tree:True
+PNEUMONIA
+ 8
+ is_tree:True
+PNEUMONIA
+ 9
+ is_tree:True
+PNEUMONIA
+ 10
+ is_tree:True
+PNEUMONIA
+ 11
+ is_tree:True
+PNEUMONIA
+ 12
+ is_tree:True
+PNEUMONIA
+ 13
+ is_tree:True
+PNEUMONIA
+ 15
+ is_tree:True
+PNEUMONIA
+ 16
+ is_tree:True
+PNEUMONIA
+ 17
+ is_tree:True
+PNEUMONIA
+ 19
+ is_tree:True
+CONGESTIVE HEART FAILURE
+ 1
+ is_tree:True
+CONGESTIVE HEART FAILURE
+ 3
+ is_tree:True
+CONGESTIVE HEART FAILURE
+ 4
+ is_tree:True
+CONGESTIVE HEART FAILURE
+ 5
+ is_tree:True
+CONGESTIVE HEART FAILURE
+ 6
+ is_tree:True
+CONGESTIVE HEART FAILURE
+ 7
+ is_tree:True
+SEPSIS
+ 0
+ is_tree:True
+SEPSIS
+ 2
+ is_tree:True
+SEPSIS
+ 3
+ is_tree:True
+SEPSIS
+ 4
+ is_tree:True
+SEPSIS
+ 5
+ is_tree:True
+SEPSIS
+ 6
+ is_tree:True
+ALTERED MENTAL STATUS
+ 0
+ is_tree:True
+ALTERED MENTAL STATUS
+ 2
+ is_tree:True
+ALTERED MENTAL STATUS
+ 3
+ is_tree:True
+ALTERED MENTAL STATUS
+ 4
+ is_tree:True
+DIABETIC KETOACIDOSIS
+ 0
+ is_tree:True
+DIABETIC KETOACIDOSIS
+ 1
+ is_tree:True
+DIABETIC KETOACIDOSIS
+ 2
+ is_tree:True
+DIABETIC KETOACIDOSIS
+ 3
+ is_tree:True
+DIABETIC KETOACIDOSIS
+ 4
+ is_tree:True

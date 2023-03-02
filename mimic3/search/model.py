@@ -37,7 +37,8 @@ os.chdir(dir_)
 from cluster.model import DistanceModel
 from helpers import configure_logger
 
-logger=configure_logger(default=False)
+path=os.path.dirname(__file__)
+logger=configure_logger(default=False,path=path)
 
 
 class Graph:
