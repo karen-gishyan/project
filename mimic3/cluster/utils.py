@@ -93,12 +93,14 @@ def combine_drug_sequences(diagnosis,dir_name,method=None):
 
 def train_individual(diagnosis, dirname,method=None):
     dataset=DataSet(diagnosis,dirname,method)
+    print(torch.sum(dataset.output_tensor==1))
     input_size=dataset.drug_tensor.shape[1]
     output_size=dataset.output_tensor.shape[1]
     batch_size=100
     k_folds=5
     kfold = KFold(n_splits=k_folds, shuffle=False)
     folds_accuracy_list=[]
+    # 0-500, 500-1000, ...,2000-2500 ids are taken as test for each fold
     for fold, (train_ids, test_ids) in enumerate(kfold.split(dataset)):
         print(f"Diagnosis {diagnosis}.")
         print(f"Fold {fold}")
@@ -124,22 +126,25 @@ def train_individual(diagnosis, dirname,method=None):
                 optimizer.step()
             total_loss.append(loss.item())
 
-        plt.plot(total_loss)
+        plt.plot(total_loss,label=f"fold:{fold+1}")
         title=f"Diagnosis:{diagnosis}, Type:{dirname}, Method:{method}" if method else \
             f"Diagnosis:{diagnosis}, Type:{dirname}"
         plt.xlabel('Epochs')
         plt.ylabel('Loss')
         plt.title(title)
-
+        plt.legend(loc="upper right")
 
         #pred
         output_accuracy_list=[]
+        logger.info(f"{diagnosis},{dirname},{method}")
         with torch.no_grad():
-            for _, (x,y) in enumerate(test_loader):
+            for i, (x,y) in enumerate(test_loader):
                 output_pred=model(x)
                 pred = ((output_pred.data>0.5).flatten()).float()
-                if any(pred==1): print("There is 1 in prediction.")
-                if any(y.flatten()==1): print("There is 1 in output.")
+                if any(pred==1):
+                    logger.info(f"Fold {fold},batch {i},there is 1 in prediction.")
+                if any(y.flatten()==1):
+                    logger.info(f"Fold {fold},batch {i}, there is 1 in output.")
                 output_accuracy = (torch.sum(pred == y.flatten()).item())/y.shape[0]
                 output_accuracy_list.append(output_accuracy)
 
@@ -149,5 +154,5 @@ def train_individual(diagnosis, dirname,method=None):
 
     plt.show()
     folds_average=sum(folds_accuracy_list)/len(folds_accuracy_list)
-    logger.info(f"{diagnosis},{dirname},{method}")
-    logger.info(f"output accuracy (folds average): {folds_average}")
+    logger.info(f"{diagnosis},{dirname},{method}\n")
+    logger.info(f"output accuracy (folds average): {folds_average}\n")

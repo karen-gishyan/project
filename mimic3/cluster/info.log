@@ -1,10 +1,83 @@
 PNEUMONIA,distance,mean_squared_error
-output accuracy (folds average): 0.9492
+PNEUMONIA,distance,mean_squared_error
+Fold 1,batch 0, there is 1 in output.
+Fold 1,batch 1, there is 1 in output.
+Fold 1,batch 2, there is 1 in output.
+Fold 1,batch 3, there is 1 in output.
+Fold 1,batch 4, there is 1 in output.
+PNEUMONIA,distance,mean_squared_error
+Fold 2,batch 1,there is 1 in prediction.
+PNEUMONIA,distance,mean_squared_error
+PNEUMONIA,distance,mean_squared_error
+PNEUMONIA,distance,mean_squared_error
+
+output accuracy (folds average): 0.9496
+
 PNEUMONIA,distance,median_absolute_error
+PNEUMONIA,distance,median_absolute_error
+Fold 1,batch 0, there is 1 in output.
+Fold 1,batch 1, there is 1 in output.
+Fold 1,batch 2, there is 1 in output.
+Fold 1,batch 3, there is 1 in output.
+Fold 1,batch 4, there is 1 in output.
+PNEUMONIA,distance,median_absolute_error
+PNEUMONIA,distance,median_absolute_error
+PNEUMONIA,distance,median_absolute_error
+PNEUMONIA,distance,median_absolute_error
+
 output accuracy (folds average): 0.95
+
 PNEUMONIA,cluster,KMeans
+PNEUMONIA,cluster,KMeans
+Fold 1,batch 0, there is 1 in output.
+Fold 1,batch 1, there is 1 in output.
+Fold 1,batch 2, there is 1 in output.
+Fold 1,batch 3, there is 1 in output.
+Fold 1,batch 4, there is 1 in output.
+PNEUMONIA,cluster,KMeans
+PNEUMONIA,cluster,KMeans
+PNEUMONIA,cluster,KMeans
+PNEUMONIA,cluster,KMeans
+
 output accuracy (folds average): 0.95
+
 PNEUMONIA,cluster,MiniBatchKMeans
-output accuracy (folds average): 0.8948
+PNEUMONIA,cluster,MiniBatchKMeans
+Fold 1,batch 0, there is 1 in output.
+Fold 1,batch 1, there is 1 in output.
+Fold 1,batch 2, there is 1 in output.
+Fold 1,batch 3, there is 1 in output.
+Fold 1,batch 4, there is 1 in output.
+PNEUMONIA,cluster,MiniBatchKMeans
+Fold 2,batch 0,there is 1 in prediction.
+Fold 2,batch 1,there is 1 in prediction.
+Fold 2,batch 2,there is 1 in prediction.
+Fold 2,batch 3,there is 1 in prediction.
+Fold 2,batch 4,there is 1 in prediction.
+PNEUMONIA,cluster,MiniBatchKMeans
+PNEUMONIA,cluster,MiniBatchKMeans
+PNEUMONIA,cluster,MiniBatchKMeans
+
+output accuracy (folds average): 0.8956
+
 PNEUMONIA,kstest,None
+Fold 0,batch 0,there is 1 in prediction.
+Fold 0,batch 1,there is 1 in prediction.
+Fold 0,batch 2,there is 1 in prediction.
+Fold 0,batch 3,there is 1 in prediction.
+Fold 0,batch 4,there is 1 in prediction.
+PNEUMONIA,kstest,None
+Fold 1,batch 0, there is 1 in output.
+Fold 1,batch 1, there is 1 in output.
+Fold 1,batch 2, there is 1 in output.
+Fold 1,batch 3, there is 1 in output.
+Fold 1,batch 4, there is 1 in output.
+PNEUMONIA,kstest,None
+PNEUMONIA,kstest,None
+Fold 3,batch 1,there is 1 in prediction.
+Fold 3,batch 4,there is 1 in prediction.
+PNEUMONIA,kstest,None
+PNEUMONIA,kstest,None
+
 output accuracy (folds average): 0.9428000000000001
+

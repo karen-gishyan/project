@@ -35,6 +35,7 @@ def calculate_distances():
             DistributionModel(diagnosis=diagnosis, timestep=t)()
 
 def combine_store_drug_sequences():
+    #NOTE functionality is performed for each diagnoses, but training is done only for 1 of them.
     for diagnosis in diagnoses:
         for dir_name in ['distance','cluster','kstest']:
             if dir_name=='distance':
@@ -48,19 +49,19 @@ def combine_store_drug_sequences():
 
 
 def train():
-    for diagnosis in diagnoses:
-        for dir_name in ['distance','cluster','kstest']:
-            if dir_name=='distance':
-                for f in similarity_functions:
-                    train_individual(diagnosis,dir_name,f)
-            elif dir_name=='cluster':
-                for f in clustering_functions:
-                    train_individual(diagnosis,dir_name,f)
-            else:
-                train_individual(diagnosis,dir_name)
-        #NOTE we evaluate only for 1 diagnosis (other diagnosis have very littl
-        # output diversity)
-        break
+    #NOTE ['CONGESTIVE HEART FAILURE','SEPSIS','ALTERED MENTAL STATUS' have only 0s in generated output]
+    # for 'DIABETIC KETOACIDOSIS', drastic accuracies between folds (maybe due to data), not reported.
+    for dir_name in ['distance','cluster','kstest']:
+        if dir_name=='distance':
+            for f in similarity_functions:
+                train_individual('PNEUMONIA',dir_name,f)
+        elif dir_name=='cluster':
+            for f in clustering_functions:
+                train_individual('PNEUMONIA',dir_name,f)
+        else:
+            train_individual('PNEUMONIA',dir_name)
+
+
 
 """
 plots configs in train() may be affected by the configs in calculate_distances(), better to run seperately
