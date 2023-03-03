@@ -2,7 +2,7 @@
 import os
 import sys
 import torch
-from torch.utils.data import Dataset, random_split
+from torch.utils.data import Dataset
 import torch.nn as nn
 from torch import sigmoid
 
@@ -22,33 +22,24 @@ class DataSet(Dataset):
             self.output_path=f"{diagnosis}/{dir_name}/test_output_expanded.pt"
 
         drug_tensor=torch.load(self.drug_path)
-        output_tensor=torch.load(self.output_path).view(-1,1)
+        self.output_tensor=torch.load(self.output_path).view(-1,1)
 
         self.drug_path=os.path.join(os.path.split(self.drug_path)[0],"combined_drugs_dummy.pt")
         #NOTE in case output, data generation logic changes, removing reading from existing
         # and generate new dummy data.
         if not os.path.exists(self.drug_path):
-            drug_tensor=convert_drugs_dummy_data_format(drug_tensor)
+            self.drug_tensor=convert_drugs_dummy_data_format(drug_tensor)
             torch.save(drug_tensor,self.drug_path)
         else:
-            drug_tensor=torch.load(self.drug_path)
-
-        train_size=int(len(drug_tensor)*0.7)
-        test_size=len(drug_tensor)-train_size
-        # we could use train, test directly, but we rather deal with tensors than Subdatasets.
-        train,test=random_split(drug_tensor,[train_size,test_size])
-        self.train_X=drug_tensor[train.indices]
-        self.train_y=output_tensor[train.indices]
-        self.test_X=drug_tensor[test.indices]
-        self.test_y=output_tensor[test.indices]
+            self.drug_tensor=torch.load(self.drug_path)
 
     def __getitem__(self, index):
-        return self.train_X[index].float(),self.train_y[index].float()
+        return self.drug_tensor[index].float(),self.output_tensor[index].float()
 
     def __len__(self):
-        return len(self.train_X)
+        return len(self.drug_tensor)
 
-
+from torch.nn import LogSoftmax
 class EvaluationModel(nn.Module):
     def __init__(self,input_size,output_size):
         super().__init__()

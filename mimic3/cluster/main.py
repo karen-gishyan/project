@@ -58,11 +58,13 @@ def train():
                     train_individual(diagnosis,dir_name,f)
             else:
                 train_individual(diagnosis,dir_name)
+        #NOTE we evaluate only for 1 diagnosis (other diagnosis have very littl
+        # output diversity)
+        break
 
 """
 plots configs in train() may be affected by the configs in calculate_distances(), better to run seperately
 """
 # calculate_distances()
 # combine_store_drug_sequences()
-#NOTE some diagnosis datasets have only 0s in test. Only 2 datasets will be used.
 train()

@@ -3,11 +3,14 @@ import torch
 import numpy as np
 from itertools import product
 from torch.nn.functional import pad
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader,SubsetRandomSampler
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from evaluate import DataSet, EvaluationModel
 from helpers import configure_logger
+from sklearn.model_selection import KFold
+from multistage.utils import reset_weights
+
 
 
 path=os.path.dirname(__file__)
@@ -90,45 +93,61 @@ def combine_drug_sequences(diagnosis,dir_name,method=None):
 
 def train_individual(diagnosis, dirname,method=None):
     dataset=DataSet(diagnosis,dirname,method)
-    input_size=dataset.train_X.shape[1]
-    output_size=dataset.train_y.shape[1]
+    input_size=dataset.drug_tensor.shape[1]
+    output_size=dataset.output_tensor.shape[1]
+    batch_size=100
+    k_folds=5
+    kfold = KFold(n_splits=k_folds, shuffle=False)
+    folds_accuracy_list=[]
+    for fold, (train_ids, test_ids) in enumerate(kfold.split(dataset)):
+        print(f"Diagnosis {diagnosis}.")
+        print(f"Fold {fold}")
+        train_subsampler = SubsetRandomSampler(train_ids)
+        test_subsampler = SubsetRandomSampler(test_ids)
 
-    loader=DataLoader(dataset,shuffle=True,batch_size=50)
-    model=EvaluationModel(input_size=input_size,output_size=output_size)
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)
-    criterion= nn.MSELoss()
+        train_loader=DataLoader(dataset,batch_size=batch_size,sampler=train_subsampler)
+        test_loader=DataLoader(dataset,batch_size=batch_size,sampler=test_subsampler)
+        model=EvaluationModel(input_size=input_size,output_size=output_size)
+        model.apply(reset_weights)
+        criterion= nn.BCELoss()
+        optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)
 
-    torch.seed()
-    epochs=150
-    total_loss=[]
-    for _ in range(epochs):
-        for _, (x,y) in enumerate(loader):
-            y_pred=model(x.float())
-            loss=criterion(y_pred.float(),y.float())
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+        torch.seed()
+        epochs=50
+        total_loss=[]
+        for _ in range(epochs):
+            for _, (x,y) in enumerate(train_loader):
+                y_pred=model(x.float())
+                loss=criterion(y_pred.float(),y.float())
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+            total_loss.append(loss.item())
 
-        total_loss.append(loss.item())
+        plt.plot(total_loss)
+        title=f"Diagnosis:{diagnosis}, Type:{dirname}, Method:{method}" if method else \
+            f"Diagnosis:{diagnosis}, Type:{dirname}"
+        plt.xlabel('Epochs')
+        plt.ylabel('Loss')
+        plt.title(title)
 
-    plt.plot(total_loss)
-    title=f"Diagnosis:{diagnosis}, Type:{dirname}, Method:{method}" if method else \
-        f"Diagnosis:{diagnosis}, Type:{dirname}"
-    plt.title(title)
-    # plt.show()
 
-    #pred
-    test_X=dataset.test_X
-    test_y=dataset.test_y
-    print(f"{diagnosis},{dirname},{method}")
+        #pred
+        output_accuracy_list=[]
+        with torch.no_grad():
+            for _, (x,y) in enumerate(test_loader):
+                output_pred=model(x)
+                pred = ((output_pred.data>0.5).flatten()).float()
+                if any(pred==1): print("There is 1 in prediction.")
+                if any(y.flatten()==1): print("There is 1 in output.")
+                output_accuracy = (torch.sum(pred == y.flatten()).item())/y.shape[0]
+                output_accuracy_list.append(output_accuracy)
+
+        mean_accuracy_across_batches=sum(output_accuracy_list)/len(output_accuracy_list)
+        print(f"Mean Batch Accuracy {mean_accuracy_across_batches}")
+        folds_accuracy_list.append(mean_accuracy_across_batches)
+
+    plt.show()
+    folds_average=sum(folds_accuracy_list)/len(folds_accuracy_list)
     logger.info(f"{diagnosis},{dirname},{method}")
-    if torch.all(test_X==0):
-        print("All test inputs are zero.")
-        logger.info("All test inputs are zero.")
-    if torch.all(test_y==0):
-        print("All test outputs are zero.")
-        logger.info("All test outputs are zero.")
-    test_pred=model(test_X.float())
-    test_pred=(test_pred>0.5).float().flatten()
-    print("Accuracy",torch.sum(test_pred.detach()==test_y.flatten())/len(test_pred))
-    logger.info(f"Accuracy:{torch.sum(test_pred.detach()==test_y.flatten())/len(test_pred)}")
+    logger.info(f"output accuracy (folds average): {folds_average}")

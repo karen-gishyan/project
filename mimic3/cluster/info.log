@@ -1,65 +1,10 @@
 PNEUMONIA,distance,mean_squared_error
-Accuracy:0.9413333535194397
+output accuracy (folds average): 0.9492
 PNEUMONIA,distance,median_absolute_error
-Accuracy:0.9453333616256714
+output accuracy (folds average): 0.95
 PNEUMONIA,cluster,KMeans
-Accuracy:0.9493333101272583
+output accuracy (folds average): 0.95
 PNEUMONIA,cluster,MiniBatchKMeans
-Accuracy:0.9586666822433472
+output accuracy (folds average): 0.8948
 PNEUMONIA,kstest,None
-Accuracy:0.9480000138282776
-CONGESTIVE HEART FAILURE,distance,mean_squared_error
-All test outputs are zero.
-Accuracy:1.0
-CONGESTIVE HEART FAILURE,distance,median_absolute_error
-All test outputs are zero.
-Accuracy:1.0
-CONGESTIVE HEART FAILURE,cluster,KMeans
-All test outputs are zero.
-Accuracy:1.0
-CONGESTIVE HEART FAILURE,cluster,MiniBatchKMeans
-All test outputs are zero.
-Accuracy:1.0
-CONGESTIVE HEART FAILURE,kstest,None
-All test outputs are zero.
-Accuracy:1.0
-SEPSIS,distance,mean_squared_error
-All test outputs are zero.
-Accuracy:1.0
-SEPSIS,distance,median_absolute_error
-All test outputs are zero.
-Accuracy:1.0
-SEPSIS,cluster,KMeans
-All test outputs are zero.
-Accuracy:1.0
-SEPSIS,cluster,MiniBatchKMeans
-All test outputs are zero.
-Accuracy:1.0
-SEPSIS,kstest,None
-All test outputs are zero.
-Accuracy:1.0
-ALTERED MENTAL STATUS,distance,mean_squared_error
-All test outputs are zero.
-Accuracy:1.0
-ALTERED MENTAL STATUS,distance,median_absolute_error
-All test outputs are zero.
-Accuracy:1.0
-ALTERED MENTAL STATUS,cluster,KMeans
-All test outputs are zero.
-Accuracy:1.0
-ALTERED MENTAL STATUS,cluster,MiniBatchKMeans
-All test outputs are zero.
-Accuracy:1.0
-ALTERED MENTAL STATUS,kstest,None
-All test outputs are zero.
-Accuracy:1.0
-DIABETIC KETOACIDOSIS,distance,mean_squared_error
-Accuracy:0.5
-DIABETIC KETOACIDOSIS,distance,median_absolute_error
-Accuracy:0.5729166865348816
-DIABETIC KETOACIDOSIS,cluster,KMeans
-Accuracy:0.5159574747085571
-DIABETIC KETOACIDOSIS,cluster,MiniBatchKMeans
-Accuracy:0.6382978558540344
-DIABETIC KETOACIDOSIS,kstest,None
-Accuracy:0.5531914830207825
+output accuracy (folds average): 0.9428000000000001

@@ -43,7 +43,6 @@ for diagnosis in diagnoses:
     batch_size=100
     k_folds=5
     kfold = KFold(n_splits=k_folds, shuffle=False)
-    results={}
     drugs_t2_fold_accuracies=[]
     drugs_t3_fold_accuracies=[]
     output_fold_accuracies=[]
