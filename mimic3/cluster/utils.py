@@ -100,7 +100,7 @@ def train_individual(diagnosis, dirname,method=None):
     k_folds=5
     kfold = KFold(n_splits=k_folds, shuffle=False)
     folds_accuracy_list=[]
-    # 0-500, 500-1000, ...,2000-2500 ids are taken as test for each fold
+    # 0-500, 500-1000, ...,2000-2500 ids are taken as test_ids for each fold
     for fold, (train_ids, test_ids) in enumerate(kfold.split(dataset)):
         print(f"Diagnosis {diagnosis}.")
         print(f"Fold {fold}")

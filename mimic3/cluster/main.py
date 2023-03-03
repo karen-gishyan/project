@@ -35,7 +35,7 @@ def calculate_distances():
             DistributionModel(diagnosis=diagnosis, timestep=t)()
 
 def combine_store_drug_sequences():
-    #NOTE functionality is performed for each diagnoses, but training is done only for 1 of them.
+    #NOTE functionality is performed for each diagnoses, but training is done only for 1.
     for diagnosis in diagnoses:
         for dir_name in ['distance','cluster','kstest']:
             if dir_name=='distance':
