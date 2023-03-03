@@ -34,7 +34,7 @@ class DistanceModel:
         self.output=torch.load(f"../datasets/{diagnosis}/output.pt")
 
     def average_feature_time_series(self):
-        #TODO should -1 be converted to 0 before averaging as in multistage?
+        #NOTE should -1 be converted to 0 before averaging as in multistage?
         # maybe not because here not the value itself is important, but the similarity
         # train-test value similarity. If both are averaged the same, way, should be ok.
         self.feature_tensors=self.feature_tensors.mean(dim=1)

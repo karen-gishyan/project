@@ -1,117 +1,49 @@
-PNEUMONIA
- 0
- is_tree:True
-PNEUMONIA
- 1
- is_tree:True
-PNEUMONIA
- 2
- is_tree:True
-PNEUMONIA
- 3
- is_tree:True
-PNEUMONIA
- 4
- is_tree:True
-PNEUMONIA
- 5
- is_tree:True
-PNEUMONIA
- 6
- is_tree:True
-PNEUMONIA
- 7
- is_tree:True
-PNEUMONIA
- 8
- is_tree:True
-PNEUMONIA
- 9
- is_tree:True
-PNEUMONIA
- 10
- is_tree:True
-PNEUMONIA
- 11
- is_tree:True
-PNEUMONIA
- 12
- is_tree:True
-PNEUMONIA
- 13
- is_tree:True
-PNEUMONIA
- 15
- is_tree:True
-PNEUMONIA
- 16
- is_tree:True
-PNEUMONIA
- 17
- is_tree:True
-PNEUMONIA
- 19
- is_tree:True
-CONGESTIVE HEART FAILURE
- 1
- is_tree:True
-CONGESTIVE HEART FAILURE
- 3
- is_tree:True
-CONGESTIVE HEART FAILURE
- 4
- is_tree:True
-CONGESTIVE HEART FAILURE
- 5
- is_tree:True
-CONGESTIVE HEART FAILURE
- 6
- is_tree:True
-CONGESTIVE HEART FAILURE
- 7
- is_tree:True
-SEPSIS
- 0
- is_tree:True
-SEPSIS
- 2
- is_tree:True
-SEPSIS
- 3
- is_tree:True
-SEPSIS
- 4
- is_tree:True
-SEPSIS
- 5
- is_tree:True
-SEPSIS
- 6
- is_tree:True
-ALTERED MENTAL STATUS
- 0
- is_tree:True
-ALTERED MENTAL STATUS
- 2
- is_tree:True
-ALTERED MENTAL STATUS
- 3
- is_tree:True
-ALTERED MENTAL STATUS
- 4
- is_tree:True
-DIABETIC KETOACIDOSIS
- 0
- is_tree:True
-DIABETIC KETOACIDOSIS
- 1
- is_tree:True
-DIABETIC KETOACIDOSIS
- 2
- is_tree:True
-DIABETIC KETOACIDOSIS
- 3
- is_tree:True
-DIABETIC KETOACIDOSIS
- 4
- is_tree:True
+clusters-array from algorithm.
+[[ 0.  6. 10.]
+ [ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 0.  6. 10.]
+ [ 0.  5. 10.]
+ [ 0.  6. 10.]
+ [ 1.  5. 10.]
+ [ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 1.  5. 10.]
+ [ 0.  6. 10.]
+ [ 0.  6. 10.]
+ [ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 0.  6. 10.]
+ [ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 1.  5. 10.]]
+Correct cluster allocation % with 3 clusters is: 72.22%
+clusters-array from algorithm.
+[[ 0.  6. 10.]
+ [ 1.  6. 10.]
+ [ 1.  6. 10.]
+ [ 1.  6. 10.]
+ [ 1.  6. 10.]
+ [ 1.  6. 10.]]
+Correct cluster allocation % with 3 clusters is: 61.11%
+clusters-array from algorithm.
+[[ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 0.  5. 10.]
+ [ 2.  5. 10.]]
+Correct cluster allocation % with 3 clusters is: 61.11%
+clusters-array from algorithm.
+[[0. 5. 0.]
+ [2. 5. 0.]
+ [2. 5. 0.]
+ [2. 5. 0.]]
+Correct cluster allocation % with 3 clusters is: 33.33%
+clusters-array from algorithm.
+[[ 0.  7. 10.]
+ [ 1.  6. 10.]
+ [ 0.  7. 10.]
+ [ 0.  7. 10.]
+ [ 0.  7. 10.]]
+Correct cluster allocation % with 3 clusters is: 80.0%

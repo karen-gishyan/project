@@ -125,7 +125,7 @@ class PopulateModels:
 				print(f"Exception on row_id {row['ROW_ID']}.")
 				raise (e)
 
- 	#TODO there is an overflow exception, currently not the full dataset is loaded
+ 	#NOTE there is an overflow exception, currently not the full dataset is loaded
 	def load_inputevent_mv(self) -> None:
 
 		inputevent_mv_df_path=os.path.join(self.main_path, 'INPUTEVENTS_MV.csv')
@@ -353,7 +353,7 @@ class PopulateModels:
 					print(f"Exception on row_id {row['ROW_ID']}.")
 					raise (e)
 
-	#TODO 1/6 of dataset is loaded
+	#NOTE 1/6 of dataset is loaded
 	def load_labeevents(self) -> None:
 		labevents_df_path=os.path.join(self.main_path, 'LABEVENTS.csv')
 		self.labevents_df=pd.read_csv(labevents_df_path,nrows=3000000)
