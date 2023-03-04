@@ -1,180 +1,680 @@
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 1 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
+In fold 0, loader 5, there are 0 1s in actual.
+In fold 0, loader 5, there are 0 1s in pred.
+In fold 0, loader 6, there are 0 1s in actual.
+In fold 0, loader 6, there are 0 1s in pred.
+In fold 0, loader 7, there are 1 1s in actual.
+In fold 0, loader 7, there are 0 1s in pred.
+In fold 0, loader 8, there are 0 1s in actual.
+In fold 0, loader 8, there are 0 1s in pred.
+In fold 0, loader 9, there are 0 1s in actual.
+In fold 0, loader 9, there are 0 1s in pred.
 PNEUMONIA
- fold:0,drugs t2 accuracy: 92.791
+ fold:0,drugs t2 accuracy: 92.535
 PNEUMONIA
- fold:0,drugs t3 accuracy: 92.44
+ fold:0,drugs t3 accuracy: 92.192
 PNEUMONIA
  fold:0, output accuracy:1.0
+In fold 1, loader 0, there are 0 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 0 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 0 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 0 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 0 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
+In fold 1, loader 5, there are 0 1s in actual.
+In fold 1, loader 5, there are 0 1s in pred.
+In fold 1, loader 6, there are 0 1s in actual.
+In fold 1, loader 6, there are 0 1s in pred.
+In fold 1, loader 7, there are 0 1s in actual.
+In fold 1, loader 7, there are 0 1s in pred.
+In fold 1, loader 8, there are 0 1s in actual.
+In fold 1, loader 8, there are 0 1s in pred.
+In fold 1, loader 9, there are 0 1s in actual.
+In fold 1, loader 9, there are 0 1s in pred.
 PNEUMONIA
- fold:1,drugs t2 accuracy: 91.741
+ fold:1,drugs t2 accuracy: 91.311
 PNEUMONIA
- fold:1,drugs t3 accuracy: 91.349
+ fold:1,drugs t3 accuracy: 90.92
 PNEUMONIA
  fold:1, output accuracy:1.0
+In fold 2, loader 0, there are 1 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 1 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
+In fold 2, loader 5, there are 0 1s in actual.
+In fold 2, loader 5, there are 0 1s in pred.
+In fold 2, loader 6, there are 0 1s in actual.
+In fold 2, loader 6, there are 0 1s in pred.
+In fold 2, loader 7, there are 0 1s in actual.
+In fold 2, loader 7, there are 0 1s in pred.
+In fold 2, loader 8, there are 0 1s in actual.
+In fold 2, loader 8, there are 0 1s in pred.
+In fold 2, loader 9, there are 1 1s in actual.
+In fold 2, loader 9, there are 0 1s in pred.
 PNEUMONIA
- fold:2,drugs t2 accuracy: 92.817
+ fold:2,drugs t2 accuracy: 92.353
 PNEUMONIA
- fold:2,drugs t3 accuracy: 92.45
+ fold:2,drugs t3 accuracy: 91.976
 PNEUMONIA
- fold:2, output accuracy:1.0
+ fold:2, output accuracy:0.99
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
+In fold 3, loader 5, there are 0 1s in actual.
+In fold 3, loader 5, there are 0 1s in pred.
+In fold 3, loader 6, there are 1 1s in actual.
+In fold 3, loader 6, there are 0 1s in pred.
+In fold 3, loader 7, there are 0 1s in actual.
+In fold 3, loader 7, there are 0 1s in pred.
+In fold 3, loader 8, there are 1 1s in actual.
+In fold 3, loader 8, there are 0 1s in pred.
+In fold 3, loader 9, there are 0 1s in actual.
+In fold 3, loader 9, there are 0 1s in pred.
 PNEUMONIA
- fold:3,drugs t2 accuracy: 89.643
+ fold:3,drugs t2 accuracy: 89.019
 PNEUMONIA
- fold:3,drugs t3 accuracy: 89.263
+ fold:3,drugs t3 accuracy: 88.671
 PNEUMONIA
  fold:3, output accuracy:1.0
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
+In fold 4, loader 5, there are 0 1s in actual.
+In fold 4, loader 5, there are 0 1s in pred.
+In fold 4, loader 6, there are 1 1s in actual.
+In fold 4, loader 6, there are 0 1s in pred.
+In fold 4, loader 7, there are 0 1s in actual.
+In fold 4, loader 7, there are 0 1s in pred.
+In fold 4, loader 8, there are 0 1s in actual.
+In fold 4, loader 8, there are 0 1s in pred.
+In fold 4, loader 9, there are 0 1s in actual.
+In fold 4, loader 9, there are 0 1s in pred.
 PNEUMONIA
- fold:4,drugs t2 accuracy: 92.996
+ fold:4,drugs t2 accuracy: 92.993
 PNEUMONIA
- fold:4,drugs t3 accuracy: 92.61
+ fold:4,drugs t3 accuracy: 92.605
 PNEUMONIA
  fold:4, output accuracy:1.0
 PNEUMONIA
- drugs t2 accuracy (folds average): 91.99759999999999
+ drugs t2 accuracy (folds average): 91.6422
 PNEUMONIA
- drugs t3 accuracy (folds average): 91.6224
+ drugs t3 accuracy (folds average): 91.27279999999999
 PNEUMONIA
  output accuracy (folds average): 99.84
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
+In fold 0, loader 5, there are 0 1s in actual.
+In fold 0, loader 5, there are 0 1s in pred.
+In fold 0, loader 6, there are 0 1s in actual.
+In fold 0, loader 6, there are 0 1s in pred.
+In fold 0, loader 7, there are 0 1s in actual.
+In fold 0, loader 7, there are 0 1s in pred.
+In fold 0, loader 8, there are 0 1s in actual.
+In fold 0, loader 8, there are 0 1s in pred.
+In fold 0, loader 9, there are 0 1s in actual.
+In fold 0, loader 9, there are 0 1s in pred.
 CONGESTIVE HEART FAILURE
- fold:0,drugs t2 accuracy: 87.537
+ fold:0,drugs t2 accuracy: 88.076
 CONGESTIVE HEART FAILURE
- fold:0,drugs t3 accuracy: 87.321
+ fold:0,drugs t3 accuracy: 87.799
 CONGESTIVE HEART FAILURE
  fold:0, output accuracy:1.0
+In fold 1, loader 0, there are 0 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 0 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 0 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 0 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 0 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
+In fold 1, loader 5, there are 0 1s in actual.
+In fold 1, loader 5, there are 0 1s in pred.
+In fold 1, loader 6, there are 0 1s in actual.
+In fold 1, loader 6, there are 0 1s in pred.
+In fold 1, loader 7, there are 0 1s in actual.
+In fold 1, loader 7, there are 0 1s in pred.
+In fold 1, loader 8, there are 0 1s in actual.
+In fold 1, loader 8, there are 0 1s in pred.
+In fold 1, loader 9, there are 0 1s in actual.
+In fold 1, loader 9, there are 0 1s in pred.
 CONGESTIVE HEART FAILURE
- fold:1,drugs t2 accuracy: 91.908
+ fold:1,drugs t2 accuracy: 92.138
 CONGESTIVE HEART FAILURE
- fold:1,drugs t3 accuracy: 91.609
+ fold:1,drugs t3 accuracy: 91.793
 CONGESTIVE HEART FAILURE
  fold:1, output accuracy:1.0
+In fold 2, loader 0, there are 0 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
+In fold 2, loader 5, there are 0 1s in actual.
+In fold 2, loader 5, there are 0 1s in pred.
+In fold 2, loader 6, there are 0 1s in actual.
+In fold 2, loader 6, there are 0 1s in pred.
+In fold 2, loader 7, there are 0 1s in actual.
+In fold 2, loader 7, there are 0 1s in pred.
+In fold 2, loader 8, there are 0 1s in actual.
+In fold 2, loader 8, there are 0 1s in pred.
+In fold 2, loader 9, there are 0 1s in actual.
+In fold 2, loader 9, there are 0 1s in pred.
 CONGESTIVE HEART FAILURE
- fold:2,drugs t2 accuracy: 90.201
+ fold:2,drugs t2 accuracy: 89.862
 CONGESTIVE HEART FAILURE
- fold:2,drugs t3 accuracy: 89.892
+ fold:2,drugs t3 accuracy: 89.596
 CONGESTIVE HEART FAILURE
  fold:2, output accuracy:1.0
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
+In fold 3, loader 5, there are 0 1s in actual.
+In fold 3, loader 5, there are 0 1s in pred.
+In fold 3, loader 6, there are 0 1s in actual.
+In fold 3, loader 6, there are 0 1s in pred.
+In fold 3, loader 7, there are 0 1s in actual.
+In fold 3, loader 7, there are 0 1s in pred.
+In fold 3, loader 8, there are 0 1s in actual.
+In fold 3, loader 8, there are 0 1s in pred.
+In fold 3, loader 9, there are 0 1s in actual.
+In fold 3, loader 9, there are 0 1s in pred.
 CONGESTIVE HEART FAILURE
- fold:3,drugs t2 accuracy: 90.033
+ fold:3,drugs t2 accuracy: 90.166
 CONGESTIVE HEART FAILURE
- fold:3,drugs t3 accuracy: 89.723
+ fold:3,drugs t3 accuracy: 89.844
 CONGESTIVE HEART FAILURE
  fold:3, output accuracy:1.0
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
+In fold 4, loader 5, there are 0 1s in actual.
+In fold 4, loader 5, there are 0 1s in pred.
+In fold 4, loader 6, there are 0 1s in actual.
+In fold 4, loader 6, there are 0 1s in pred.
+In fold 4, loader 7, there are 0 1s in actual.
+In fold 4, loader 7, there are 0 1s in pred.
+In fold 4, loader 8, there are 0 1s in actual.
+In fold 4, loader 8, there are 0 1s in pred.
+In fold 4, loader 9, there are 0 1s in actual.
+In fold 4, loader 9, there are 0 1s in pred.
 CONGESTIVE HEART FAILURE
- fold:4,drugs t2 accuracy: 91.947
+ fold:4,drugs t2 accuracy: 91.445
 CONGESTIVE HEART FAILURE
- fold:4,drugs t3 accuracy: 91.645
+ fold:4,drugs t3 accuracy: 91.174
 CONGESTIVE HEART FAILURE
  fold:4, output accuracy:1.0
 CONGESTIVE HEART FAILURE
- drugs t2 accuracy (folds average): 90.3252
+ drugs t2 accuracy (folds average): 90.3374
 CONGESTIVE HEART FAILURE
- drugs t3 accuracy (folds average): 90.038
+ drugs t3 accuracy (folds average): 90.0412
 CONGESTIVE HEART FAILURE
  output accuracy (folds average): 100.0
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 1 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 1 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
+In fold 0, loader 5, there are 0 1s in actual.
+In fold 0, loader 5, there are 0 1s in pred.
+In fold 0, loader 6, there are 0 1s in actual.
+In fold 0, loader 6, there are 0 1s in pred.
+In fold 0, loader 7, there are 1 1s in actual.
+In fold 0, loader 7, there are 0 1s in pred.
+In fold 0, loader 8, there are 1 1s in actual.
+In fold 0, loader 8, there are 0 1s in pred.
+In fold 0, loader 9, there are 1 1s in actual.
+In fold 0, loader 9, there are 0 1s in pred.
 SEPSIS
- fold:0,drugs t2 accuracy: 93.409
+ fold:0,drugs t2 accuracy: 93.009
 SEPSIS
- fold:0,drugs t3 accuracy: 93.343
+ fold:0,drugs t3 accuracy: 92.94
 SEPSIS
- fold:0, output accuracy:1.0
+ fold:0, output accuracy:0.99
+In fold 1, loader 0, there are 1 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 1 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 0 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 0 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 0 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
+In fold 1, loader 5, there are 0 1s in actual.
+In fold 1, loader 5, there are 0 1s in pred.
+In fold 1, loader 6, there are 1 1s in actual.
+In fold 1, loader 6, there are 0 1s in pred.
+In fold 1, loader 7, there are 1 1s in actual.
+In fold 1, loader 7, there are 0 1s in pred.
+In fold 1, loader 8, there are 1 1s in actual.
+In fold 1, loader 8, there are 0 1s in pred.
+In fold 1, loader 9, there are 0 1s in actual.
+In fold 1, loader 9, there are 0 1s in pred.
 SEPSIS
- fold:1,drugs t2 accuracy: 94.475
+ fold:1,drugs t2 accuracy: 91.663
 SEPSIS
- fold:1,drugs t3 accuracy: 94.409
+ fold:1,drugs t3 accuracy: 91.598
 SEPSIS
- fold:1, output accuracy:0.99
+ fold:1, output accuracy:1.0
+In fold 2, loader 0, there are 1 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
+In fold 2, loader 5, there are 0 1s in actual.
+In fold 2, loader 5, there are 0 1s in pred.
+In fold 2, loader 6, there are 1 1s in actual.
+In fold 2, loader 6, there are 0 1s in pred.
+In fold 2, loader 7, there are 0 1s in actual.
+In fold 2, loader 7, there are 0 1s in pred.
+In fold 2, loader 8, there are 1 1s in actual.
+In fold 2, loader 8, there are 0 1s in pred.
+In fold 2, loader 9, there are 2 1s in actual.
+In fold 2, loader 9, there are 0 1s in pred.
 SEPSIS
- fold:2,drugs t2 accuracy: 93.255
+ fold:2,drugs t2 accuracy: 93.018
 SEPSIS
- fold:2,drugs t3 accuracy: 93.185
+ fold:2,drugs t3 accuracy: 92.947
 SEPSIS
- fold:2, output accuracy:1.0
+ fold:2, output accuracy:0.98
+In fold 3, loader 0, there are 2 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
+In fold 3, loader 5, there are 1 1s in actual.
+In fold 3, loader 5, there are 0 1s in pred.
+In fold 3, loader 6, there are 1 1s in actual.
+In fold 3, loader 6, there are 0 1s in pred.
+In fold 3, loader 7, there are 0 1s in actual.
+In fold 3, loader 7, there are 0 1s in pred.
+In fold 3, loader 8, there are 0 1s in actual.
+In fold 3, loader 8, there are 0 1s in pred.
+In fold 3, loader 9, there are 0 1s in actual.
+In fold 3, loader 9, there are 0 1s in pred.
 SEPSIS
- fold:3,drugs t2 accuracy: 93.505
+ fold:3,drugs t2 accuracy: 92.463
 SEPSIS
- fold:3,drugs t3 accuracy: 93.434
+ fold:3,drugs t3 accuracy: 92.407
 SEPSIS
  fold:3, output accuracy:1.0
+In fold 4, loader 0, there are 1 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 1 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 3 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
+In fold 4, loader 5, there are 1 1s in actual.
+In fold 4, loader 5, there are 0 1s in pred.
+In fold 4, loader 6, there are 0 1s in actual.
+In fold 4, loader 6, there are 0 1s in pred.
+In fold 4, loader 7, there are 0 1s in actual.
+In fold 4, loader 7, there are 0 1s in pred.
+In fold 4, loader 8, there are 0 1s in actual.
+In fold 4, loader 8, there are 0 1s in pred.
+In fold 4, loader 9, there are 0 1s in actual.
+In fold 4, loader 9, there are 0 1s in pred.
 SEPSIS
- fold:4,drugs t2 accuracy: 89.399
+ fold:4,drugs t2 accuracy: 94.122
 SEPSIS
- fold:4,drugs t3 accuracy: 89.327
+ fold:4,drugs t3 accuracy: 94.051
 SEPSIS
- fold:4, output accuracy:0.99
+ fold:4, output accuracy:1.0
 SEPSIS
- drugs t2 accuracy (folds average): 92.8086
+ drugs t2 accuracy (folds average): 92.855
 SEPSIS
- drugs t3 accuracy (folds average): 92.7396
+ drugs t3 accuracy (folds average): 92.7886
 SEPSIS
  output accuracy (folds average): 99.5
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
+In fold 0, loader 5, there are 0 1s in actual.
+In fold 0, loader 5, there are 0 1s in pred.
+In fold 0, loader 6, there are 0 1s in actual.
+In fold 0, loader 6, there are 0 1s in pred.
+In fold 0, loader 7, there are 0 1s in actual.
+In fold 0, loader 7, there are 0 1s in pred.
+In fold 0, loader 8, there are 0 1s in actual.
+In fold 0, loader 8, there are 0 1s in pred.
+In fold 0, loader 9, there are 0 1s in actual.
+In fold 0, loader 9, there are 0 1s in pred.
 ALTERED MENTAL STATUS
- fold:0,drugs t2 accuracy: 88.324
+ fold:0,drugs t2 accuracy: 88.894
 ALTERED MENTAL STATUS
- fold:0,drugs t3 accuracy: 88.119
+ fold:0,drugs t3 accuracy: 88.689
 ALTERED MENTAL STATUS
  fold:0, output accuracy:1.0
+In fold 1, loader 0, there are 0 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 0 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 0 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 0 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 0 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
+In fold 1, loader 5, there are 0 1s in actual.
+In fold 1, loader 5, there are 0 1s in pred.
+In fold 1, loader 6, there are 0 1s in actual.
+In fold 1, loader 6, there are 0 1s in pred.
+In fold 1, loader 7, there are 0 1s in actual.
+In fold 1, loader 7, there are 0 1s in pred.
+In fold 1, loader 8, there are 0 1s in actual.
+In fold 1, loader 8, there are 0 1s in pred.
+In fold 1, loader 9, there are 0 1s in actual.
+In fold 1, loader 9, there are 0 1s in pred.
 ALTERED MENTAL STATUS
- fold:1,drugs t2 accuracy: 90.447
+ fold:1,drugs t2 accuracy: 91.614
 ALTERED MENTAL STATUS
- fold:1,drugs t3 accuracy: 90.244
+ fold:1,drugs t3 accuracy: 91.41
 ALTERED MENTAL STATUS
  fold:1, output accuracy:1.0
+In fold 2, loader 0, there are 0 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
+In fold 2, loader 5, there are 0 1s in actual.
+In fold 2, loader 5, there are 0 1s in pred.
+In fold 2, loader 6, there are 0 1s in actual.
+In fold 2, loader 6, there are 0 1s in pred.
+In fold 2, loader 7, there are 0 1s in actual.
+In fold 2, loader 7, there are 0 1s in pred.
+In fold 2, loader 8, there are 0 1s in actual.
+In fold 2, loader 8, there are 0 1s in pred.
+In fold 2, loader 9, there are 0 1s in actual.
+In fold 2, loader 9, there are 0 1s in pred.
 ALTERED MENTAL STATUS
- fold:2,drugs t2 accuracy: 90.368
+ fold:2,drugs t2 accuracy: 91.176
 ALTERED MENTAL STATUS
- fold:2,drugs t3 accuracy: 90.163
+ fold:2,drugs t3 accuracy: 90.971
 ALTERED MENTAL STATUS
  fold:2, output accuracy:1.0
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
+In fold 3, loader 5, there are 0 1s in actual.
+In fold 3, loader 5, there are 0 1s in pred.
+In fold 3, loader 6, there are 0 1s in actual.
+In fold 3, loader 6, there are 0 1s in pred.
+In fold 3, loader 7, there are 0 1s in actual.
+In fold 3, loader 7, there are 0 1s in pred.
+In fold 3, loader 8, there are 0 1s in actual.
+In fold 3, loader 8, there are 0 1s in pred.
+In fold 3, loader 9, there are 0 1s in actual.
+In fold 3, loader 9, there are 0 1s in pred.
 ALTERED MENTAL STATUS
- fold:3,drugs t2 accuracy: 91.053
+ fold:3,drugs t2 accuracy: 91.576
 ALTERED MENTAL STATUS
- fold:3,drugs t3 accuracy: 90.849
+ fold:3,drugs t3 accuracy: 91.372
 ALTERED MENTAL STATUS
  fold:3, output accuracy:1.0
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
+In fold 4, loader 5, there are 0 1s in actual.
+In fold 4, loader 5, there are 0 1s in pred.
+In fold 4, loader 6, there are 0 1s in actual.
+In fold 4, loader 6, there are 0 1s in pred.
+In fold 4, loader 7, there are 0 1s in actual.
+In fold 4, loader 7, there are 0 1s in pred.
+In fold 4, loader 8, there are 0 1s in actual.
+In fold 4, loader 8, there are 0 1s in pred.
+In fold 4, loader 9, there are 0 1s in actual.
+In fold 4, loader 9, there are 0 1s in pred.
 ALTERED MENTAL STATUS
- fold:4,drugs t2 accuracy: 89.58
+ fold:4,drugs t2 accuracy: 90.372
 ALTERED MENTAL STATUS
- fold:4,drugs t3 accuracy: 89.375
+ fold:4,drugs t3 accuracy: 90.167
 ALTERED MENTAL STATUS
  fold:4, output accuracy:1.0
 ALTERED MENTAL STATUS
- drugs t2 accuracy (folds average): 89.95439999999999
+ drugs t2 accuracy (folds average): 90.7264
 ALTERED MENTAL STATUS
- drugs t3 accuracy (folds average): 89.75
+ drugs t3 accuracy (folds average): 90.52180000000001
 ALTERED MENTAL STATUS
  output accuracy (folds average): 100.0
+In fold 0, loader 0, there are 2 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 2 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 2 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 4 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 2 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
+In fold 0, loader 5, there are 5 1s in actual.
+In fold 0, loader 5, there are 0 1s in pred.
+In fold 0, loader 6, there are 5 1s in actual.
+In fold 0, loader 6, there are 0 1s in pred.
+In fold 0, loader 7, there are 3 1s in actual.
+In fold 0, loader 7, there are 0 1s in pred.
+In fold 0, loader 8, there are 2 1s in actual.
+In fold 0, loader 8, there are 0 1s in pred.
+In fold 0, loader 9, there are 7 1s in actual.
+In fold 0, loader 9, there are 0 1s in pred.
 DIABETIC KETOACIDOSIS
- fold:0,drugs t2 accuracy: 98.75
+ fold:0,drugs t2 accuracy: 98.652
 DIABETIC KETOACIDOSIS
- fold:0,drugs t3 accuracy: 98.625
+ fold:0,drugs t3 accuracy: 98.528
 DIABETIC KETOACIDOSIS
- fold:0, output accuracy:0.96
+ fold:0, output accuracy:0.93
+In fold 1, loader 0, there are 2 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 6 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 3 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 4 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 4 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
+In fold 1, loader 5, there are 2 1s in actual.
+In fold 1, loader 5, there are 0 1s in pred.
+In fold 1, loader 6, there are 8 1s in actual.
+In fold 1, loader 6, there are 0 1s in pred.
+In fold 1, loader 7, there are 6 1s in actual.
+In fold 1, loader 7, there are 0 1s in pred.
+In fold 1, loader 8, there are 5 1s in actual.
+In fold 1, loader 8, there are 0 1s in pred.
+In fold 1, loader 9, there are 4 1s in actual.
+In fold 1, loader 9, there are 0 1s in pred.
 DIABETIC KETOACIDOSIS
- fold:1,drugs t2 accuracy: 99.093
+ fold:1,drugs t2 accuracy: 99.096
 DIABETIC KETOACIDOSIS
- fold:1,drugs t3 accuracy: 98.972
+ fold:1,drugs t3 accuracy: 98.975
 DIABETIC KETOACIDOSIS
- fold:1, output accuracy:0.95
+ fold:1, output accuracy:0.96
+In fold 2, loader 0, there are 5 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 1 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 3 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 1 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 2 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
+In fold 2, loader 5, there are 4 1s in actual.
+In fold 2, loader 5, there are 0 1s in pred.
+In fold 2, loader 6, there are 2 1s in actual.
+In fold 2, loader 6, there are 0 1s in pred.
+In fold 2, loader 7, there are 3 1s in actual.
+In fold 2, loader 7, there are 0 1s in pred.
+In fold 2, loader 8, there are 3 1s in actual.
+In fold 2, loader 8, there are 0 1s in pred.
+In fold 2, loader 9, there are 3 1s in actual.
+In fold 2, loader 9, there are 0 1s in pred.
 DIABETIC KETOACIDOSIS
- fold:2,drugs t2 accuracy: 99.214
+ fold:2,drugs t2 accuracy: 99.079
 DIABETIC KETOACIDOSIS
- fold:2,drugs t3 accuracy: 99.087
+ fold:2,drugs t3 accuracy: 98.952
 DIABETIC KETOACIDOSIS
- fold:2, output accuracy:0.96
+ fold:2, output accuracy:0.97
+In fold 3, loader 0, there are 4 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 10 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 4 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 2 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 3 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
+In fold 3, loader 5, there are 4 1s in actual.
+In fold 3, loader 5, there are 0 1s in pred.
+In fold 3, loader 6, there are 8 1s in actual.
+In fold 3, loader 6, there are 0 1s in pred.
+In fold 3, loader 7, there are 3 1s in actual.
+In fold 3, loader 7, there are 0 1s in pred.
+In fold 3, loader 8, there are 2 1s in actual.
+In fold 3, loader 8, there are 0 1s in pred.
+In fold 3, loader 9, there are 1 1s in actual.
+In fold 3, loader 9, there are 0 1s in pred.
 DIABETIC KETOACIDOSIS
- fold:3,drugs t2 accuracy: 98.124
+ fold:3,drugs t2 accuracy: 98.482
 DIABETIC KETOACIDOSIS
- fold:3,drugs t3 accuracy: 98.0
+ fold:3,drugs t3 accuracy: 98.357
 DIABETIC KETOACIDOSIS
  fold:3, output accuracy:0.99
+In fold 4, loader 0, there are 3 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 4 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 6 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 4 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 5 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
+In fold 4, loader 5, there are 6 1s in actual.
+In fold 4, loader 5, there are 0 1s in pred.
+In fold 4, loader 6, there are 2 1s in actual.
+In fold 4, loader 6, there are 0 1s in pred.
+In fold 4, loader 7, there are 4 1s in actual.
+In fold 4, loader 7, there are 0 1s in pred.
+In fold 4, loader 8, there are 3 1s in actual.
+In fold 4, loader 8, there are 0 1s in pred.
+In fold 4, loader 9, there are 1 1s in actual.
+In fold 4, loader 9, there are 0 1s in pred.
 DIABETIC KETOACIDOSIS
- fold:4,drugs t2 accuracy: 99.123
+ fold:4,drugs t2 accuracy: 99.106
 DIABETIC KETOACIDOSIS
- fold:4,drugs t3 accuracy: 98.996
+ fold:4,drugs t3 accuracy: 98.978
 DIABETIC KETOACIDOSIS
- fold:4, output accuracy:0.96
+ fold:4, output accuracy:0.99
 DIABETIC KETOACIDOSIS
- drugs t2 accuracy (folds average): 98.86080000000001
+ drugs t2 accuracy (folds average): 98.883
 DIABETIC KETOACIDOSIS
- drugs t3 accuracy (folds average): 98.73599999999999
+ drugs t3 accuracy (folds average): 98.75800000000001
 DIABETIC KETOACIDOSIS
  output accuracy (folds average): 96.32

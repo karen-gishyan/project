@@ -153,10 +153,12 @@ for diagnosis in diagnoses:
 
                 #output
                 pred = ((output_pred.data>0.5).flatten()).float()
-                if any(output==1):
-                    print("Output contains 1.")
-                if any(pred==1):
-                    print("Output contains 1.")
+
+                number_of_1s_actual=sum(output.flatten()==1)
+                number_of_1s_pred=sum(pred==1)
+                logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_actual} 1s in actual.")
+                logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_pred} 1s in pred.")
+
                 output_accuracy = (torch.sum(pred == output).item())/output.shape[0]
                 output_accuracy_list.append(output_accuracy)
 
