@@ -23,6 +23,7 @@ class DataSet(Dataset):
 
         drug_tensor=torch.load(self.drug_path)
         self.output_tensor=torch.load(self.output_path).view(-1,1)
+        self.Y=self.output_tensor
 
         self.drug_path=os.path.join(os.path.split(self.drug_path)[0],"combined_drugs_dummy.pt")
         #NOTE in case output, data generation logic changes, removing reading from existing
@@ -32,12 +33,13 @@ class DataSet(Dataset):
             torch.save(drug_tensor,self.drug_path)
         else:
             self.drug_tensor=torch.load(self.drug_path)
+            self.X=self.drug_tensor
 
     def __getitem__(self, index):
-        return self.drug_tensor[index].float(),self.output_tensor[index].float()
+        return self.X[index].float(),self.Y[index].float()
 
     def __len__(self):
-        return len(self.drug_tensor)
+        return len(self.X)
 
 from torch.nn import LogSoftmax
 class EvaluationModel(nn.Module):

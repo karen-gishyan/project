@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 from evaluate import DataSet, EvaluationModel
 from helpers import configure_logger
 from sklearn.model_selection import KFold
-from multistage.utils import reset_weights
+from sklearn.metrics import recall_score
+from multistage.utils import reset_weights,balance_datasets
 
 
 
@@ -93,13 +94,14 @@ def combine_drug_sequences(diagnosis,dir_name,method=None):
 
 def train_individual(diagnosis, dirname,method=None):
     dataset=DataSet(diagnosis,dirname,method)
-    print(torch.sum(dataset.output_tensor==1))
-    input_size=dataset.drug_tensor.shape[1]
-    output_size=dataset.output_tensor.shape[1]
+    dataset=balance_datasets([dataset],dataset.output_tensor)[0]
+    input_size=dataset.X.shape[1]
+    output_size=dataset.Y.shape[1]
     batch_size=100
     k_folds=5
-    kfold = KFold(n_splits=k_folds, shuffle=False)
+    kfold = KFold(n_splits=k_folds, shuffle=True)
     folds_accuracy_list=[]
+    folds_recall_list=[]
     # 0-500, 500-1000, ...,2000-2500 ids are taken as test_ids for each fold
     for fold, (train_ids, test_ids) in enumerate(kfold.split(dataset)):
         print(f"Diagnosis {diagnosis}.")
@@ -115,7 +117,7 @@ def train_individual(diagnosis, dirname,method=None):
         optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)
 
         torch.seed()
-        epochs=50
+        epochs=300
         total_loss=[]
         for _ in range(epochs):
             for _, (x,y) in enumerate(train_loader):
@@ -124,7 +126,7 @@ def train_individual(diagnosis, dirname,method=None):
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
-            total_loss.append(loss.item())
+                total_loss.append(loss.item())
 
         plt.plot(total_loss,label=f"fold:{fold+1}")
         title=f"Diagnosis:{diagnosis}, Type:{dirname}, Method:{method}" if method else \
@@ -136,6 +138,7 @@ def train_individual(diagnosis, dirname,method=None):
 
         #pred
         output_accuracy_list=[]
+        recall_list=[]
         logger.info(f"{diagnosis},{dirname},{method}")
         with torch.no_grad():
             for i, (x,y) in enumerate(test_loader):
@@ -147,12 +150,21 @@ def train_individual(diagnosis, dirname,method=None):
                 logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_pred} 1s in pred.")
                 output_accuracy = (torch.sum(pred == y.flatten()).item())/y.shape[0]
                 output_accuracy_list.append(output_accuracy)
+                recall=recall_score(y.flatten(),pred)
+                recall_list.append(recall)
+
 
         mean_accuracy_across_batches=sum(output_accuracy_list)/len(output_accuracy_list)
-        print(f"Mean Batch Accuracy {mean_accuracy_across_batches}")
+        logger.info(f"Fold {fold},mean batch accuracy {mean_accuracy_across_batches}%")
+        mean_recall_across_batches=sum(recall_list)/len(recall_list)
+        logger.info(f"Fold {fold},mean recall is {100*mean_recall_across_batches}%.")
+
         folds_accuracy_list.append(mean_accuracy_across_batches)
+        folds_recall_list.append(mean_recall_across_batches)
 
     plt.show()
     folds_average=sum(folds_accuracy_list)/len(folds_accuracy_list)
+    fold_recall_average=sum(folds_recall_list)/len(folds_recall_list)
     logger.info(f"{diagnosis},{dirname},{method}\n")
     logger.info(f"output accuracy (folds average): {folds_average}\n")
+    logger.info(f"recall (folds average): {fold_recall_average}\n")
