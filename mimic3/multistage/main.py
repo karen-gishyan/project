@@ -49,9 +49,9 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
     drugs_t2_fold_accuracies=[]
     drugs_t2_fold_recall=[]
     drugs_t2_fold_f1=[]
+    drugs_t3_fold_accuracies=[]
     drugs_t3_fold_recall=[]
     drugs_t3_fold_f1=[]
-    drugs_t3_fold_accuracies=[]
     output_fold_accuracies=[]
     recall_fold=[]
     f1_score_fold=[]
@@ -164,7 +164,7 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
                 drugs_t2_accuracy=torch.mean(torch.sum(drugs_t2_pred.detach()==drugs_t2,dim=1)/drugs_t2.shape[1]).item()
                 drug_t2_accuracy_list.append(drugs_t2_accuracy)
 
-                #NOTE for drugs, recall is high, wherever it is 1, it predicts correctly, but wherever it is 0, does not
+                #NOTE for drugs, recall is high, wherever it is 1 it predicts correctly, but wherever it is 0 does not
                 # always predict correctly, meaning it assigns more drugs than needed.
                 recall_t2_drugs=recall_score(drugs_t2,drugs_t2_pred,average='samples')
                 drug_t2_recall_list.append(recall_t2_drugs)
