@@ -1,83 +1,295 @@
 PNEUMONIA,distance,mean_squared_error
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,mean_squared_error
-Fold 1,batch 0, there is 1 in output.
-Fold 1,batch 1, there is 1 in output.
-Fold 1,batch 2, there is 1 in output.
-Fold 1,batch 3, there is 1 in output.
-Fold 1,batch 4, there is 1 in output.
+In fold 1, loader 0, there are 25 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 26 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 26 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 29 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 19 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,mean_squared_error
-Fold 2,batch 1,there is 1 in prediction.
+In fold 2, loader 0, there are 0 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 1 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,mean_squared_error
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,mean_squared_error
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,mean_squared_error
 
 output accuracy (folds average): 0.9496
 
 PNEUMONIA,distance,median_absolute_error
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,median_absolute_error
-Fold 1,batch 0, there is 1 in output.
-Fold 1,batch 1, there is 1 in output.
-Fold 1,batch 2, there is 1 in output.
-Fold 1,batch 3, there is 1 in output.
-Fold 1,batch 4, there is 1 in output.
+In fold 1, loader 0, there are 27 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 23 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 27 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 22 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 26 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,median_absolute_error
+In fold 2, loader 0, there are 0 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,median_absolute_error
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,median_absolute_error
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
 PNEUMONIA,distance,median_absolute_error
 
 output accuracy (folds average): 0.95
 
 PNEUMONIA,cluster,KMeans
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,KMeans
-Fold 1,batch 0, there is 1 in output.
-Fold 1,batch 1, there is 1 in output.
-Fold 1,batch 2, there is 1 in output.
-Fold 1,batch 3, there is 1 in output.
-Fold 1,batch 4, there is 1 in output.
+In fold 1, loader 0, there are 30 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 24 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 25 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 21 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 25 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,KMeans
+In fold 2, loader 0, there are 0 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,KMeans
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,KMeans
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,KMeans
 
 output accuracy (folds average): 0.95
 
 PNEUMONIA,cluster,MiniBatchKMeans
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 0 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 0 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 0 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 0 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,MiniBatchKMeans
-Fold 1,batch 0, there is 1 in output.
-Fold 1,batch 1, there is 1 in output.
-Fold 1,batch 2, there is 1 in output.
-Fold 1,batch 3, there is 1 in output.
-Fold 1,batch 4, there is 1 in output.
+In fold 1, loader 0, there are 22 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 29 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 22 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 29 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 23 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,MiniBatchKMeans
-Fold 2,batch 0,there is 1 in prediction.
-Fold 2,batch 1,there is 1 in prediction.
-Fold 2,batch 2,there is 1 in prediction.
-Fold 2,batch 3,there is 1 in prediction.
-Fold 2,batch 4,there is 1 in prediction.
+In fold 2, loader 0, there are 0 1s in actual.
+In fold 2, loader 0, there are 26 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 19 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 31 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 31 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 25 1s in pred.
 PNEUMONIA,cluster,MiniBatchKMeans
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 0 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,MiniBatchKMeans
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
 PNEUMONIA,cluster,MiniBatchKMeans
 
-output accuracy (folds average): 0.8956
+output accuracy (folds average): 0.8972
 
 PNEUMONIA,kstest,None
-Fold 0,batch 0,there is 1 in prediction.
-Fold 0,batch 1,there is 1 in prediction.
-Fold 0,batch 2,there is 1 in prediction.
-Fold 0,batch 3,there is 1 in prediction.
-Fold 0,batch 4,there is 1 in prediction.
+In fold 0, loader 0, there are 0 1s in actual.
+In fold 0, loader 0, there are 5 1s in pred.
+In fold 0, loader 1, there are 0 1s in actual.
+In fold 0, loader 1, there are 2 1s in pred.
+In fold 0, loader 2, there are 0 1s in actual.
+In fold 0, loader 2, there are 5 1s in pred.
+In fold 0, loader 3, there are 0 1s in actual.
+In fold 0, loader 3, there are 1 1s in pred.
+In fold 0, loader 4, there are 0 1s in actual.
+In fold 0, loader 4, there are 4 1s in pred.
 PNEUMONIA,kstest,None
-Fold 1,batch 0, there is 1 in output.
-Fold 1,batch 1, there is 1 in output.
-Fold 1,batch 2, there is 1 in output.
-Fold 1,batch 3, there is 1 in output.
-Fold 1,batch 4, there is 1 in output.
+In fold 1, loader 0, there are 26 1s in actual.
+In fold 1, loader 0, there are 0 1s in pred.
+In fold 1, loader 1, there are 25 1s in actual.
+In fold 1, loader 1, there are 0 1s in pred.
+In fold 1, loader 2, there are 25 1s in actual.
+In fold 1, loader 2, there are 0 1s in pred.
+In fold 1, loader 3, there are 27 1s in actual.
+In fold 1, loader 3, there are 0 1s in pred.
+In fold 1, loader 4, there are 22 1s in actual.
+In fold 1, loader 4, there are 0 1s in pred.
 PNEUMONIA,kstest,None
+In fold 2, loader 0, there are 0 1s in actual.
+In fold 2, loader 0, there are 0 1s in pred.
+In fold 2, loader 1, there are 0 1s in actual.
+In fold 2, loader 1, there are 0 1s in pred.
+In fold 2, loader 2, there are 0 1s in actual.
+In fold 2, loader 2, there are 0 1s in pred.
+In fold 2, loader 3, there are 0 1s in actual.
+In fold 2, loader 3, there are 0 1s in pred.
+In fold 2, loader 4, there are 0 1s in actual.
+In fold 2, loader 4, there are 0 1s in pred.
 PNEUMONIA,kstest,None
-Fold 3,batch 1,there is 1 in prediction.
-Fold 3,batch 4,there is 1 in prediction.
+In fold 3, loader 0, there are 0 1s in actual.
+In fold 3, loader 0, there are 0 1s in pred.
+In fold 3, loader 1, there are 0 1s in actual.
+In fold 3, loader 1, there are 0 1s in pred.
+In fold 3, loader 2, there are 0 1s in actual.
+In fold 3, loader 2, there are 0 1s in pred.
+In fold 3, loader 3, there are 0 1s in actual.
+In fold 3, loader 3, there are 2 1s in pred.
+In fold 3, loader 4, there are 0 1s in actual.
+In fold 3, loader 4, there are 0 1s in pred.
 PNEUMONIA,kstest,None
+In fold 4, loader 0, there are 0 1s in actual.
+In fold 4, loader 0, there are 0 1s in pred.
+In fold 4, loader 1, there are 0 1s in actual.
+In fold 4, loader 1, there are 0 1s in pred.
+In fold 4, loader 2, there are 0 1s in actual.
+In fold 4, loader 2, there are 0 1s in pred.
+In fold 4, loader 3, there are 0 1s in actual.
+In fold 4, loader 3, there are 0 1s in pred.
+In fold 4, loader 4, there are 0 1s in actual.
+In fold 4, loader 4, there are 0 1s in pred.
 PNEUMONIA,kstest,None
 
-output accuracy (folds average): 0.9428000000000001
+output accuracy (folds average): 0.9423999999999999
 

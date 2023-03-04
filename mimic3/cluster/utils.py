@@ -141,10 +141,10 @@ def train_individual(diagnosis, dirname,method=None):
             for i, (x,y) in enumerate(test_loader):
                 output_pred=model(x)
                 pred = ((output_pred.data>0.5).flatten()).float()
-                if any(pred==1):
-                    logger.info(f"Fold {fold},batch {i},there is 1 in prediction.")
-                if any(y.flatten()==1):
-                    logger.info(f"Fold {fold},batch {i}, there is 1 in output.")
+                number_of_1s_actual=sum(y.flatten()==1)
+                number_of_1s_pred=sum(pred==1)
+                logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_actual} 1s in actual.")
+                logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_pred} 1s in pred.")
                 output_accuracy = (torch.sum(pred == y.flatten()).item())/y.shape[0]
                 output_accuracy_list.append(output_accuracy)
 
