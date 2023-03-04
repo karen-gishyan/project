@@ -103,3 +103,25 @@ def reset_weights(m):
    if hasattr(layer, 'reset_parameters'):
     print(f'Reset trainable parameters of layer = {layer}')
     layer.reset_parameters()
+
+
+def balance_datasets(dataset_list,output):
+    non_zero_indices=(output==1).nonzero().flatten()
+    #select 0 elements equal to the number of non_zero_indices
+    zero_indices=(output==0).nonzero()[:len(non_zero_indices)].flatten()
+    for index, dataset in enumerate(dataset_list):
+        X_0=torch.index_select(input=dataset.X,dim=0,index=zero_indices)
+        X_1=torch.index_select(input=dataset.X,dim=0,index=non_zero_indices)
+        X=torch.cat((X_0,X_1))
+
+        Y_O=torch.index_select(input=dataset.Y,dim=0,index=zero_indices)
+        Y_1=torch.index_select(input=dataset.Y,dim=0,index=non_zero_indices)
+        Y=torch.cat((Y_O,Y_1))
+
+        dataset.X=X
+        dataset.Y=Y
+        dataset_list[index]=dataset
+
+    return dataset_list
+
+

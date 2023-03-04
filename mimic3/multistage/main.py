@@ -1,13 +1,14 @@
 import os
 import sys
 import yaml
-from utils import DataConversion,reset_weights
+from utils import DataConversion,reset_weights, balance_datasets
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, SubsetRandomSampler
 from model import FeatureDataset, DrugDataset, Model, MultiStageModel
 import matplotlib.pyplot as plt
 from sklearn.model_selection import KFold
+from sklearn.metrics import recall_score
 
 dir_=os.path.dirname(__file__)
 os.chdir(dir_)
@@ -27,7 +28,7 @@ with open('../datasets/sqldata/stats.yaml') as stats, open('info.yaml') as info:
 
 diagnoses=stats['diagnosis_for_selection']
 timesteps=info['timesteps']
-for diagnosis in diagnoses:
+for diagnosis in ['DIABETIC KETOACIDOSIS']:
     features_datasets=[]
     drug_datasets=[]
     for t in timesteps:
@@ -37,12 +38,14 @@ for diagnosis in diagnoses:
         features_datasets.append(FeatureDataset(diagnosis=diagnosis,timestep=t))
         drug_datasets.append(DrugDataset(diagnosis=diagnosis,timestep=t))
 
-    features_t1,features_t2, features_t3=features_datasets
-    drug_t1,drug_t2, drug_t3=drug_datasets
+    output=features_datasets[2].Y
+    features_t1,features_t2, features_t3=balance_datasets(features_datasets,output)
+    drug_t1,drug_t2, drug_t3=balance_datasets(drug_datasets,output)
+
     torch.seed()
     batch_size=100
     k_folds=5
-    kfold = KFold(n_splits=k_folds, shuffle=False)
+    kfold = KFold(n_splits=k_folds, shuffle=True)
     drugs_t2_fold_accuracies=[]
     drugs_t3_fold_accuracies=[]
     output_fold_accuracies=[]
@@ -73,7 +76,7 @@ for diagnosis in diagnoses:
         multistage_model.apply(reset_weights)
         optimizer = torch.optim.Adamax(multistage_model.parameters(), lr=0.01)
         criterion= nn.MSELoss()
-        epochs=10
+        epochs=50
 
         combined_loader=zip(loader_features_t1,loader_drug_t1,loader_features_t2,\
                         loader_drug_t2,loader_features_t3,loader_drug_t3)
@@ -160,6 +163,8 @@ for diagnosis in diagnoses:
                 logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_pred} 1s in pred.")
 
                 output_accuracy = (torch.sum(pred == output).item())/output.shape[0]
+                recall=recall_score(pred,output)
+                logger.info(f"Recall: {recall}.")
                 output_accuracy_list.append(output_accuracy)
 
         #drug mean across batches
