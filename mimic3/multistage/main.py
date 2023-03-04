@@ -47,6 +47,10 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
     k_folds=5
     kfold = KFold(n_splits=k_folds, shuffle=True)
     drugs_t2_fold_accuracies=[]
+    drugs_t2_fold_recall=[]
+    drugs_t2_fold_f1=[]
+    drugs_t3_fold_recall=[]
+    drugs_t3_fold_f1=[]
     drugs_t3_fold_accuracies=[]
     output_fold_accuracies=[]
     recall_fold=[]
@@ -131,7 +135,11 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
 
         # Evaluation for this fold
         drug_t2_accuracy_list=[]
+        drug_t2_recall_list=[]
+        drug_t2_f1_list=[]
         drug_t3_accuracy_list=[]
+        drug_t3_recall_list=[]
+        drug_t3_f1_list=[]
         output_accuracy_list=[]
         recall_list=[]
         f1_score_list=[]
@@ -154,14 +162,25 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
 
                 # number of correct per row divided by total row length, then averaged across columns
                 drugs_t2_accuracy=torch.mean(torch.sum(drugs_t2_pred.detach()==drugs_t2,dim=1)/drugs_t2.shape[1]).item()
-                drugs_t3_accuracy=torch.mean(torch.sum(drugs_t3_pred.detach()==drugs_t3,dim=1)/drugs_t3.shape[1]).item()
-
                 drug_t2_accuracy_list.append(drugs_t2_accuracy)
+
+                #NOTE for drugs, recall is high, wherever it is 1, it predicts correctly, but wherever it is 0, does not
+                # always predict correctly, meaning it assigns more drugs than needed.
+                recall_t2_drugs=recall_score(drugs_t2,drugs_t2_pred,average='samples')
+                drug_t2_recall_list.append(recall_t2_drugs)
+                f1_t2_drugs=f1_score(drugs_t2,drugs_t2_pred,average='samples')
+                drug_t2_f1_list.append(f1_t2_drugs)
+
+                drugs_t3_accuracy=torch.mean(torch.sum(drugs_t3_pred.detach()==drugs_t3,dim=1)/drugs_t3.shape[1]).item()
                 drug_t3_accuracy_list.append(drugs_t3_accuracy)
+
+                recall_t3_drugs=recall_score(drugs_t3,drugs_t3_pred,average='samples')
+                drug_t3_recall_list.append(recall_t3_drugs)
+                f1_t3_drugs=f1_score(drugs_t3,drugs_t3_pred,average='samples')
+                drug_t3_f1_list.append(f1_t3_drugs)
 
                 #output
                 pred = ((output_pred.data>0.5).flatten()).float()
-
                 number_of_1s_actual=sum(output.flatten()==1)
                 number_of_1s_pred=sum(pred==1)
                 logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_actual} 1s in actual.")
@@ -176,27 +195,52 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
 
         #drug mean across batches
         drugs_t2_mean_accuracy=round(100*sum(drug_t2_accuracy_list)/len(drug_t2_accuracy_list),3)
+        drugs_t2_mean_recall=round(100*sum(drug_t2_recall_list)/len(drug_t2_recall_list),3)
+        drugs_t2_mean_f1=round(100*sum(drug_t2_f1_list)/len(drug_t2_f1_list),3)
+
         drugs_t3_mean_accuracy=round(100*sum(drug_t3_accuracy_list)/len(drug_t3_accuracy_list),3)
+        drugs_t3_mean_recall=round(100*sum(drug_t3_recall_list)/len(drug_t3_recall_list),3)
+        drugs_t3_mean_f1=round(100*sum(drug_t3_f1_list)/len(drug_t3_f1_list),3)
+
         #output
         output_mean_accuracy=round(100*sum(output_accuracy_list)/len(output_accuracy_list),3)
         output_mean_recall=round(100*sum(recall_list)/len(recall_list),3)
         output_mean_f1=round(100*sum(f1_score_list)/len(f1_score_list),3)
 
         logger.info(f"fold:{fold}, drugs t2 mean accuracy: {drugs_t2_mean_accuracy}%")
+        logger.info(f"fold:{fold}, drugs t2 mean recall: {drugs_t2_mean_recall}%")
+        logger.info(f"fold:{fold}, drugs t2 mean f1: {drugs_t2_mean_f1}%")
+
         logger.info(f"fold:{fold}, drugs t3 mean accuracy: {drugs_t3_mean_accuracy}%")
-        logger.info(f"fold:{fold}, output mean accuracy:{output_accuracy}%")
+        logger.info(f"fold:{fold}, drugs t3 mean recall: {drugs_t3_mean_recall}%")
+        logger.info(f"fold:{fold}, drugs t3 mean f1: {drugs_t3_mean_f1}%")
+
+        logger.info(f"fold:{fold}, output mean accuracy:{output_mean_accuracy}%")
         logger.info(f"fold:{fold}, mean recall:{output_mean_recall}%")
         logger.info(f"fold:{fold}, mean f1:{output_mean_f1}%\n")
 
         # store accuracies per fold
         drugs_t2_fold_accuracies.append(drugs_t2_mean_accuracy)
+        drugs_t2_fold_recall.append(drugs_t2_mean_recall)
+        drugs_t2_fold_f1.append(drugs_t2_mean_f1)
+
         drugs_t3_fold_accuracies.append(drugs_t3_mean_accuracy)
+        drugs_t3_fold_recall.append(drugs_t3_mean_recall)
+        drugs_t3_fold_f1.append(drugs_t3_mean_f1)
+
         output_fold_accuracies.append(output_mean_accuracy)
         recall_fold.append(output_mean_recall)
         f1_score_fold.append(output_mean_f1)
 
+
     logger.info(f"drugs t2 accuracy (folds average): {sum(drugs_t2_fold_accuracies)/len(drugs_t2_fold_accuracies)}%")
+    logger.info(f"drugs t2 recall (folds average): {sum(drugs_t2_fold_recall)/len(drugs_t2_fold_recall)}%")
+    logger.info(f"drugs t2 f1-score (folds average): {sum(drugs_t2_fold_f1)/len(drugs_t2_fold_f1)}%")
+
     logger.info(f"drugs t3 accuracy (folds average): {sum(drugs_t3_fold_accuracies)/len(drugs_t3_fold_accuracies)}%")
+    logger.info(f"drugs t3 recall (folds average): {sum(drugs_t3_fold_recall)/len(drugs_t3_fold_recall)}%")
+    logger.info(f"drugs t3 f1-score (folds average): {sum(drugs_t3_fold_f1)/len(drugs_t3_fold_f1)}%")
+
     logger.info(f"output accuracy (folds average): {sum(output_fold_accuracies)/len(output_fold_accuracies)}%")
     logger.info(f"recall (folds average): {sum(recall_fold)/len(recall_fold)}%")
     logger.info(f"f1-score (folds average): {sum(f1_score_fold)/len(f1_score_fold)}%")
