@@ -106,9 +106,9 @@ def reset_weights(m):
 
 
 def balance_datasets(dataset_list,output):
-    non_zero_indices=(output==1).nonzero().flatten()
+    non_zero_indices=(output.flatten()==1).nonzero().flatten()
     #select 0 elements equal to the number of non_zero_indices
-    zero_indices=(output==0).nonzero()[:len(non_zero_indices)].flatten()
+    zero_indices=(output.flatten()==0).nonzero()[:len(non_zero_indices)].flatten()
     for index, dataset in enumerate(dataset_list):
         X_0=torch.index_select(input=dataset.X,dim=0,index=zero_indices)
         X_1=torch.index_select(input=dataset.X,dim=0,index=non_zero_indices)

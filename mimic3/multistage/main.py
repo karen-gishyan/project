@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, SubsetRandomSampler
 from model import FeatureDataset, DrugDataset, Model, MultiStageModel
 import matplotlib.pyplot as plt
 from sklearn.model_selection import KFold
-from sklearn.metrics import recall_score
+from sklearn.metrics import recall_score,f1_score
 
 dir_=os.path.dirname(__file__)
 os.chdir(dir_)
@@ -49,7 +49,10 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
     drugs_t2_fold_accuracies=[]
     drugs_t3_fold_accuracies=[]
     output_fold_accuracies=[]
+    recall_fold=[]
+    f1_score_fold=[]
 
+    logger.info(f"{diagnosis}\n")
     for fold, (train_ids, test_ids) in enumerate(kfold.split(features_t1)):
         print(f"Diagnosis {diagnosis}.")
         print(f"Fold {fold}")
@@ -130,6 +133,8 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
         drug_t2_accuracy_list=[]
         drug_t3_accuracy_list=[]
         output_accuracy_list=[]
+        recall_list=[]
+        f1_score_list=[]
         with torch.no_grad():
             for i,((features_t1,_),
                    (drugs_t1,drugs_t2),
@@ -163,25 +168,35 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
                 logger.info(f"In fold {fold}, loader {i}, there are {number_of_1s_pred} 1s in pred.")
 
                 output_accuracy = (torch.sum(pred == output).item())/output.shape[0]
-                recall=recall_score(pred,output)
-                logger.info(f"Recall: {recall}.")
                 output_accuracy_list.append(output_accuracy)
+                recall=recall_score(output,pred)
+                recall_list.append(recall)
+                f1=f1_score(output,pred)
+                f1_score_list.append(f1)
 
         #drug mean across batches
         drugs_t2_mean_accuracy=round(100*sum(drug_t2_accuracy_list)/len(drug_t2_accuracy_list),3)
         drugs_t3_mean_accuracy=round(100*sum(drug_t3_accuracy_list)/len(drug_t3_accuracy_list),3)
         #output
         output_mean_accuracy=round(100*sum(output_accuracy_list)/len(output_accuracy_list),3)
+        output_mean_recall=round(100*sum(recall_list)/len(recall_list),3)
+        output_mean_f1=round(100*sum(f1_score_list)/len(f1_score_list),3)
 
-        logger.info(f"{diagnosis}\n fold:{fold},drugs t2 accuracy: {drugs_t2_mean_accuracy}")
-        logger.info(f"{diagnosis}\n fold:{fold},drugs t3 accuracy: {drugs_t3_mean_accuracy}")
-        logger.info(f"{diagnosis}\n fold:{fold}, output accuracy:{output_accuracy}")
+        logger.info(f"fold:{fold}, drugs t2 mean accuracy: {drugs_t2_mean_accuracy}%")
+        logger.info(f"fold:{fold}, drugs t3 mean accuracy: {drugs_t3_mean_accuracy}%")
+        logger.info(f"fold:{fold}, output mean accuracy:{output_accuracy}%")
+        logger.info(f"fold:{fold}, mean recall:{output_mean_recall}%")
+        logger.info(f"fold:{fold}, mean f1:{output_mean_f1}%\n")
 
         # store accuracies per fold
         drugs_t2_fold_accuracies.append(drugs_t2_mean_accuracy)
         drugs_t3_fold_accuracies.append(drugs_t3_mean_accuracy)
         output_fold_accuracies.append(output_mean_accuracy)
+        recall_fold.append(output_mean_recall)
+        f1_score_fold.append(output_mean_f1)
 
-    logger.info(f"{diagnosis}\n drugs t2 accuracy (folds average): {sum(drugs_t2_fold_accuracies)/len(drugs_t2_fold_accuracies)}")
-    logger.info(f"{diagnosis}\n drugs t3 accuracy (folds average): {sum(drugs_t3_fold_accuracies)/len(drugs_t3_fold_accuracies)}")
-    logger.info(f"{diagnosis}\n output accuracy (folds average): {sum(output_fold_accuracies)/len(output_fold_accuracies)}")
+    logger.info(f"drugs t2 accuracy (folds average): {sum(drugs_t2_fold_accuracies)/len(drugs_t2_fold_accuracies)}%")
+    logger.info(f"drugs t3 accuracy (folds average): {sum(drugs_t3_fold_accuracies)/len(drugs_t3_fold_accuracies)}%")
+    logger.info(f"output accuracy (folds average): {sum(output_fold_accuracies)/len(output_fold_accuracies)}%")
+    logger.info(f"recall (folds average): {sum(recall_fold)/len(recall_fold)}%")
+    logger.info(f"f1-score (folds average): {sum(f1_score_fold)/len(f1_score_fold)}%")
