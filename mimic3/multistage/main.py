@@ -73,7 +73,7 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
 
         feature_model=Model(912,10)
         drug_model=Model(912,902)
-        outpt_model=Model(912,1,sigmoid_activation=True)
+        outpt_model=Model(912,1)
 
         multistage_model=MultiStageModel(feature_model,drug_model,outpt_model)
         multistage_model.apply(reset_weights)

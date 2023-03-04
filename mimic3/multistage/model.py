@@ -52,13 +52,11 @@ class DrugDataset(FeatureDataset):
 
 
 class Model(nn.Module):
-    def __init__(self,input_size,output_size,sigmoid_activation=False):
+    def __init__(self,input_size,output_size):
         super().__init__()
         self.linear=nn.Linear(input_size,output_size)
-        self.sigmoid_activation=sigmoid_activation
 
     def forward(self,x):
-
         out=self.linear(x)
         return out
 
