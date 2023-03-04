@@ -1,155 +1,175 @@
 PNEUMONIA,distance,mean_squared_error
-In fold 0, loader 0, there are 31 1s in actual.
-In fold 0, loader 0, there are 28 1s in pred.
-Fold 0,mean batch accuracy 0.78%
-Fold 0,mean recall is 77.41935483870968%.
-PNEUMONIA,distance,mean_squared_error
-In fold 1, loader 0, there are 18 1s in actual.
-In fold 1, loader 0, there are 20 1s in pred.
-Fold 1,mean batch accuracy 0.8%
-Fold 1,mean recall is 77.77777777777779%.
-PNEUMONIA,distance,mean_squared_error
-In fold 2, loader 0, there are 24 1s in actual.
-In fold 2, loader 0, there are 24 1s in pred.
-Fold 2,mean batch accuracy 0.72%
-Fold 2,mean recall is 70.83333333333334%.
-PNEUMONIA,distance,mean_squared_error
-In fold 3, loader 0, there are 28 1s in actual.
-In fold 3, loader 0, there are 28 1s in pred.
-Fold 3,mean batch accuracy 0.8%
-Fold 3,mean recall is 82.14285714285714%.
-PNEUMONIA,distance,mean_squared_error
-In fold 4, loader 0, there are 24 1s in actual.
-In fold 4, loader 0, there are 16 1s in pred.
-Fold 4,mean batch accuracy 0.84%
-Fold 4,mean recall is 66.66666666666666%.
-PNEUMONIA,distance,mean_squared_error
+In fold 0, loader 0, there are 27 1s in actual.
+In fold 0, loader 0, there are 25 1s in pred.
+Fold 0,mean batch accuracy 0.8%
+Fold 0,mean recall is 77.77777777777779%.
+Fold 0,mean f1 is 80.76923076923077%.
 
-output accuracy (folds average): 0.7879999999999999
+In fold 1, loader 0, there are 25 1s in actual.
+In fold 1, loader 0, there are 21 1s in pred.
+Fold 1,mean batch accuracy 0.76%
+Fold 1,mean recall is 68.0%.
+Fold 1,mean f1 is 73.91304347826089%.
 
-recall (folds average): 0.7496799795186893
+In fold 2, loader 0, there are 29 1s in actual.
+In fold 2, loader 0, there are 26 1s in pred.
+Fold 2,mean batch accuracy 0.66%
+Fold 2,mean recall is 65.51724137931035%.
+Fold 2,mean f1 is 69.0909090909091%.
 
-PNEUMONIA,distance,median_absolute_error
-In fold 0, loader 0, there are 22 1s in actual.
-In fold 0, loader 0, there are 23 1s in pred.
-Fold 0,mean batch accuracy 0.78%
-Fold 0,mean recall is 77.27272727272727%.
-PNEUMONIA,distance,median_absolute_error
-In fold 1, loader 0, there are 24 1s in actual.
-In fold 1, loader 0, there are 23 1s in pred.
-Fold 1,mean batch accuracy 0.82%
-Fold 1,mean recall is 79.16666666666666%.
-PNEUMONIA,distance,median_absolute_error
-In fold 2, loader 0, there are 26 1s in actual.
-In fold 2, loader 0, there are 25 1s in pred.
-Fold 2,mean batch accuracy 0.78%
-Fold 2,mean recall is 76.92307692307693%.
-PNEUMONIA,distance,median_absolute_error
 In fold 3, loader 0, there are 25 1s in actual.
-In fold 3, loader 0, there are 16 1s in pred.
-Fold 3,mean batch accuracy 0.74%
-Fold 3,mean recall is 56.00000000000001%.
+In fold 3, loader 0, there are 22 1s in pred.
+Fold 3,mean batch accuracy 0.82%
+Fold 3,mean recall is 76.0%.
+Fold 3,mean f1 is 80.85106382978724%.
+
+In fold 4, loader 0, there are 19 1s in actual.
+In fold 4, loader 0, there are 25 1s in pred.
+Fold 4,mean batch accuracy 0.8%
+Fold 4,mean recall is 89.47368421052632%.
+Fold 4,mean f1 is 77.27272727272727%.
+
+output accuracy (folds average): 0.768
+recall (folds average): 0.753537406735229
+f1 (folds average): 0.7637939488818304
+
 PNEUMONIA,distance,median_absolute_error
-In fold 4, loader 0, there are 28 1s in actual.
-In fold 4, loader 0, there are 30 1s in pred.
-Fold 4,mean batch accuracy 0.84%
-Fold 4,mean recall is 89.28571428571429%.
-PNEUMONIA,distance,median_absolute_error
+In fold 0, loader 0, there are 24 1s in actual.
+In fold 0, loader 0, there are 24 1s in pred.
+Fold 0,mean batch accuracy 0.8%
+Fold 0,mean recall is 79.16666666666666%.
+Fold 0,mean f1 is 79.16666666666666%.
 
-output accuracy (folds average): 0.792
-
-recall (folds average): 0.7572963702963703
-
-PNEUMONIA,cluster,KMeans
-In fold 0, loader 0, there are 22 1s in actual.
-In fold 0, loader 0, there are 22 1s in pred.
-Fold 0,mean batch accuracy 1.0%
-Fold 0,mean recall is 100.0%.
-PNEUMONIA,cluster,KMeans
 In fold 1, loader 0, there are 26 1s in actual.
-In fold 1, loader 0, there are 26 1s in pred.
-Fold 1,mean batch accuracy 1.0%
-Fold 1,mean recall is 100.0%.
-PNEUMONIA,cluster,KMeans
-In fold 2, loader 0, there are 28 1s in actual.
-In fold 2, loader 0, there are 28 1s in pred.
-Fold 2,mean batch accuracy 1.0%
-Fold 2,mean recall is 100.0%.
-PNEUMONIA,cluster,KMeans
+In fold 1, loader 0, there are 22 1s in pred.
+Fold 1,mean batch accuracy 0.8%
+Fold 1,mean recall is 73.07692307692307%.
+Fold 1,mean f1 is 79.16666666666666%.
+
+In fold 2, loader 0, there are 22 1s in actual.
+In fold 2, loader 0, there are 20 1s in pred.
+Fold 2,mean batch accuracy 0.76%
+Fold 2,mean recall is 68.18181818181817%.
+Fold 2,mean f1 is 71.42857142857143%.
+
 In fold 3, loader 0, there are 23 1s in actual.
-In fold 3, loader 0, there are 23 1s in pred.
-Fold 3,mean batch accuracy 1.0%
-Fold 3,mean recall is 100.0%.
+In fold 3, loader 0, there are 26 1s in pred.
+Fold 3,mean batch accuracy 0.74%
+Fold 3,mean recall is 78.26086956521739%.
+Fold 3,mean f1 is 73.46938775510203%.
+
+In fold 4, loader 0, there are 30 1s in actual.
+In fold 4, loader 0, there are 35 1s in pred.
+Fold 4,mean batch accuracy 0.82%
+Fold 4,mean recall is 93.33333333333333%.
+Fold 4,mean f1 is 86.15384615384616%.
+
+output accuracy (folds average): 0.784
+recall (folds average): 0.7840392216479172
+f1 (folds average): 0.7787702773417059
+
 PNEUMONIA,cluster,KMeans
-In fold 4, loader 0, there are 26 1s in actual.
-In fold 4, loader 0, there are 26 1s in pred.
-Fold 4,mean batch accuracy 1.0%
-Fold 4,mean recall is 100.0%.
-PNEUMONIA,cluster,KMeans
-
-output accuracy (folds average): 1.0
-
-recall (folds average): 1.0
-
-PNEUMONIA,cluster,MiniBatchKMeans
-In fold 0, loader 0, there are 23 1s in actual.
-In fold 0, loader 0, there are 23 1s in pred.
+In fold 0, loader 0, there are 26 1s in actual.
+In fold 0, loader 0, there are 26 1s in pred.
 Fold 0,mean batch accuracy 1.0%
 Fold 0,mean recall is 100.0%.
-PNEUMONIA,cluster,MiniBatchKMeans
+Fold 0,mean f1 is 100.0%.
+
 In fold 1, loader 0, there are 24 1s in actual.
 In fold 1, loader 0, there are 24 1s in pred.
 Fold 1,mean batch accuracy 1.0%
 Fold 1,mean recall is 100.0%.
-PNEUMONIA,cluster,MiniBatchKMeans
-In fold 2, loader 0, there are 22 1s in actual.
-In fold 2, loader 0, there are 22 1s in pred.
+Fold 1,mean f1 is 100.0%.
+
+In fold 2, loader 0, there are 25 1s in actual.
+In fold 2, loader 0, there are 25 1s in pred.
 Fold 2,mean batch accuracy 1.0%
 Fold 2,mean recall is 100.0%.
-PNEUMONIA,cluster,MiniBatchKMeans
-In fold 3, loader 0, there are 29 1s in actual.
-In fold 3, loader 0, there are 29 1s in pred.
+Fold 2,mean f1 is 100.0%.
+
+In fold 3, loader 0, there are 26 1s in actual.
+In fold 3, loader 0, there are 26 1s in pred.
 Fold 3,mean batch accuracy 1.0%
 Fold 3,mean recall is 100.0%.
-PNEUMONIA,cluster,MiniBatchKMeans
-In fold 4, loader 0, there are 27 1s in actual.
-In fold 4, loader 0, there are 28 1s in pred.
-Fold 4,mean batch accuracy 0.98%
+Fold 3,mean f1 is 100.0%.
+
+In fold 4, loader 0, there are 24 1s in actual.
+In fold 4, loader 0, there are 24 1s in pred.
+Fold 4,mean batch accuracy 1.0%
 Fold 4,mean recall is 100.0%.
-PNEUMONIA,cluster,MiniBatchKMeans
+Fold 4,mean f1 is 100.0%.
 
-output accuracy (folds average): 0.9960000000000001
-
+output accuracy (folds average): 1.0
 recall (folds average): 1.0
+f1 (folds average): 1.0
 
-PNEUMONIA,kstest,None
-In fold 0, loader 0, there are 28 1s in actual.
-In fold 0, loader 0, there are 28 1s in pred.
+PNEUMONIA,cluster,MiniBatchKMeans
+In fold 0, loader 0, there are 24 1s in actual.
+In fold 0, loader 0, there are 24 1s in pred.
 Fold 0,mean batch accuracy 1.0%
 Fold 0,mean recall is 100.0%.
+Fold 0,mean f1 is 100.0%.
+
+In fold 1, loader 0, there are 22 1s in actual.
+In fold 1, loader 0, there are 22 1s in pred.
+Fold 1,mean batch accuracy 1.0%
+Fold 1,mean recall is 100.0%.
+Fold 1,mean f1 is 100.0%.
+
+In fold 2, loader 0, there are 26 1s in actual.
+In fold 2, loader 0, there are 26 1s in pred.
+Fold 2,mean batch accuracy 1.0%
+Fold 2,mean recall is 100.0%.
+Fold 2,mean f1 is 100.0%.
+
+In fold 3, loader 0, there are 21 1s in actual.
+In fold 3, loader 0, there are 21 1s in pred.
+Fold 3,mean batch accuracy 1.0%
+Fold 3,mean recall is 100.0%.
+Fold 3,mean f1 is 100.0%.
+
+In fold 4, loader 0, there are 32 1s in actual.
+In fold 4, loader 0, there are 32 1s in pred.
+Fold 4,mean batch accuracy 1.0%
+Fold 4,mean recall is 100.0%.
+Fold 4,mean f1 is 100.0%.
+
+output accuracy (folds average): 1.0
+recall (folds average): 1.0
+f1 (folds average): 1.0
+
 PNEUMONIA,kstest,None
+In fold 0, loader 0, there are 27 1s in actual.
+In fold 0, loader 0, there are 27 1s in pred.
+Fold 0,mean batch accuracy 1.0%
+Fold 0,mean recall is 100.0%.
+Fold 0,mean f1 is 100.0%.
+
 In fold 1, loader 0, there are 26 1s in actual.
 In fold 1, loader 0, there are 26 1s in pred.
 Fold 1,mean batch accuracy 1.0%
 Fold 1,mean recall is 100.0%.
-PNEUMONIA,kstest,None
-In fold 2, loader 0, there are 24 1s in actual.
-In fold 2, loader 0, there are 24 1s in pred.
+Fold 1,mean f1 is 100.0%.
+
+In fold 2, loader 0, there are 22 1s in actual.
+In fold 2, loader 0, there are 22 1s in pred.
 Fold 2,mean batch accuracy 1.0%
 Fold 2,mean recall is 100.0%.
-PNEUMONIA,kstest,None
-In fold 3, loader 0, there are 25 1s in actual.
-In fold 3, loader 0, there are 25 1s in pred.
+Fold 2,mean f1 is 100.0%.
+
+In fold 3, loader 0, there are 26 1s in actual.
+In fold 3, loader 0, there are 26 1s in pred.
 Fold 3,mean batch accuracy 1.0%
 Fold 3,mean recall is 100.0%.
-PNEUMONIA,kstest,None
-In fold 4, loader 0, there are 22 1s in actual.
-In fold 4, loader 0, there are 22 1s in pred.
+Fold 3,mean f1 is 100.0%.
+
+In fold 4, loader 0, there are 24 1s in actual.
+In fold 4, loader 0, there are 24 1s in pred.
 Fold 4,mean batch accuracy 1.0%
 Fold 4,mean recall is 100.0%.
-PNEUMONIA,kstest,None
+Fold 4,mean f1 is 100.0%.
 
 output accuracy (folds average): 1.0
-
 recall (folds average): 1.0
+f1 (folds average): 1.0
 

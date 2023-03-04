@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from evaluate import DataSet, EvaluationModel
 from helpers import configure_logger
 from sklearn.model_selection import KFold
-from sklearn.metrics import recall_score
+from sklearn.metrics import recall_score,f1_score
 from multistage.utils import reset_weights,balance_datasets
 
 
@@ -102,7 +102,9 @@ def train_individual(diagnosis, dirname,method=None):
     kfold = KFold(n_splits=k_folds, shuffle=True)
     folds_accuracy_list=[]
     folds_recall_list=[]
+    folds_f1_list=[]
     # 0-500, 500-1000, ...,2000-2500 ids are taken as test_ids for each fold
+    logger.info(f"{diagnosis},{dirname},{method}")
     for fold, (train_ids, test_ids) in enumerate(kfold.split(dataset)):
         print(f"Diagnosis {diagnosis}.")
         print(f"Fold {fold}")
@@ -139,7 +141,7 @@ def train_individual(diagnosis, dirname,method=None):
         #pred
         output_accuracy_list=[]
         recall_list=[]
-        logger.info(f"{diagnosis},{dirname},{method}")
+        f1_list=[]
         with torch.no_grad():
             for i, (x,y) in enumerate(test_loader):
                 output_pred=model(x)
@@ -152,19 +154,26 @@ def train_individual(diagnosis, dirname,method=None):
                 output_accuracy_list.append(output_accuracy)
                 recall=recall_score(y.flatten(),pred)
                 recall_list.append(recall)
+                f1=f1_score(y.flatten(),pred)
+                f1_list.append(f1)
 
 
         mean_accuracy_across_batches=sum(output_accuracy_list)/len(output_accuracy_list)
         logger.info(f"Fold {fold},mean batch accuracy {mean_accuracy_across_batches}%")
         mean_recall_across_batches=sum(recall_list)/len(recall_list)
         logger.info(f"Fold {fold},mean recall is {100*mean_recall_across_batches}%.")
+        mean_f1_across_batches=sum(f1_list)/len(f1_list)
+        logger.info(f"Fold {fold},mean f1 is {100*mean_f1_across_batches}%.\n")
 
         folds_accuracy_list.append(mean_accuracy_across_batches)
         folds_recall_list.append(mean_recall_across_batches)
+        folds_f1_list.append(mean_f1_across_batches)
 
     plt.show()
     folds_average=sum(folds_accuracy_list)/len(folds_accuracy_list)
     fold_recall_average=sum(folds_recall_list)/len(folds_recall_list)
-    logger.info(f"{diagnosis},{dirname},{method}\n")
-    logger.info(f"output accuracy (folds average): {folds_average}\n")
-    logger.info(f"recall (folds average): {fold_recall_average}\n")
+    fold_f1_average=sum(folds_f1_list)/len(folds_f1_list)
+
+    logger.info(f"output accuracy (folds average): {folds_average}")
+    logger.info(f"recall (folds average): {fold_recall_average}")
+    logger.info(f"f1 (folds average): {fold_f1_average}\n")
