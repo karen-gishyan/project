@@ -1,71 +1,71 @@
 DIABETIC KETOACIDOSIS
 
-In fold 0, loader 0, there are 33 1s in actual.
+In fold 0, loader 0, there are 40 1s in actual.
 In fold 0, loader 0, there are 74 1s in pred.
-fold:0, drugs t2 mean accuracy: 81.325%
-fold:0, drugs t2 mean recall: 99.319%
-fold:0, drugs t2 mean f1: 30.58%
-fold:0, drugs t3 mean accuracy: 81.178%
-fold:0, drugs t3 mean recall: 100.0%
-fold:0, drugs t3 mean f1: 28.403%
-fold:0, output mean accuracy:44.595%
+fold:0, drugs t2 mean accuracy: 99.967%
+fold:0, drugs t2 mean recall: 99.144%
+fold:0, drugs t2 mean f1: 99.002%
+fold:0, drugs t3 mean accuracy: 99.822%
+fold:0, drugs t3 mean recall: 99.903%
+fold:0, drugs t3 mean f1: 94.248%
+fold:0, output mean accuracy:54.054%
 fold:0, mean recall:100.0%
-fold:0, mean f1:61.682%
+fold:0, mean f1:70.175%
 
-In fold 1, loader 0, there are 37 1s in actual.
-In fold 1, loader 0, there are 0 1s in pred.
-fold:1, drugs t2 mean accuracy: 80.256%
-fold:1, drugs t2 mean recall: 99.741%
-fold:1, drugs t2 mean f1: 24.76%
-fold:1, drugs t3 mean accuracy: 80.127%
+In fold 1, loader 0, there are 36 1s in actual.
+In fold 1, loader 0, there are 74 1s in pred.
+fold:1, drugs t2 mean accuracy: 99.949%
+fold:1, drugs t2 mean recall: 98.699%
+fold:1, drugs t2 mean f1: 98.461%
+fold:1, drugs t3 mean accuracy: 99.832%
 fold:1, drugs t3 mean recall: 100.0%
-fold:1, drugs t3 mean f1: 23.088%
-fold:1, output mean accuracy:50.0%
-fold:1, mean recall:0.0%
-fold:1, mean f1:0.0%
+fold:1, drugs t3 mean f1: 94.588%
+fold:1, output mean accuracy:48.649%
+fold:1, mean recall:100.0%
+fold:1, mean f1:65.455%
 
-In fold 2, loader 0, there are 36 1s in actual.
-In fold 2, loader 0, there are 72 1s in pred.
-fold:2, drugs t2 mean accuracy: 97.18%
-fold:2, drugs t2 mean recall: 98.975%
-fold:2, drugs t2 mean f1: 72.184%
-fold:2, drugs t3 mean accuracy: 97.041%
+In fold 2, loader 0, there are 37 1s in actual.
+In fold 2, loader 0, there are 74 1s in pred.
+fold:2, drugs t2 mean accuracy: 99.964%
+fold:2, drugs t2 mean recall: 99.403%
+fold:2, drugs t2 mean f1: 98.903%
+fold:2, drugs t3 mean accuracy: 99.829%
 fold:2, drugs t3 mean recall: 100.0%
-fold:2, drugs t3 mean f1: 68.071%
-fold:2, output mean accuracy:51.351%
+fold:2, drugs t3 mean f1: 94.498%
+fold:2, output mean accuracy:50.0%
 fold:2, mean recall:100.0%
 fold:2, mean f1:66.667%
 
 In fold 3, loader 0, there are 37 1s in actual.
-In fold 3, loader 0, there are 0 1s in pred.
-fold:3, drugs t2 mean accuracy: 81.47%
-fold:3, drugs t2 mean recall: 100.0%
-fold:3, drugs t2 mean f1: 23.318%
-fold:3, drugs t3 mean accuracy: 81.305%
+In fold 3, loader 0, there are 73 1s in pred.
+fold:3, drugs t2 mean accuracy: 99.964%
+fold:3, drugs t2 mean recall: 99.144%
+fold:3, drugs t2 mean f1: 98.897%
+fold:3, drugs t3 mean accuracy: 99.836%
 fold:3, drugs t3 mean recall: 100.0%
-fold:3, drugs t3 mean f1: 21.427%
-fold:3, output mean accuracy:49.315%
-fold:3, mean recall:0.0%
-fold:3, mean f1:0.0%
+fold:3, drugs t3 mean f1: 94.717%
+fold:3, output mean accuracy:50.685%
+fold:3, mean recall:100.0%
+fold:3, mean f1:67.273%
 
-In fold 4, loader 0, there are 41 1s in actual.
-In fold 4, loader 0, there are 0 1s in pred.
-fold:4, drugs t2 mean accuracy: 78.439%
-fold:4, drugs t2 mean recall: 99.829%
-fold:4, drugs t2 mean f1: 23.175%
-fold:4, drugs t3 mean accuracy: 78.28%
+In fold 4, loader 0, there are 34 1s in actual.
+In fold 4, loader 0, there are 72 1s in pred.
+fold:4, drugs t2 mean accuracy: 99.97%
+fold:4, drugs t2 mean recall: 99.058%
+fold:4, drugs t2 mean f1: 99.089%
+fold:4, drugs t3 mean accuracy: 99.836%
 fold:4, drugs t3 mean recall: 100.0%
-fold:4, drugs t3 mean f1: 21.38%
-fold:4, output mean accuracy:43.836%
-fold:4, mean recall:0.0%
-fold:4, mean f1:0.0%
+fold:4, drugs t3 mean f1: 94.72%
+fold:4, output mean accuracy:45.205%
+fold:4, mean recall:97.059%
+fold:4, mean f1:62.264%
 
-drugs t2 accuracy (folds average): 83.734%
-drugs t2 recall (folds average): 99.5728%
-drugs t2 f1-score (folds average): 34.8034%
-drugs t3 accuracy (folds average): 83.5862%
-drugs t3 recall (folds average): 100.0%
-drugs t3 f1-score (folds average): 32.4738%
-output accuracy (folds average): 47.819399999999995%
-recall (folds average): 40.0%
-f1-score (folds average): 25.6698%
+drugs t2 accuracy (folds average): 99.96279999999999%
+drugs t2 recall (folds average): 99.0896%
+drugs t2 f1-score (folds average): 98.87039999999999%
+drugs t3 accuracy (folds average): 99.831%
+drugs t3 recall (folds average): 99.98060000000001%
+drugs t3 f1-score (folds average): 94.5542%
+output accuracy (folds average): 49.7186%
+recall (folds average): 99.4118%
+f1-score (folds average): 66.3668%

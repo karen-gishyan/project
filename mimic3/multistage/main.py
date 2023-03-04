@@ -156,9 +156,8 @@ for diagnosis in ['DIABETIC KETOACIDOSIS']:
 
                 #drug_accuracy
                 n_cols=drugs_t2.shape[1]
-                # if probability is bigger than 1(/n_cols), assign 1
-                drugs_t2_pred=(drugs_t2_pred>(1/n_cols)).float()
-                drugs_t3_pred=(drugs_t2_pred>(1/n_cols)).float()
+                drugs_t2_pred=(drugs_t2_pred>(1/2)).float()
+                drugs_t3_pred=(drugs_t2_pred>(1/2)).float()
 
                 # number of correct per row divided by total row length, then averaged across columns
                 drugs_t2_accuracy=torch.mean(torch.sum(drugs_t2_pred.detach()==drugs_t2,dim=1)/drugs_t2.shape[1]).item()
