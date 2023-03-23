@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="6W3zWPO9bgxNv6p76w9L" name="data-logical-flow">
-        <mxGraphModel dx="916" dy="683" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+        <mxGraphModel dx="1209" dy="426" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
             <root>
                 <mxCell id="7ryWAxXGk5FzE_vCHZx1-0"/>
                 <mxCell id="7ryWAxXGk5FzE_vCHZx1-1" parent="7ryWAxXGk5FzE_vCHZx1-0"/>
@@ -1974,7 +1974,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="yZXG9ZRT6z1lml9grjJB" name="Lambda">
-        <mxGraphModel dx="916" dy="683" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1209" dy="426" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -2073,6 +2073,50 @@
                 </mxCell>
                 <mxCell id="z-tiliXcIsvnaxfbkYSj-107" value="Image Response" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="299.11999999999995" y="380" width="112.35" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="QulYIvmxPZfeDGQOORLl" name="Page-11">
+        <mxGraphModel dx="799" dy="275" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="m-0U899p9wp3YTurMrnO-4" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m-0U899p9wp3YTurMrnO-1" target="m-0U899p9wp3YTurMrnO-2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-1" value="Stage 1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="80" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-5" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m-0U899p9wp3YTurMrnO-2" target="m-0U899p9wp3YTurMrnO-3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-2" value="Stage 2" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="80" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-3" value="Stage 3" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="80" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-18" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m-0U899p9wp3YTurMrnO-6" target="m-0U899p9wp3YTurMrnO-17">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-6" value="Identification of top 5 treatments based of patients' features for each stage" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="355" y="200" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-14" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m-0U899p9wp3YTurMrnO-9" target="m-0U899p9wp3YTurMrnO-6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-9" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;rotation=90;" vertex="1" parent="1">
+                    <mxGeometry x="405" y="-50" width="20" height="415" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-20" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m-0U899p9wp3YTurMrnO-17" target="m-0U899p9wp3YTurMrnO-19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-17" value="Use stage treatments to generate element-wise product combinations&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="355" y="320" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="m-0U899p9wp3YTurMrnO-19" value="Train an ML model to evaluate approach and identify best treatments" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="355" y="440" width="120" height="80" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
