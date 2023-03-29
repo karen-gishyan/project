@@ -166,7 +166,7 @@ class Graph:
 
         return self
 
-    def create_relationships(self,cost_callable,n_childs=3,allow_cycles=False,non_deterministic=False,incremental_improvement=False):
+    def create_relationships(self,cost_callable,n_childs=3,allow_cycles=True,non_deterministic=False,incremental_improvement=False):
         """
         For each testing instance with admission features, the goal is
         to construct a DAG which will store the path of the optimal treatment.
@@ -467,7 +467,8 @@ class Graph:
                     # if cycle
                     plt.figure()
                     plt.title(self.diagnosis)
-                    nx.draw(self.graph,with_labels=True)
+                    pos = nx.spring_layout(self.graph, k=10*1/np.sqrt(len(self.graph.nodes())), iterations=20)
+                    nx.draw(self.graph,pos=pos,with_labels=True,node_color='#FFFFFF')
                     plt.show()
 
                 visualize=False
@@ -613,7 +614,7 @@ class Graph:
         # pos = hierarchy_pos(graph,root)
         pos=topo_pos(graph)
         plt.title(f"{self.diagnosis}")
-        nx.draw(graph, pos,with_labels=True)
+        nx.draw(graph, pos,with_labels=True,node_color='#FFFFFF')
         plt.show()
 
     def evaluate(self,n_clusters=3):
@@ -646,5 +647,5 @@ class Graph:
         return self
 
     def __call__(self):
-        self.make_graphs().evaluate()
-        # self.make_graphs_stage_independent()
+        # self.make_graphs().evaluate()
+        self.make_graphs_stage_independent()
