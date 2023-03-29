@@ -166,7 +166,7 @@ class Graph:
 
         return self
 
-    def create_relationships(self,cost_callable,n_childs=3,allow_cycles=True,non_deterministic=False,incremental_improvement=False):
+    def create_relationships(self,cost_callable,n_childs=3,allow_cycles=False,non_deterministic=False,incremental_improvement=False):
         """
         For each testing instance with admission features, the goal is
         to construct a DAG which will store the path of the optimal treatment.
@@ -647,5 +647,5 @@ class Graph:
         return self
 
     def __call__(self):
-        # self.make_graphs().evaluate()
-        self.make_graphs_stage_independent()
+        self.make_graphs().evaluate()
+        # self.make_graphs_stage_independent()
