@@ -523,6 +523,8 @@ class Graph:
                     #NOTE this shows that without undirected cycles there is only 1 shortest path
                     # we thus search without performing a heuristic search.
                     #NOTE for the tree version, weight argument can be None as there is only 1 path
+                    #NOTE for the graph version, if we search without weights (regarding path cost as 1),
+                    # there can be multiple shortest paths
                     print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
 
     #NOTE heurstics is admissible but imo cannot be proved, data plays a role
