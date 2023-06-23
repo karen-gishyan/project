@@ -25,6 +25,7 @@ from sklearn.cluster import KMeans
 from scipy.stats import kstest
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy.linalg import norm
 from utils import hierarchy_pos, topo_pos, Costs_and_Thresholds
 from collections import deque
 from math import sqrt
@@ -90,6 +91,7 @@ class Graph:
         Returns:
             _type_: List[nx.DiGraph]
         """
+        self.counter={}
         self.make_models()
         # third timestep should have only the good indices, only one of them is goal currently
         good_indices=(self.model3.output==1).nonzero().flatten()
@@ -428,6 +430,7 @@ class Graph:
         Returns:
             _type_: List[nx.Digraph]
         """
+        self.counter={}
         self.make_models()
         good_indices=(self.model3.output==1).nonzero().flatten()
         self.model3.feature_tensors=self.model3.feature_tensors.index_select(0,good_indices)
@@ -493,6 +496,10 @@ class Graph:
 
         if method!='independent':
             end_node=sorted(list(graph.nodes))[-1]
+            self.end_nodes=[end_node]
+            #TODO random choice is a better approach however results in different counter values for each run
+            # end_nodes=self.end_nodes=[node for node in list(graph.nodes) if "t3" in node]
+            # end_node=random.choice(end_nodes)
             assert has_path(graph, start_node,end_node),\
                     "There is no path between start and end nodes."
             #NOTE for each graph there are multiple shortest paths if
@@ -505,6 +512,7 @@ class Graph:
 
             print('astar shortest path.')
             astar_paths=list(nx.astar_path(graph,start_node,end_node,heuristic=self.astar_heuristic_v2))
+            self.increment_counter(astar_paths)
             print(astar_paths)
             return djikstra_paths,astar_paths
 
@@ -526,7 +534,9 @@ class Graph:
                     #NOTE for the tree version, weight argument can be None as there is only 1 path
                     #NOTE for the graph version, if we search without weights (regarding path cost as 1),
                     # there can be multiple shortest paths
-                    print(list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight')))
+                    shortest_paths=list(nx.all_shortest_paths(graph,start_node,end_node,weight='weight'))
+                    self.increment_counter(shortest_paths[0])
+                    print(shortest_paths)
 
     #NOTE heurstics is admissible but imo cannot be proved, data plays a role
     def astar_heuristic_v1(self,node,end_node):
@@ -603,8 +613,8 @@ class Graph:
             #NOTE we say that the heurisics is a good one, but is not admissble
             if not heuristic_cost<=shortest_path_length:
                 print(f'not admissible for {node} and {end_node}')
-            print(f"heuristic_cost for ({node}):{heuristic_cost}\n \
-                    shortest_path_length for ({node}):{shortest_path_length}")
+            # print(f"heuristic_cost for ({node}):{heuristic_cost}\n \
+            #         shortest_path_length for ({node}):{shortest_path_length}")
         else:
             #acceptable
             # print('No path between node and end_node, same depth.')
@@ -646,6 +656,88 @@ class Graph:
         logger.info(f"Correct cluster allocation % with {n_clusters} clusters is: {correct_percentage}%")
         return self
 
+    def increment_counter(self,shortest_path_list):
+        for node in shortest_path_list[1:-1]:
+            self.counter[node]=self.counter.get(node,0)+1
+
+    def return_counter(self):
+        """
+        Number of times each intermediary node appears as part of a solution path.
+        """
+        print("Counter dict.")
+        self.counter_dict=dict(reversed(sorted(self.counter.items(),key=lambda dict_:dict_[1])))
+        print(self.counter_dict)
+        return self
+
+
+    def visualize_counters(self):
+        x,y=zip(*self.counter_dict.items())
+        _, ax = plt.subplots()
+        bars = ax.bar(x[:5], y[:5])
+        ax.bar_label(bars)
+        ax.set_xlabel('Nodes')
+        ax.set_ylabel('Counts')
+        ax.set_title('Betweenness Values for Nodes')
+        plt.show()
+        return self
+
+
+    def visualize_cosine_similarities(self):
+        x,y=zip(*self.cosine_sim_dict.items())
+        _, ax = plt.subplots()
+        bars = ax.bar(x[:5], y[:5])
+        ax.bar_label(bars)
+        ax.set_xlabel('Nodes')
+        ax.set_ylabel('Similarities')
+        ax.set_title('Cosine Similarities for Nodes')
+        plt.show()
+        return self
+
+
+    def cosine_similarity_experiment1(self):
+        """
+        Calculate cosine similarity between intermediary node features and target features.
+        """
+        self.cosine_sim_dict={}
+        end_node_ids=[]
+        if hasattr(self,"end_nodes"):
+            for end_node in self.end_nodes:
+                end_node_ids.append(int(re.findall("\d+",end_node)[1]))
+
+            target_feature_vectors=self.model3.feature_tensors_limited.index_select(0,torch.IntTensor(end_node_ids))
+            target_feature_vector=torch.mean(target_feature_vectors,dim=0)
+
+            for node in self.counter_dict:
+                stage, row_id=map(int,re.findall("\d+",node))
+                node_feature_vector=getattr(self,f"model{stage}").feature_tensors[row_id]
+                cosine_similarity=self.calculate_cosine_similarity(node_feature_vector,target_feature_vector)
+                self.cosine_sim_dict.update({node:cosine_similarity})
+
+        print('Cosine similarities.')
+        print(self.cosine_sim_dict)
+        return self
+
+
+    def cosine_similarity_experiment2(self):
+        self.cosine_sim_dict={}
+        target_feature_vector=self.target_features
+        for node in self.counter_dict:
+            stage, row_id=map(int,re.findall("\d+",node))
+            node_feature_vector=getattr(self,f"model{stage}").feature_tensors[row_id]
+            cosine_similarity=self.calculate_cosine_similarity(node_feature_vector,target_feature_vector)
+            self.cosine_sim_dict.update({node:cosine_similarity})
+
+        print('Cosine similarities.')
+        print(self.cosine_sim_dict)
+        return self
+
+
+    def calculate_cosine_similarity(self,tensor_a,tensor_b):
+        return np.dot(tensor_a,tensor_b)/(norm(tensor_a)*norm(tensor_b))
+
     def __call__(self):
-        self.make_graphs().evaluate()
-        # self.make_graphs_stage_independent()
+        self.make_graphs().return_counter().\
+            cosine_similarity_experiment1().visualize_counters().visualize_cosine_similarities()
+
+        # self.make_graphs_stage_independent().return_counter().\
+        #     cosine_similarity_experiment2().visualize_counters().visualize_cosine_similarities()
