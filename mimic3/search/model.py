@@ -682,16 +682,11 @@ class Graph:
         return self
 
 
-    def visualize_cosine_similarities(self):
+    def visualize_cosine_similarities(self,ax):
         x,y=zip(*self.cosine_sim_dict.items())
-        _, ax = plt.subplots()
         bars = ax.bar(x[:5], y[:5])
-        ax.bar_label(bars)
-        ax.set_xlabel('Nodes')
-        ax.set_ylabel('Similarities')
-        ax.set_title('Cosine Similarities for Nodes')
-        plt.show()
-        return self
+        ax.bar_label(bars,padding=-15)
+        ax.set_title(f"{self.diagnosis}")
 
 
     def cosine_similarity_experiment1(self):
@@ -711,7 +706,7 @@ class Graph:
                 stage, row_id=map(int,re.findall("\d+",node))
                 node_feature_vector=getattr(self,f"model{stage}").feature_tensors[row_id]
                 cosine_similarity=self.calculate_cosine_similarity(node_feature_vector,target_feature_vector)
-                self.cosine_sim_dict.update({node:cosine_similarity})
+                self.cosine_sim_dict.update({node:round(cosine_similarity,4)})
 
         print('Cosine similarities.')
         print(self.cosine_sim_dict)
@@ -725,7 +720,7 @@ class Graph:
             stage, row_id=map(int,re.findall("\d+",node))
             node_feature_vector=getattr(self,f"model{stage}").feature_tensors[row_id]
             cosine_similarity=self.calculate_cosine_similarity(node_feature_vector,target_feature_vector)
-            self.cosine_sim_dict.update({node:cosine_similarity})
+            self.cosine_sim_dict.update({node:round(cosine_similarity,4)})
 
         print('Cosine similarities.')
         print(self.cosine_sim_dict)
@@ -737,7 +732,9 @@ class Graph:
 
     def __call__(self):
         self.make_graphs().return_counter().\
-            cosine_similarity_experiment1().visualize_counters().visualize_cosine_similarities()
+            cosine_similarity_experiment1().visualize_counters()
 
         # self.make_graphs_stage_independent().return_counter().\
-        #     cosine_similarity_experiment2().visualize_counters().visualize_cosine_similarities()
+        #     cosine_similarity_experiment2().visualize_counters()
+
+        return self
