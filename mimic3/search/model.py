@@ -235,7 +235,7 @@ class Graph:
 
         try:
             node=self.frontier_que.popleft()
-            self.explored_nodes[node['label']]=True
+            self.visited_nodes[node['label']]=True
         except IndexError:
             # reason: all nodes in the frontier_que have no children (nothing else to explore),
             # because each new child will result in a cycle formation.
@@ -360,13 +360,17 @@ class Graph:
                     nx.relabel_nodes(self.graph,rename,copy=False)
 
                     #chances are extremely rare but still needed
-                    if not self.explored_nodes.get(f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}",False):
+                    if not self.visited_nodes.get(f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}",False):
+                        self.visited_nodes[f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}"]=True
                         self.frontier_que.append(self.graph.nodes[f"{tuple_[1]}:{probability_of_effectiveness}:{unique_id}"])
 
                 else:
                     self.graph.nodes[tuple_[1]]['label']=tuple_[1]
-                    # do not explore the same node, if it has been previously explored
-                    if not self.explored_nodes.get(tuple_[1],False):
+                    # add the node to the frontier only if it has not been previously visited
+                    # otherwise the same node may be added to the queue more than once
+                    # NOTE the final results do not change, but the logic with multiple addition is incorrect
+                    if not self.visited_nodes.get(tuple_[1],False):
+                        self.visited_nodes[tuple_[1]]=True
                         self.frontier_que.append(self.graph.nodes[tuple_[1]])
             else:
                 try:
@@ -450,7 +454,7 @@ class Graph:
                 continue
             # que for storing nodes yet to be explored
             self.frontier_que=deque()
-            self.explored_nodes={}
+            self.visited_nodes={}
             self.cycle_nodes={}
             self.graph=nx.DiGraph(goal_node=None,intermediary_goal_node=None)
             self.graph.add_node(f"start:{i}",features=test_x,label=f"start:{i}")
@@ -520,11 +524,9 @@ class Graph:
             if graph.graph['intermediary_goal_node']:
                 # both end_node obtaining methods are equivalent
                 end_node=graph.graph['intermediary_goal_node']['label']
-                # end_node=self.explored_nodes[-1]
             elif graph.graph['goal_node']:
                 # both end_node obtaining methods are equivalent
                 end_node=graph.graph['goal_node']['label']
-                # end_node=self.explored_nodes[-1]
 
             if end_node:
                     assert has_path(graph, start_node,end_node),\
@@ -683,10 +685,12 @@ class Graph:
 
 
     def visualize_cosine_similarities(self,ax):
-        x,y=zip(*self.cosine_sim_dict.items())
-        bars = ax.bar(x[:5], y[:5])
-        ax.bar_label(bars,padding=-15)
-        ax.set_title(f"{self.diagnosis}")
+         #NOTE works only with deterministic features
+        if self.cosine_sim_dict:
+            x,y=zip(*self.cosine_sim_dict.items())
+            bars = ax.bar(x[:5], y[:5])
+            ax.bar_label(bars,padding=-15)
+            ax.set_title(f"{self.diagnosis}")
 
 
     def cosine_similarity_experiment1(self):
@@ -717,7 +721,12 @@ class Graph:
         self.cosine_sim_dict={}
         target_feature_vector=self.target_features
         for node in self.counter_dict:
-            stage, row_id=map(int,re.findall("\d+",node))
+            try:
+                #NOTE works only with deterministic features
+                stage, row_id=map(int,re.findall("\d+",node))
+            except:
+                self.cosine_sim_dict={}
+                break
             node_feature_vector=getattr(self,f"model{stage}").feature_tensors[row_id]
             cosine_similarity=self.calculate_cosine_similarity(node_feature_vector,target_feature_vector)
             self.cosine_sim_dict.update({node:round(cosine_similarity,4)})
