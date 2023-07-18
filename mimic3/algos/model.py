@@ -1,8 +1,10 @@
 import os
 import sys
 import networkx as nx
+from networkx.algorithms.shortest_paths import single_source_dijkstra_path_length
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 from numpy.linalg import norm
 
 path = os.path.dirname(os.path.dirname(__file__))
@@ -78,20 +80,20 @@ class MDP:
                 list(sorted(similarities.items(), key=lambda dict_: dict_[1]))[-3:])
             scores_only = [i[1] for i in top_actions]
             for t in top_actions:
-                self.graph.add_edge(i, t[0], probability=t[1]/sum(scores_only))
+                self.graph.add_edge(i, t[0], sim_score=1-t[1], probability=t[1]/sum(scores_only))
 
         nx.draw(self.graph, with_labels=True)
         return self
 
 
-    def one_step_look_ahead(self,state):
+    def one_step_look_ahead(self,state,discount_factor=1):
         """Return list of action_values from the current state."""
         out_edges=self.graph.out_edges(state,data=True)
         action_values=[]
         for edge in out_edges:
             pr=edge[2]['probability']
             next_state=self.graph.nodes[edge[1]]
-            value=pr*(next_state['reward']+next_state['value'])
+            value=pr*(next_state['reward']+discount_factor*next_state['value'])
             action_values.append(value)
         return action_values
 
@@ -122,6 +124,42 @@ class MDP:
         logger.info(f"Policy\n {policy}")
         return policy
 
+    def dijkstra(self,start_state):
+        """Computes shortes path length between a node and all other reachable nodes."""
+        states=list(self.graph.nodes)
+        visited=set()
 
-MDP(diagnosis="SEPSIS").make_models().create_states().\
+        distances={state:np.inf for state in states}
+        distances[start_state]=0
+
+        while len(visited)!=len(states):
+            sorted_=dict(sorted(distances.items(),key=lambda dict_:dict_[1]))
+            for k,_ in sorted_.items():
+                if k not in visited:
+                    state=k
+                    break
+
+            visited.add(state)
+            out_edges=self.graph.out_edges(state,data=True)
+            for edge in out_edges:
+                back_cost=distances[state]
+                front_cost=edge[2]['sim_score']
+                total=back_cost+front_cost
+                next_state=edge[1]
+                if total<distances[next_state]:
+                    distances[next_state]=total
+                    self.graph.nodes[next_state]['distance']=total
+                    self.graph.nodes[next_state]['parent']=state
+        return distances
+
+
+
+obj=MDP(diagnosis="SEPSIS")
+obj.make_models().create_states().\
     create_actions_and_transition_probabilities().value_iteration()
+for state in list(obj.graph.nodes):
+    result=obj.dijkstra(state)
+    result={k:v for k,v in result.items() if not math.isinf(v)}
+    nx_result=single_source_dijkstra_path_length(obj.graph,state,weight='sim_score')
+    nx_result=dict(sorted(nx_result.items()))
+    assert result==nx_result,"results differ."
