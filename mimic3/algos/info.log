@@ -1,0 +1,18 @@
+State:1,Value:11.136104564304354
+State:2,Value:33.33743407975119
+State:3,Value:2.974686674270929
+State:4,Value:33.092095532339464
+State:5,Value:11.118331346149326
+State:6,Value:0
+State:7,Value:11.06438366966768
+State:8,Value:2.547256848268461
+State:9,Value:11.15406801765268
+State:10,Value:33.36450243785714
+State:11,Value:2.5322664370033388
+State:12,Value:33.42239001671207
+State:13,Value:11.134485578061911
+State:14,Value:33.41741489236561
+State:15,Value:33.26892068417053
+State:16,Value:11.090641577526249
+Policy
+ ['state: 1->10.0.', 'state: 2->6.0.', 'state: 3->9.0.', 'state: 4->6.0.', 'state: 5->10.0.', 'state: 6->12.0.', 'state: 7->2.0.', 'state: 8->9.0.', 'state: 9->12.0.', 'state: 10->6.0.', 'state: 11->9.0.', 'state: 12->6.0.', 'state: 13->10.0.', 'state: 14->6.0.', 'state: 15->6.0.', 'state: 16->15.0.']
