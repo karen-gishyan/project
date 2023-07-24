@@ -5,9 +5,10 @@ import random
 from model import MDP
 import torch
 import torch.nn.functional as F
+import matplotlib.pyplot as plt
 
 
-mdp=MDP('SEPSIS')
+mdp=MDP('PNEUMONIA')
 
 class MimicSpace(Space):
 
@@ -45,6 +46,7 @@ class MimicEnv(Env):
     state_space=MimicSpace(mdp)
     action_space = state_space
     observation_space = state_space
+    visited_states=set()
 
     def step(self, action):
         """
@@ -59,8 +61,7 @@ class MimicEnv(Env):
         ), f"{action!r} ({type(action)}) invalid."
         assert self.state is not None, "Call reset before using step method."
 
-
-        #TODO action may not exist for a given state, such as when it points to same state
+        self.visited_states.add(self.state['label'])
         next_state_id=None
         for edge in self.observation_space.mdp.graph.edges:
             if edge[0]==self.state['label'] and edge[1]==action:
@@ -73,7 +74,11 @@ class MimicEnv(Env):
             next_state_id=random.choice(state_out_edges)[1]
 
         next_state=self.observation_space.mdp.graph.nodes[next_state_id]
-        reward=next_state['reward']
+        if next_state['label'] in self.visited_states:
+            #dynamic reward
+            reward=next_state['reward']-50
+        else:
+            reward=next_state['reward']+50
         terminated=next_state.get('goal',False)
         truncated=None
         self.state=next_state
@@ -139,7 +144,7 @@ class Agent(object):
 
     def update(self, update_rate):
         for _ in range(update_rate):
-            states, next_states, actions, rewards, terminals = sample_from_buffer(self.replay_buffer,size=64)
+            states, next_states, actions, rewards, terminals = sample_from_buffer(self.replay_buffer,size=8)
             self.update_QNetwork(states, next_states, actions, rewards, terminals)
 
 
@@ -162,10 +167,11 @@ def sample_from_buffer(buffer,size):
 def train():
     env=MimicEnv()
     # I think action dim 16 is correct, including staying in the same state
-    agent = Agent(state_dim=10, action_dim=16,env=env)
-    number_of_episodes = 10
-    max_time_steps = 50
+    agent = Agent(state_dim=10, action_dim=47,env=env)
+    number_of_episodes =150
+    max_time_steps = 100
 
+    episode_rewards=[]
     for episode in range(number_of_episodes):
         print('episode:', episode)
         reward_sum = 0
@@ -183,16 +189,22 @@ def train():
             # has been a self loop, and a state has been selected from actual edge transitions
             action = agent.epsilon_greedy_action(state, 0.2)
             next_state, reward, terminal, _ = env.step(action)
-            print(f"state:{state['label']},next_state:{next_state['label']}")
+            # print(f"state:{state['label']},next_state:{next_state['label']}")
             reward_sum += reward
             agent.replay_buffer.append([state,next_state,action-1,reward,terminal])
             state = next_state
             if terminal:
                 # when the reward sum is 0, it means once a bad state has been visited before getting to a
                 # terminal state.
-                print('sum_of_rewards_for_episode:', reward_sum)
                 break
-        agent.update(50)
+        print('sum_of_rewards_for_episode:', reward_sum)
+        episode_rewards.append(reward_sum)
+        agent.update(10)
+        # NOTE we keep visited set but it may be more correct to empty it
+        # env.visited_states=set()
+
+    plt.plot(episode_rewards)
+    plt.show()
 
 #TODO why does 1->1 after the first iteration?
 #TODO why are such patterns so common, 1->4,4->1?
