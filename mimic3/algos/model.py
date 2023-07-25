@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 from numpy.linalg import norm
+import torch
 
 path = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(path)
@@ -58,7 +59,7 @@ class MDP:
             self.graph.add_node(i+1, label=i+1,features=train_x, value=0, reward=0)
             score = self.calculate_cosine_similarity(
                 train_x, self.global_target)
-            self.cosine_sim_scores.update({i: score})
+            self.cosine_sim_scores.update({i+1: score})
 
         ordered_scores = list(
             sorted(self.cosine_sim_scores.items(), key=lambda i: i[1]))
@@ -92,6 +93,7 @@ class MDP:
                     continue
                 score = self.calculate_cosine_similarity(
                     state_i['features'], state_j['features'])
+                # j is correct
                 similarities.update({j: score})
 
             top_actions = list(sorted(similarities.items(), key=lambda dict_: dict_[1]))[-self.n_actions_per_state:]
@@ -99,7 +101,7 @@ class MDP:
             for t in top_actions:
                 self.graph.add_edge(i, t[0], sim_score=1-t[1], probability=t[1]/sum(scores_only))
 
-        nx.draw(self.graph, with_labels=True)
+        # nx.draw(self.graph, with_labels=True)
         return self
 
 
@@ -172,10 +174,11 @@ class MDP:
 
 
 class StageMDP:
-    mdp_t1=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=1)
-    mdp_t2=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=2)
-    mdp_t3=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=3)
-    mdp_list=[mdp_t1,mdp_t2,mdp_t3]
+    def __init__(self):
+        self.mdp_t1=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=1)
+        self.mdp_t2=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=2)
+        self.mdp_t3=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=3)
+        self.mdp_list=[self.mdp_t1,self.mdp_t2,self.mdp_t3]
 
     def connect_graphs(self):
         """Add goal state of i periods graph to i+1.
@@ -194,17 +197,14 @@ class StageMDP:
         self.mdp_t2.create_actions_and_transition_probabilities().value_iteration()
         self.mdp_t3.create_actions_and_transition_probabilities().value_iteration()
 
-
 if __name__=="__main__":
-
-    # obj=MDP(diagnosis="SEPSIS",n_actions_per_state=3)
-    # obj.make_models().create_states(1).\
-    #     create_actions_and_transition_probabilities().value_iteration()
-    # for state in list(obj.graph.nodes):
-    #     result=obj.dijkstra(state)
-    #     result={k:v for k,v in result.items() if not math.isinf(v)}
-    #     nx_result=single_source_dijkstra_path_length(obj.graph,state,weight='sim_score')
-    #     nx_result=dict(sorted(nx_result.items()))
-    #     assert result==nx_result,"results differ."
-
+# obj=MDP(diagnosis="SEPSIS",n_actions_per_state=3)
+# obj.make_models().create_states(1).\
+#     create_actions_and_transition_probabilities().value_iteration()
+# for state in list(obj.graph.nodes):
+#     result=obj.dijkstra(state)
+#     result={k:v for k,v in result.items() if not math.isinf(v)}
+#     nx_result=single_source_dijkstra_path_length(obj.graph,state,weight='sim_score')
+#     nx_result=dict(sorted(nx_result.items()))
+#     assert result==nx_result,"results differ."
     StageMDP()()

@@ -12,7 +12,7 @@ mdp=MDP('PNEUMONIA')
 
 class MimicSpace(Space):
 
-    def __init__(self, mdp: MDP):
+    def __init__(self, mdp: MDP,time_period=1):
         """MDP object which will be used as the base of the experiment.
         Action space signifes a transition to another state, so specifing a node_id can represent both a
         state and an action (transition to the next state).
@@ -21,7 +21,7 @@ class MimicSpace(Space):
             mdp (MDP): MDP objects used for creating the state dynamics.'graph' attribute will store all
             the information about states and actions.
         """
-        self.mdp = mdp.make_models().create_states(time_period=1
+        self.mdp = mdp.make_models().create_states(time_period=time_period
         ).create_actions_and_transition_probabilities()
 
     def sample(self):
@@ -43,10 +43,11 @@ class MimicSpace(Space):
 
 class MimicEnv(Env):
 
-    state_space=MimicSpace(mdp)
-    action_space = state_space
-    observation_space = state_space
-    visited_states=set()
+    def __init__(self,time_period):
+        self.state_space=MimicSpace(mdp,time_period=time_period)
+        self.action_space = self.state_space
+        self.observation_space = self.state_space
+        self.visited_states=set()
 
     def step(self, action):
         """
@@ -164,11 +165,12 @@ def sample_from_buffer(buffer,size):
     terminals=torch.Tensor(terminals).view(size,-1)
     return states, next_states,actions, rewards, terminals
 
-def train():
-    env=MimicEnv()
+def train(time_period=1):
+    env=MimicEnv(time_period)
+    action_dim=len(env.action_space.mdp.graph.nodes)
     # I think action dim 16 is correct, including staying in the same state
-    agent = Agent(state_dim=10, action_dim=47,env=env)
-    number_of_episodes =150
+    agent = Agent(state_dim=10, action_dim=action_dim,env=env)
+    number_of_episodes =300
     max_time_steps = 100
 
     episode_rewards=[]
@@ -204,6 +206,7 @@ def train():
         # env.visited_states=set()
 
     plt.plot(episode_rewards)
+    plt.ylim(-10000,1000)
     plt.show()
 
 #TODO why does 1->1 after the first iteration?
@@ -211,5 +214,8 @@ def train():
 #TODO try to reduce repition scenarios
 #TODO there should be more postive or more negative rewards, so as we check if the network is learning from
 # episode to episode.
-train()
 
+
+if __name__=="__main__":
+    for t in [1,2,3]:
+        train(time_period=t)
