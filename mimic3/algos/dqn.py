@@ -6,6 +6,7 @@ from model import MDP
 import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
+import copy
 
 
 mdp=MDP('PNEUMONIA')
@@ -111,8 +112,10 @@ class QNetwork(nn.Module):
 class Agent(object):
     def __init__(self, state_dim, action_dim,env):
         self.qnet = QNetwork(state_dim, action_dim, 16)
+        self.qnet_target = copy.deepcopy(self.qnet)
         self.optimizer = torch.optim.Adam( self.qnet.parameters(), lr=0.001)
         self.discount_factor = 0.99
+        self.tau = 0.95
         self.loss_function = nn.MSELoss()
         self.env=env
         self.replay_buffer = []
@@ -126,13 +129,17 @@ class Agent(object):
             # choose greedy action
             return np.argmax(output)+1
 
+    def soft_target_update(self,network,target_network,tau):
+        for net_params, target_net_params in zip(network.parameters(), target_network.parameters()):
+            target_net_params.data.copy_(net_params.data * tau + target_net_params.data * (1 - tau))
+
     def update_QNetwork(self, state, next_state, action, reward, terminals):
         #TODO there is index 16, which is out of bounds here because one extra state was added
 
         # torch.gather: from a matrix of values, for each row select the value corresponding to the action index
         # you calculate the value of the state for the action providing the best value
         qsa = torch.gather(self.qnet(state), dim=1, index=action.long())
-        qsa_next_actions = self.qnet(next_state)
+        qsa_next_actions = self.qnet_target(next_state)
         # you calculate the value of the next_state for the action providing the best value
         qsa_next_action,_ = torch.max(qsa_next_actions, dim=1, keepdim=True)
         not_terminals = 1 - terminals
@@ -147,6 +154,7 @@ class Agent(object):
         for _ in range(update_rate):
             states, next_states, actions, rewards, terminals = sample_from_buffer(self.replay_buffer,size=8)
             self.update_QNetwork(states, next_states, actions, rewards, terminals)
+            self.soft_target_update(self.qnet, self.qnet_target, self.tau)
 
 
 def sample_from_buffer(buffer,size):

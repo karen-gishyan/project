@@ -66,11 +66,13 @@ class MDP:
 
         goal_node_id = list(ordered_scores[-1])[0]
         self.goal_state = self.graph.nodes[goal_node_id]
+        print(f"Goal State: {self.goal_state['label']}")
         self.graph.nodes[goal_node_id]['goal'] = True
         self.graph.nodes[goal_node_id]['reward'] = 100
 
         bad_node_id = list(ordered_scores[0])[0]
         self.bad_state = self.graph.nodes[bad_node_id]
+        print(f"Bad State: {self.bad_state['label']}")
         self.graph.nodes[bad_node_id]['bad'] = True
         self.graph.nodes[bad_node_id]['reward'] = -100
         return self
@@ -172,12 +174,12 @@ class MDP:
                     self.graph.nodes[next_state]['parent']=state
         return distances
 
-
+#TODO play special importance to cycles
 class StageMDP:
     def __init__(self):
-        self.mdp_t1=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=1)
-        self.mdp_t2=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=2)
-        self.mdp_t3=MDP(diagnosis="SEPSIS").make_models().create_states(time_period=3)
+        self.mdp_t1=MDP(diagnosis="PNEUMONIA").make_models().create_states(time_period=1)
+        self.mdp_t2=MDP(diagnosis="PNEUMONIA").make_models().create_states(time_period=2)
+        self.mdp_t3=MDP(diagnosis="PNEUMONIA").make_models().create_states(time_period=3)
         self.mdp_list=[self.mdp_t1,self.mdp_t2,self.mdp_t3]
 
     def connect_graphs(self):
@@ -191,6 +193,7 @@ class StageMDP:
 
 
     def __call__(self):
+        #TODO check start logic
         self.connect_graphs()
         self.mdp_t1.create_actions_and_transition_probabilities().value_iteration()
         #TODO period t2 and t3 are not learning
