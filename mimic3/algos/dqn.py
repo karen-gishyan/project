@@ -22,6 +22,7 @@ class MimicSpace(Space):
             mdp (MDP): MDP objects used for creating the state dynamics.'graph' attribute will store all
             the information about states and actions.
         """
+        self.time_period=time_period
         self.mdp = mdp.make_models().create_states(time_period=time_period
         ).create_actions_and_transition_probabilities()
 
@@ -99,7 +100,7 @@ class QNetwork(nn.Module):
     def __init__(self, state_dim , action_dim, h_layer_dim):
         super(QNetwork, self).__init__()
         self.x = nn.Linear(state_dim, h_layer_dim)
-        # self.h_layer = nn.Linear(h_layer_dim, h_layer_dim)
+        self.h_layer = nn.Linear(h_layer_dim, h_layer_dim)
         self.y_layer = nn.Linear(h_layer_dim, action_dim)
         print(self.x)
 
@@ -111,14 +112,31 @@ class QNetwork(nn.Module):
 
 class Agent(object):
     def __init__(self, state_dim, action_dim,env):
-        self.qnet = QNetwork(state_dim, action_dim, 16)
+        self.time_petiod=env.state_space.time_period
+        if self.time_petiod!=1:
+            self.qnet=self.load_pretrained(h_layer_dim=16,action_dim=action_dim,time_period=self.time_petiod)
+        else:
+            self.qnet = QNetwork(state_dim, action_dim, 16)
         self.qnet_target = copy.deepcopy(self.qnet)
-        self.optimizer = torch.optim.Adam( self.qnet.parameters(), lr=0.001)
+        self.optimizer = torch.optim.Adam(self.qnet.parameters(), lr=0.001)
         self.discount_factor = 0.99
         self.tau = 0.95
         self.loss_function = nn.MSELoss()
         self.env=env
         self.replay_buffer = []
+
+    def load_pretrained(self,h_layer_dim,action_dim,time_period):
+        """
+        Load pretrained model weights from the previous stage
+        https://harinramesh.medium.com/transfer-learning-in-pytorch-f7736598b1ed.
+        """
+        # load the pretrained model from the previous stage
+        model=torch.load(f'weights/model{time_period-1}.pt')
+        for param in model.parameters():
+            param.requires_grad=False
+        model.y_layer=nn.Linear(h_layer_dim,action_dim)
+        return model
+
 
     def epsilon_greedy_action(self, state, epsilon):
         if np.random.uniform(0, 10) < epsilon:
@@ -145,6 +163,8 @@ class Agent(object):
         not_terminals = 1 - terminals
         qsa_next_target = reward + not_terminals * self.discount_factor * qsa_next_action
         # the network learns to minimize the difference between state's and next_state's best values.
+        # the network should be optimized in a way that current state's and next_state's actions are
+        #equivalently good, meaning they have close numerical outputs.
         q_network_loss = self.loss_function(qsa, qsa_next_target.detach())
         self.optimizer.zero_grad()
         q_network_loss.backward()
@@ -211,7 +231,12 @@ def train(time_period=1):
         episode_rewards.append(reward_sum)
         agent.update(10)
         # NOTE we keep visited set but it may be more correct to empty it
-        # env.visited_states=set()
+        env.visited_states=set()
+
+    if time_period==1:
+        torch.save(agent.qnet,"weights/model1.pt")
+    elif time_period==2:
+        torch.save(agent.qnet,"weights/model2.pt")
 
     plt.plot(episode_rewards)
     plt.ylim(-10000,1000)
@@ -227,3 +252,4 @@ def train(time_period=1):
 if __name__=="__main__":
     for t in [1,2,3]:
         train(time_period=t)
+
