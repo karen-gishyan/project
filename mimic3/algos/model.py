@@ -23,6 +23,7 @@ class MDP:
         self.diagnosis = diagnosis
         self.n_actions_per_state=n_actions_per_state
         if initial:
+            #TODO check where initial is used
             # first MDP
             self.graph['initial']=True
 
@@ -190,6 +191,7 @@ class StageMDP:
             label=f"t{i+1}_{goal_state['label']}"
             self.mdp_list[i+1].graph.add_node(label,label=label,features=goal_state['features'],
                                               value=goal_state['value'],reward=0,start=True)
+        return self
 
 
     def __call__(self):
