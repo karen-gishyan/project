@@ -1,12 +1,12 @@
 import os
 import sys
+import json
 import networkx as nx
 from networkx.algorithms.shortest_paths import single_source_dijkstra_path_length
-import matplotlib.pyplot as plt
 import numpy as np
-import math
 from numpy.linalg import norm
-import torch
+from sklearn.linear_model import LogisticRegression
+
 
 path = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(path)
@@ -33,10 +33,25 @@ class MDP:
             models.append(DistanceModel(diagnosis=self.diagnosis, timestep=t))
 
         self.model1, self.model2, self.model3 = models
-        self.model1.average_feature_time_series().train_test()
+        self.model1.average_feature_time_series()
         self.model2.average_feature_time_series()
         self.model3.average_feature_time_series()
         return self
+
+    def predict_discharge_based_on_final_features(self):
+        X_stage3=self.model3.feature_tensors.numpy()
+        y=self.model3.output.numpy()
+        logit_model=LogisticRegression().fit(X_stage3,y)
+        #prediction stage
+        X_stage1=self.model1.feature_tensors.numpy()
+        X_stage2=self.model2.feature_tensors.numpy()
+        X=np.vstack((X_stage1,X_stage2,X_stage3))
+        probabilities=logit_model.predict_proba(X)[:,0].tolist()
+
+        with open('logit_probabilities.json','w') as file:
+            json.dump(probabilities,file)
+        return self
+
 
     def get_global_target(self):
         good_indices = (self.model3.output == 1).nonzero().flatten()
@@ -47,35 +62,40 @@ class MDP:
     def create_states(self,time_period):
         """Iterate over tensors, each row is a state (node), assign features to nodes."""
 
+        with open('logit_probabilities.json') as file:
+            probabilities=json.load(file)
+        individual_shape=int(len(probabilities)/3)
+
         if time_period==1:
-            data=self.model1.train_data
+            data=self.model1.feature_tensors
+            probabilities=probabilities[:individual_shape]
         elif time_period==2:
             data=self.model2.feature_tensors
+            probabilities=probabilities[individual_shape:individual_shape*2]
         else:
             data=self.model3.feature_tensors
+            probabilities=probabilities[individual_shape*2:]
+
+        max_value=max(probabilities)
+        max_index=probabilities.index(max_value)
+        min_value=min(probabilities)
+        min_index=probabilities.index(min_value)
+        rewards=[50-r*100 for r in probabilities]
 
         self.global_target = self.get_global_target()
         self.cosine_sim_scores = {}
         for i, train_x in enumerate(data):
-            self.graph.add_node(i+1, label=i+1,features=train_x, value=0, reward=0)
-            score = self.calculate_cosine_similarity(
-                train_x, self.global_target)
-            self.cosine_sim_scores.update({i+1: score})
+            self.graph.add_node(i+1, label=i+1,features=train_x, value=0, reward=rewards[i])
 
-        ordered_scores = list(
-            sorted(self.cosine_sim_scores.items(), key=lambda i: i[1]))
-
-        goal_node_id = list(ordered_scores[-1])[0]
+        goal_node_id = min_index
         self.goal_state = self.graph.nodes[goal_node_id]
         print(f"Goal State: {self.goal_state['label']}")
         self.graph.nodes[goal_node_id]['goal'] = True
-        self.graph.nodes[goal_node_id]['reward'] = 100
 
-        bad_node_id = list(ordered_scores[0])[0]
+        bad_node_id = max_index
         self.bad_state = self.graph.nodes[bad_node_id]
         print(f"Bad State: {self.bad_state['label']}")
         self.graph.nodes[bad_node_id]['bad'] = True
-        self.graph.nodes[bad_node_id]['reward'] = -100
         return self
 
     def calculate_cosine_similarity(self, tensor_a, tensor_b):
@@ -138,12 +158,14 @@ class MDP:
                 break
 
         policy=[]
+        self.policy_states=[]
         for state in states:
             logger.info(f"State:{state},Value:{self.graph.nodes[state]['value']}")
             action_values=self.one_step_look_ahead(state=state)
             best_action_id=np.argmax(action_values)
             best_action_state=list(self.graph.out_edges(state))[best_action_id][1]
             policy.append(f"state: {state}->{best_action_state}.")
+            self.policy_states.append((state,best_action_state))
         logger.info(f"Policy\n {policy}")
         return policy
 
@@ -175,6 +197,15 @@ class MDP:
                     self.graph.nodes[next_state]['parent']=state
         return distances
 
+    def evaluate(self):
+        correct_policies=[]
+        for t in self.policy_states:
+            id=t[1]-1
+            pred=0 if self.graph.nodes[id]['reward']<0 else 1
+            target=self.model3.output[id].item()
+            correct_policies.append(pred==target)
+        print(sum(correct_policies)/len(correct_policies)*100)
+
 #TODO play special importance to cycles
 class StageMDP:
     def __init__(self):
@@ -183,6 +214,7 @@ class StageMDP:
         self.mdp_t3=MDP(diagnosis="PNEUMONIA").make_models().create_states(time_period=3)
         self.mdp_list=[self.mdp_t1,self.mdp_t2,self.mdp_t3]
 
+    #TODO these  nodes need to be explicitly connected, instead of one extra node being added to the other graph
     def connect_graphs(self):
         """Add goal state of i periods graph to i+1.
         """
@@ -203,13 +235,8 @@ class StageMDP:
         self.mdp_t3.create_actions_and_transition_probabilities().value_iteration()
 
 if __name__=="__main__":
-# obj=MDP(diagnosis="SEPSIS",n_actions_per_state=3)
-# obj.make_models().create_states(1).\
-#     create_actions_and_transition_probabilities().value_iteration()
-# for state in list(obj.graph.nodes):
-#     result=obj.dijkstra(state)
-#     result={k:v for k,v in result.items() if not math.isinf(v)}
-#     nx_result=single_source_dijkstra_path_length(obj.graph,state,weight='sim_score')
-#     nx_result=dict(sorted(nx_result.items()))
-#     assert result==nx_result,"results differ."
-    StageMDP()()
+    mdp=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().\
+        predict_discharge_based_on_final_features().create_states(time_period=1).create_actions_and_transition_probabilities()
+    mdp.value_iteration()
+    mdp.evaluate()
+    # StageMDP()()
