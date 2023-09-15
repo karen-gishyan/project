@@ -129,7 +129,7 @@ class Agent(object):
         else:
             self.qnet = QNetwork(state_dim, action_dim, 16)
         self.qnet_target = copy.deepcopy(self.qnet)
-        self.optimizer = torch.optim.Adam(self.qnet.parameters(), lr=0.01)
+        self.optimizer = torch.optim.Adamax(self.qnet.parameters(), lr=0.01)
         self.discount_factor = 0.99
         self.tau = 0.95
         self.loss_function = nn.MSELoss()
