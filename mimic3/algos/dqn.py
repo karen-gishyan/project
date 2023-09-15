@@ -8,7 +8,17 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import copy
 
+def set_seed(seed: int = 64) -> None:
+    """
+    In a single run, torch.rand() can produce different results, but across multiple runs the results are the same.
+    Same for numpy.
+    source: https://wandb.ai/sauravmaheshkar/RSNA-MICCAI/reports/How-to-Set-Random-Seeds-in-PyTorch-and-Tensorflow--VmlldzoxMDA2MDQy
+    """
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
 
+set_seed()
 mdp=MDP('PNEUMONIA')
 
 class MimicSpace(Space):
@@ -105,20 +115,21 @@ class QNetwork(nn.Module):
         print(self.x)
 
     def forward(self, state):
+        # 1 hidden layer
         xh = F.relu(self.x(state))
         # hh = F.relu(self.h_layer(xh))
         state_action_values = self.y_layer(xh)
         return state_action_values
 
 class Agent(object):
-    def __init__(self, state_dim, action_dim,env):
+    def __init__(self, state_dim, action_dim,env,transfer=False):
         self.time_petiod=env.state_space.time_period
-        if self.time_petiod!=1:
+        if self.time_petiod!=1 and transfer:
             self.qnet=self.load_pretrained(h_layer_dim=16,action_dim=action_dim,time_period=self.time_petiod)
         else:
             self.qnet = QNetwork(state_dim, action_dim, 16)
         self.qnet_target = copy.deepcopy(self.qnet)
-        self.optimizer = torch.optim.Adam(self.qnet.parameters(), lr=0.001)
+        self.optimizer = torch.optim.Adam(self.qnet.parameters(), lr=0.01)
         self.discount_factor = 0.99
         self.tau = 0.95
         self.loss_function = nn.MSELoss()
@@ -197,7 +208,7 @@ def train(time_period=1):
     env=MimicEnv(time_period)
     action_dim=len(env.action_space.mdp.graph.nodes)
     # I think action dim 16 is correct, including staying in the same state
-    agent = Agent(state_dim=10, action_dim=action_dim,env=env)
+    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=True)
     number_of_episodes =300
     max_time_steps = 100
 
