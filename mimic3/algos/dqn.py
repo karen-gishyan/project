@@ -7,6 +7,7 @@ import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import copy
+import os
 
 def set_seed(seed: int = 64) -> None:
     """
@@ -105,12 +106,24 @@ class MimicEnv(Env):
         state=self.state=self.observation_space.mdp.graph.nodes[state_id]
         return state
 
+class DischareLocationNetwork(nn.Module):
+    def __init__(self, state_dim , output_dim,h_layer_dim):
+        super(DischareLocationNetwork, self).__init__()
+        self.x = nn.Linear(state_dim, h_layer_dim)
+        self.y_layer = nn.Linear(h_layer_dim, output_dim)
+
+    def forward(self, state):
+        # 1 hidden layer
+        xh = F.relu(self.x(state))
+        output = torch.sigmoid(self.y_layer(xh))
+        return output
+
 
 class QNetwork(nn.Module):
     def __init__(self, state_dim , action_dim, h_layer_dim):
         super(QNetwork, self).__init__()
         self.x = nn.Linear(state_dim, h_layer_dim)
-        self.h_layer = nn.Linear(h_layer_dim, h_layer_dim)
+        #self.h_layer = nn.Linear(h_layer_dim, h_layer_dim)
         self.y_layer = nn.Linear(h_layer_dim, action_dim)
         print(self.x)
 
@@ -122,8 +135,9 @@ class QNetwork(nn.Module):
         return state_action_values
 
 class Agent(object):
-    def __init__(self, state_dim, action_dim,env,transfer=False):
+    def __init__(self, state_dim, action_dim,env,transfer=False, double_optimization=False):
         self.time_petiod=env.state_space.time_period
+        self.double_optimization=double_optimization
         if self.time_petiod!=1 and transfer:
             self.qnet=self.load_pretrained(h_layer_dim=16,action_dim=action_dim,time_period=self.time_petiod)
         else:
@@ -135,6 +149,14 @@ class Agent(object):
         self.loss_function = nn.MSELoss()
         self.env=env
         self.replay_buffer = []
+        if self.double_optimization:
+            if self.time_petiod!=1 and transfer:
+                # layer dimensions are hard-coded
+                self.dlnet=self.load_pretrained_dl(h_layer_dim=16,output_dim=1,time_period=self.time_petiod)
+            else:
+                self.dlnet=DischareLocationNetwork(state_dim,1,16)
+            self.dlnet_target=copy.deepcopy(self.dlnet)
+            self.dl_loss_function=nn.CrossEntropyLoss()
 
     def load_pretrained(self,h_layer_dim,action_dim,time_period):
         """
@@ -146,6 +168,14 @@ class Agent(object):
         for param in model.parameters():
             param.requires_grad=False
         model.y_layer=nn.Linear(h_layer_dim,action_dim)
+        return model
+
+    def load_pretrained_dl(self,h_layer_dim,output_dim,time_period):
+        # load the pretrained model from the previous stage
+        model=torch.load(f'weights/model{time_period-1}_dlnet.pt')
+        for param in model.parameters():
+            param.requires_grad=False
+        model.y_layer=nn.Linear(h_layer_dim,output_dim)
         return model
 
 
@@ -177,8 +207,15 @@ class Agent(object):
         # the network should be optimized in a way that current state's and next_state's actions are
         #equivalently good, meaning they have close numerical outputs.
         q_network_loss = self.loss_function(qsa, qsa_next_target.detach())
+        if self.double_optimization:
+            discharge_output=self.dlnet(state)
+            discharge_output_target=self.dlnet_target(next_state)
+            dl_loss=self.dl_loss_function(discharge_output,discharge_output_target)
+            loss=q_network_loss+dl_loss
+        else:
+            loss=q_network_loss
         self.optimizer.zero_grad()
-        q_network_loss.backward()
+        loss.backward()
         self.optimizer.step()
 
     def update(self, update_rate):
@@ -186,6 +223,9 @@ class Agent(object):
             states, next_states, actions, rewards, terminals = sample_from_buffer(self.replay_buffer,size=8)
             self.update_QNetwork(states, next_states, actions, rewards, terminals)
             self.soft_target_update(self.qnet, self.qnet_target, self.tau)
+            if self.double_optimization:
+                self.soft_target_update(self.dlnet,self.dlnet_target,self.tau)
+
 
 
 def sample_from_buffer(buffer,size):
@@ -208,7 +248,7 @@ def train(time_period=1):
     env=MimicEnv(time_period)
     action_dim=len(env.action_space.mdp.graph.nodes)
     # I think action dim 16 is correct, including staying in the same state
-    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=True)
+    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=True, double_optimization=True)
     number_of_episodes =300
     max_time_steps = 100
 
@@ -245,9 +285,15 @@ def train(time_period=1):
         env.visited_states=set()
 
     if time_period==1:
-        torch.save(agent.qnet,"weights/model1.pt")
+        if not os.path.exists("weights/model1.pt"):
+            torch.save(agent.qnet,"weights/model1.pt")
+        if not os.path.exists("weights/model1_dlnet.pt"):
+            torch.save(agent.dlnet,"weights/model1_dlnet.pt")
     elif time_period==2:
-        torch.save(agent.qnet,"weights/model2.pt")
+        if not os.path.exists("weights/model2.pt"):
+            torch.save(agent.qnet,"weights/model2.pt")
+        if not os.path.exists("weights/model2_dlnet.pt"):
+            torch.save(agent.dlnet,"weights/model2_dlnet.pt")
 
     plt.plot(episode_rewards)
     plt.ylim(-10000,1000)
@@ -264,3 +310,4 @@ if __name__=="__main__":
     for t in [1,2,3]:
         train(time_period=t)
 
+#https://github.com/pytorchbearer/torchbearer/blob/0.3.0/docs/examples/svm_linear.rst
