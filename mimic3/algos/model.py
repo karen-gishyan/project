@@ -46,6 +46,7 @@ class MDP:
         X_stage1=self.model1.feature_tensors.numpy()
         X_stage2=self.model2.feature_tensors.numpy()
         X=np.vstack((X_stage1,X_stage2,X_stage3))
+        # probability of non-successful discharge outcome
         probabilities=logit_model.predict_proba(X)[:,0].tolist()
 
         with open('logit_probabilities.json','w') as file:
@@ -59,8 +60,46 @@ class MDP:
             0, good_indices).mean(dim=0)
         return global_target
 
+    def create_states_base(self,time_period):
+        """Iterate over tensors, each row is a state (node), assign features to nodes.
+        Reward is 0 and this method should be used for dqn state space.
+            """
+
+        if time_period==1:
+            data=self.model1.feature_tensors
+        elif time_period==2:
+            data=self.model2.feature_tensors
+        else:
+            data=self.model3.feature_tensors
+
+        self.global_target = self.get_global_target()
+        self.cosine_sim_scores = {}
+        for i, train_x in enumerate(data):
+            self.graph.add_node(i+1, label=i+1,features=train_x, value=0, reward=0)
+            score = self.calculate_cosine_similarity(
+                train_x, self.global_target)
+            self.cosine_sim_scores.update({i+1: score})
+
+        ordered_scores = list(
+            sorted(self.cosine_sim_scores.items(), key=lambda i: i[1]))
+
+        goal_node_id = list(ordered_scores[-1])[0]
+        self.goal_state = self.graph.nodes[goal_node_id]
+        print(f"Goal State: {self.goal_state['label']}")
+        self.graph.nodes[goal_node_id]['goal'] = True
+        self.graph.nodes[goal_node_id]['reward'] = 100
+
+        bad_node_id = list(ordered_scores[0])[0]
+        self.bad_state = self.graph.nodes[bad_node_id]
+        print(f"Bad State: {self.bad_state['label']}")
+        self.graph.nodes[bad_node_id]['bad'] = True
+        self.graph.nodes[bad_node_id]['reward'] = -100
+        return self
+
+
     def create_states(self,time_period):
-        """Iterate over tensors, each row is a state (node), assign features to nodes."""
+        """Iterate over tensors, each row is a state (node), assign features to nodes.Reward is based on
+        probabilities"""
 
         with open('logit_probabilities.json') as file:
             probabilities=json.load(file)
@@ -143,6 +182,7 @@ class MDP:
     def value_iteration(self,theta=0.001):
         """Perform value iteration, returning optimal policy."""
         #TODO converting to list may not be needed here in a few other similar places
+        #NOTE number of actions need to be more than 1 for the algorithm to stop
         states=list(self.graph.nodes)
         while True:
             delta=0
@@ -167,7 +207,7 @@ class MDP:
             policy.append(f"state: {state}->{best_action_state}.")
             self.policy_states.append((state,best_action_state))
         logger.info(f"Policy\n {policy}")
-        return policy
+        return self
 
     def dijkstra(self,start_state):
         """Computes shortes path length between a node and all other reachable nodes."""
@@ -200,18 +240,19 @@ class MDP:
     def evaluate(self):
         correct_policies=[]
         for t in self.policy_states:
-            id=t[1]-1
+            id=t[1]
             pred=0 if self.graph.nodes[id]['reward']<0 else 1
-            target=self.model3.output[id].item()
+            # if an added node from the previous layer with type str, assign 1, as it is a good state
+            target=self.model3.output[id-1].item() if type(id)==int else 1
             correct_policies.append(pred==target)
         print(sum(correct_policies)/len(correct_policies)*100)
 
 #TODO play special importance to cycles
 class StageMDP:
     def __init__(self):
-        self.mdp_t1=MDP(diagnosis="PNEUMONIA").make_models().create_states(time_period=1)
-        self.mdp_t2=MDP(diagnosis="PNEUMONIA").make_models().create_states(time_period=2)
-        self.mdp_t3=MDP(diagnosis="PNEUMONIA").make_models().create_states(time_period=3)
+        self.mdp_t1=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().create_states(time_period=1)
+        self.mdp_t2=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().create_states(time_period=2)
+        self.mdp_t3=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().create_states(time_period=3)
         self.mdp_list=[self.mdp_t1,self.mdp_t2,self.mdp_t3]
 
     #TODO these  nodes need to be explicitly connected, instead of one extra node being added to the other graph
@@ -229,14 +270,10 @@ class StageMDP:
     def __call__(self):
         #TODO check start logic
         self.connect_graphs()
-        self.mdp_t1.create_actions_and_transition_probabilities().value_iteration()
+        self.mdp_t1.create_actions_and_transition_probabilities().value_iteration().evaluate()
         #TODO period t2 and t3 are not learning
-        self.mdp_t2.create_actions_and_transition_probabilities().value_iteration()
-        self.mdp_t3.create_actions_and_transition_probabilities().value_iteration()
+        self.mdp_t2.create_actions_and_transition_probabilities().value_iteration().evaluate()
+        self.mdp_t3.create_actions_and_transition_probabilities().value_iteration().evaluate()
 
 if __name__=="__main__":
-    mdp=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().\
-        predict_discharge_based_on_final_features().create_states(time_period=1).create_actions_and_transition_probabilities()
-    mdp.value_iteration()
-    mdp.evaluate()
-    # StageMDP()()
+    StageMDP()()

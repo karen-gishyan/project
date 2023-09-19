@@ -34,7 +34,7 @@ class MimicSpace(Space):
             the information about states and actions.
         """
         self.time_period=time_period
-        self.mdp = mdp.make_models().create_states(time_period=time_period
+        self.mdp = mdp.make_models().create_states_base(time_period=time_period
         ).create_actions_and_transition_probabilities()
 
     def sample(self):
@@ -82,8 +82,6 @@ class MimicEnv(Env):
                 next_state_id=edge[1]
                 break
         if not next_state_id:
-            #NOTE when the network predicts action which leads to the same state (e.g. 1->1)
-            # we randomly select a next state based on existing outgoing edges of the state
             state_out_edges=list(self.state_space.mdp.graph.out_edges(self.state['label']))
             next_state_id=random.choice(state_out_edges)[1]
 
@@ -281,7 +279,6 @@ def train(time_period=1):
         print('sum_of_rewards_for_episode:', reward_sum)
         episode_rewards.append(reward_sum)
         agent.update(10)
-        # NOTE we keep visited set but it may be more correct to empty it
         env.visited_states=set()
 
     if time_period==1:
