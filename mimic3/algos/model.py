@@ -21,14 +21,11 @@ from helpers import configure_logger
 logger=configure_logger(default=False,path=os.path.dirname(__file__))
 
 class MDP:
-    def __init__(self, diagnosis,n_actions_per_state=None,initial=False):
+    def __init__(self, diagnosis,n_actions_per_state=None):
         self.graph = nx.DiGraph()
         self.diagnosis = diagnosis
         self.n_actions_per_state=n_actions_per_state
-        if initial:
-            #TODO check where initial is used
-            # first MDP
-            self.graph['initial']=True
+
 
     def make_models(self):
         models = []
@@ -215,7 +212,7 @@ class MDP:
         return self.policy_graph
 
 
-#TODO play special importance to cycles
+#NOTE pay special importance to cycles
 class StageMDP:
     def __init__(self):
         self.mdp_t1=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=1)
@@ -223,7 +220,6 @@ class StageMDP:
         self.mdp_t3=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=3)
         self.mdp_list=[self.mdp_t1,self.mdp_t2,self.mdp_t3]
 
-    #TODO these  nodes need to be explicitly connected, instead of one extra node being added to the other graph
     def connect_graphs(self):
         """Add goal state of i periods graph to i+1.
         """
@@ -269,12 +265,9 @@ class StageMDP:
 
         policy_outcomes=np.array([state['outcome'] for state in mappings])
         actual_outcomes=np.array(self.mdp_t3.model3.output)
-        #FIXME no policy with an outcome of 1 currently
         print(precision_recall_fscore_support(policy_outcomes,actual_outcomes,average='binary'))
 
     def __call__(self):
-        #TODO check start logic
-        #TODO period t2 and t3 are not learning
         self.connect_graphs()
         t1_policy_graph=self.mdp_t1.create_actions_and_transition_probabilities().value_iteration()
         t2_policy_graph=self.mdp_t2.create_actions_and_transition_probabilities().value_iteration()
@@ -284,4 +277,5 @@ class StageMDP:
 
 
 if __name__=="__main__":
+    #TODO argparser arguments for experimenting with results with different number of actions as inputs
     StageMDP()()
