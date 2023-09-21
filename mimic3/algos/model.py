@@ -6,6 +6,9 @@ from networkx.algorithms.shortest_paths import single_source_dijkstra_path_lengt
 import numpy as np
 from numpy.linalg import norm
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import precision_recall_fscore_support
+from collections import defaultdict
+
 
 
 path = os.path.dirname(os.path.dirname(__file__))
@@ -101,6 +104,8 @@ class MDP:
         """Iterate over tensors, each row is a state (node), assign features to nodes.Reward is based on
         probabilities"""
 
+        self.time_period=time_period
+
         with open('logit_probabilities.json') as file:
             probabilities=json.load(file)
         individual_shape=int(len(probabilities)/3)
@@ -182,7 +187,7 @@ class MDP:
     def value_iteration(self,theta=0.001):
         """Perform value iteration, returning optimal policy."""
         #TODO converting to list may not be needed here in a few other similar places
-        #NOTE number of actions need to be more than 1 for the algorithm to stop
+        #NOTE number of actions need to be more than 1 for the algorithm to work in reasonable computation time
         states=list(self.graph.nodes)
         while True:
             delta=0
@@ -198,54 +203,17 @@ class MDP:
                 break
 
         policy=[]
-        self.policy_states=[]
+        self.policy_graph=nx.DiGraph()
         for state in states:
             logger.info(f"State:{state},Value:{self.graph.nodes[state]['value']}")
             action_values=self.one_step_look_ahead(state=state)
             best_action_id=np.argmax(action_values)
             best_action_state=list(self.graph.out_edges(state))[best_action_id][1]
             policy.append(f"state: {state}->{best_action_state}.")
-            self.policy_states.append((state,best_action_state))
+            self.policy_graph.add_edge(f"{state}_t{self.time_period}",f"{best_action_state}_t{self.time_period}")
         logger.info(f"Policy\n {policy}")
-        return self
+        return self.policy_graph
 
-    def dijkstra(self,start_state):
-        """Computes shortes path length between a node and all other reachable nodes."""
-        states=list(self.graph.nodes)
-        visited=set()
-
-        distances={state:np.inf for state in states}
-        distances[start_state]=0
-
-        while len(visited)!=len(states):
-            sorted_=dict(sorted(distances.items(),key=lambda dict_:dict_[1]))
-            for k,_ in sorted_.items():
-                if k not in visited:
-                    state=k
-                    break
-
-            visited.add(state)
-            out_edges=self.graph.out_edges(state,data=True)
-            for edge in out_edges:
-                back_cost=distances[state]
-                front_cost=edge[2]['sim_score']
-                total=back_cost+front_cost
-                next_state=edge[1]
-                if total<distances[next_state]:
-                    distances[next_state]=total
-                    self.graph.nodes[next_state]['distance']=total
-                    self.graph.nodes[next_state]['parent']=state
-        return distances
-
-    def evaluate(self):
-        correct_policies=[]
-        for t in self.policy_states:
-            id=t[1]
-            pred=0 if self.graph.nodes[id]['reward']<0 else 1
-            # if an added node from the previous layer with type str, assign 1, as it is a good state
-            target=self.model3.output[id-1].item() if type(id)==int else 1
-            correct_policies.append(pred==target)
-        print(sum(correct_policies)/len(correct_policies)*100)
 
 #TODO play special importance to cycles
 class StageMDP:
@@ -261,19 +229,55 @@ class StageMDP:
         """
         for i in range(len(self.mdp_list)-1):
             goal_state=self.mdp_list[i].goal_state
-            label=f"t{i+1}_{goal_state['label']}"
+            label=f"{goal_state['label']}_t{i+1}"
             self.mdp_list[i+1].graph.add_node(label,label=label,features=goal_state['features'],
                                               value=goal_state['value'],reward=0,start=True)
         return self
 
+    def evaluate(self):
+        mappings=[]
+        for i, _ in enumerate(self.mdp_t1.model1.feature_tensors,1):
+            policy_mapping=defaultdict(list)
+            # always start from timestep 1
+            state=f"{i}_t1"
+            current_state=state
+            while True:
+                out_edge=self.combined_policy_graph.edges(current_state)
+                if not out_edge:
+                    # it means full path has been observed with stopping
+                    policy_mapping['outcome']=1
+                    break
+                else:
+                    next_state=list(out_edge)[0][1]
+                    if next_state in policy_mapping[state]:
+                        print(f'{i}th:Exiting because of a loop.')
+                        policy_mapping[state].append(next_state)
+                        policy_mapping['outcome']=0
+                        break
+                    policy_mapping[state].append(next_state)
+                    state_,time_period=next_state.split("_")
+                    mdp=getattr(self,f"mdp_{time_period}")
+                    if mdp.graph.nodes[int(state_)]['reward']<0:
+                        policy_mapping['outcome']=0
+                        break
+                    current_state=next_state
+            mappings.append(policy_mapping)
+
+        policy_outcomes=np.array([state['outcome'] for state in mappings])
+        actual_outcomes=np.array(self.mdp_t3.model3.output)
+        #FIXME no policy with an outcome of 1 currently
+        print(precision_recall_fscore_support(policy_outcomes,actual_outcomes,average='binary'))
 
     def __call__(self):
         #TODO check start logic
-        self.connect_graphs()
-        self.mdp_t1.create_actions_and_transition_probabilities().value_iteration().evaluate()
         #TODO period t2 and t3 are not learning
-        self.mdp_t2.create_actions_and_transition_probabilities().value_iteration().evaluate()
-        self.mdp_t3.create_actions_and_transition_probabilities().value_iteration().evaluate()
+        self.connect_graphs()
+        t1_policy_graph=self.mdp_t1.create_actions_and_transition_probabilities().value_iteration()
+        t2_policy_graph=self.mdp_t2.create_actions_and_transition_probabilities().value_iteration()
+        t3_policy_graph=self.mdp_t3.create_actions_and_transition_probabilities().value_iteration()
+        self.combined_policy_graph=nx.compose_all([t1_policy_graph,t2_policy_graph,t3_policy_graph])
+        self.evaluate()
+
 
 if __name__=="__main__":
     StageMDP()()
