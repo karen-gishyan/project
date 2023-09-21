@@ -67,7 +67,7 @@ class MDP:
         """Iterate over tensors, each row is a state (node), assign features to nodes.
         Reward is 0 and this method should be used for dqn state space.
             """
-
+        self.time_period=time_period
         if time_period==1:
             data=self.model1.feature_tensors
         elif time_period==2:
@@ -218,9 +218,9 @@ class MDP:
 #TODO play special importance to cycles
 class StageMDP:
     def __init__(self):
-        self.mdp_t1=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().create_states(time_period=1)
-        self.mdp_t2=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().create_states(time_period=2)
-        self.mdp_t3=MDP(diagnosis="PNEUMONIA",n_actions_per_state=3).make_models().create_states(time_period=3)
+        self.mdp_t1=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=1)
+        self.mdp_t2=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=2)
+        self.mdp_t3=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=3)
         self.mdp_list=[self.mdp_t1,self.mdp_t2,self.mdp_t3]
 
     #TODO these  nodes need to be explicitly connected, instead of one extra node being added to the other graph
@@ -235,6 +235,9 @@ class StageMDP:
         return self
 
     def evaluate(self):
+        """With current evaluation, if the algorithm reaches a full prescription, the outcomes is 1,
+        if a self loop happens, the outcome is 0.
+        """
         mappings=[]
         for i, _ in enumerate(self.mdp_t1.model1.feature_tensors,1):
             policy_mapping=defaultdict(list)
@@ -243,24 +246,25 @@ class StageMDP:
             current_state=state
             while True:
                 out_edge=self.combined_policy_graph.edges(current_state)
-                if not out_edge:
-                    # it means full path has been observed with stopping
-                    policy_mapping['outcome']=1
+                next_state=list(out_edge)[0][1]
+                if next_state in policy_mapping[state]:
+                    print(f'{i}th:Exiting because of a loop.')
+                    policy_mapping['outcome']=0
                     break
-                else:
-                    next_state=list(out_edge)[0][1]
-                    if next_state in policy_mapping[state]:
-                        print(f'{i}th:Exiting because of a loop.')
-                        policy_mapping[state].append(next_state)
-                        policy_mapping['outcome']=0
+                policy_mapping[state].append(next_state)
+                state_,time_period=next_state.split("_")
+                mdp=getattr(self,f"mdp_{time_period}")
+                if mdp.graph.nodes[int(state_)].get('goal'):
+                    if mdp.time_period==3:
+                        #solution
+                        policy_mapping['outcome']=1
                         break
-                    policy_mapping[state].append(next_state)
-                    state_,time_period=next_state.split("_")
-                    mdp=getattr(self,f"mdp_{time_period}")
-                    if mdp.graph.nodes[int(state_)]['reward']<0:
-                        policy_mapping['outcome']=0
-                        break
-                    current_state=next_state
+                    #NOTE  if you reach a goal node, get to the second stage
+                    # alternative could be not to allow no outgoing edges from the goal state
+                    current_state=f"{next_state}_t{int(mdp.time_period)+1}"
+                    policy_mapping[state].append(current_state)
+                    continue
+                current_state=next_state
             mappings.append(policy_mapping)
 
         policy_outcomes=np.array([state['outcome'] for state in mappings])
