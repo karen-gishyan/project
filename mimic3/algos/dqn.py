@@ -34,7 +34,7 @@ class MimicSpace(Space):
             the information about states and actions.
         """
         self.time_period=time_period
-        self.mdp = mdp.make_models().create_states_base(time_period=time_period
+        self.mdp = mdp.make_models().create_states(time_period=time_period
         ).create_actions_and_transition_probabilities()
 
     def sample(self):
@@ -121,28 +121,28 @@ class QNetwork(nn.Module):
     def __init__(self, state_dim , action_dim, h_layer_dim):
         super(QNetwork, self).__init__()
         self.x = nn.Linear(state_dim, h_layer_dim)
-        #self.h_layer = nn.Linear(h_layer_dim, h_layer_dim)
         self.y_layer = nn.Linear(h_layer_dim, action_dim)
         print(self.x)
 
     def forward(self, state):
         # 1 hidden layer
         xh = F.relu(self.x(state))
-        # hh = F.relu(self.h_layer(xh))
         state_action_values = self.y_layer(xh)
         return state_action_values
 
 class Agent(object):
-    def __init__(self, state_dim, action_dim,env,transfer=False, double_optimization=False):
+    def __init__(self, state_dim, action_dim,env,transfer=False,
+                 double_optimization=False,optimizer=torch.optim.Adam,lr=0.01,discount_factor=0.99,count=None):
         self.time_petiod=env.state_space.time_period
         self.double_optimization=double_optimization
+        self.count=count
         if self.time_petiod!=1 and transfer:
             self.qnet=self.load_pretrained(h_layer_dim=16,action_dim=action_dim,time_period=self.time_petiod)
         else:
             self.qnet = QNetwork(state_dim, action_dim, 16)
         self.qnet_target = copy.deepcopy(self.qnet)
-        self.optimizer = torch.optim.Adamax(self.qnet.parameters(), lr=0.01)
-        self.discount_factor = 0.99
+        self.optimizer = optimizer(self.qnet.parameters(), lr=lr)
+        self.discount_factor = discount_factor
         self.tau = 0.95
         self.loss_function = nn.MSELoss()
         self.env=env
@@ -162,7 +162,8 @@ class Agent(object):
         https://harinramesh.medium.com/transfer-learning-in-pytorch-f7736598b1ed.
         """
         # load the pretrained model from the previous stage
-        model=torch.load(f'weights/model{time_period-1}.pt')
+        path=f"results/{time_period-1}/{self.count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
+        model=torch.load(f'weights/{path}_model{time_period-1}.pt')
         for param in model.parameters():
             param.requires_grad=False
         model.y_layer=nn.Linear(h_layer_dim,action_dim)
@@ -170,7 +171,8 @@ class Agent(object):
 
     def load_pretrained_dl(self,h_layer_dim,output_dim,time_period):
         # load the pretrained model from the previous stage
-        model=torch.load(f'weights/model{time_period-1}_dlnet.pt')
+        path=f"results/{time_period-1}/{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
+        model=torch.load(f'weights/{path}_model{time_period-1}_dlnet.pt')
         for param in model.parameters():
             param.requires_grad=False
         model.y_layer=nn.Linear(h_layer_dim,output_dim)
@@ -242,20 +244,28 @@ def sample_from_buffer(buffer,size):
     terminals=torch.Tensor(terminals).view(size,-1)
     return states, next_states,actions, rewards, terminals
 
-def train(time_period=1):
+def train(time_period=1,**kwargs):
+    optimizer=kwargs.get('optimizer')
+    lr=kwargs.get('lr')
+    discount_factor=kwargs.get('discount_factor')
+    max_time_step=kwargs.get('max_time_step')
+    update_rate=kwargs.get('update_rate')
+    epsilon_greedy=kwargs.get('epsilon_greedy')
+    count=kwargs.get('count')
+
     env=MimicEnv(time_period)
     action_dim=len(env.action_space.mdp.graph.nodes)
     # I think action dim 16 is correct, including staying in the same state
-    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=True, double_optimization=True)
+    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=True, double_optimization=False,
+                  optimizer=optimizer,lr=lr,discount_factor=discount_factor,count=count)
     number_of_episodes =300
-    max_time_steps = 100
 
     episode_rewards=[]
     for episode in range(number_of_episodes):
         print('episode:', episode)
         reward_sum = 0
         state = env.reset()
-        for _ in range(max_time_steps):
+        for _ in range(max_time_step):
             #NOTE somehow right after the first iteration, the network predicts index of the action
             #which leads to a self loop (it does not know the id of the current state).
             # env.step() handles this self loop case.
@@ -266,7 +276,7 @@ def train(time_period=1):
             # if repition is not a self loop, the repeating transition may continue without being broken.
             #NOTE currently when many state explorations are observed, it is due to the fact that a transition
             # has been a self loop, and a state has been selected from actual edge transitions
-            action = agent.epsilon_greedy_action(state, 0.2)
+            action = agent.epsilon_greedy_action(state, epsilon_greedy)
             next_state, reward, terminal, _ = env.step(action)
             # print(f"state:{state['label']},next_state:{next_state['label']}")
             reward_sum += reward
@@ -278,33 +288,43 @@ def train(time_period=1):
                 break
         print('sum_of_rewards_for_episode:', reward_sum)
         episode_rewards.append(reward_sum)
-        agent.update(10)
+        agent.update(update_rate)
         env.visited_states=set()
 
+    path=f"results/{time_period}/{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
     if time_period==1:
-        if not os.path.exists("weights/model1.pt"):
-            torch.save(agent.qnet,"weights/model1.pt")
-        if not os.path.exists("weights/model1_dlnet.pt"):
-            torch.save(agent.dlnet,"weights/model1_dlnet.pt")
+        torch.save(agent.qnet,f"weights/{path}_model1.pt")
     elif time_period==2:
-        if not os.path.exists("weights/model2.pt"):
-            torch.save(agent.qnet,"weights/model2.pt")
-        if not os.path.exists("weights/model2_dlnet.pt"):
-            torch.save(agent.dlnet,"weights/model2_dlnet.pt")
+        torch.save(agent.qnet,f"weights/{path}_model2.pt")
 
+    plt.clf()
     plt.plot(episode_rewards)
     plt.ylim(-10000,1000)
-    plt.show()
-
-#TODO why does 1->1 after the first iteration?
-#TODO why are such patterns so common, 1->4,4->1?
-#TODO try to reduce repition scenarios
-#TODO there should be more postive or more negative rewards, so as we check if the network is learning from
-# episode to episode.
+    plt.savefig(f"{path}.png")
 
 
 if __name__=="__main__":
+    optimizers=[torch.optim.Adam,torch.optim.Adamax,torch.optim.SGD]
+    lrs=[0.001,0.05,0.01,0.1]
+    discount_factors=[0.9,0.95,0.99]
+    max_time_steps=[50,100]
+    update_rates=[10,20]
+    epsilon_greedy_rates=[0.05,0.1,0.2]
+
     for t in [1,2,3]:
-        train(time_period=t)
+        count=1
+        for optimizer in optimizers:
+            for lr in lrs:
+                for discount_factor in discount_factors:
+                    for max_time_step in max_time_steps:
+                        for update_rate in update_rates:
+                            for epsilon_greedy in epsilon_greedy_rates:
+                                train(time_period=t,optimizer=optimizer,
+                                      lr=lr,
+                                      discount_factor=discount_factor,
+                                      max_time_step=max_time_step,
+                                      update_rate=update_rate,
+                                      epsilon_greedy=epsilon_greedy,count=count)
+                                count+=1
 
 #https://github.com/pytorchbearer/torchbearer/blob/0.3.0/docs/examples/svm_linear.rst
