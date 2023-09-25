@@ -1,3 +1,4 @@
+import json
 from gymnasium import Env, Space
 import torch.nn as nn
 import numpy as np
@@ -8,6 +9,10 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import copy
 import os
+
+
+from helpers import configure_logger
+logger=configure_logger(default=False,path=os.path.dirname(__file__))
 
 def set_seed(seed: int = 64) -> None:
     """
@@ -301,10 +306,11 @@ def train(time_period=1,**kwargs):
     plt.plot(episode_rewards)
     plt.ylim(-10000,1000)
     plt.savefig(f"{path}.png")
+    return max(episode_rewards)
 
 
 if __name__=="__main__":
-    optimizers=[torch.optim.Adam,torch.optim.Adamax,torch.optim.SGD]
+    optimizers=[torch.optim.Adam,torch.optim.Adamax,torch.optim.Adadelta]
     lrs=[0.001,0.05,0.01,0.1]
     discount_factors=[0.9,0.95,0.99]
     max_time_steps=[50,100]
@@ -312,6 +318,7 @@ if __name__=="__main__":
     epsilon_greedy_rates=[0.05,0.1,0.2]
 
     for t in [1,2,3]:
+        results=[]
         count=1
         for optimizer in optimizers:
             for lr in lrs:
@@ -319,12 +326,30 @@ if __name__=="__main__":
                     for max_time_step in max_time_steps:
                         for update_rate in update_rates:
                             for epsilon_greedy in epsilon_greedy_rates:
-                                train(time_period=t,optimizer=optimizer,
+                                max_reward=train(time_period=t,optimizer=optimizer,
                                       lr=lr,
                                       discount_factor=discount_factor,
                                       max_time_step=max_time_step,
                                       update_rate=update_rate,
                                       epsilon_greedy=epsilon_greedy,count=count)
+                                logger.info(f"t_{t}_id_{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_"
+                                            f"ur_{update_rate}_eg_{epsilon_greedy}: max_reward_{max_reward}")
+                                parameter_dict={
+                                    'transfer':True,
+                                    'time_period':t,
+                                    'id':count,
+                                    'optimizer':optimizer.__name__,
+                                    'learning_rate':lr,
+                                    'discount_factor':discount_factor,
+                                    'max_time_step':max_time_step,
+                                    'update_rate':update_rate,
+                                    'epsilon_greedy':epsilon_greedy,
+                                    'max_reward':max_reward
+                                    }
+                                results.append(parameter_dict)
                                 count+=1
+        with open(f'results_t{t}.json','w') as file:
+            json.dump(results,file,indent=4)
+
 
 #https://github.com/pytorchbearer/torchbearer/blob/0.3.0/docs/examples/svm_linear.rst

@@ -1,209 +1,1296 @@
-State:1,Value:-14.396711758037107
-State:2,Value:4.73484720633744
-State:3,Value:1.6478136547657518
-State:4,Value:-7.933751030067514
-State:5,Value:-17.05177659543426
-State:6,Value:0
-State:7,Value:8.642749849946354
-State:8,Value:-24.825743232818017
-State:9,Value:-13.270298339450784
-State:10,Value:20.75588160097709
-State:11,Value:-12.764010571634838
-State:12,Value:-10.739787401083154
-State:13,Value:8.965056827100783
-State:14,Value:19.61788513141042
-State:15,Value:-12.765913612668744
-State:16,Value:20.827988220924812
-State:17,Value:-13.293819817764668
-State:18,Value:-22.18944578186018
-State:19,Value:-24.595680209857385
-State:20,Value:20.837982271104465
-State:21,Value:-17.122242443397926
-State:22,Value:-10.75371599560588
-State:23,Value:-24.784410414693713
-State:24,Value:-17.122242443397926
-State:25,Value:-23.858597069784555
-State:26,Value:-10.760973213673193
-State:27,Value:-13.158778720192803
-State:28,Value:-17.122242443397926
-State:29,Value:-24.577101230105338
-State:30,Value:-22.910926489050148
-State:31,Value:-7.930811897018677
-State:32,Value:-17.122242443397926
-State:33,Value:-17.122242443397926
-State:34,Value:-17.122242443397926
-State:35,Value:-2.976922181558066
-State:36,Value:-17.122242443397926
-State:37,Value:-24.84980971552476
-State:38,Value:-24.624904742953856
-State:39,Value:-7.925628531357923
-State:40,Value:-24.613082727162162
-State:41,Value:19.520702416237697
-State:42,Value:-17.122242443397926
-State:43,Value:-10.758378904654178
-State:44,Value:-17.122242443397926
-State:45,Value:-23.276626541570256
-State:46,Value:-24.58382949341563
-State:47,Value:-10.753606758944029
-State:48,Value:-21.043386915549032
-State:49,Value:-24.849762058756095
-State:50,Value:-22.120602221940217
-State:51,Value:-7.936843382753653
-State:52,Value:-24.31431908037189
-State:53,Value:16.890587386543224
-State:54,Value:-19.869275967533166
-State:55,Value:-12.740959010957614
-State:56,Value:-12.760853397311488
-State:57,Value:-12.762082136775156
-State:58,Value:-7.931804472323002
-State:59,Value:-24.781866533302814
-State:60,Value:-12.745777851605265
-State:61,Value:-7.941616049857111
-State:62,Value:-17.122435757791227
-State:63,Value:-19.349884210929595
-State:64,Value:-7.935269165347179
-State:65,Value:-23.848637097310206
-State:66,Value:-17.122435757791227
-State:67,Value:19.65576382399128
-Policy
- ['state: 1->27.', 'state: 2->4.', 'state: 3->20.', 'state: 4->15.', 'state: 5->57.', 'state: 6->15.', 'state: 7->67.', 'state: 8->40.', 'state: 9->6.', 'state: 10->53.', 'state: 11->51.', 'state: 12->35.', 'state: 13->67.', 'state: 14->7.', 'state: 15->51.', 'state: 16->53.', 'state: 17->6.', 'state: 18->45.', 'state: 19->65.', 'state: 20->53.', 'state: 21->44.', 'state: 22->35.', 'state: 23->52.', 'state: 24->44.', 'state: 25->50.', 'state: 26->35.', 'state: 27->39.', 'state: 28->44.', 'state: 29->65.', 'state: 30->54.', 'state: 31->15.', 'state: 32->44.', 'state: 33->44.', 'state: 34->44.', 'state: 35->22.', 'state: 36->44.', 'state: 37->19.', 'state: 38->25.', 'state: 39->15.', 'state: 40->65.', 'state: 41->7.', 'state: 42->44.', 'state: 43->35.', 'state: 44->42.', 'state: 45->18.', 'state: 46->25.', 'state: 47->35.', 'state: 48->17.', 'state: 49->19.', 'state: 50->45.', 'state: 51->15.', 'state: 52->30.', 'state: 53->16.', 'state: 54->5.', 'state: 55->51.', 'state: 56->51.', 'state: 57->51.', 'state: 58->15.', 'state: 59->52.', 'state: 60->51.', 'state: 61->15.', 'state: 62->42.', 'state: 63->12.', 'state: 64->15.', 'state: 65->50.', 'state: 66->42.', 'state: 67->13.']
-State:1,Value:-17.122242443397926
-State:2,Value:25.483057384406496
-State:3,Value:0
-State:4,Value:25.72232424482965
-State:5,Value:21.008430560902248
-State:6,Value:-0.5349821835471827
-State:7,Value:25.67186212222644
-State:8,Value:-17.122242443397926
-State:9,Value:-12.43076133974712
-State:10,Value:11.747364116153644
-State:11,Value:19.000052002943914
-State:12,Value:-19.467050384682327
-State:13,Value:-0.5723823430438197
-State:14,Value:24.88381389038674
-State:15,Value:-0.5351703874678913
-State:16,Value:2.7294406149811414
-State:17,Value:-0.5353142919767826
-State:18,Value:-17.122242443397926
-State:19,Value:-24.167582164336505
-State:20,Value:-17.122242443397926
-State:21,Value:-0.9275111543286914
-State:22,Value:-0.5353352172309727
-State:23,Value:-17.122242443397926
-State:24,Value:-0.5343924106710161
-State:25,Value:-8.37386927076981
-State:26,Value:-12.4458346224867
-State:27,Value:-0.5349227783144265
-State:28,Value:-17.122242443397926
-State:29,Value:-17.122242443397926
-State:30,Value:-16.950666518005978
-State:31,Value:-1.6059191165617923
-State:32,Value:-23.67184453016668
-State:33,Value:-17.122242443397926
-State:34,Value:-17.122242443397926
-State:35,Value:-17.122242443397926
-State:36,Value:2.7299871825850435
-State:37,Value:-23.685718226889676
-State:38,Value:-17.122242443397926
-State:39,Value:-11.002141235884222
-State:40,Value:-17.122242443397926
-State:41,Value:25.189931783963548
-State:42,Value:-17.122242443397926
-State:43,Value:-0.92442107491545
-State:44,Value:-23.668191336407517
-State:45,Value:-17.122242443397926
-State:46,Value:-17.122242443397926
-State:47,Value:-11.008596035080306
-State:48,Value:-12.440316497752478
-State:49,Value:-23.635672927208148
-State:50,Value:-17.122242443397926
-State:51,Value:-0.5350608014553038
-State:52,Value:-17.122242443397926
-State:53,Value:-15.292594885122872
-State:54,Value:-17.122242443397926
-State:55,Value:11.807091963347919
-State:56,Value:-1.6045210759041713
-State:57,Value:-17.122242443397926
-State:58,Value:20.13798660934588
-State:59,Value:-17.122242443397926
-State:60,Value:13.685818276820509
-State:61,Value:-0.932174893201385
-State:62,Value:-1.6047581092674612
-State:63,Value:-17.122435757791227
-State:64,Value:13.698846960727343
-State:65,Value:-23.66667492056268
-State:66,Value:-17.122435757791227
-State:67,Value:25.471038213868894
-State:t1_6,Value:-1.605215527843046
-Policy
- ['state: 1->59.', 'state: 2->67.', 'state: 3->21.', 'state: 4->7.', 'state: 5->64.', 'state: 6->t1_6.', 'state: 7->4.', 'state: 8->59.', 'state: 9->36.', 'state: 10->56.', 'state: 11->14.', 'state: 12->26.', 'state: 13->53.', 'state: 14->2.', 'state: 15->t1_6.', 'state: 16->21.', 'state: 17->t1_6.', 'state: 18->59.', 'state: 19->37.', 'state: 20->59.', 'state: 21->16.', 'state: 22->t1_6.', 'state: 23->59.', 'state: 24->t1_6.', 'state: 25->61.', 'state: 26->36.', 'state: 27->t1_6.', 'state: 28->59.', 'state: 29->59.', 'state: 30->62.', 'state: 31->51.', 'state: 32->19.', 'state: 33->59.', 'state: 34->59.', 'state: 35->59.', 'state: 36->21.', 'state: 37->19.', 'state: 38->59.', 'state: 39->27.', 'state: 40->59.', 'state: 41->67.', 'state: 42->59.', 'state: 43->16.', 'state: 44->19.', 'state: 45->59.', 'state: 46->59.', 'state: 47->27.', 'state: 48->36.', 'state: 49->19.', 'state: 50->59.', 'state: 51->t1_6.', 'state: 52->59.', 'state: 53->13.', 'state: 54->59.', 'state: 55->56.', 'state: 56->51.', 'state: 57->59.', 'state: 58->14.', 'state: 59->57.', 'state: 60->5.', 'state: 61->16.', 'state: 62->51.', 'state: 63->57.', 'state: 64->5.', 'state: 65->19.', 'state: 66->57.', 'state: 67->2.', 'state: t1_6->51.']
-State:1,Value:-17.122242443397926
-State:2,Value:-13.431653438819696
-State:3,Value:0
-State:4,Value:-13.454050970764353
-State:5,Value:-14.551018340365047
-State:6,Value:-16.03361271291002
-State:7,Value:-17.122242443397926
-State:8,Value:-17.122242443397926
-State:9,Value:-17.122242443397926
-State:10,Value:-17.122242443397926
-State:11,Value:-17.122242443397926
-State:12,Value:-11.895621347168873
-State:13,Value:-11.9097094309928
-State:14,Value:-15.740909632077637
-State:15,Value:-17.122242443397926
-State:16,Value:-17.122242443397926
-State:17,Value:-17.122242443397926
-State:18,Value:-17.122242443397926
-State:19,Value:-17.122242443397926
-State:20,Value:-17.122242443397926
-State:21,Value:-17.122242443397926
-State:22,Value:-17.122242443397926
-State:23,Value:-17.122242443397926
-State:24,Value:0.5548267585765148
-State:25,Value:-17.122242443397926
-State:26,Value:-16.06166007961495
-State:27,Value:-17.122242443397926
-State:28,Value:-17.122242443397926
-State:29,Value:-17.122242443397926
-State:30,Value:-17.122242443397926
-State:31,Value:-3.8770624256585084
-State:32,Value:-17.122242443397926
-State:33,Value:-17.122242443397926
-State:34,Value:-22.131700530070184
-State:35,Value:-17.122242443397926
-State:36,Value:-17.122242443397926
-State:37,Value:-17.122242443397926
-State:38,Value:-17.122242443397926
-State:39,Value:-18.768025572532032
-State:40,Value:-17.122242443397926
-State:41,Value:-17.122242443397926
-State:42,Value:-17.122242443397926
-State:43,Value:-17.122242443397926
-State:44,Value:-17.927589111147178
-State:45,Value:-17.122242443397926
-State:46,Value:-17.122242443397926
-State:47,Value:-18.723115116587884
-State:48,Value:-17.122242443397926
-State:49,Value:-17.122242443397926
-State:50,Value:-17.122242443397926
-State:51,Value:-16.027863838621748
-State:52,Value:-17.122242443397926
-State:53,Value:-16.00355132302661
-State:54,Value:-17.122242443397926
-State:55,Value:-3.87850743042185
-State:56,Value:-3.8792141654028702
-State:57,Value:-3.8790951016283954
-State:58,Value:5.892663372628893
-State:59,Value:-17.122242443397926
-State:60,Value:-3.87440670010108
-State:61,Value:-17.122242443397926
-State:62,Value:-11.874591403077458
-State:63,Value:-17.122242443397926
-State:64,Value:-11.951171021506177
-State:65,Value:-17.122435757791227
-State:66,Value:-17.122435757791227
-State:67,Value:-17.523587675150615
-State:t2_3,Value:-11.629023209197
-Policy
- ['state: 1->63.', 'state: 2->58.', 'state: 3->63.', 'state: 4->34.', 'state: 5->60.', 'state: 6->39.', 'state: 7->63.', 'state: 8->63.', 'state: 9->63.', 'state: 10->63.', 'state: 11->63.', 'state: 12->53.', 'state: 13->53.', 'state: 14->24.', 'state: 15->63.', 'state: 16->63.', 'state: 17->63.', 'state: 18->63.', 'state: 19->63.', 'state: 20->63.', 'state: 21->63.', 'state: 22->63.', 'state: 23->63.', 'state: 24->5.', 'state: 25->63.', 'state: 26->39.', 'state: 27->63.', 'state: 28->63.', 'state: 29->63.', 'state: 30->63.', 'state: 31->t2_3.', 'state: 32->63.', 'state: 33->63.', 'state: 34->14.', 'state: 35->63.', 'state: 36->63.', 'state: 37->63.', 'state: 38->63.', 'state: 39->26.', 'state: 40->63.', 'state: 41->63.', 'state: 42->63.', 'state: 43->63.', 'state: 44->31.', 'state: 45->63.', 'state: 46->63.', 'state: 47->26.', 'state: 48->63.', 'state: 49->63.', 'state: 50->63.', 'state: 51->39.', 'state: 52->63.', 'state: 53->39.', 'state: 54->63.', 'state: 55->t2_3.', 'state: 56->t2_3.', 'state: 57->t2_3.', 'state: 58->4.', 'state: 59->63.', 'state: 60->t2_3.', 'state: 61->63.', 'state: 62->53.', 'state: 63->61.', 'state: 64->53.', 'state: 65->61.', 'state: 66->61.', 'state: 67->51.', 'state: t2_3->57.']
+t_1_id_1_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_732.9797587703825
+t_1_id_2_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_837.3999416629161
+t_1_id_3_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_665.205186367262
+t_1_id_4_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_620.0715407571275
+t_1_id_5_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_809.8505590531053
+t_1_id_6_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_399.91134703457834
+t_1_id_7_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_466.3701287612156
+t_1_id_8_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_569.5231788020278
+t_1_id_9_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_537.0652157058229
+t_1_id_10_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_514.532489588561
+t_1_id_11_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_871.3698193364694
+t_1_id_12_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_558.6105916025718
+t_1_id_13_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_741.6473390245728
+t_1_id_14_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_790.0284045851574
+t_1_id_15_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_586.4637854406627
+t_1_id_16_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_831.0981847092997
+t_1_id_17_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_723.331303181752
+t_1_id_18_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_628.8237540655919
+t_1_id_19_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_402.2747569018874
+t_1_id_20_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_723.9469591010919
+t_1_id_21_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_788.3677514026102
+t_1_id_22_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_476.15120664681376
+t_1_id_23_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_560.9002288908716
+t_1_id_24_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_739.5942796060915
+t_1_id_25_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_672.5512089531944
+t_1_id_26_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_840.8066367545888
+t_1_id_27_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_784.2768144607656
+t_1_id_28_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_600.0477781946488
+t_1_id_29_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_682.4376947655953
+t_1_id_30_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_684.2392306172804
+t_1_id_31_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_537.155009959993
+t_1_id_32_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_595.1359516828873
+t_1_id_33_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_463.68478995437397
+t_1_id_34_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_550.4497098296445
+t_1_id_35_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_633.3084957467506
+t_1_id_36_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_694.7388424281262
+t_1_id_37_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_685.209524152995
+t_1_id_38_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_656.0751931911759
+t_1_id_39_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_704.0689444534324
+t_1_id_40_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_659.9052423284096
+t_1_id_41_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_644.7023227475279
+t_1_id_42_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_843.7673854926413
+t_1_id_43_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_398.826330721777
+t_1_id_44_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_619.8050115076109
+t_1_id_45_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_546.3961661114536
+t_1_id_46_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_508.17513923835406
+t_1_id_47_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_597.9373660919756
+t_1_id_48_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_661.9391131053015
+t_1_id_49_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_617.3999833669895
+t_1_id_50_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_590.8073893539193
+t_1_id_51_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_752.0176996719138
+t_1_id_52_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_959.0716262692039
+t_1_id_53_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_628.6306977476569
+t_1_id_54_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_523.5777857974152
+t_1_id_55_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_655.3654987407672
+t_1_id_56_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_639.9660833389368
+t_1_id_57_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_713.3471964034713
+t_1_id_58_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_675.4282481254228
+t_1_id_59_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_222.454304688952
+t_1_id_60_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_552.2262991170464
+t_1_id_61_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_341.2691102625958
+t_1_id_62_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_502.2816055908908
+t_1_id_63_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_649.0570335337561
+t_1_id_64_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_778.4024256392573
+t_1_id_65_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_670.3379971273638
+t_1_id_66_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_551.8324898998277
+t_1_id_67_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_407.56264166368703
+t_1_id_68_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_552.7186479762922
+t_1_id_69_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_634.973452314926
+t_1_id_70_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_303.868302449187
+t_1_id_71_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_704.5400124800294
+t_1_id_72_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_582.738985135406
+t_1_id_73_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_805.750784523814
+t_1_id_74_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_833.7614098230928
+t_1_id_75_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_720.2639836005362
+t_1_id_76_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_728.9370040064189
+t_1_id_77_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_552.0195894064269
+t_1_id_78_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_778.8153101480622
+t_1_id_79_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_546.4534000030369
+t_1_id_80_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_610.1324591709085
+t_1_id_81_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_527.4294688940478
+t_1_id_82_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_568.8290309062982
+t_1_id_83_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_698.3815585583025
+t_1_id_84_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_658.6734642749653
+t_1_id_85_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_648.6738973414999
+t_1_id_86_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_627.6314736108544
+t_1_id_87_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_457.13203737704146
+t_1_id_88_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_632.3730813156052
+t_1_id_89_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_628.5675503267605
+t_1_id_90_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_733.598882887624
+t_1_id_91_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_521.2289855885989
+t_1_id_92_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_580.0904291114508
+t_1_id_93_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_507.4207324839275
+t_1_id_94_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_354.5698426593218
+t_1_id_95_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_500.53022566183313
+t_1_id_96_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_616.9314677061593
+t_1_id_97_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_793.0139202152614
+t_1_id_98_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_708.3076721768324
+t_1_id_99_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_521.7459267854924
+t_1_id_100_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_614.0930669245789
+t_1_id_101_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_673.7659003529847
+t_1_id_102_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_402.503784498433
+t_1_id_103_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_542.320368751009
+t_1_id_104_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_540.9978361289919
+t_1_id_105_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_329.7288548816847
+t_1_id_106_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_667.1399323148755
+t_1_id_107_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_512.08036032894
+t_1_id_108_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_581.1438411018896
+t_1_id_109_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_692.2138050935218
+t_1_id_110_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_845.8420341800064
+t_1_id_111_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_725.3626673598962
+t_1_id_112_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_786.4178078401955
+t_1_id_113_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_736.2857110646465
+t_1_id_114_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_777.0468260808186
+t_1_id_115_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_711.5697247115069
+t_1_id_116_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_388.49307217467765
+t_1_id_117_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_753.8189470274147
+t_1_id_118_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_683.4751748656982
+t_1_id_119_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_614.6674692357412
+t_1_id_120_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_487.15064540021865
+t_1_id_121_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_675.1534053629825
+t_1_id_122_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_564.850977787718
+t_1_id_123_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_670.49911756012
+t_1_id_124_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_718.5192959276072
+t_1_id_125_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_667.0836478645996
+t_1_id_126_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_87.78706685792814
+t_1_id_127_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_448.7433963033544
+t_1_id_128_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_679.9483522402871
+t_1_id_129_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_578.1942941682985
+t_1_id_130_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_602.7505043593703
+t_1_id_131_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_655.2192134121317
+t_1_id_132_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_579.6467940628867
+t_1_id_133_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_678.4081435298635
+t_1_id_134_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_609.3276161528006
+t_1_id_135_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_434.76535758217904
+t_1_id_136_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_635.7859096082044
+t_1_id_137_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_753.4211212769427
+t_1_id_138_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_418.46504134299784
+t_1_id_139_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_109.9941998448519
+t_1_id_140_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_363.03114453670935
+t_1_id_141_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_458.40047148616475
+t_1_id_142_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_834.1685267711811
+t_1_id_143_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_587.804954608338
+t_1_id_144_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_729.3331332538158
+t_1_id_145_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_335.0583735319179
+t_1_id_146_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_623.2912982276569
+t_1_id_147_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_669.4466460524067
+t_1_id_148_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_680.7651155518614
+t_1_id_149_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_651.2021096795241
+t_1_id_150_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_672.2992351026716
+t_1_id_151_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_491.8752822778482
+t_1_id_152_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_371.2499765311843
+t_1_id_153_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_449.90934438739043
+t_1_id_154_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_592.9645022458972
+t_1_id_155_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_349.6038830180125
+t_1_id_156_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_640.5036133893527
+t_1_id_157_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_594.7301926384297
+t_1_id_158_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_346.45804111164574
+t_1_id_159_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_359.13424349065195
+t_1_id_160_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_732.360741595163
+t_1_id_161_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_760.8837775202101
+t_1_id_162_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_416.64290116956585
+t_1_id_163_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_656.8913202608836
+t_1_id_164_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_370.1184707009419
+t_1_id_165_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_663.1879885323732
+t_1_id_166_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_732.4337392891117
+t_1_id_167_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_603.7654821565956
+t_1_id_168_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_236.50746883907922
+t_1_id_169_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_353.0935237600056
+t_1_id_170_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_677.951402375967
+t_1_id_171_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_666.6515736671967
+t_1_id_172_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_560.478419565324
+t_1_id_173_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_728.725656570422
+t_1_id_174_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_454.522279816572
+t_1_id_175_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_375.8232430663385
+t_1_id_176_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_493.2766659811117
+t_1_id_177_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_227.6630369813732
+t_1_id_178_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_552.5983054442838
+t_1_id_179_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_518.0162504825619
+t_1_id_180_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_613.6746008045955
+t_1_id_181_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_889.6068414280182
+t_1_id_182_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_769.620038466423
+t_1_id_183_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_742.9149350696237
+t_1_id_184_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_700.9953093176123
+t_1_id_185_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_759.017168047743
+t_1_id_186_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_601.7925367813372
+t_1_id_187_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_781.7320525802443
+t_1_id_188_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_539.357322890838
+t_1_id_189_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_495.40348527596495
+t_1_id_190_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_678.5367083216353
+t_1_id_191_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_820.9350962753307
+t_1_id_192_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_490.6472555379984
+t_1_id_193_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_400.64258301407165
+t_1_id_194_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_609.5332010202388
+t_1_id_195_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_810.8290476754269
+t_1_id_196_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_657.0249949126876
+t_1_id_197_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_692.7827765828272
+t_1_id_198_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_669.4403249242466
+t_1_id_199_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_521.3524520686695
+t_1_id_200_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_638.6239162053687
+t_1_id_201_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_626.4899165551369
+t_1_id_202_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_591.7417438436286
+t_1_id_203_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_629.8155908458398
+t_1_id_204_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_508.9920289679653
+t_1_id_205_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_574.6112073320244
+t_1_id_206_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_587.2425854467355
+t_1_id_207_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_598.4851775927367
+t_1_id_208_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_735.4158731453293
+t_1_id_209_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_520.1522802619733
+t_1_id_210_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_537.0224271347765
+t_1_id_211_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_780.5913012085562
+t_1_id_212_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_434.2836342591004
+t_1_id_213_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_397.7018600630345
+t_1_id_214_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_410.87893880815943
+t_1_id_215_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_465.48165769370917
+t_1_id_216_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_440.1152579662154
+t_1_id_217_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_762.927330948097
+t_1_id_218_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_841.5502253124389
+t_1_id_219_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_704.3258191329026
+t_1_id_220_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_713.2212970174025
+t_1_id_221_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_669.9705572239095
+t_1_id_222_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_774.8184983724453
+t_1_id_223_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_702.3496278297307
+t_1_id_224_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_598.3922697029514
+t_1_id_225_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_558.7606539433481
+t_1_id_226_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_683.4653491000593
+t_1_id_227_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_799.8835007844411
+t_1_id_228_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_473.8317097716488
+t_1_id_229_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_662.4806700187952
+t_1_id_230_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_667.1878333029337
+t_1_id_231_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_439.01043004139353
+t_1_id_232_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_616.2053405146753
+t_1_id_233_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_639.9770029718545
+t_1_id_234_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_725.0205383225466
+t_1_id_235_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_572.6068394494037
+t_1_id_236_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_373.42803764606344
+t_1_id_237_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_857.1033618952462
+t_1_id_238_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_729.8318119615267
+t_1_id_239_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_424.0495897867514
+t_1_id_240_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_650.6192280745199
+t_1_id_241_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_588.9260277599392
+t_1_id_242_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_673.4245695879229
+t_1_id_243_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_663.4662437270549
+t_1_id_244_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_715.3488828803187
+t_1_id_245_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_687.2393634142261
+t_1_id_246_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_253.79924857277052
+t_1_id_247_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_600.9989996209506
+t_1_id_248_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_410.6733859413115
+t_1_id_249_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_644.2113240844099
+t_1_id_250_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_511.3211828057166
+t_1_id_251_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_572.3729449873999
+t_1_id_252_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_718.1193753429249
+t_1_id_253_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_708.4459471270219
+t_1_id_254_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_848.7266035053628
+t_1_id_255_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_629.1231443434272
+t_1_id_256_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_776.4737101446385
+t_1_id_257_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_704.6791751437031
+t_1_id_258_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_733.5028802323149
+t_1_id_259_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_611.3850419792283
+t_1_id_260_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_594.2240098620571
+t_1_id_261_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_625.0225166654005
+t_1_id_262_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_527.6997600572664
+t_1_id_263_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_565.4513394920965
+t_1_id_264_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_589.4258618572825
+t_1_id_265_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_767.6723020683784
+t_1_id_266_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_738.4119237505384
+t_1_id_267_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_595.0426273970966
+t_1_id_268_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_727.239225227193
+t_1_id_269_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_618.4085691807721
+t_1_id_270_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_804.9661369829057
+t_1_id_271_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_454.8390214161327
+t_1_id_272_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_575.8021251275846
+t_1_id_273_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_805.5396435338185
+t_1_id_274_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_739.4880783982221
+t_1_id_275_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_665.299900218279
+t_1_id_276_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_591.9905629750662
+t_1_id_277_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_734.1036591097785
+t_1_id_278_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_688.4934240922004
+t_1_id_279_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_655.438918416082
+t_1_id_280_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_631.3753671100274
+t_1_id_281_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_884.2736135250213
+t_1_id_282_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_425.6504646136177
+t_1_id_283_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_778.3955190471343
+t_1_id_284_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_470.49058938819724
+t_1_id_285_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_516.827538795674
+t_1_id_286_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_636.511654222608
+t_1_id_287_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_603.8565378586043
+t_1_id_288_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_598.8739555754258
+t_1_id_289_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_189.04316214508682
+t_1_id_290_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_54.78874013252948
+t_1_id_291_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_258.2536524888052
+t_1_id_292_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_17.6760740824961
+t_1_id_293_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_29.77032070972693
+t_1_id_294_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_133.2850359933039
+t_1_id_295_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_28.671958087597446
+t_1_id_296_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_44.261488793952054
+t_1_id_297_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_66.72680829422796
+t_1_id_298_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_-1289.8225299140393
+t_1_id_299_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_17.676228216953135
+t_1_id_300_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_72.50697048223893
+t_1_id_301_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_141.08129045683373
+t_1_id_302_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_105.66272131021029
+t_1_id_303_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_274.49552849404756
+t_1_id_304_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_186.23307061004348
+t_1_id_305_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_12.922759310443041
+t_1_id_306_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_90.45401227943157
+t_1_id_307_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_25.89662268872165
+t_1_id_308_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_93.90518746334118
+t_1_id_309_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_25.89673789157689
+t_1_id_310_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_101.6341604273613
+t_1_id_311_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_139.99575944125885
+t_1_id_312_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_25.926166430424146
+t_1_id_313_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_30.749326775219146
+t_1_id_314_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_100.4080090688783
+t_1_id_315_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_25.898027763617037
+t_1_id_316_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_133.5440268835013
+t_1_id_317_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_25.97421651844016
+t_1_id_318_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_618.1742467133581
+t_1_id_319_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_320.20358839947903
+t_1_id_320_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_109.23601044047314
+t_1_id_321_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_166.89051233626978
+t_1_id_322_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_30.678905283357494
+t_1_id_323_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_10.680921196311402
+t_1_id_324_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_40.964860814396175
+t_1_id_325_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_491.2497039670292
+t_1_id_326_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_46.65414529886756
+t_1_id_327_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_169.31993005400713
+t_1_id_328_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_582.0377467643157
+t_1_id_329_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_61.60783987859956
+t_1_id_330_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_347.5715856190317
+t_1_id_331_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_225.69841699058438
+t_1_id_332_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_210.12749955965833
+t_1_id_333_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_617.2004135398372
+t_1_id_334_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_579.3547113543136
+t_1_id_335_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_482.2856236547059
+t_1_id_336_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_482.06558466894444
+t_1_id_337_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_573.4747085759204
+t_1_id_338_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_233.837625605686
+t_1_id_339_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_409.1198291248263
+t_1_id_340_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_559.8887692532937
+t_1_id_341_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_698.2060431074217
+t_1_id_342_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_733.9732640286604
+t_1_id_343_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_566.2022098348773
+t_1_id_344_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_329.52780304767043
+t_1_id_345_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_209.17036773943474
+t_1_id_346_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_669.7555122208984
+t_1_id_347_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_601.7517158331692
+t_1_id_348_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_593.827533399725
+t_1_id_349_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_357.95096346309674
+t_1_id_350_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_488.69554707904376
+t_1_id_351_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_412.81473979565385
+t_1_id_352_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_654.3586510875641
+t_1_id_353_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_723.1479098269114
+t_1_id_354_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_319.4534582582959
+t_1_id_355_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_185.63490578286698
+t_1_id_356_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_630.1807424864797
+t_1_id_357_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_336.30481099688154
+t_1_id_358_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_628.939499576402
+t_1_id_359_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_654.0925388342628
+t_1_id_360_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_518.4766414523662
+t_1_id_361_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_305.9163681659732
+t_1_id_362_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_172.55641305298946
+t_1_id_363_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_161.91968924334606
+t_1_id_364_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_375.8342576331256
+t_1_id_365_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_519.6284241198937
+t_1_id_366_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_449.2665780303131
+t_1_id_367_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_544.1114488633498
+t_1_id_368_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_393.3829653797811
+t_1_id_369_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_49.8262021213248
+t_1_id_370_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_233.89267606913202
+t_1_id_371_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_74.23931433574609
+t_1_id_372_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_226.3663482366318
+t_1_id_373_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_81.3954731475043
+t_1_id_374_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_124.58766173309726
+t_1_id_375_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_310.88765327807164
+t_1_id_376_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_217.75112622378404
+t_1_id_377_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_110.14125526577749
+t_1_id_378_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_313.2493195860551
+t_1_id_379_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_10.922850937072539
+t_1_id_380_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_274.1570976458071
+t_1_id_381_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_237.66914725709904
+t_1_id_382_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_506.0051238085215
+t_1_id_383_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_199.0146302398203
+t_1_id_384_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_543.957898041518
+t_1_id_385_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_312.9090760029611
+t_1_id_386_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_600.741332608291
+t_1_id_387_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_110.71232302520131
+t_1_id_388_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_203.1084471394308
+t_1_id_389_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_17.566584427532547
+t_1_id_390_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_452.9442666655943
+t_1_id_391_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_301.4616159063713
+t_1_id_392_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_132.22524118451824
+t_1_id_393_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_305.52799136304566
+t_1_id_394_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_237.8584980704349
+t_1_id_395_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_233.76512019784516
+t_1_id_396_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_216.97699307080848
+t_1_id_397_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_638.9188828303048
+t_1_id_398_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_609.9692766233635
+t_1_id_399_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_601.1241591783864
+t_1_id_400_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_807.9232980864562
+t_1_id_401_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_584.5108946443291
+t_1_id_402_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_777.1323625705378
+t_1_id_403_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_714.9888610273944
+t_1_id_404_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_418.4652766737454
+t_1_id_405_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_613.6904361681196
+t_1_id_406_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_588.614445220013
+t_1_id_407_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_694.2592218954202
+t_1_id_408_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_588.0528416373209
+t_1_id_409_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_744.5074376443204
+t_1_id_410_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_626.4327062514695
+t_1_id_411_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_581.2511685761297
+t_1_id_412_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_777.1912786995639
+t_1_id_413_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_672.659060275774
+t_1_id_414_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_574.519786671335
+t_1_id_415_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_129.43215880462492
+t_1_id_416_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_659.1432227532106
+t_1_id_417_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_430.2029260651061
+t_1_id_418_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_434.3644982667928
+t_1_id_419_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_700.0694545700416
+t_1_id_420_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_548.7830478953568
+t_1_id_421_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_711.6216135750783
+t_1_id_422_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_560.8475165351639
+t_1_id_423_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_329.5374587519591
+t_1_id_424_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_717.7394832283463
+t_1_id_425_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_677.755285494917
+t_1_id_426_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_755.2585127696066
+t_1_id_427_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_462.3482652945763
+t_1_id_428_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_645.3680246788489
+t_1_id_429_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_261.60339344521003
+t_1_id_430_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_378.2800490816794
+t_1_id_431_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_766.1260664366735
+t_1_id_432_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_726.7930956638489
+t_2_id_1_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_729.3643779930602
+t_2_id_2_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_644.8293025558237
+t_2_id_3_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_656.6905237522658
+t_2_id_4_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_814.6993161127273
+t_2_id_5_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_882.2883937830841
+t_2_id_6_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_495.62874278619273
+t_2_id_7_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_705.094080222684
+t_2_id_8_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_698.4123046753347
+t_2_id_9_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_611.9419648299506
+t_2_id_10_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_997.8640018731597
+t_2_id_11_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_769.150564022125
+t_2_id_12_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_728.6150899682847
+t_2_id_13_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_626.1415481182121
+t_2_id_14_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_756.3886252695208
+t_2_id_15_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_635.0411040871071
+t_2_id_16_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_658.1857217517189
+t_2_id_17_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_724.3474978167807
+t_2_id_18_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_422.3590405375382
+t_2_id_19_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_718.532382838143
+t_2_id_20_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_713.7523761194799
+t_2_id_21_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_790.6071809909057
+t_2_id_22_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_723.2447738965851
+t_2_id_23_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_470.41905621783474
+t_2_id_24_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_754.6127264700212
+t_2_id_25_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_830.5647171510944
+t_2_id_26_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_834.4419355458625
+t_2_id_27_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_964.5808055511166
+t_2_id_28_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_722.9746841344356
+t_2_id_29_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_504.10198205487643
+t_2_id_30_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_747.1910729279367
+t_2_id_31_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_612.4840101344012
+t_2_id_32_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_760.0780609931085
+t_2_id_33_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_722.3183892820941
+t_2_id_34_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_776.046192098684
+t_2_id_35_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_487.0675873762022
+t_2_id_36_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_354.1867333155373
+t_2_id_37_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_768.8332137202782
+t_2_id_38_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_730.2723765137453
+t_2_id_39_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_770.2307439825241
+t_2_id_40_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_794.7125206927748
+t_2_id_41_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_763.3902238070472
+t_2_id_42_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_776.0769994258411
+t_2_id_43_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_544.4656620146257
+t_2_id_44_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_841.4735300917475
+t_2_id_45_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_678.9582063251863
+t_2_id_46_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_943.4849191188569
+t_2_id_47_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_689.1926384236714
+t_2_id_48_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_672.8480165766915
+t_2_id_49_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_647.4875597546588
+t_2_id_50_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_650.5285152755927
+t_2_id_51_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_946.437524549814
+t_2_id_52_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_714.8986114438168
+t_2_id_53_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_909.7206074582431
+t_2_id_54_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_401.0839844944014
+t_2_id_55_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_712.8460716967412
+t_2_id_56_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_637.4428007623292
+t_2_id_57_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_742.8072901082703
+t_2_id_58_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_720.5722342583514
+t_2_id_59_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_329.38606389365657
+t_2_id_60_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_723.1563247802808
+t_2_id_61_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_-49.53824210845629
+t_2_id_62_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_55.20433611432601
+t_2_id_63_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_818.5096801278212
+t_2_id_64_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_761.4108925792974
+t_2_id_65_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_761.7252462339763
+t_2_id_66_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_411.954982249507
+t_2_id_67_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_220.61924266791974
+t_2_id_68_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_653.3193472917427
+t_2_id_69_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_321.66925249442573
+t_2_id_70_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_262.1041903684555
+t_2_id_71_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_649.3295155295551
+t_2_id_72_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_723.5529172660129
+t_2_id_73_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_707.5202387291673
+t_2_id_74_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_718.6102891051526
+t_2_id_75_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_719.4468921082123
+t_2_id_76_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_853.0535449660252
+t_2_id_77_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_741.9185417193402
+t_2_id_78_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_715.018175507927
+t_2_id_79_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_742.8538108252818
+t_2_id_80_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_637.5372849599595
+t_2_id_81_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_815.7047997268319
+t_2_id_82_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_700.3980080412205
+t_2_id_83_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_771.6754619640568
+t_2_id_84_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_675.1607938790462
+t_2_id_85_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_263.3925457182002
+t_2_id_86_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_569.4385903419599
+t_2_id_87_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_91.7253680629097
+t_2_id_88_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_721.7076290607138
+t_2_id_89_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_665.0127954420752
+t_2_id_90_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_426.47838086998206
+t_2_id_91_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_700.8116603551125
+t_2_id_92_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_765.0333787171184
+t_2_id_93_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_48.257500406805846
+t_2_id_94_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_215.66827647937674
+t_2_id_95_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_225.57003504829157
+t_2_id_96_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_413.38995945702555
+t_2_id_97_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_101.35335348562933
+t_2_id_98_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_16.04825337328414
+t_2_id_99_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_349.7717648850391
+t_2_id_100_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_165.87384748592268
+t_2_id_101_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_129.2351651620839
+t_2_id_102_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_140.6175152290256
+t_2_id_103_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_186.4336198566907
+t_2_id_104_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_89.07919064129003
+t_2_id_105_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_199.8354976061194
+t_2_id_106_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_709.0854013879346
+t_2_id_107_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_513.1947024081236
+t_2_id_108_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_424.75884488957115
+t_2_id_109_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_789.6185301736681
+t_2_id_110_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_659.8609240617635
+t_2_id_111_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_793.6919984690398
+t_2_id_112_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_907.4391218026989
+t_2_id_113_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_746.015950776089
+t_2_id_114_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_614.2614636454487
+t_2_id_115_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_689.8208455935784
+t_2_id_116_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_546.176654899849
+t_2_id_117_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_770.2033204741236
+t_2_id_118_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_628.6702582582295
+t_2_id_119_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_663.9518078272121
+t_2_id_120_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_852.1337240200563
+t_2_id_121_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_735.0188288900465
+t_2_id_122_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_683.1376225137711
+t_2_id_123_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_781.4104215769005
+t_2_id_124_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_681.9668037848262
+t_2_id_125_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_797.2764861769458
+t_2_id_126_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_275.85936017425786
+t_2_id_127_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_810.1804847554567
+t_2_id_128_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_677.1826521831888
+t_2_id_129_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_701.7487769352176
+t_2_id_130_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_291.02509967827984
+t_2_id_131_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_705.0023565003997
+t_2_id_132_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_637.7505901419291
+t_2_id_133_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_412.99637905550526
+t_2_id_134_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_744.5123843291225
+t_2_id_135_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_499.45585670812784
+t_2_id_136_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_739.3842955135578
+t_2_id_137_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_839.406940339074
+t_2_id_138_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_581.1108489669202
+t_2_id_139_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_751.59870213116
+t_2_id_140_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_165.793289752771
+t_2_id_141_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_177.0413854926943
+t_2_id_142_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_698.9907999533191
+t_2_id_143_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_722.5480907375926
+t_2_id_144_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_621.2397647997365
+t_2_id_145_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_805.1089541195436
+t_2_id_146_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_724.161516636458
+t_2_id_147_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_762.9388400117635
+t_2_id_148_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_667.7695503792479
+t_2_id_149_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_682.0922386554483
+t_2_id_150_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_767.6116193245763
+t_2_id_151_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_403.59192651277885
+t_2_id_152_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_717.5455128086771
+t_2_id_153_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_167.68188268225177
+t_2_id_154_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_516.5613382662773
+t_2_id_155_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_681.7900733289684
+t_2_id_156_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_463.5686740205829
+t_2_id_157_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_907.5562569503136
+t_2_id_158_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_597.3625662084595
+t_2_id_159_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_387.01912602572656
+t_2_id_160_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_589.3659607852472
+t_2_id_161_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_843.6966850330404
+t_2_id_162_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_592.7545418438966
+t_2_id_163_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_641.154979697457
+t_2_id_164_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_760.7062949617329
+t_2_id_165_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_316.51183969377973
+t_2_id_166_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_737.5483760669151
+t_2_id_167_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_606.9752041939896
+t_2_id_168_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_885.3353665024515
+t_2_id_169_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_299.9166896956774
+t_2_id_170_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_561.2688966977938
+t_2_id_171_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_796.0547221653641
+t_2_id_172_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_634.9880779193805
+t_2_id_173_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_776.3555032305828
+t_2_id_174_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_353.8160635769299
+t_2_id_175_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_618.0604634111518
+t_2_id_176_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_676.6046727397587
+t_2_id_177_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_481.81105396263865
+t_2_id_178_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_393.45132524834537
+t_2_id_179_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_510.4905580748729
+t_2_id_180_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_808.105585562052
+t_2_id_181_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_763.1415186341939
+t_2_id_182_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_859.0348224354179
+t_2_id_183_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_698.0306423349247
+t_2_id_184_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_791.7015580121746
+t_2_id_185_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_636.451682952533
+t_2_id_186_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_728.2515029266212
+t_2_id_187_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_726.0488001154721
+t_2_id_188_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_856.21233229093
+t_2_id_189_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_680.917201166279
+t_2_id_190_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_777.6735258595562
+t_2_id_191_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_630.0307433551374
+t_2_id_192_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_679.2477112085011
+t_2_id_193_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_548.7603145285397
+t_2_id_194_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_746.6503099560737
+t_2_id_195_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_766.2632677760482
+t_2_id_196_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_822.7757276974493
+t_2_id_197_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_395.2396378831045
+t_2_id_198_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_804.6543114976474
+t_2_id_199_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_603.2180958894155
+t_2_id_200_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_301.9642082090926
+t_2_id_201_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_788.3306457590833
+t_2_id_202_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_217.50494561487557
+t_2_id_203_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_739.5327582265527
+t_2_id_204_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_357.24586434631124
+t_2_id_205_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_622.162393759344
+t_2_id_206_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_659.1922897692318
+t_2_id_207_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_311.5006413028723
+t_2_id_208_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_329.4250837444224
+t_2_id_209_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_102.52391078670314
+t_2_id_210_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_447.18951699906995
+t_2_id_211_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_192.14956862690406
+t_2_id_212_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_128.2049703298528
+t_2_id_213_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_270.09068158245043
+t_2_id_214_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_270.31935899255495
+t_2_id_215_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_154.90352067129618
+t_2_id_216_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_540.2809838371701
+t_2_id_217_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_316.99158086162475
+t_2_id_218_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_707.1268564300728
+t_2_id_219_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_741.9693840305615
+t_2_id_220_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_722.193205054417
+t_2_id_221_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_936.1032499560567
+t_2_id_222_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_676.187076030498
+t_2_id_223_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_799.1063306951332
+t_2_id_224_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_850.4991851843239
+t_2_id_225_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_812.9328265657273
+t_2_id_226_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_630.1911216065538
+t_2_id_227_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_750.2286047157537
+t_2_id_228_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_647.6425722567925
+t_2_id_229_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_765.7717576883491
+t_2_id_230_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_816.7651085001874
+t_2_id_231_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_633.5966944805239
+t_2_id_232_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_563.4004454719784
+t_2_id_233_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_847.132607635012
+t_2_id_234_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_901.3538256680052
+t_2_id_235_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_586.36324689035
+t_2_id_236_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_729.2557451658251
+t_2_id_237_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_762.0300344253039
+t_2_id_238_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_594.2729232285279
+t_2_id_239_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_784.5519922047542
+t_2_id_240_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_754.6643342018507
+t_2_id_241_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_791.8269704835003
+t_2_id_242_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_742.4292607073012
+t_2_id_243_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_708.9477722024974
+t_2_id_244_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_185.5617820400642
+t_2_id_245_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_831.6570084763126
+t_2_id_246_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_299.6893880438972
+t_2_id_247_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_559.3077616728453
+t_2_id_248_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_683.5604843661968
+t_2_id_249_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_750.5263151972762
+t_2_id_250_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_303.64484200865854
+t_2_id_251_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_353.50768511906205
+t_2_id_252_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_712.1867937979936
+t_2_id_253_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_697.8025748863056
+t_2_id_254_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_678.5014961457824
+t_2_id_255_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_701.9128252023238
+t_2_id_256_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_741.7676028477008
+t_2_id_257_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_708.1455000747818
+t_2_id_258_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_857.0418994508768
+t_2_id_259_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_610.9934348701646
+t_2_id_260_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_763.540212772045
+t_2_id_261_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_708.4258909750467
+t_2_id_262_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_799.9708472587394
+t_2_id_263_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_746.3658122587015
+t_2_id_264_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_781.7527837978632
+t_2_id_265_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_744.54067873612
+t_2_id_266_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_741.7037206516561
+t_2_id_267_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_812.4056826891346
+t_2_id_268_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_856.4403435180384
+t_2_id_269_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_668.1387868526408
+t_2_id_270_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_587.9508094062293
+t_2_id_271_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_748.3488385533029
+t_2_id_272_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_982.7526250988992
+t_2_id_273_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_638.0036920209315
+t_2_id_274_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_625.0786780339473
+t_2_id_275_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_712.3531074033215
+t_2_id_276_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_479.0478406599303
+t_2_id_277_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_699.841262127237
+t_2_id_278_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_621.9858761288249
+t_2_id_279_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_33.57327940938889
+t_2_id_280_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_728.3482381552515
+t_2_id_281_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_97.25801851618975
+t_2_id_282_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_290.4901954164744
+t_2_id_283_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_265.78093095736364
+t_2_id_284_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_132.8633569683452
+t_2_id_285_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_192.81829215215163
+t_2_id_286_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_150.92453351153432
+t_2_id_287_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_175.07073544323865
+t_2_id_288_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_728.3563856703955
+t_2_id_289_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_62.4909039032559
+t_2_id_290_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_-166.1192336052344
+t_2_id_291_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_256.5028393982096
+t_2_id_292_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_-42.94604864885095
+t_2_id_293_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_1.186993694063247
+t_2_id_294_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_108.85041104633801
+t_2_id_295_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_-1906.363118574711
+t_2_id_296_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_131.33203400528816
+t_2_id_297_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_138.93829756665423
+t_2_id_298_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_225.02256143661964
+t_2_id_299_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_75.9813697978028
+t_2_id_300_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_60.57503594089518
+t_2_id_301_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_1.3566284894970977
+t_2_id_302_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_229.65821285180692
+t_2_id_303_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_203.45424036821146
+t_2_id_304_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_60.56631705330436
+t_2_id_305_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_223.53581497319888
+t_2_id_306_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_108.13566469564994
+t_2_id_307_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_143.04160600068377
+t_2_id_308_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_103.6272839783123
+t_2_id_309_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_152.5066381031555
+t_2_id_310_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_9.168239522596053
+t_2_id_311_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_228.15352713939518
+t_2_id_312_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_114.36147120589558
+t_2_id_313_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_15.437980497678964
+t_2_id_314_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_180.68179752580468
+t_2_id_315_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_115.75584087641926
+t_2_id_316_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_388.6762758850802
+t_2_id_317_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_225.98042934926315
+t_2_id_318_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_341.7204915802007
+t_2_id_319_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_10.104219306158043
+t_2_id_320_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_96.95503001956176
+t_2_id_321_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_61.11353506028782
+t_2_id_322_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_130.83164783806563
+t_2_id_323_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_233.41383940604842
+t_2_id_324_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_116.4301016374519
+t_2_id_325_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_220.15745288043732
+t_2_id_326_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_233.27285100957465
+t_2_id_327_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_456.2955638124729
+t_2_id_328_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_364.92292259203714
+t_2_id_329_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_666.9895119292313
+t_2_id_330_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_683.8446348740523
+t_2_id_331_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_671.9627825867038
+t_2_id_332_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_671.2918826390355
+t_2_id_333_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_599.4280305662771
+t_2_id_334_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_634.1606057148243
+t_2_id_335_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_71.40721886903634
+t_2_id_336_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_497.9800184784725
+t_2_id_337_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_703.8646338652835
+t_2_id_338_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_388.3677167332439
+t_2_id_339_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_162.18164458941982
+t_2_id_340_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_752.7952359268968
+t_2_id_341_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_647.5980618484491
+t_2_id_342_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_384.599700162133
+t_2_id_343_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_653.0073303887195
+t_2_id_344_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_565.2124105640288
+t_2_id_345_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_572.7330553022828
+t_2_id_346_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_608.833984735181
+t_2_id_347_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_391.39881810293525
+t_2_id_348_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_832.3625762426516
+t_2_id_349_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_505.82979895983135
+t_2_id_350_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_402.8106598715782
+t_2_id_351_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_254.0327931335797
+t_2_id_352_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_724.968983018933
+t_2_id_353_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_815.7033953574875
+t_2_id_354_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_611.7895377975677
+t_2_id_355_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_510.5632433642991
+t_2_id_356_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_232.25657851101465
+t_2_id_357_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_316.55760129503506
+t_2_id_358_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_117.20039075891789
+t_2_id_359_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_316.6706069274618
+t_2_id_360_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_828.2883559930063
+t_2_id_361_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_232.755761152527
+t_2_id_362_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_21.811391180709776
+t_2_id_363_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_125.25283651210951
+t_2_id_364_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_414.6953265036827
+t_2_id_365_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_442.55498239721396
+t_2_id_366_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_115.75584087641926
+t_2_id_367_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_36.84898777054164
+t_2_id_368_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_94.82690204588975
+t_2_id_369_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_196.5268924146682
+t_2_id_370_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_623.3578233278331
+t_2_id_371_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_241.50775794485025
+t_2_id_372_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_222.59510017046483
+t_2_id_373_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_27.06403215132245
+t_2_id_374_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_154.40983987389046
+t_2_id_375_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_195.18043752185824
+t_2_id_376_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_317.9345792977608
+t_2_id_377_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_296.5405799802696
+t_2_id_378_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_202.60369720079353
+t_2_id_379_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_40.83893902217089
+t_2_id_380_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_133.04623126496688
+t_2_id_381_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_302.84373668790204
+t_2_id_382_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_317.98441274945765
+t_2_id_383_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_205.15380457075884
+t_2_id_384_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_78.23006109517694
+t_2_id_385_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_423.77723971718575
+t_2_id_386_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_94.87758504563271
+t_2_id_387_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_88.98584733980589
+t_2_id_388_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_496.8802693534916
+t_2_id_389_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_336.61916347864326
+t_2_id_390_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_280.5037534322362
+t_2_id_391_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_219.89956469967427
+t_2_id_392_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_394.1384147868003
+t_2_id_393_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_79.93546372805218
+t_2_id_394_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_217.96193712134638
+t_2_id_395_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_224.72527432403444
+t_2_id_396_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_1.4931743322047737
+t_2_id_397_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_132.864165015854
+t_2_id_398_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_903.069583724516
+t_2_id_399_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_581.9501795957896
+t_2_id_400_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_752.9934086725982
+t_2_id_401_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_744.3956197021928
+t_2_id_402_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_854.5765234519806
+t_2_id_403_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_313.5561371832206
+t_2_id_404_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_618.8115158495583
+t_2_id_405_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_403.5206858549624
+t_2_id_406_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_669.3507047197285
+t_2_id_407_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_741.5799107677057
+t_2_id_408_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_712.0092336527017
+t_2_id_409_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_408.87019695081705
+t_2_id_410_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_755.3054296911642
+t_2_id_411_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_734.6662018738434
+t_2_id_412_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_637.817111811948
+t_2_id_413_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_295.6494692721798
+t_2_id_414_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_670.5254793724273
+t_2_id_415_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_319.3781054462373
+t_2_id_416_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_513.7677141558679
+t_2_id_417_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_384.12075834254483
+t_2_id_418_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_668.6787037858485
+t_2_id_419_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_501.9052500929788
+t_2_id_420_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_389.15929637779993
+t_2_id_421_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_607.9513949791256
+t_2_id_422_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_738.4217495773889
+t_2_id_423_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_898.6277381774187
+t_2_id_424_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_841.4402382238852
+t_2_id_425_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_727.6279549104387
+t_2_id_426_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_500.43405068699894
+t_2_id_427_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_606.1183547114158
+t_2_id_428_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_336.70151849622306
+t_2_id_429_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_696.3703432162928
+t_2_id_430_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_413.8442834754097
+t_2_id_431_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_507.87643947777053
+t_2_id_432_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_613.3031244282754
+t_3_id_1_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_41.11104889975883
+t_3_id_2_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_52.20730397938776
+t_3_id_3_Adam_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_143.30049447484987
+t_3_id_4_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_77.60702307970516
+t_3_id_5_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_55.37315871108221
+t_3_id_6_Adam_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_167.8618884745111
+t_3_id_7_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_130.34584329159648
+t_3_id_8_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_127.54555930482563
+t_3_id_9_Adam_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_76.76546173097431
+t_3_id_10_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_31.50987034004848
+t_3_id_11_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_97.72723421776664
+t_3_id_12_Adam_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_95.57060236095072
+t_3_id_13_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_62.47019630514821
+t_3_id_14_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_75.80443059928187
+t_3_id_15_Adam_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_161.14431410871396
+t_3_id_16_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_120.51379043103861
+t_3_id_17_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_129.66545791023154
+t_3_id_18_Adam_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_115.83716204799809
+t_3_id_19_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_64.12847941387832
+t_3_id_20_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_64.12847941387832
+t_3_id_21_Adam_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_176.89924927873818
+t_3_id_22_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_89.58034128425108
+t_3_id_23_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_83.4326729376966
+t_3_id_24_Adam_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_64.12847941387832
+t_3_id_25_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_56.86598406978307
+t_3_id_26_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_113.48216938779088
+t_3_id_27_Adam_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_47.26480551007272
+t_3_id_28_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_95.57060236095072
+t_3_id_29_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_65.82981817733436
+t_3_id_30_Adam_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_47.26480551007272
+t_3_id_31_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_135.32815979035178
+t_3_id_32_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_97.72723421776664
+t_3_id_33_Adam_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_118.3822590085723
+t_3_id_34_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_97.72723421776664
+t_3_id_35_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_110.68188540102003
+t_3_id_36_Adam_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_101.57912091055054
+t_3_id_37_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_97.72723421776664
+t_3_id_38_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_110.68188540102003
+t_3_id_39_Adam_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_31.50987034004848
+t_3_id_40_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_56.86598406978307
+t_3_id_41_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_97.72723421776664
+t_3_id_42_Adam_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_46.07160900516904
+t_3_id_43_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_44_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_37.1773029758522
+t_3_id_45_Adam_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_110.68188540102003
+t_3_id_46_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_97.72723421776664
+t_3_id_47_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_61.82654417519328
+t_3_id_48_Adam_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_97.72723421776664
+t_3_id_49_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_126.43682057104427
+t_3_id_50_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_105.00264107129266
+t_3_id_51_Adam_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_110.68188540102003
+t_3_id_52_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_66.86101600767309
+t_3_id_53_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_156.60705020272133
+t_3_id_54_Adam_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_52.19478161271603
+t_3_id_55_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_110.68188540102003
+t_3_id_56_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_110.68188540102003
+t_3_id_57_Adam_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_125.88727619609551
+t_3_id_58_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_37.05361209078484
+t_3_id_59_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_32.15352403703589
+t_3_id_60_Adam_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_113.48216938779088
+t_3_id_61_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_34.764505498093214
+t_3_id_62_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_-24.038364805315545
+t_3_id_63_Adam_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_82.61595117769733
+t_3_id_64_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_124.16042906684686
+t_3_id_65_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_95.45084271356923
+t_3_id_66_Adam_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_0.6436713940869367
+t_3_id_67_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_84.8259130532176
+t_3_id_68_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_96.09830128846227
+t_3_id_69_Adam_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_47.26480551007272
+t_3_id_70_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_31.50987034004848
+t_3_id_71_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_82.61595117769733
+t_3_id_72_Adam_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_84.783504204684
+t_3_id_73_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_98.37088634772157
+t_3_id_74_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_117.26064080865392
+t_3_id_75_Adam_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_176.89924927873818
+t_3_id_76_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_61.82654417519328
+t_3_id_77_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_47.908476904159656
+t_3_id_78_Adam_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_66.86101600767309
+t_3_id_79_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_161.14431410871396
+t_3_id_80_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_115.62438387033507
+t_3_id_81_Adam_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_97.72723421776664
+t_3_id_82_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_103.73575276736646
+t_3_id_83_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_149.91750772939582
+t_3_id_84_Adam_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_113.9105227402073
+t_3_id_85_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_47.77294776862507
+t_3_id_86_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_97.72723421776664
+t_3_id_87_Adam_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_106.02199069211842
+t_3_id_88_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_176.89924927873818
+t_3_id_89_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_176.92524709759562
+t_3_id_90_Adam_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_36.43984644269179
+t_3_id_91_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_110.68188540102003
+t_3_id_92_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_143.30049447484987
+t_3_id_93_Adam_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_100.95587155695391
+t_3_id_94_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_32.15352247000341
+t_3_id_95_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_19.627224639166442
+t_3_id_96_Adam_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_20.69743363933928
+t_3_id_97_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_52.863084484880986
+t_3_id_98_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_116.22562715175638
+t_3_id_99_Adam_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_99.24647449995398
+t_3_id_100_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_53.27332405967255
+t_3_id_101_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_32.15352247000341
+t_3_id_102_Adam_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_11.594669148869798
+t_3_id_103_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_57.946690911092745
+t_3_id_104_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_31.50987034004848
+t_3_id_105_Adam_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_62.47019630514821
+t_3_id_106_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_41.89461504525538
+t_3_id_107_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_19.811266593687492
+t_3_id_108_Adam_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_84.24260892953195
+t_3_id_109_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_110.68188540102003
+t_3_id_110_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_97.72723421776664
+t_3_id_111_Adam_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_97.72723421776664
+t_3_id_112_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_127.54555930482563
+t_3_id_113_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_47.26480551007272
+t_3_id_114_Adam_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_52.16489513085415
+t_3_id_115_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_61.82654417519328
+t_3_id_116_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_36.02694818521394
+t_3_id_117_Adam_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_135.24328096771376
+t_3_id_118_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_94.92695023099579
+t_3_id_119_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_31.50987034004848
+t_3_id_120_Adam_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_48.373544243854084
+t_3_id_121_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_110.68188540102003
+t_3_id_122_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_94.92695023099579
+t_3_id_123_Adam_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_97.72723421776664
+t_3_id_124_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_143.3370669474981
+t_3_id_125_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_94.92695023099579
+t_3_id_126_Adam_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_35.38215980919068
+t_3_id_127_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_64.12847941387832
+t_3_id_128_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_110.68188540102003
+t_3_id_129_Adam_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_97.72723421776664
+t_3_id_130_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_31.50987034004848
+t_3_id_131_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_110.68188540102003
+t_3_id_132_Adam_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_36.40995996082991
+t_3_id_133_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_82.61595117769733
+t_3_id_134_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_81.9722990477424
+t_3_id_135_Adam_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_49.017196373809014
+t_3_id_136_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_94.92695023099579
+t_3_id_137_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_31.509871907080964
+t_3_id_138_Adam_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_-288.8277387416725
+t_3_id_139_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_64.12847941387832
+t_3_id_140_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_57.76286430069945
+t_3_id_141_Adam_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_47.26480551007272
+t_3_id_142_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_161.14431410871396
+t_3_id_143_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_110.68188540102003
+t_3_id_144_Adam_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_41.11104889975883
+t_3_id_145_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_121.20748179578531
+t_3_id_146_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_57.946690911092745
+t_3_id_147_Adamax_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_37.1773029758522
+t_3_id_148_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_56.54460983313851
+t_3_id_149_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_97.72723421776664
+t_3_id_150_Adamax_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_110.68188540102003
+t_3_id_151_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_97.72723421776664
+t_3_id_152_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_50.49344284925999
+t_3_id_153_Adamax_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_97.03097625090491
+t_3_id_154_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_67.8350627247931
+t_3_id_155_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_122.23414570135621
+t_3_id_156_Adamax_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_32.68122139751496
+t_3_id_157_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_158_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_112.38322416447606
+t_3_id_159_Adamax_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_116.26803600029
+t_3_id_160_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_47.351857918115314
+t_3_id_161_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_139.36581986192238
+t_3_id_162_Adamax_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_110.68188540102003
+t_3_id_163_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_115.23456025152717
+t_3_id_164_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_57.946690911092745
+t_3_id_165_Adamax_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_109.04914602677755
+t_3_id_166_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_31.50987034004848
+t_3_id_167_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_63.971986515086826
+t_3_id_168_Adamax_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_176.89924927873818
+t_3_id_169_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_42.72104472658856
+t_3_id_170_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_71.31525233544163
+t_3_id_171_Adamax_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_111.32553753097496
+t_3_id_172_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_73.72965797358867
+t_3_id_173_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_47.26480551007272
+t_3_id_174_Adamax_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_114.59090812157224
+t_3_id_175_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_62.430399594204445
+t_3_id_176_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_77.58147934521752
+t_3_id_177_Adamax_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_61.85254199405074
+t_3_id_178_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_161.7879662386689
+t_3_id_179_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_59.109924105233816
+t_3_id_180_Adamax_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_110.68188540102003
+t_3_id_181_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_64.12847941387832
+t_3_id_182_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_176.89924927873818
+t_3_id_183_Adamax_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_161.14431410871396
+t_3_id_184_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_56.65443537188105
+t_3_id_185_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_161.14431410871396
+t_3_id_186_Adamax_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_82.48156896599895
+t_3_id_187_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_115.17142564204693
+t_3_id_188_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_47.26480551007272
+t_3_id_189_Adamax_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_156.09726215856716
+t_3_id_190_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_143.30049447484987
+t_3_id_191_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_76.7916415761937
+t_3_id_192_Adamax_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_161.7879662386689
+t_3_id_193_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_95.57060236095072
+t_3_id_194_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_130.34584329159648
+t_3_id_195_Adamax_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_97.72723421776664
+t_3_id_196_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_211.49251889725986
+t_3_id_197_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_110.68188540102003
+t_3_id_198_Adamax_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_181.65810453975251
+t_3_id_199_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_110.68188540102003
+t_3_id_200_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_49.619798170279935
+t_3_id_201_Adamax_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_80.5270859779895
+t_3_id_202_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_64.12849867801033
+t_3_id_203_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_47.264824774204726
+t_3_id_204_Adamax_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_56.16087548506371
+t_3_id_205_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_183.44907334001323
+t_3_id_206_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_117.2429668680257
+t_3_id_207_Adamax_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_34.73850924626824
+t_3_id_208_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_126.43682057104427
+t_3_id_209_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_47.26480551007272
+t_3_id_210_Adamax_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_81.9722990477424
+t_3_id_211_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_57.946690911092745
+t_3_id_212_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_-82.36960198630253
+t_3_id_213_Adamax_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_164.47167198640324
+t_3_id_214_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_15.841987578066835
+t_3_id_215_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_21.763453719624067
+t_3_id_216_Adamax_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_16.39858729997917
+t_3_id_217_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_131.86460911933725
+t_3_id_218_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_82.61595117769733
+t_3_id_219_Adamax_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_111.32553753097496
+t_3_id_220_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_161.14431410871396
+t_3_id_221_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_181.79933889951963
+t_3_id_222_Adamax_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_128.00533011638703
+t_3_id_223_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_110.68188540102003
+t_3_id_224_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_110.68188540102003
+t_3_id_225_Adamax_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_95.57060236095072
+t_3_id_226_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_82.61595117769733
+t_3_id_227_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_127.54555930482563
+t_3_id_228_Adamax_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_47.26480551007272
+t_3_id_229_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_97.72723421776664
+t_3_id_230_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_71.14848690419767
+t_3_id_231_Adamax_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_182.5666819145419
+t_3_id_232_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_64.12847941387832
+t_3_id_233_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_50.49344284925999
+t_3_id_234_Adamax_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_114.55417487016223
+t_3_id_235_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_82.61595117769733
+t_3_id_236_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_64.12847941387832
+t_3_id_237_Adamax_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_47.29080332893018
+t_3_id_238_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_47.26480551007272
+t_3_id_239_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_97.72723421776664
+t_3_id_240_Adamax_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_81.5847533473586
+t_3_id_241_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_111.20577788359347
+t_3_id_242_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_95.57060236095072
+t_3_id_243_Adamax_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_110.68188696805251
+t_3_id_244_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_110.76893780906262
+t_3_id_245_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_97.72723421776664
+t_3_id_246_Adamax_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_113.48216938779088
+t_3_id_247_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_37.05361209078484
+t_3_id_248_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_115.19896324618549
+t_3_id_249_Adamax_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_81.9722990477424
+t_3_id_250_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_183.25971278947378
+t_3_id_251_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_97.72723421776664
+t_3_id_252_Adamax_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_195.8828217879497
+t_3_id_253_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_125.24362406614058
+t_3_id_254_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_97.72723421776664
+t_3_id_255_Adamax_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_69.07097788319336
+t_3_id_256_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_124.16042906684686
+t_3_id_257_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_193.76292318254377
+t_3_id_258_Adamax_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_114.59090812157224
+t_3_id_259_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_63.31698285108334
+t_3_id_260_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_94.92695023099579
+t_3_id_261_Adamax_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_82.92817060469632
+t_3_id_262_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_176.89924927873818
+t_3_id_263_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_52.16489513085415
+t_3_id_264_Adamax_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_110.68188540102003
+t_3_id_265_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_95.57060236095072
+t_3_id_266_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_97.72723421776664
+t_3_id_267_Adamax_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_203.21123456542665
+t_3_id_268_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_61.82654417519328
+t_3_id_269_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_205.7147268179683
+t_3_id_270_Adamax_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_178.35962316869234
+t_3_id_271_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_178.73386702044832
+t_3_id_272_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_97.72723421776664
+t_3_id_273_Adamax_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_143.11661315645634
+t_3_id_274_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_64.12847941387832
+t_3_id_275_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_111.20577788359347
+t_3_id_276_Adamax_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_116.69040395061985
+t_3_id_277_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_127.54555930482563
+t_3_id_278_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_110.68188540102003
+t_3_id_279_Adamax_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_32.15352247000341
+t_3_id_280_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_176.89924927873818
+t_3_id_281_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_31.50987034004848
+t_3_id_282_Adamax_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_104.96023222275905
+t_3_id_283_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_98.68310577472054
+t_3_id_284_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_47.26480551007272
+t_3_id_285_Adamax_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_57.64955021527962
+t_3_id_286_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_32.15352247000341
+t_3_id_287_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_48.42660166537625
+t_3_id_288_Adamax_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_140.99855923616482
+t_3_id_289_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.05: max_reward_51.13709497921492
+t_3_id_290_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.1: max_reward_81.9722990477424
+t_3_id_291_Adadelta_lr_0.001_df_0.9_ts_50_ur_10_eg_0.2: max_reward_89.71531961392115
+t_3_id_292_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.05: max_reward_48.72517940002692
+t_3_id_293_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.1: max_reward_57.94669247812523
+t_3_id_294_Adadelta_lr_0.001_df_0.9_ts_50_ur_20_eg_0.2: max_reward_46.38415528628228
+t_3_id_295_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_296_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.1: max_reward_77.58147934521752
+t_3_id_297_Adadelta_lr_0.001_df_0.9_ts_100_ur_10_eg_0.2: max_reward_54.58959256558566
+t_3_id_298_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.05: max_reward_113.48216938779088
+t_3_id_299_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.1: max_reward_51.75434575109962
+t_3_id_300_Adadelta_lr_0.001_df_0.9_ts_100_ur_20_eg_0.2: max_reward_47.26480551007272
+t_3_id_301_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.05: max_reward_-551.5562143165471
+t_3_id_302_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.1: max_reward_33.864863000255696
+t_3_id_303_Adadelta_lr_0.001_df_0.95_ts_50_ur_10_eg_0.2: max_reward_80.81011668440479
+t_3_id_304_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.05: max_reward_85.13412673407166
+t_3_id_305_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.1: max_reward_119.1496020235946
+t_3_id_306_Adadelta_lr_0.001_df_0.95_ts_50_ur_20_eg_0.2: max_reward_15.75493517002424
+t_3_id_307_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.05: max_reward_16.39858729997917
+t_3_id_308_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.1: max_reward_31.50987034004848
+t_3_id_309_Adadelta_lr_0.001_df_0.95_ts_100_ur_10_eg_0.2: max_reward_58.12024219701175
+t_3_id_310_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.05: max_reward_48.72517940002692
+t_3_id_311_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.1: max_reward_47.351857918115314
+t_3_id_312_Adadelta_lr_0.001_df_0.95_ts_100_ur_20_eg_0.2: max_reward_47.26480551007272
+t_3_id_313_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_314_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.1: max_reward_52.16489513085415
+t_3_id_315_Adadelta_lr_0.001_df_0.99_ts_50_ur_10_eg_0.2: max_reward_-58.81232183966567
+t_3_id_316_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.05: max_reward_36.98006773687507
+t_3_id_317_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.1: max_reward_57.10000740736335
+t_3_id_318_Adadelta_lr_0.001_df_0.99_ts_50_ur_20_eg_0.2: max_reward_93.29783657871735
+t_3_id_319_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.05: max_reward_-906.7522687218335
+t_3_id_320_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.1: max_reward_57.946690911092745
+t_3_id_321_Adadelta_lr_0.001_df_0.99_ts_100_ur_10_eg_0.2: max_reward_47.26480551007272
+t_3_id_322_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.05: max_reward_55.67029940689534
+t_3_id_323_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.1: max_reward_113.48216938779088
+t_3_id_324_Adadelta_lr_0.001_df_0.99_ts_100_ur_20_eg_0.2: max_reward_55.163539921016294
+t_3_id_325_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.05: max_reward_107.55913924778523
+t_3_id_326_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.1: max_reward_86.4618392887693
+t_3_id_327_Adadelta_lr_0.05_df_0.9_ts_50_ur_10_eg_0.2: max_reward_96.65273206054519
+t_3_id_328_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.05: max_reward_32.15352247000341
+t_3_id_329_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.1: max_reward_82.61595117769733
+t_3_id_330_Adadelta_lr_0.05_df_0.9_ts_50_ur_20_eg_0.2: max_reward_108.11197892297353
+t_3_id_331_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.05: max_reward_77.58147934521752
+t_3_id_332_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.1: max_reward_47.29080332893018
+t_3_id_333_Adadelta_lr_0.05_df_0.9_ts_100_ur_10_eg_0.2: max_reward_98.37088634772157
+t_3_id_334_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.05: max_reward_81.9722990477424
+t_3_id_335_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.1: max_reward_143.30049447484987
+t_3_id_336_Adadelta_lr_0.05_df_0.9_ts_100_ur_20_eg_0.2: max_reward_82.61595117769733
+t_3_id_337_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.05: max_reward_97.72723421776664
+t_3_id_338_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.1: max_reward_47.26480551007272
+t_3_id_339_Adadelta_lr_0.05_df_0.95_ts_50_ur_10_eg_0.2: max_reward_45.63206613583024
+t_3_id_340_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.05: max_reward_95.57060236095072
+t_3_id_341_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.1: max_reward_108.40911961878666
+t_3_id_342_Adadelta_lr_0.05_df_0.95_ts_50_ur_20_eg_0.2: max_reward_176.89924927873818
+t_3_id_343_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.05: max_reward_100.95587155695391
+t_3_id_344_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.1: max_reward_51.13709497921492
+t_3_id_345_Adadelta_lr_0.05_df_0.95_ts_100_ur_10_eg_0.2: max_reward_112.93262657987461
+t_3_id_346_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.05: max_reward_135.2092189250999
+t_3_id_347_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.1: max_reward_32.15352247000341
+t_3_id_348_Adadelta_lr_0.05_df_0.95_ts_100_ur_20_eg_0.2: max_reward_47.531982895123235
+t_3_id_349_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.05: max_reward_71.42772273490363
+t_3_id_350_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.1: max_reward_161.14431410871396
+t_3_id_351_Adadelta_lr_0.05_df_0.99_ts_50_ur_10_eg_0.2: max_reward_102.21677445879354
+t_3_id_352_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.05: max_reward_162.31566516618045
+t_3_id_353_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.1: max_reward_80.97252047682383
+t_3_id_354_Adadelta_lr_0.05_df_0.99_ts_50_ur_20_eg_0.2: max_reward_77.75173533089698
+t_3_id_355_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.05: max_reward_32.15352247000341
+t_3_id_356_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.1: max_reward_47.26480551007272
+t_3_id_357_Adadelta_lr_0.05_df_0.99_ts_100_ur_10_eg_0.2: max_reward_44.98841400587531
+t_3_id_358_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.05: max_reward_97.72723421776664
+t_3_id_359_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.1: max_reward_66.33543042732683
+t_3_id_360_Adadelta_lr_0.05_df_0.99_ts_100_ur_20_eg_0.2: max_reward_77.58147934521752
+t_3_id_361_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.05: max_reward_52.43658643073378
+t_3_id_362_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.1: max_reward_48.72517940002692
+t_3_id_363_Adadelta_lr_0.01_df_0.9_ts_50_ur_10_eg_0.2: max_reward_41.75470102971376
+t_3_id_364_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.05: max_reward_57.09671054009131
+t_3_id_365_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.1: max_reward_53.8010229871841
+t_3_id_366_Adadelta_lr_0.01_df_0.9_ts_50_ur_20_eg_0.2: max_reward_65.20177319208139
+t_3_id_367_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.05: max_reward_115.17142564204693
+t_3_id_368_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.1: max_reward_31.50987034004848
+t_3_id_369_Adadelta_lr_0.01_df_0.9_ts_100_ur_10_eg_0.2: max_reward_57.09671054009131
+t_3_id_370_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.05: max_reward_51.13709497921492
+t_3_id_371_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.1: max_reward_32.15352247000341
+t_3_id_372_Adadelta_lr_0.01_df_0.9_ts_100_ur_20_eg_0.2: max_reward_47.26480551007272
+t_3_id_373_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_374_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.1: max_reward_67.91983030087839
+t_3_id_375_Adadelta_lr_0.01_df_0.95_ts_50_ur_10_eg_0.2: max_reward_48.72517940002692
+t_3_id_376_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.05: max_reward_61.82654417519328
+t_3_id_377_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.1: max_reward_50.49344284925999
+t_3_id_378_Adadelta_lr_0.01_df_0.95_ts_50_ur_20_eg_0.2: max_reward_47.26480551007272
+t_3_id_379_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_380_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.1: max_reward_53.27332405967255
+t_3_id_381_Adadelta_lr_0.01_df_0.95_ts_100_ur_10_eg_0.2: max_reward_47.26480551007272
+t_3_id_382_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.05: max_reward_52.80854726080908
+t_3_id_383_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.1: max_reward_107.97206490743191
+t_3_id_384_Adadelta_lr_0.01_df_0.95_ts_100_ur_20_eg_0.2: max_reward_61.613807649388775
+t_3_id_385_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.05: max_reward_-21.2253241498788
+t_3_id_386_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.1: max_reward_67.91983030087839
+t_3_id_387_Adadelta_lr_0.01_df_0.99_ts_50_ur_10_eg_0.2: max_reward_47.2648070771052
+t_3_id_388_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.05: max_reward_95.57060236095072
+t_3_id_389_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.1: max_reward_31.50987034004848
+t_3_id_390_Adadelta_lr_0.01_df_0.99_ts_50_ur_20_eg_0.2: max_reward_47.26480551007272
+t_3_id_391_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.05: max_reward_82.61595117769733
+t_3_id_392_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.1: max_reward_77.58147934521752
+t_3_id_393_Adadelta_lr_0.01_df_0.99_ts_100_ur_10_eg_0.2: max_reward_35.38215980919068
+t_3_id_394_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.05: max_reward_96.56505185442903
+t_3_id_395_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.1: max_reward_47.26480551007272
+t_3_id_396_Adadelta_lr_0.01_df_0.99_ts_100_ur_20_eg_0.2: max_reward_31.50987034004848
+t_3_id_397_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.05: max_reward_72.21128888040018
+t_3_id_398_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.1: max_reward_32.15352247000341
+t_3_id_399_Adadelta_lr_0.1_df_0.9_ts_50_ur_10_eg_0.2: max_reward_110.68188540102003
+t_3_id_400_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.05: max_reward_110.68188540102003
+t_3_id_401_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.1: max_reward_131.3369101918257
+t_3_id_402_Adadelta_lr_0.1_df_0.9_ts_50_ur_20_eg_0.2: max_reward_52.93223814587644
+t_3_id_403_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_404_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.1: max_reward_100.51310083026576
+t_3_id_405_Adadelta_lr_0.1_df_0.9_ts_100_ur_10_eg_0.2: max_reward_46.71526113512397
+t_3_id_406_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.05: max_reward_178.55966677930974
+t_3_id_407_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.1: max_reward_62.49574003963585
+t_3_id_408_Adadelta_lr_0.1_df_0.9_ts_100_ur_20_eg_0.2: max_reward_114.59090812157224
+t_3_id_409_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.05: max_reward_130.54420409498778
+t_3_id_410_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.1: max_reward_83.67363781119843
+t_3_id_411_Adadelta_lr_0.1_df_0.95_ts_50_ur_10_eg_0.2: max_reward_139.22151049022918
+t_3_id_412_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.05: max_reward_26.8966460906059
+t_3_id_413_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.1: max_reward_68.64555725904378
+t_3_id_414_Adadelta_lr_0.1_df_0.95_ts_50_ur_20_eg_0.2: max_reward_121.22788457214361
+t_3_id_415_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.05: max_reward_47.26480551007272
+t_3_id_416_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.1: max_reward_31.50987034004848
+t_3_id_417_Adadelta_lr_0.1_df_0.95_ts_100_ur_10_eg_0.2: max_reward_97.72723421776664
+t_3_id_418_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.05: max_reward_64.77213154383325
+t_3_id_419_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.1: max_reward_82.61595117769733
+t_3_id_420_Adadelta_lr_0.1_df_0.95_ts_100_ur_20_eg_0.2: max_reward_33.864863000255696
+t_3_id_421_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.05: max_reward_58.601796050269485
+t_3_id_422_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.1: max_reward_83.75570405304477
+t_3_id_423_Adadelta_lr_0.1_df_0.99_ts_50_ur_10_eg_0.2: max_reward_100.08222687797385
+t_3_id_424_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.05: max_reward_123.08334794750122
+t_3_id_425_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.1: max_reward_47.26480551007272
+t_3_id_426_Adadelta_lr_0.1_df_0.99_ts_50_ur_20_eg_0.2: max_reward_156.07126433970973
+t_3_id_427_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.05: max_reward_97.72723421776664
+t_3_id_428_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.1: max_reward_44.98841400587531
+t_3_id_429_Adadelta_lr_0.1_df_0.99_ts_100_ur_10_eg_0.2: max_reward_112.38322416447606
+t_3_id_430_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.05: max_reward_58.5673228332391
+t_3_id_431_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.1: max_reward_64.21553182192092
+t_3_id_432_Adadelta_lr_0.1_df_0.99_ts_100_ur_20_eg_0.2: max_reward_61.271048103411104
