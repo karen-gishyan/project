@@ -319,59 +319,104 @@ def evaluate():
 
 
 def compare_results():
-    """
-    1. Report top 10 parameters with maximum rewards with and without transfer learning.
-    2. Average, min, max and std of rewards collected per time-stage for training with transfer.
-    3. Average, min, max and std of rewards collected per time-stage for training without transfer.
-    4. Report biggest changes in rewards with and without transfer, e.g
-       without transfer    with transfer
-       t1   t2   t3         t1    t2    t3
-       10   20   25         12    30    20
+    def compare_within_t(file_obj_1,file_obj_2):
+        """ Compare results with and without transfer learning for each timestep."""
 
-       (20-10)<(30-12) reportable (maximum among such instances)
-       (25-20)>(20-30) not reportable
-    5. 3 figures without transfer and 3 figures with transfer for the same set of parameters.
-    """
+        res=json.load(file_obj_1)
+        max_rewards=np.array([d['max_reward'] for d in res])
+        nt_res=json.load(file_obj_2)
+        nt_max_rewards=np.array([d['max_reward'] for d in nt_res])
+        diff=np.subtract(max_rewards,nt_max_rewards)
+        p_diff=diff[diff>0]
+        np_diff=diff[diff<0]
+        print("Maximum reward with transfer learning: {}".format(max(max_rewards)))
+        print("Maximum reward without transfer learning: {}".format(max(nt_max_rewards)))
+        print("Average reward with transfer learning: {}".format(np.mean(max_rewards)))
+        print("Average reward without transfer learning: {}\n".format(np.mean(nt_max_rewards)))
+        print("Number of times transfer learning has improved the results within each time-frame out of total: {}/{}".format(len(p_diff),len(diff)))
+        print("Maximum improvement by transfer learning within time-stage: {}".format(max(p_diff)))
+        print("Maximum impairment by transfer learning within time-stage: {} \n".format(min(np_diff)))
+
+    def compare_across_t(file_obj_1,file_obj_2):
+        """ Compare result across time-frames with transfer learning first, then without."""
+        res_t=json.load(file_obj_1)
+        res_t_next=json.load(file_obj_2)
+        res_t_max_rewards=np.array([d['max_reward'] for d in res_t])
+        res_t_next_max_rewards=np.array([d['max_reward'] for d in res_t_next])
+        diff=np.subtract(res_t_max_rewards,res_t_next_max_rewards)
+        p_diff=diff[diff>0]
+        np_diff=diff[diff<0]
+        print("Maximum improvement: {}".format(max(p_diff)))
+        print("Average improvement: {}".format(np.mean(p_diff)))
+        print("Maximum impairment: {} \n".format(min(np_diff)))
+
+    print('Within time-stage.')
+    with open("results_t2.json") as file1, open("no_transfer_results_t2.json") as file2:
+        print('Stage 2 results with and without transfer.')
+        compare_within_t(file1,file2)
+
+    with open("results_t3.json") as file1, open("no_transfer_results_t3.json") as file2:
+        print('Stage 3 results with and without transfer.')
+        compare_within_t(file1,file2)
+
+    print('Across time-stage.')
+    with open("results_t1.json") as file1, open("results_t2.json") as file2:
+        print('Stage 1-> 2 results with transfer.')
+        compare_across_t(file1,file2)
+
+    with open("no_transfer_results_t1.json") as file1, open("no_transfer_results_t2.json") as file2:
+        print('Stage 1-> 2 results without transfer.')
+        compare_across_t(file1,file2)
+
+    with open("results_t2.json") as file1, open("results_t3.json") as file2:
+        print('Stage 2-> 3 results with transfer.')
+        compare_across_t(file1,file2)
+
+    with open("no_transfer_results_t2.json") as file1, open("no_transfer_results_t3.json") as file2:
+        print('Stage 2-> 3 results without transfer.')
+        compare_across_t(file1,file2)
+
 
 if __name__=="__main__":
-    optimizers=[torch.optim.Adam,torch.optim.Adamax,torch.optim.Adadelta]
-    lrs=[0.001,0.05,0.01,0.1]
-    discount_factors=[0.9,0.95,0.99]
-    max_time_steps=[50,100]
-    update_rates=[10,20]
-    epsilon_greedy_rates=[0.05,0.1,0.2]
+    compare_results()
+    # optimizers=[torch.optim.Adam,torch.optim.Adamax,torch.optim.Adadelta]
+    # lrs=[0.001,0.05,0.01,0.1]
+    # discount_factors=[0.9,0.95,0.99]
+    # max_time_steps=[50,100]
+    # update_rates=[10,20]
+    # epsilon_greedy_rates=[0.05,0.1,0.2]
 
-    #NOTE weight initialization using random.seed() matters depending how many models are initialized.
-    for t in [1,2,3]:
-        results=[]
-        count=1
-        for optimizer in optimizers:
-            for lr in lrs:
-                for discount_factor in discount_factors:
-                    for max_time_step in max_time_steps:
-                        for update_rate in update_rates:
-                            for epsilon_greedy in epsilon_greedy_rates:
-                                max_reward=train(time_period=t,optimizer=optimizer,
-                                      lr=lr,
-                                      discount_factor=discount_factor,
-                                      max_time_step=max_time_step,
-                                      update_rate=update_rate,
-                                      epsilon_greedy=epsilon_greedy,count=count)
-                                logger.info(f"t_{t}_id_{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_"
-                                            f"ur_{update_rate}_eg_{epsilon_greedy}: max_reward_{max_reward}")
-                                parameter_dict={
-                                    'transfer':False,
-                                    'time_period':t,
-                                    'id':count,
-                                    'optimizer':optimizer.__name__,
-                                    'learning_rate':lr,
-                                    'discount_factor':discount_factor,
-                                    'max_time_step':max_time_step,
-                                    'update_rate':update_rate,
-                                    'epsilon_greedy':epsilon_greedy,
-                                    'max_reward':max_reward
-                                    }
-                                results.append(parameter_dict)
-                                count+=1
-        with open(f'no_transfer_results_t{t}.json','w') as file:
-            json.dump(results,file,indent=4)
+    # #NOTE weight initialization using random.seed() matters depending how many models are initialized.
+    # for t in [1,2,3]:
+    #     results=[]
+    #     count=1
+    #     for optimizer in optimizers:
+    #         for lr in lrs:
+    #             for discount_factor in discount_factors:
+    #                 for max_time_step in max_time_steps:
+    #                     for update_rate in update_rates:
+    #                         for epsilon_greedy in epsilon_greedy_rates:
+    #                             max_reward=train(time_period=t,optimizer=optimizer,
+    #                                   lr=lr,
+    #                                   discount_factor=discount_factor,
+    #                                   max_time_step=max_time_step,
+    #                                   update_rate=update_rate,
+    #                                   epsilon_greedy=epsilon_greedy,count=count)
+    #                             logger.info(f"t_{t}_id_{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_"
+    #                                         f"ur_{update_rate}_eg_{epsilon_greedy}: max_reward_{max_reward}")
+    #                             parameter_dict={
+    #                                 'transfer':False,
+    #                                 'time_period':t,
+    #                                 'id':count,
+    #                                 'optimizer':optimizer.__name__,
+    #                                 'learning_rate':lr,
+    #                                 'discount_factor':discount_factor,
+    #                                 'max_time_step':max_time_step,
+    #                                 'update_rate':update_rate,
+    #                                 'epsilon_greedy':epsilon_greedy,
+    #                                 'max_reward':max_reward
+    #                                 }
+    #                             results.append(parameter_dict)
+    #                             count+=1
+    #     with open(f'no_transfer_results_t{t}.json','w') as file:
+    #         json.dump(results,file,indent=4)
