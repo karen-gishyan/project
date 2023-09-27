@@ -138,11 +138,11 @@ class QNetwork(nn.Module):
 class Agent(object):
     def __init__(self, state_dim, action_dim,env,transfer=False,
                  double_optimization=False,optimizer=torch.optim.Adam,lr=0.01,discount_factor=0.99,count=None):
-        self.time_petiod=env.state_space.time_period
+        self.time_period=env.state_space.time_period
         self.double_optimization=double_optimization
         self.count=count
-        if self.time_petiod!=1 and transfer:
-            self.qnet=self.load_pretrained(h_layer_dim=16,action_dim=action_dim,time_period=self.time_petiod)
+        if self.time_period!=1 and transfer:
+            self.qnet=self.load_pretrained(h_layer_dim=16,action_dim=action_dim,time_period=self.time_period)
         else:
             self.qnet = QNetwork(state_dim, action_dim, 16)
         self.qnet_target = copy.deepcopy(self.qnet)
@@ -153,9 +153,9 @@ class Agent(object):
         self.env=env
         self.replay_buffer = []
         if self.double_optimization:
-            if self.time_petiod!=1 and transfer:
+            if self.time_period!=1 and transfer:
                 # layer dimensions are hard-coded
-                self.dlnet=self.load_pretrained_dl(h_layer_dim=16,output_dim=1,time_period=self.time_petiod)
+                self.dlnet=self.load_pretrained_dl(h_layer_dim=16,output_dim=1,time_period=self.time_period)
             else:
                 self.dlnet=DischareLocationNetwork(state_dim,1,16)
             self.dlnet_target=copy.deepcopy(self.dlnet)
@@ -167,7 +167,7 @@ class Agent(object):
         https://harinramesh.medium.com/transfer-learning-in-pytorch-f7736598b1ed.
         """
         # load the pretrained model from the previous stage
-        path=f"results/{time_period-1}/{self.count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
+        path=f"no_transfer_results/{time_period-1}/{self.count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
         model=torch.load(f'weights/{path}_model{time_period-1}.pt')
         for param in model.parameters():
             param.requires_grad=False
@@ -261,7 +261,7 @@ def train(time_period=1,**kwargs):
     env=MimicEnv(time_period)
     action_dim=len(env.action_space.mdp.graph.nodes)
     # I think action dim 16 is correct, including staying in the same state
-    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=True, double_optimization=False,
+    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=False, double_optimization=False,
                   optimizer=optimizer,lr=lr,discount_factor=discount_factor,count=count)
     number_of_episodes =300
 
@@ -296,7 +296,7 @@ def train(time_period=1,**kwargs):
         agent.update(update_rate)
         env.visited_states=set()
 
-    path=f"results/{time_period}/{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
+    path=f"no_transfer_results/{time_period}/{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
     if time_period==1:
         torch.save(agent.qnet,f"weights/{path}_model1.pt")
     elif time_period==2:
@@ -305,9 +305,33 @@ def train(time_period=1,**kwargs):
     plt.clf()
     plt.plot(episode_rewards)
     plt.ylim(-10000,1000)
+    # plt.show()
     plt.savefig(f"{path}.png")
     return max(episode_rewards)
 
+def evaluate():
+    """
+    1. Iterate over states as for mdp.
+    2. Supply features to the trained dqn model to predict next state.
+    3. Supply next state features to the trained dl model to predict discharge output (if run with 2 networks).
+    4. Terminate based on self loops or discharge output.
+    """
+
+
+def compare_results():
+    """
+    1. Report top 10 parameters with maximum rewards with and without transfer learning.
+    2. Average, min, max and std of rewards collected per time-stage for training with transfer.
+    3. Average, min, max and std of rewards collected per time-stage for training without transfer.
+    4. Report biggest changes in rewards with and without transfer, e.g
+       without transfer    with transfer
+       t1   t2   t3         t1    t2    t3
+       10   20   25         12    30    20
+
+       (20-10)<(30-12) reportable (maximum among such instances)
+       (25-20)>(20-30) not reportable
+    5. 3 figures without transfer and 3 figures with transfer for the same set of parameters.
+    """
 
 if __name__=="__main__":
     optimizers=[torch.optim.Adam,torch.optim.Adamax,torch.optim.Adadelta]
@@ -317,6 +341,7 @@ if __name__=="__main__":
     update_rates=[10,20]
     epsilon_greedy_rates=[0.05,0.1,0.2]
 
+    #NOTE weight initialization using random.seed() matters depending how many models are initialized.
     for t in [1,2,3]:
         results=[]
         count=1
@@ -335,7 +360,7 @@ if __name__=="__main__":
                                 logger.info(f"t_{t}_id_{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_"
                                             f"ur_{update_rate}_eg_{epsilon_greedy}: max_reward_{max_reward}")
                                 parameter_dict={
-                                    'transfer':True,
+                                    'transfer':False,
                                     'time_period':t,
                                     'id':count,
                                     'optimizer':optimizer.__name__,
@@ -348,8 +373,5 @@ if __name__=="__main__":
                                     }
                                 results.append(parameter_dict)
                                 count+=1
-        with open(f'results_t{t}.json','w') as file:
+        with open(f'no_transfer_results_t{t}.json','w') as file:
             json.dump(results,file,indent=4)
-
-
-#https://github.com/pytorchbearer/torchbearer/blob/0.3.0/docs/examples/svm_linear.rst
