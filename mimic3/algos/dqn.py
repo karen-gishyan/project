@@ -1,15 +1,15 @@
 import json
 from gymnasium import Env, Space
 import torch.nn as nn
+from torch.optim import Adam, Adadelta
 import numpy as np
 import random
 from model import MDP
 import torch
 import torch.nn.functional as F
-import matplotlib.pyplot as plt
 import copy
 import os
-
+from utils import Evaluation
 
 from helpers import configure_logger
 logger=configure_logger(default=False,path=os.path.dirname(__file__))
@@ -137,16 +137,15 @@ class QNetwork(nn.Module):
 
 class Agent(object):
     def __init__(self, state_dim, action_dim,env,transfer=False,
-                 double_optimization=False,optimizer=torch.optim.Adam,lr=0.01,discount_factor=0.99,count=None):
+                 double_optimization=False,optimizer=torch.optim.Adam,lr=0.01,discount_factor=0.99):
         self.time_period=env.state_space.time_period
         self.double_optimization=double_optimization
-        self.count=count
         if self.time_period!=1 and transfer:
             self.qnet=self.load_pretrained(h_layer_dim=16,action_dim=action_dim,time_period=self.time_period)
         else:
             self.qnet = QNetwork(state_dim, action_dim, 16)
         self.qnet_target = copy.deepcopy(self.qnet)
-        self.optimizer = optimizer(self.qnet.parameters(), lr=lr)
+        self.optimizer = eval(optimizer)(self.qnet.parameters(), lr=lr)
         self.discount_factor = discount_factor
         self.tau = 0.95
         self.loss_function = nn.MSELoss()
@@ -250,19 +249,20 @@ def sample_from_buffer(buffer,size):
     return states, next_states,actions, rewards, terminals
 
 def train(time_period=1,**kwargs):
-    optimizer=kwargs.get('optimizer')
-    lr=kwargs.get('lr')
-    discount_factor=kwargs.get('discount_factor')
-    max_time_step=kwargs.get('max_time_step')
-    update_rate=kwargs.get('update_rate')
-    epsilon_greedy=kwargs.get('epsilon_greedy')
-    count=kwargs.get('count')
+    optimizer=kwargs.get("OPTIMIZER")
+    lr=kwargs.get("LEARNING_RATE")
+    discount_factor=kwargs.get("DISCOUNT_FACTOR")
+    max_time_step=kwargs.get("MAX_TIME_STEP")
+    update_rate=kwargs.get("UPDATE_RATE")
+    epsilon_greedy=kwargs.get("EPSILON_GREEDY_RATE")
+    transfer=kwargs.get("TRANSFER")
+    time_period=kwargs.get('TIME_PERIOD')
 
     env=MimicEnv(time_period)
     action_dim=len(env.action_space.mdp.graph.nodes)
     # I think action dim 16 is correct, including staying in the same state
-    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=False, double_optimization=False,
-                  optimizer=optimizer,lr=lr,discount_factor=discount_factor,count=count)
+    agent = Agent(state_dim=10, action_dim=action_dim,env=env,transfer=transfer, double_optimization=False,
+                  optimizer=optimizer,lr=lr,discount_factor=discount_factor)
     number_of_episodes =300
 
     episode_rewards=[]
@@ -296,127 +296,21 @@ def train(time_period=1,**kwargs):
         agent.update(update_rate)
         env.visited_states=set()
 
-    path=f"no_transfer_results/{time_period}/{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_ur_{update_rate}_eg_{epsilon_greedy}"
-    if time_period==1:
-        torch.save(agent.qnet,f"weights/{path}_model1.pt")
-    elif time_period==2:
-        torch.save(agent.qnet,f"weights/{path}_model2.pt")
-
-    plt.clf()
-    plt.plot(episode_rewards)
-    plt.ylim(-10000,1000)
-    # plt.show()
-    plt.savefig(f"{path}.png")
-    return max(episode_rewards)
+    return episode_rewards, agent.qnet
 
 def evaluate():
     """
-    1. Iterate over states as for mdp.
-    2. Supply features to the trained dqn model to predict next state.
-    3. Supply next state features to the trained dl model to predict discharge output (if run with 2 networks).
-    4. Terminate based on self loops or discharge output.
+    0. Limit the number of iterations (around 50).
+    1. Add goal state to the next stages' networks as start state, for t=2 and t=3 networks, reset to this state for t=2 and t=3.
+    2. For the very last iteration, derive a policy similar to how it is done in model.py.
+    3. Experiment with and without env.visited_states=set().
+    4. Evaluate similar to model.py's evaluation.
+       4.1, If create-states-base->terminate only with self loops.
+       4.2, If create-states->terminate with self loops and discharge_probability.
+       4.3, If create states-base and two networks->terminate with self loops and discharge location probability.
+    5. After finishing above 4 steps, run transfer learning experiment.
     """
 
-
-def compare_results():
-    def compare_within_t(file_obj_1,file_obj_2):
-        """ Compare results with and without transfer learning for each timestep."""
-
-        res=json.load(file_obj_1)
-        max_rewards=np.array([d['max_reward'] for d in res])
-        nt_res=json.load(file_obj_2)
-        nt_max_rewards=np.array([d['max_reward'] for d in nt_res])
-        diff=np.subtract(max_rewards,nt_max_rewards)
-        p_diff=diff[diff>0]
-        np_diff=diff[diff<0]
-        print("Maximum reward with transfer learning: {}".format(max(max_rewards)))
-        print("Maximum reward without transfer learning: {}".format(max(nt_max_rewards)))
-        print("Average reward with transfer learning: {}".format(np.mean(max_rewards)))
-        print("Average reward without transfer learning: {}\n".format(np.mean(nt_max_rewards)))
-        print("Number of times transfer learning has improved the results within each time-frame out of total: {}/{}".format(len(p_diff),len(diff)))
-        print("Maximum improvement by transfer learning within time-stage: {}".format(max(p_diff)))
-        print("Maximum impairment by transfer learning within time-stage: {} \n".format(min(np_diff)))
-
-    def compare_across_t(file_obj_1,file_obj_2):
-        """ Compare result across time-frames with transfer learning first, then without."""
-        res_t=json.load(file_obj_1)
-        res_t_next=json.load(file_obj_2)
-        res_t_max_rewards=np.array([d['max_reward'] for d in res_t])
-        res_t_next_max_rewards=np.array([d['max_reward'] for d in res_t_next])
-        diff=np.subtract(res_t_max_rewards,res_t_next_max_rewards)
-        p_diff=diff[diff>0]
-        np_diff=diff[diff<0]
-        print("Maximum improvement: {}".format(max(p_diff)))
-        print("Average improvement: {}".format(np.mean(p_diff)))
-        print("Maximum impairment: {} \n".format(min(np_diff)))
-
-    print('Within time-stage.')
-    with open("results_t2.json") as file1, open("no_transfer_results_t2.json") as file2:
-        print('Stage 2 results with and without transfer.')
-        compare_within_t(file1,file2)
-
-    with open("results_t3.json") as file1, open("no_transfer_results_t3.json") as file2:
-        print('Stage 3 results with and without transfer.')
-        compare_within_t(file1,file2)
-
-    print('Across time-stage.')
-    with open("results_t1.json") as file1, open("results_t2.json") as file2:
-        print('Stage 1-> 2 results with transfer.')
-        compare_across_t(file1,file2)
-
-    with open("no_transfer_results_t1.json") as file1, open("no_transfer_results_t2.json") as file2:
-        print('Stage 1-> 2 results without transfer.')
-        compare_across_t(file1,file2)
-
-    with open("results_t2.json") as file1, open("results_t3.json") as file2:
-        print('Stage 2-> 3 results with transfer.')
-        compare_across_t(file1,file2)
-
-    with open("no_transfer_results_t2.json") as file1, open("no_transfer_results_t3.json") as file2:
-        print('Stage 2-> 3 results without transfer.')
-        compare_across_t(file1,file2)
-
-
 if __name__=="__main__":
-    compare_results()
-    # optimizers=[torch.optim.Adam,torch.optim.Adamax,torch.optim.Adadelta]
-    # lrs=[0.001,0.05,0.01,0.1]
-    # discount_factors=[0.9,0.95,0.99]
-    # max_time_steps=[50,100]
-    # update_rates=[10,20]
-    # epsilon_greedy_rates=[0.05,0.1,0.2]
-
-    # #NOTE weight initialization using random.seed() matters depending how many models are initialized.
-    # for t in [1,2,3]:
-    #     results=[]
-    #     count=1
-    #     for optimizer in optimizers:
-    #         for lr in lrs:
-    #             for discount_factor in discount_factors:
-    #                 for max_time_step in max_time_steps:
-    #                     for update_rate in update_rates:
-    #                         for epsilon_greedy in epsilon_greedy_rates:
-    #                             max_reward=train(time_period=t,optimizer=optimizer,
-    #                                   lr=lr,
-    #                                   discount_factor=discount_factor,
-    #                                   max_time_step=max_time_step,
-    #                                   update_rate=update_rate,
-    #                                   epsilon_greedy=epsilon_greedy,count=count)
-    #                             logger.info(f"t_{t}_id_{count}_{optimizer.__name__}_lr_{lr}_df_{discount_factor}_ts_{max_time_step}_"
-    #                                         f"ur_{update_rate}_eg_{epsilon_greedy}: max_reward_{max_reward}")
-    #                             parameter_dict={
-    #                                 'transfer':False,
-    #                                 'time_period':t,
-    #                                 'id':count,
-    #                                 'optimizer':optimizer.__name__,
-    #                                 'learning_rate':lr,
-    #                                 'discount_factor':discount_factor,
-    #                                 'max_time_step':max_time_step,
-    #                                 'update_rate':update_rate,
-    #                                 'epsilon_greedy':epsilon_greedy,
-    #                                 'max_reward':max_reward
-    #                                 }
-    #                             results.append(parameter_dict)
-    #                             count+=1
-    #     with open(f'no_transfer_results_t{t}.json','w') as file:
-    #         json.dump(results,file,indent=4)
+    Evaluation.create_combinations()
+    Evaluation.evaluate_results(train)
