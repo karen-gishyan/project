@@ -1,4 +1,3 @@
-import json
 from gymnasium import Env, Space
 import torch.nn as nn
 from torch.optim import Adam, Adadelta
@@ -296,7 +295,7 @@ class Agent(object):
 
         number_of_episodes = 1
         episode_rewards = []
-        policy_graph = nx.DiGraph()
+        policy_graph = nx.DiGraph(time_period=time_period)
         for episode in range(1, number_of_episodes+1):
             print('episode:', episode)
             reward_sum = 0
@@ -307,8 +306,8 @@ class Agent(object):
                 if episode == number_of_episodes:
                     print(
                         f"state:{state['label']},next_state:{next_state['label']}")
-                    policy_graph.add_edge(
-                        f"{state}_t{time_period}", f"{next_state}_t{time_period}")
+                    policy_graph.add_edge(state['label'], next_state['label'])
+
                 reward_sum += reward
                 self.replay_buffer.append(
                     [state, next_state, action-1, reward, terminal])
@@ -320,21 +319,8 @@ class Agent(object):
             self.update(update_rate)
             self.env.visited_states = set()
 
+        policy_graph.graph['solution'] = terminal
         return episode_rewards, self.qnet, policy_graph, self.env.state_space.mdp.goal_state
-
-
-def evaluate():
-    """
-    0. Limit the number of iterations (around 50).
-    1. Add goal state to the next stages' networks as start state, for t=2 and t=3 networks, reset to this state for t=2 and t=3.
-    2. For the very last iteration, derive a policy similar to how it is done in model.py.
-    3. Experiment with and without env.visited_states=set().
-    4. Evaluate similar to model.py's evaluation.
-       4.1, If create-states-base->terminate only with self loops.
-       4.2, If create-states->terminate with self loops and discharge_probability.
-       4.3, If create states-base and two networks->terminate with self loops and discharge location probability.
-    5. After finishing above 4 steps, run transfer learning experiment.
-    """
 
 
 if __name__ == "__main__":
