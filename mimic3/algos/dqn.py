@@ -1,6 +1,6 @@
 from gymnasium import Env, Space
 import torch.nn as nn
-from torch.optim import Adam, Adadelta
+from django.utils.module_loading import import_string
 import numpy as np
 import random
 from model import MDP
@@ -183,7 +183,7 @@ class Agent(object):
         else:
             self.qnet = QNetwork(state_dim, action_dim, 16)
         self.qnet_target = copy.deepcopy(self.qnet)
-        self.optimizer = eval(optimizer)(self.qnet.parameters(), lr=lr)
+        self.optimizer = import_string(optimizer)(self.qnet.parameters(), lr=lr)
         self.discount_factor = discount_factor
         self.tau = 0.95
         self.loss_function = nn.MSELoss()
