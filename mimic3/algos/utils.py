@@ -80,11 +80,12 @@ class Evaluation:
                     outcome_per_t.append(policy_graph.graph['solution'])
 
                 patient_outcomes.append(all(outcome_per_t))
+                print(f"{patient_id}_patient_id completed.")
 
             results = cls.evaluate_results(patient_outcomes, mdp.model3.output)
             p.update({"RESULTS": results})
             json_results.append(p)
-            break
+            print(f"{i}th completed.\n")
 
         with open(save_path, 'w') as file:
             json.dump(json_results, file, indent=4)

@@ -293,19 +293,19 @@ class Agent(object):
 
     def train(self, time_period, max_time_step, epsilon_greedy, update_rate):
 
-        number_of_episodes = 1
+        number_of_episodes = 200
         episode_rewards = []
         policy_graph = nx.DiGraph(time_period=time_period)
         for episode in range(1, number_of_episodes+1):
-            print('episode:', episode)
+            # print('episode:', episode)
             reward_sum = 0
             state = self.env.reset()
             for _ in range(max_time_step):
                 action = self.epsilon_greedy_action(state, epsilon_greedy)
                 next_state, reward, terminal, _ = self.env.step(action)
                 if episode == number_of_episodes:
-                    print(
-                        f"state:{state['label']},next_state:{next_state['label']}")
+                    # print(
+                    #     f"state:{state['label']},next_state:{next_state['label']}")
                     policy_graph.add_edge(state['label'], next_state['label'])
 
                 reward_sum += reward
@@ -314,7 +314,7 @@ class Agent(object):
                 state = next_state
                 if terminal:
                     break
-            print('sum_of_rewards_for_episode:', reward_sum)
+            # print('sum_of_rewards_for_episode:', reward_sum)
             episode_rewards.append(reward_sum)
             self.update(update_rate)
             self.env.visited_states = set()
