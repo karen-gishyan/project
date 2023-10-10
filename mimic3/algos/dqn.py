@@ -10,9 +10,7 @@ import copy
 import os
 from utils import Evaluation
 import networkx as nx
-
 from helpers import configure_logger
-logger = configure_logger(default=False, path=os.path.dirname(__file__))
 
 
 def set_seed(seed: int = 64) -> None:
@@ -24,10 +22,6 @@ def set_seed(seed: int = 64) -> None:
     np.random.seed(seed)
     random.seed(seed)
     torch.manual_seed(seed)
-
-
-set_seed()
-mdp = MDP('PNEUMONIA')
 
 
 class MimicSpace(Space):
@@ -66,8 +60,8 @@ class MimicSpace(Space):
 
 class MimicEnv(Env):
 
-    def __init__(self, time_period, start_state):
-        mdp = MDP('PNEUMONIA')
+    def __init__(self, time_period, start_state,n_actions_per_state=None):
+        mdp = MDP('PNEUMONIA',n_actions_per_state=n_actions_per_state)
         self.time_period = time_period
         self.start_state = start_state
         self.state_space = MimicSpace(mdp, time_period)
@@ -75,6 +69,11 @@ class MimicEnv(Env):
         if self.time_period != 1:
             self.connect_graph()
         self.state_space.create_actions()
+        str_connected_components = list(
+            nx.strongly_connected_components(self.state_space.mdp.graph))
+        self.n_scc=len(str_connected_components)
+        self.start_state_is_part_of_scc = any(
+            self.start_state or self.start_state['label'] in c for c in str_connected_components)
         self.action_space = self.state_space
         self.observation_space = self.state_space
         self.visited_states = set()
@@ -324,5 +323,9 @@ class Agent(object):
 
 
 if __name__ == "__main__":
+    logger = configure_logger(default=False, path=os.path.dirname(__file__))
+    set_seed()
+    #NOTE it is not good that mdp is iniatialized here as well
+    mdp = MDP('PNEUMONIA')
     Evaluation.create_combinations()
     Evaluation.train_models(mdp, MimicEnv, Agent)
