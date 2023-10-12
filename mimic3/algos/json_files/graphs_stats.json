@@ -1,0 +1,47 @@
+{
+    "t_0": {
+        "is_bipartite": false,
+        "is_strongly_connected": true,
+        "number_strongly_connected_components": 1,
+        "is_weakly_connected": true,
+        "number_weakly_connected_components": 1,
+        "is_semiconnected": true,
+        "average_clustering": 1.0,
+        "is_distance_regular": true,
+        "is_strongly_regular": false,
+        "is_eulerian": true,
+        "is_semieulerian": false,
+        "has_eulerian_path": true,
+        "number_of_isolates": 0
+    },
+    "t_1": {
+        "is_bipartite": false,
+        "is_strongly_connected": true,
+        "number_strongly_connected_components": 1,
+        "is_weakly_connected": true,
+        "number_weakly_connected_components": 1,
+        "is_semiconnected": true,
+        "average_clustering": 1.0,
+        "is_distance_regular": true,
+        "is_strongly_regular": false,
+        "is_eulerian": true,
+        "is_semieulerian": false,
+        "has_eulerian_path": true,
+        "number_of_isolates": 0
+    },
+    "t_2": {
+        "is_bipartite": false,
+        "is_strongly_connected": true,
+        "number_strongly_connected_components": 1,
+        "is_weakly_connected": true,
+        "number_weakly_connected_components": 1,
+        "is_semiconnected": true,
+        "average_clustering": 1.0,
+        "is_distance_regular": true,
+        "is_strongly_regular": false,
+        "is_eulerian": true,
+        "is_semieulerian": false,
+        "has_eulerian_path": true,
+        "number_of_isolates": 0
+    }
+}

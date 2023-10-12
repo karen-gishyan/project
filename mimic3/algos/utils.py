@@ -166,7 +166,7 @@ class Evaluation:
                 # saving figure
                 plt.clf()
                 plt.plot(rewards)
-                plt.ylim(-1000, 1000)
+                plt.ylim(-5000, 1000)
                 plt.savefig(f"{dir_path}/figure_t{t}.png")
                 outcome_per_t.append(policy_graph.graph['solution'])
 

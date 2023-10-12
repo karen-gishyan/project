@@ -3,10 +3,17 @@
         "OPTIMIZER": "torch.optim.Adam",
         "LEARNING_RATE": 0.001,
         "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 50,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.001,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adam",
@@ -14,35 +21,31 @@
         "DISCOUNT_FACTOR": 0.9,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adam",
         "LEARNING_RATE": 0.001,
         "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
+        "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.001,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adam",
         "LEARNING_RATE": 0.001,
         "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 50,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.001,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adam",
@@ -50,170 +53,159 @@
         "DISCOUNT_FACTOR": 0.99,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adam",
         "LEARNING_RATE": 0.001,
         "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
+        "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.1
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adam",
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 50,
+        "UPDATE_RATE": 10,
+        "EPSILON_GREEDY_RATE": 0.2
+    },
+    {
+        "OPTIMIZER": "torch.optim.Adadelta",
         "LEARNING_RATE": 0.001,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
         "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 50,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
+        "OPTIMIZER": "torch.optim.Adadelta",
+        "LEARNING_RATE": 0.001,
         "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 50,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 50,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 50,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 50,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 50,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 50,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 50,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adam",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -221,8 +213,7 @@
         "DISCOUNT_FACTOR": 0.9,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -230,26 +221,23 @@
         "DISCOUNT_FACTOR": 0.9,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
         "LEARNING_RATE": 0.001,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
         "LEARNING_RATE": 0.001,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -257,8 +245,7 @@
         "DISCOUNT_FACTOR": 0.99,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -266,26 +253,23 @@
         "DISCOUNT_FACTOR": 0.99,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
-        "LEARNING_RATE": 0.001,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
-        "LEARNING_RATE": 0.001,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
+        "LEARNING_RATE": 0.01,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -293,8 +277,7 @@
         "DISCOUNT_FACTOR": 0.9,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -302,26 +285,23 @@
         "DISCOUNT_FACTOR": 0.9,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
         "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
         "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -329,8 +309,7 @@
         "DISCOUNT_FACTOR": 0.99,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -338,26 +317,23 @@
         "DISCOUNT_FACTOR": 0.99,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
-        "LEARNING_RATE": 0.01,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
+        "LEARNING_RATE": 0.1,
+        "DISCOUNT_FACTOR": 0.9,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -365,8 +341,7 @@
         "DISCOUNT_FACTOR": 0.9,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -374,26 +349,23 @@
         "DISCOUNT_FACTOR": 0.9,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
         "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
         "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.9,
-        "MAX_TIME_STEP": 100,
+        "DISCOUNT_FACTOR": 0.99,
+        "MAX_TIME_STEP": 25,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -401,8 +373,7 @@
         "DISCOUNT_FACTOR": 0.99,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.1
     },
     {
         "OPTIMIZER": "torch.optim.Adadelta",
@@ -410,25 +381,6 @@
         "DISCOUNT_FACTOR": 0.99,
         "MAX_TIME_STEP": 50,
         "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adadelta",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.1,
-        "TRANSFER": false
-    },
-    {
-        "OPTIMIZER": "torch.optim.Adadelta",
-        "LEARNING_RATE": 0.1,
-        "DISCOUNT_FACTOR": 0.99,
-        "MAX_TIME_STEP": 100,
-        "UPDATE_RATE": 10,
-        "EPSILON_GREEDY_RATE": 0.2,
-        "TRANSFER": false
+        "EPSILON_GREEDY_RATE": 0.2
     }
 ]

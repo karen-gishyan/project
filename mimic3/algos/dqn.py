@@ -196,7 +196,7 @@ class Agent(object):
 
     def train(self, time_period, max_time_step, epsilon_greedy, update_rate):
 
-        number_of_episodes = 200
+        number_of_episodes = 300
         episode_rewards = []
         policy_graph = nx.DiGraph(time_period=time_period)
         for episode in range(1, number_of_episodes+1):
