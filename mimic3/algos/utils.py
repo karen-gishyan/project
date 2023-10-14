@@ -185,6 +185,47 @@ class Evaluation:
     def evaluate_results(cls, target, actual):
         return precision_recall_fscore_support(target, actual[:len(target)], average='binary')
 
+    @classmethod
+    def summary_statistics(cls):
+        """Summary results from training.
+        """
+        with open("json_files/evaluation.json") as file:
+            evalualtions = json.load(file)
+
+        summary = []
+        for i, method in enumerate(evalualtions,1):
+            summary_results = {}
+            t1_rewards, t2_rewards, t3_rewards = [], [], []
+            t1_solutions, t2_solutions, t3_solutions = [], [], []
+            final_solutions=[]
+
+            for _, value in method.items():
+                if isinstance(value, dict):
+                    t1_rewards.append(value['t_1']['MAX_REWARD'])
+                    t2_rewards.append(value['t_2']['MAX_REWARD'])
+                    t3_rewards.append(value['t_3']['MAX_REWARD'])
+
+                    t1_solutions.append(value['t_1']['SOLUTION'])
+                    t2_solutions.append(value['t_2']['SOLUTION'])
+                    t3_solutions.append(value['t_3']['SOLUTION'])
+                    final_solutions.append(value['HAS_FINAL_SOLUTION'])
+
+            summary_results['id']=i
+            summary_results['t1_average_reward'] = sum(t1_rewards)/len(t1_rewards)
+            summary_results['t2_average_reward'] = sum(t2_rewards)/len(t2_rewards)
+            summary_results['t3_average_reward'] = sum(t3_rewards)/len(t3_rewards)
+
+            summary_results['t1_number_of_solutions']=sum(t1_solutions)
+            summary_results['t2_number_of_solutions']=sum(t2_solutions)
+            summary_results['t3_number_of_solutions']=sum(t3_solutions)
+            summary_results['number_of_final_solutions']=sum(final_solutions)
+            summary_results['results']=method['RESULTS']
+
+            summary.append(summary_results)
+
+        with open("json_files/summary.json", 'w') as file:
+            json.dump(summary, file,indent=4)
+
     def __call__(self):
         self.create_combinations()
         self.connect_graphs().create_actions()
