@@ -245,7 +245,7 @@ class StageMDP:
                 next_state=list(out_edge)[0][1]
                 if next_state in policy_mapping[state]:
                     print(f'{i}th:Exiting because of a loop.')
-                    policy_mapping['outcome']=0
+                    policy_mapping['policy_outcome']=0
                     break
                 policy_mapping[state].append(next_state)
                 state_,time_period=next_state.split("_")
@@ -253,7 +253,7 @@ class StageMDP:
                 if mdp.graph.nodes[int(state_)].get('goal'):
                     if mdp.time_period==3:
                         #solution
-                        policy_mapping['outcome']=1
+                        policy_mapping['policy_outcome']=1
                         break
                     #NOTE  if you reach a goal node, get to the second stage
                     # alternative could be not to allow no outgoing edges from the goal state
@@ -261,11 +261,18 @@ class StageMDP:
                     policy_mapping[state].append(current_state)
                     continue
                 current_state=next_state
+            policy_mapping['actual_final_outcome']=self.mdp_t3.model3.output[i-1].item()
             mappings.append(policy_mapping)
 
-        policy_outcomes=np.array([state['outcome'] for state in mappings])
+
+        policy_outcomes=np.array([state['policy_outcome'] for state in mappings])
         actual_outcomes=np.array(self.mdp_t3.model3.output)
-        print(precision_recall_fscore_support(policy_outcomes,actual_outcomes,average='binary'))
+        evaluation=precision_recall_fscore_support(policy_outcomes,actual_outcomes,average='binary')
+        print(evaluation)
+        mappings.append(evaluation)
+
+        with open("json_files/discrete_policies.json",'w') as file:
+            json.dump(mappings,file,indent=4)
 
     def __call__(self):
         self.connect_graphs()

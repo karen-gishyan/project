@@ -1,0 +1,326 @@
+[
+    {
+        "1_t1": [
+            "10_t1",
+            "6_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "2_t1": [
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "3_t1": [
+            "8_t1",
+            "17_t1"
+        ],
+        "policy_outcome": 0,
+        "actual_final_outcome": 0
+    },
+    {
+        "4_t1": [
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 1
+    },
+    {
+        "5_t1": [
+            "21_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "6_t1": [
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 1
+    },
+    {
+        "7_t1": [
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 1
+    },
+    {
+        "8_t1": [
+            "17_t1",
+            "8_t1"
+        ],
+        "policy_outcome": 0,
+        "actual_final_outcome": 0
+    },
+    {
+        "9_t1": [
+            "20_t1",
+            "6_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 1
+    },
+    {
+        "10_t1": [
+            "6_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 1
+    },
+    {
+        "11_t1": [
+            "3_t1",
+            "8_t1",
+            "17_t1"
+        ],
+        "policy_outcome": 0,
+        "actual_final_outcome": 0
+    },
+    {
+        "12_t1": [
+            "6_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "13_t1": [
+            "5_t1",
+            "21_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "14_t1": [
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "15_t1": [
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "16_t1": [
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "17_t1": [
+            "8_t1",
+            "17_t1"
+        ],
+        "policy_outcome": 0,
+        "actual_final_outcome": 0
+    },
+    {
+        "18_t1": [
+            "20_t1",
+            "6_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "19_t1": [
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "20_t1": [
+            "6_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "21_t1": [
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "22_t1": [
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    {
+        "23_t1": [
+            "5_t1",
+            "21_t1",
+            "22_t1",
+            "19_t1",
+            "15_t1",
+            "16_t1",
+            "7_t1",
+            "7_t1_t2",
+            "7_t2",
+            "7_t2_t3",
+            "7_t3"
+        ],
+        "policy_outcome": 1,
+        "actual_final_outcome": 0
+    },
+    [
+        1.0,
+        0.2631578947368421,
+        0.4166666666666667,
+        null
+    ]
+]
