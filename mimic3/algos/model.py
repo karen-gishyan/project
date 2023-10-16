@@ -212,9 +212,11 @@ class MDP:
         return self.policy_graph
 
 
-#NOTE pay special importance to cycles
+#When the model is learning, policy_outcome is mostly 1 (it learns to lead to the target class). It is a
+# a good RL model, but a bad classification model, as there are no zero outcomes.
 class StageMDP:
     def __init__(self):
+        # more actions means more the chance of positive policy_outcome
         self.mdp_t1=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=1)
         self.mdp_t2=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=2)
         self.mdp_t3=MDP(diagnosis="SEPSIS",n_actions_per_state=3).make_models().create_states_base(time_period=3)
