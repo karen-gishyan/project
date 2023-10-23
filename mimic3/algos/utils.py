@@ -2,6 +2,7 @@ import itertools
 import json
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 from collections import defaultdict
 from sklearn.metrics import precision_recall_fscore_support
 from joblib import Parallel, delayed, parallel_backend
@@ -193,11 +194,11 @@ class Evaluation:
             evalualtions = json.load(file)
 
         summary = []
-        for i, method in enumerate(evalualtions,1):
+        for i, method in enumerate(evalualtions, 1):
             summary_results = {}
             t1_rewards, t2_rewards, t3_rewards = [], [], []
             t1_solutions, t2_solutions, t3_solutions = [], [], []
-            final_solutions=[]
+            final_solutions = []
 
             for _, value in method.items():
                 if isinstance(value, dict):
@@ -210,21 +211,78 @@ class Evaluation:
                     t3_solutions.append(value['t_3']['SOLUTION'])
                     final_solutions.append(value['HAS_FINAL_SOLUTION'])
 
-            summary_results['id']=i
-            summary_results['t1_average_reward'] = sum(t1_rewards)/len(t1_rewards)
-            summary_results['t2_average_reward'] = sum(t2_rewards)/len(t2_rewards)
-            summary_results['t3_average_reward'] = sum(t3_rewards)/len(t3_rewards)
+            summary_results['id'] = i
+            summary_results['t1_average_reward'] = sum(
+                t1_rewards)/len(t1_rewards)
+            summary_results['t2_average_reward'] = sum(
+                t2_rewards)/len(t2_rewards)
+            summary_results['t3_average_reward'] = sum(
+                t3_rewards)/len(t3_rewards)
 
-            summary_results['t1_number_of_solutions']=sum(t1_solutions)
-            summary_results['t2_number_of_solutions']=sum(t2_solutions)
-            summary_results['t3_number_of_solutions']=sum(t3_solutions)
-            summary_results['number_of_final_solutions']=sum(final_solutions)
-            summary_results['results']=method['RESULTS']
+            summary_results['t1_number_of_solutions'] = sum(t1_solutions)
+            summary_results['t2_number_of_solutions'] = sum(t2_solutions)
+            summary_results['t3_number_of_solutions'] = sum(t3_solutions)
+            summary_results['number_of_final_solutions'] = sum(final_solutions)
+            summary_results['results'] = method['RESULTS']
 
             summary.append(summary_results)
 
         with open("json_files/summary.json", 'w') as file:
-            json.dump(summary, file,indent=4)
+            json.dump(summary, file, indent=4)
+
+    @classmethod
+    def visualize_summary_statistics(cls):
+        with open("json_files/summary.json") as file:
+            summary = json.load(file)
+
+        vis_summary_dict = defaultdict(list)
+        for dict_ in summary:
+            vis_summary_dict['t_1'].append(dict_['t1_average_reward'])
+            vis_summary_dict['t_2'].append(dict_['t2_average_reward'])
+            vis_summary_dict['t_3'].append(dict_['t3_average_reward'])
+            vis_summary_dict['reward_sum'].append(dict_['t1_average_reward'] +
+                                                  dict_['t2_average_reward'] +
+                                                  dict_['t3_average_reward'])
+            vis_summary_dict['solutions_count'].append(
+                dict_['number_of_final_solutions'])
+
+        # stacked chart for rewards
+        x_axis = list(range(len(summary)))
+        width = 0.5
+        _, ax = plt.subplots()
+        bottom = np.zeros(len(summary))
+
+        for label, average_max_reward in vis_summary_dict.items():
+            if label in ['solutions_count', 'reward_sum']:
+                continue
+            p = ax.bar(x_axis, average_max_reward,
+                       width, label=label, bottom=bottom)
+            bottom += average_max_reward
+
+        y_offset = 30
+        for method, sum_ in enumerate(vis_summary_dict['reward_sum']):
+            ax.text(method, sum_ + y_offset, round(sum_), ha='center', rotation='vertical')
+
+        # increase ylim so as labels fit
+        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
+        ax.set_title("Total reward per method grouped be timestep")
+        ax.set_ylabel('Rewards')
+        ax.set_xlabel('Methods')
+        # move legent outside of box
+        ax.legend(bbox_to_anchor=(1.1, 1), loc="upper right")
+        plt.show()
+
+        # Number of solutions per method
+        _, ax = plt.subplots()
+        ax.bar(x_axis, vis_summary_dict['solutions_count'])
+        for method, count in enumerate(vis_summary_dict['solutions_count']):
+            ax.text(method, count +1, round(count), ha='center')
+
+        ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
+        ax.set_title("Number of solutions per method")
+        ax.set_ylabel('Count')
+        ax.set_xlabel('Methods')
+        plt.show()
 
     def __call__(self):
         self.create_combinations()
