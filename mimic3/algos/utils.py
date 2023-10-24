@@ -265,7 +265,7 @@ class Evaluation:
 
         # increase ylim so as labels fit
         ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
-        ax.set_title("Total reward per method grouped be timestep")
+        ax.set_title("Total reward per method grouped by timestep")
         ax.set_ylabel('Rewards')
         ax.set_xlabel('Methods')
         # move legent outside of box
