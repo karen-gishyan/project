@@ -264,7 +264,7 @@ class Evaluation:
             ax.text(method, sum_ + y_offset, round(sum_), ha='center', rotation='vertical')
 
         # increase ylim so as labels fit
-        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
+        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+400)
         ax.set_title("Total reward per method grouped by timestep")
         ax.set_ylabel('Rewards')
         ax.set_xlabel('Methods')
@@ -276,9 +276,9 @@ class Evaluation:
         _, ax = plt.subplots()
         ax.bar(x_axis, vis_summary_dict['solutions_count'])
         for method, count in enumerate(vis_summary_dict['solutions_count']):
-            ax.text(method, count +1, round(count), ha='center')
+            ax.text(method, count +0.1, round(count), ha='center')
 
-        ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
+        ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+1)
         ax.set_title("Number of solutions per method")
         ax.set_ylabel('Count')
         ax.set_xlabel('Methods')
