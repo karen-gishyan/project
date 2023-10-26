@@ -264,7 +264,7 @@ class Evaluation:
             ax.text(method, sum_ + y_offset, round(sum_), ha='center', rotation='vertical')
 
         # increase ylim so as labels fit
-        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+400)
+        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+300)
         ax.set_title("Total reward per method grouped by timestep")
         ax.set_ylabel('Rewards')
         ax.set_xlabel('Methods')
