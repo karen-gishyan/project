@@ -182,6 +182,67 @@ class Evaluation:
         print(f"{i}th combination completed.\n")
         return p
 
+    def train_rl_classification(self, save_path="json_files/classification_results.json"):
+        with open(self.combinations_path) as file:
+            self.param_list = json.load(file)
+        with parallel_backend("loky"):
+            results = Parallel(n_jobs=5, verbose=10)(delayed(self.subtrain_rl_classification)(i,p)
+                                                     for i, p in enumerate(self.param_list, 1))
+        with open(save_path, 'w') as file:
+            json.dump(results, file, indent=4)
+
+
+    def subtrain_rl_classification(self,i,p):
+        p = defaultdict(lambda: defaultdict(dict), p)
+        patient_outcomes = []
+        n_patients = self.env1.state_space.mdp.graph.number_of_nodes()
+        for patient_id in range(1, n_patients+1):
+            policies = []
+            outcome_per_t = []
+            class_output = self.env3.state_space.mdp.model3.output[patient_id-1].item()
+            for t in [1, 2, 3]:
+                optimizer = p.get("OPTIMIZER")
+                lr = p.get("LEARNING_RATE")
+                discount_factor = p.get("DISCOUNT_FACTOR")
+                max_time_step = p.get("MAX_TIME_STEP")
+                update_rate = p.get("UPDATE_RATE")
+                epsilon_greedy = p.get("EPSILON_GREEDY_RATE")
+                time_period = t
+
+                env = getattr(self, f'env{t}')
+                if t == 1:
+                    env.start_state = env.state_space.mdp.graph.nodes[patient_id]
+
+                agent = self.Agent(state_dim=10, env=env,
+                                   optimizer=optimizer, lr=lr, discount_factor=discount_factor)
+                rewards, network, policy_graph = agent.train(
+                    time_period, max_time_step, epsilon_greedy, update_rate, class_output=class_output)
+
+                p[f"patient_id_{patient_id}"][f"t_{t}"].update(
+                    {"SOLUTION": policy_graph.graph['solution']})
+
+                policies.append(policy_graph)
+                plt.clf()
+                plt.plot(rewards)
+                plt.ylim(-5000, 1000)
+                outcome_per_t.append(policy_graph.graph['solution'])
+
+            final_result = all(outcome_per_t)
+            patient_outcomes.append(final_result)
+            p[f"patient_id_{patient_id}"].update({
+                f"HAS_FINAL_SOLUTION": final_result})
+
+        results = self.evaluate_results(
+            patient_outcomes, self.env3.state_space.mdp.model3.output)
+        p.update({"PRED_OUTCOMES":str(patient_outcomes)})
+        p.update({"OUTCOMES":str(self.env3.state_space.mdp.model3.output)})
+        p.update({"RESULTS": results})
+
+        with open("json_files/classification_results.json",'w') as file:
+            json.dump(p, file, indent=4)
+        print(f"{i}th combination completed.\n")
+        return p
+
     @classmethod
     def evaluate_results(cls, target, actual):
         return precision_recall_fscore_support(target, actual[:len(target)], average='binary')
@@ -261,7 +322,8 @@ class Evaluation:
 
         y_offset = 30
         for method, sum_ in enumerate(vis_summary_dict['reward_sum']):
-            ax.text(method, sum_ + y_offset, round(sum_), ha='center', rotation='vertical')
+            ax.text(method, sum_ + y_offset, round(sum_),
+                    ha='center', rotation='vertical')
 
         # increase ylim so as labels fit
         ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
@@ -276,7 +338,7 @@ class Evaluation:
         _, ax = plt.subplots()
         ax.bar(x_axis, vis_summary_dict['solutions_count'])
         for method, count in enumerate(vis_summary_dict['solutions_count']):
-            ax.text(method, count +1, round(count), ha='center')
+            ax.text(method, count + 1, round(count), ha='center')
 
         ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
         ax.set_title("Number of solutions per method")

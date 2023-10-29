@@ -55,6 +55,12 @@ class MimicSpace(Space):
         return x in states
 
 
+class MimicSpaceClassification(MimicSpace):
+    def __init__(self, mdp: MDP, time_period):
+        self.time_period = time_period
+        self.mdp = mdp.make_models().create_states_for_classification(time_period=time_period)
+
+
 class MimicEnv(Env):
 
     def __init__(self, time_period, n_actions_per_state=None):
@@ -105,6 +111,58 @@ class MimicEnv(Env):
         """
         state = self.state = self.start_state
         return state
+
+
+class MimicEnvClassification(MimicEnv):
+    def __init__(self, time_period, n_actions_per_state=None):
+        mdp = MDP('PNEUMONIA', n_actions_per_state=n_actions_per_state)
+        self.time_period = time_period
+        self.state_space = MimicSpaceClassification(mdp, time_period)
+        self.action_space = self.state_space
+        self.observation_space = self.state_space
+        self.visited_states = set()
+
+    def step(self, action):
+        assert self.action_space.contains(
+            action
+        ), f"{action!r} ({type(action)}) invalid."
+        assert self.state is not None, "Call reset before using step method."
+
+        self.visited_states.add(self.state['label'])
+        next_state_id = None
+        for edge in self.observation_space.mdp.graph.edges:
+            if edge[0] == self.state['label'] and edge[1] == action:
+                next_state_id = edge[1]
+                break
+        if not next_state_id:
+            state_out_edges = list(
+                self.state_space.mdp.graph.out_edges(self.state['label']))
+            next_state_id = random.choice(state_out_edges)[1]
+
+        next_state = self.observation_space.mdp.graph.nodes[next_state_id]
+        if next_state['label'] in self.visited_states:
+            # dynamic reward
+            reward = next_state['reward']-50
+        else:
+            reward = next_state['reward']+50
+
+        terminated = next_state.get('goal', False)
+        if self.time_period==3:
+            try:
+                output=self.state_space.mdp.model3.output[next_state['label']-1].item()
+            except:
+                print(f"Exception on state {next_state['actual_label']},ok")
+            else:
+                if self.class_output==output:
+                    reward=+100
+                    terminated=True
+                else:
+                    reward=-100
+                    terminated=False
+
+        truncated = None
+        self.state = next_state
+        return next_state, reward, terminated, truncated
 
 
 class QNetwork(nn.Module):
@@ -194,8 +252,9 @@ class Agent(object):
         terminals = torch.Tensor(terminals).view(size, -1)
         return states, next_states, actions, rewards, terminals
 
-    def train(self, time_period, max_time_step, epsilon_greedy, update_rate):
+    def train(self, time_period, max_time_step, epsilon_greedy, update_rate,**kwargs):
 
+        self.env.class_output=kwargs.get('class_output')
         number_of_episodes = 300
         episode_rewards = []
         policy_graph = nx.DiGraph(time_period=time_period)

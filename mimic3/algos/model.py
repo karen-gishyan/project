@@ -97,46 +97,39 @@ class MDP:
         return self
 
 
-    def create_states(self,time_period):
-        """Iterate over tensors, each row is a state (node), assign features to nodes.Reward is based on
-        probabilities"""
-
+    def create_states_for_classification(self,time_period):
         self.time_period=time_period
-
-        with open('logit_probabilities.json') as file:
-            probabilities=json.load(file)
-        individual_shape=int(len(probabilities)/3)
-
         if time_period==1:
             data=self.model1.feature_tensors
-            probabilities=probabilities[:individual_shape]
         elif time_period==2:
             data=self.model2.feature_tensors
-            probabilities=probabilities[individual_shape:individual_shape*2]
         else:
             data=self.model3.feature_tensors
-            probabilities=probabilities[individual_shape*2:]
-
-        max_value=max(probabilities)
-        max_index=probabilities.index(max_value)
-        min_value=min(probabilities)
-        min_index=probabilities.index(min_value)
-        rewards=[50-r*100 for r in probabilities]
 
         self.global_target = self.get_global_target()
         self.cosine_sim_scores = {}
         for i, train_x in enumerate(data):
-            self.graph.add_node(i+1, label=i+1,features=train_x, value=0, reward=rewards[i])
+            self.graph.add_node(i+1, label=i+1,features=train_x, value=0, reward=0)
+            score = self.calculate_cosine_similarity(
+                train_x, self.global_target)
+            self.cosine_sim_scores.update({i+1: score})
 
-        goal_node_id = min_index
-        self.goal_state = self.graph.nodes[goal_node_id]
-        print(f"Goal State: {self.goal_state['label']}")
-        self.graph.nodes[goal_node_id]['goal'] = True
+        if time_period!=3:
+            ordered_scores = list(
+                sorted(self.cosine_sim_scores.items(), key=lambda i: i[1]))
 
-        bad_node_id = max_index
-        self.bad_state = self.graph.nodes[bad_node_id]
-        print(f"Bad State: {self.bad_state['label']}")
-        self.graph.nodes[bad_node_id]['bad'] = True
+            goal_node_id = list(ordered_scores[-1])[0]
+            self.goal_state = self.graph.nodes[goal_node_id]
+            print(f"Goal State: {self.goal_state['label']}")
+            self.graph.nodes[goal_node_id]['goal'] = True
+            self.graph.nodes[goal_node_id]['reward'] = 100
+
+            bad_node_id = list(ordered_scores[0])[0]
+            self.bad_state = self.graph.nodes[bad_node_id]
+            print(f"Bad State: {self.bad_state['label']}")
+            self.graph.nodes[bad_node_id]['bad'] = True
+            self.graph.nodes[goal_node_id]['reward'] = -100
+
         return self
 
     def calculate_cosine_similarity(self, tensor_a, tensor_b):
