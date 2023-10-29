@@ -346,6 +346,30 @@ class Evaluation:
         ax.set_xlabel('Methods')
         plt.show()
 
+    @classmethod
+    def visualize_summary_statistics_classification(cls):
+        with open("json_files/classification_results.json") as file:
+            summary = json.load(file)
+
+        x_axis = list(range(len(summary)))
+        y_axis=[]
+        for result in summary:
+            # append f scores
+            y_axis.append(result['RESULTS'][2])
+
+        _, ax = plt.subplots()
+        ax.bar(x_axis, y_axis)
+        for method,f_score in enumerate(y_axis):
+            ax.text(method,f_score+0.005,f"{round(f_score*100)}%",ha='center')
+
+        ax.set_title("F-score per method")
+        ax.set_ylabel('F-score')
+        ax.set_xlabel('Methods')
+        plt.show()
+
+
+
+
     def __call__(self):
         self.create_combinations()
         self.connect_graphs().create_actions()
