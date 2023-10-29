@@ -186,13 +186,12 @@ class Evaluation:
         with open(self.combinations_path) as file:
             self.param_list = json.load(file)
         with parallel_backend("loky"):
-            results = Parallel(n_jobs=5, verbose=10)(delayed(self.subtrain_rl_classification)(i,p)
+            results = Parallel(n_jobs=5, verbose=10)(delayed(self.subtrain_rl_classification)(i, p)
                                                      for i, p in enumerate(self.param_list, 1))
         with open(save_path, 'w') as file:
             json.dump(results, file, indent=4)
 
-
-    def subtrain_rl_classification(self,i,p):
+    def subtrain_rl_classification(self, i, p):
         p = defaultdict(lambda: defaultdict(dict), p)
         patient_outcomes = []
         n_patients = self.env1.state_space.mdp.graph.number_of_nodes()
@@ -234,11 +233,11 @@ class Evaluation:
 
         results = self.evaluate_results(
             patient_outcomes, self.env3.state_space.mdp.model3.output)
-        p.update({"PRED_OUTCOMES":str(patient_outcomes)})
-        p.update({"OUTCOMES":str(self.env3.state_space.mdp.model3.output)})
+        p.update({"PRED_OUTCOMES": str(patient_outcomes)})
+        p.update({"OUTCOMES": str(self.env3.state_space.mdp.model3.output)})
         p.update({"RESULTS": results})
 
-        with open("json_files/classification_results.json",'w') as file:
+        with open("json_files/classification_results.json", 'w') as file:
             json.dump(p, file, indent=4)
         print(f"{i}th combination completed.\n")
         return p
@@ -352,23 +351,21 @@ class Evaluation:
             summary = json.load(file)
 
         x_axis = list(range(len(summary)))
-        y_axis=[]
+        y_axis = []
         for result in summary:
             # append f scores
             y_axis.append(result['RESULTS'][2])
 
         _, ax = plt.subplots()
         ax.bar(x_axis, y_axis)
-        for method,f_score in enumerate(y_axis):
-            ax.text(method,f_score+0.005,f"{round(f_score*100)}%",ha='center')
+        for method, f_score in enumerate(y_axis):
+            ax.text(method, f_score+0.005,
+                    f"{round(f_score*100)}%", ha='center')
 
         ax.set_title("F-score per method")
         ax.set_ylabel('F-score')
         ax.set_xlabel('Methods')
         plt.show()
-
-
-
 
     def __call__(self):
         self.create_combinations()

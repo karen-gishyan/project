@@ -147,18 +147,18 @@ class MimicEnvClassification(MimicEnv):
             reward = next_state['reward']+50
 
         terminated = next_state.get('goal', False)
-        if self.time_period==3:
+        if self.time_period == 3:
             try:
-                output=self.state_space.mdp.model3.output[next_state['label']-1].item()
+                output = self.state_space.mdp.model3.output[next_state['label']-1].item()
             except:
                 print(f"Exception on state {next_state['actual_label']},ok")
             else:
-                if self.class_output==output:
-                    reward=+100
-                    terminated=True
+                if self.class_output == output:
+                    reward = +100
+                    terminated = True
                 else:
-                    reward=-100
-                    terminated=False
+                    reward = -100
+                    terminated = False
 
         truncated = None
         self.state = next_state
@@ -252,9 +252,9 @@ class Agent(object):
         terminals = torch.Tensor(terminals).view(size, -1)
         return states, next_states, actions, rewards, terminals
 
-    def train(self, time_period, max_time_step, epsilon_greedy, update_rate,**kwargs):
+    def train(self, time_period, max_time_step, epsilon_greedy, update_rate, **kwargs):
 
-        self.env.class_output=kwargs.get('class_output')
+        self.env.class_output = kwargs.get('class_output')
         number_of_episodes = 300
         episode_rewards = []
         policy_graph = nx.DiGraph(time_period=time_period)
