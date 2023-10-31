@@ -307,7 +307,7 @@ class Evaluation:
                 dict_['number_of_final_solutions'])
 
         # stacked chart for rewards
-        x_axis = list(range(len(summary)))
+        x_axis = list(range(1,len(summary)+1))
         width = 0.5
         _, ax = plt.subplots()
         bottom = np.zeros(len(summary))
@@ -320,7 +320,7 @@ class Evaluation:
             bottom += average_max_reward
 
         y_offset = 30
-        for method, sum_ in enumerate(vis_summary_dict['reward_sum']):
+        for method, sum_ in enumerate(vis_summary_dict['reward_sum'],1):
             ax.text(method, sum_ + y_offset, round(sum_),
                     ha='center', rotation='vertical')
 
@@ -336,8 +336,8 @@ class Evaluation:
         # Number of solutions per method
         _, ax = plt.subplots()
         ax.bar(x_axis, vis_summary_dict['solutions_count'])
-        for method, count in enumerate(vis_summary_dict['solutions_count']):
-            ax.text(method, count + 1, round(count), ha='center')
+        for method, count in enumerate(vis_summary_dict['solutions_count'],1):
+            ax.text(method, count + 0.5, round(count), ha='center')
 
         ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
         ax.set_title("Number of solutions per method")
@@ -350,7 +350,7 @@ class Evaluation:
         with open("json_files/classification_results.json") as file:
             summary = json.load(file)
 
-        x_axis = list(range(len(summary)))
+        x_axis = list(range(1,len(summary)+1))
         y_axis = []
         for result in summary:
             # append f scores
@@ -358,9 +358,9 @@ class Evaluation:
 
         _, ax = plt.subplots()
         ax.bar(x_axis, y_axis)
-        for method, f_score in enumerate(y_axis):
+        for method, f_score in enumerate(y_axis,1):
             ax.text(method, f_score+0.005,
-                    f"{round(f_score*100)}%", ha='center')
+                    f"{round(f_score,2)}", ha='center')
 
         ax.set_title("F-score per method")
         ax.set_ylabel('F-score')
