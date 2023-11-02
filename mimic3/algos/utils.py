@@ -327,8 +327,9 @@ class Evaluation:
                        width, label=label, bottom=bottom)
             bottom += average_max_reward
 
-        y_offset = 30
+
         for method, sum_ in enumerate(vis_summary_dict['reward_sum'], 1):
+            y_offset = 30 if sum_ >0 else -140
             ax.text(method, sum_ + y_offset, round(sum_),
                     ha='center', rotation='vertical')
 
@@ -336,7 +337,7 @@ class Evaluation:
         ax.set_xticks(np.array(x_axis) + width, x_axis)
         ax.set_xlabel('Methods')
         ax.set_ylabel('Reward')
-        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
+        ax.set_ylim(bottom=min(vis_summary_dict['reward_sum'])-300,top=max(vis_summary_dict['reward_sum'])+200)
         ax.set_title(
             "Total reward per method grouped by timestep and averaged over patients")
         # move legent outside of box
