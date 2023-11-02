@@ -7,9 +7,10 @@ if __name__ == "__main__":
     logger = configure_logger(default=False, path=os.path.dirname(__file__))
     set_seed()
     # evaluation = Evaluation(MimicEnv, Agent)()
-    Evaluation.summary_statistics()
+    # Evaluation.summary_statistics()
     Evaluation.visualize_summary_statistics()
     Evaluation.visualize_summary_statistics_v2()
+    Evaluation.plot_rewards()
 
     ### classification ###
     # Evaluation.create_combinations()

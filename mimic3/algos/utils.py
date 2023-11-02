@@ -335,7 +335,7 @@ class Evaluation:
         # increase ylim so as labels fit
         ax.set_xticks(np.array(x_axis) + width, x_axis)
         ax.set_xlabel('Methods')
-        ax.set_ylabel('Rewards')
+        ax.set_ylabel('Reward')
         ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
         ax.set_title(
             "Total reward per method grouped by timestep and averaged over patients")
@@ -490,7 +490,23 @@ class Evaluation:
 
     @classmethod
     def plot_rewards(cls):
-        pass
+        """
+        Plot of a sample patient and a sample timestep.
+        """
+        with open("json_files/evaluation.json") as file:
+            summary = json.load(file)
+
+        _, ax = plt.subplots()
+        # first eight demonstrate the highest solutions
+        for method in summary[:8]:
+            y_axis = np.diff(method["patient_id_1"]["t_1"]["EPISODE_REWARDS"])
+            x_axis = range(1, len(y_axis)+1)
+            ax.plot(x_axis, y_axis)
+
+        ax.set_xlabel('Epochs')
+        ax.set_ylabel('Reward')
+        ax.set_title("First difference of rewards per epoch")
+        plt.show()
 
     def __call__(self):
         self.create_combinations()
