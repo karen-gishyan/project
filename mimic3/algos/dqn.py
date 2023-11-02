@@ -255,13 +255,15 @@ class Agent(object):
     def train(self, time_period, max_time_step, epsilon_greedy, update_rate, **kwargs):
 
         self.env.class_output = kwargs.get('class_output')
-        number_of_episodes = 300
+        number_of_episodes = 150
         episode_rewards = []
+        episode_terminals=[]
+        episode_steps=[]
         policy_graph = nx.DiGraph(time_period=time_period)
         for episode in range(1, number_of_episodes+1):
-            # print('episode:', episode)
             reward_sum = 0
             state = self.env.reset()
+            step=0
             for _ in range(max_time_step):
                 action = self.epsilon_greedy_action(state, epsilon_greedy)
                 next_state, reward, terminal, _ = self.env.step(action)
@@ -274,12 +276,20 @@ class Agent(object):
                 self.replay_buffer.append(
                     [state, next_state, action-1, reward, terminal])
                 state = next_state
+                step+=1
                 if terminal:
                     break
-            # print('sum_of_rewards_for_episode:', reward_sum)
+
+            # how many total steps it took to reach terminal state
+            episode_steps.append(step)
+            episode_terminals.append(terminal)
             episode_rewards.append(reward_sum)
             self.update(update_rate)
-            self.env.visited_states = set()
+            # self.env.visited_states = set()
 
         policy_graph.graph['solution'] = terminal
+        policy_graph.graph['episode_steps'] = episode_steps
+        policy_graph.graph['episode_terminals'] = episode_terminals
+        policy_graph.graph['episode_rewards'] = episode_rewards
+
         return episode_rewards, self.qnet, policy_graph

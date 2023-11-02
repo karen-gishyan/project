@@ -144,6 +144,13 @@ class Evaluation:
                 p[f"patient_id_{patient_id}"][f"t_{t}"].update(
                     {"SOLUTION": policy_graph.graph['solution']})
 
+                p[f"patient_id_{patient_id}"][f"t_{t}"].update(
+                    {"EPISODE_STEPS": policy_graph.graph['episode_steps']})
+                p[f"patient_id_{patient_id}"][f"t_{t}"].update(
+                    {"EPISODE_TERMINALS": policy_graph.graph['episode_terminals']})
+                p[f"patient_id_{patient_id}"][f"t_{t}"].update(
+                    {"EPISODE_REWARDS": policy_graph.graph['episode_rewards']})
+
                 start_state_is_part_of_scc = any(
                     env.start_state['label'] in c for c in env.sc_components)
                 start_state_is_part_of_wcc = any(
@@ -165,10 +172,10 @@ class Evaluation:
                 # saving weights
                 # joblib.dump(network, f"{dir_path}/weights_t{t}.pt")
                 # saving figure
-                plt.clf()
-                plt.plot(rewards)
-                plt.ylim(-5000, 1000)
-                plt.savefig(f"{dir_path}/figure_t{t}.png")
+                # plt.clf()
+                # plt.plot(rewards)
+                # plt.ylim(-5000, 1000)
+                # plt.savefig(f"{dir_path}/figure_t{t}.png")
                 outcome_per_t.append(policy_graph.graph['solution'])
 
             final_result = all(outcome_per_t)
@@ -198,7 +205,8 @@ class Evaluation:
         for patient_id in range(1, n_patients+1):
             policies = []
             outcome_per_t = []
-            class_output = self.env3.state_space.mdp.model3.output[patient_id-1].item()
+            class_output = self.env3.state_space.mdp.model3.output[patient_id-1].item(
+            )
             for t in [1, 2, 3]:
                 optimizer = p.get("OPTIMIZER")
                 lr = p.get("LEARNING_RATE")
@@ -307,7 +315,7 @@ class Evaluation:
                 dict_['number_of_final_solutions'])
 
         # stacked chart for rewards
-        x_axis = list(range(1,len(summary)+1))
+        x_axis = list(range(1, len(summary)+1))
         width = 0.5
         _, ax = plt.subplots()
         bottom = np.zeros(len(summary))
@@ -320,15 +328,17 @@ class Evaluation:
             bottom += average_max_reward
 
         y_offset = 30
-        for method, sum_ in enumerate(vis_summary_dict['reward_sum'],1):
+        for method, sum_ in enumerate(vis_summary_dict['reward_sum'], 1):
             ax.text(method, sum_ + y_offset, round(sum_),
                     ha='center', rotation='vertical')
 
         # increase ylim so as labels fit
-        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
-        ax.set_title("Total reward per method grouped by timestep")
-        ax.set_ylabel('Rewards')
+        ax.set_xticks(np.array(x_axis) + width, x_axis)
         ax.set_xlabel('Methods')
+        ax.set_ylabel('Rewards')
+        ax.set_ylim(top=max(vis_summary_dict['reward_sum'])+200)
+        ax.set_title(
+            "Total reward per method grouped by timestep and averaged over patients")
         # move legent outside of box
         ax.legend(bbox_to_anchor=(1.1, 1), loc="upper right")
         plt.show()
@@ -336,13 +346,124 @@ class Evaluation:
         # Number of solutions per method
         _, ax = plt.subplots()
         ax.bar(x_axis, vis_summary_dict['solutions_count'])
-        for method, count in enumerate(vis_summary_dict['solutions_count'],1):
+        for method, count in enumerate(vis_summary_dict['solutions_count'], 1):
             ax.text(method, count + 0.5, round(count), ha='center')
 
-        ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
-        ax.set_title("Number of solutions per method")
-        ax.set_ylabel('Count')
+        ax.set_xticks(np.array(x_axis) + width, x_axis)
         ax.set_xlabel('Methods')
+        ax.set_ylabel('Count')
+        ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
+        ax.set_title("Number of solutions per method averaged over patients")
+        plt.show()
+
+    @classmethod
+    def visualize_summary_statistics_v2(cls):
+        with open("json_files/evaluation.json") as file:
+            summary = json.load(file)
+
+        steps_terminals_average_correlations = []
+        steps_rewards_average_correlations = []
+        terminals_rewards_average_correlations = []
+        for method in summary:
+            patient_keys = [key for key in method if 'patient' in key]
+            t1, t2, t3 = [], [], []
+            for patient_id in patient_keys:
+                patient_data = method[patient_id]
+                timestep_keys = [key for key in patient_data if "t" in key]
+                for t in timestep_keys:
+                    steps = patient_data[t]['EPISODE_STEPS']
+                    terminals = patient_data[t]['EPISODE_TERMINALS']
+                    rewards = patient_data[t]['EPISODE_REWARDS']
+                    steps_terminals = np.corrcoef(
+                        steps, terminals).flatten()[1]
+                    steps_rewards = np.corrcoef(steps, rewards).flatten()[1]
+                    terminals_rewards = np.corrcoef(
+                        terminals, rewards).flatten()[1]
+                    if np.isnan(steps_terminals):
+                        steps_terminals = 0
+                    if np.isnan(steps_rewards):
+                        steps_rewards = 0
+                    if np.isnan(terminals_rewards):
+                        terminals_rewards = 0
+
+                    if "1" in t:
+                        t1.append(
+                            [steps_terminals, steps_rewards, terminals_rewards])
+                    elif "2" in t:
+                        t2.append(
+                            [steps_terminals, steps_rewards, terminals_rewards])
+                    else:
+                        t3.append(
+                            [steps_terminals, steps_rewards, terminals_rewards])
+
+            t1_steps_terminals, t1_steps_rewards, t1_terminals_rewards = np.array(
+                t1).mean(axis=0)
+            t2_steps_terminals, t2_steps_rewards, t2_terminals_rewards = np.array(
+                t2).mean(axis=0)
+            t3_steps_terminals, t3_steps_rewards, t3_terminals_rewards = np.array(
+                t3).mean(axis=0)
+            steps_terminals_average_correlations.append(
+                [t1_steps_terminals, t2_steps_terminals, t3_steps_terminals])
+            steps_rewards_average_correlations.append(
+                [t1_steps_rewards, t2_steps_rewards, t3_steps_rewards])
+            terminals_rewards_average_correlations.append(
+                [t1_terminals_rewards, t2_terminals_rewards, t3_terminals_rewards])
+
+        _, ax = plt.subplots(layout='constrained')
+        width = 0.25  # the width of the bars
+        multiplier = 0
+        steps_terminals_average_correlations = np.array(
+            steps_terminals_average_correlations).reshape((-1, len(summary)))
+        x = np.arange(1, steps_terminals_average_correlations.shape[1]+1)
+        for i, values in enumerate(steps_terminals_average_correlations, 1):
+            offset = width * multiplier
+            ax.bar(x + offset, values, width, label=f"t_{i}")
+            multiplier += 1
+
+        ax.set_xticks(x + width, x)
+        ax.set_xlabel('Methods')
+        ax.set_ylabel('Correlation')
+        ax.set_title(
+            'Average correlation per method for each timestep: number of steps taken and final solutions')
+        ax.legend(bbox_to_anchor=(1.08, 1), loc="upper right")
+        plt.show()
+
+        _, ax = plt.subplots(layout='constrained')
+        width = 0.25  # the width of the bars
+        multiplier = 0
+        steps_rewards_average_correlations = np.array(
+            steps_rewards_average_correlations).reshape((-1, len(summary)))
+        x = np.arange(1, steps_rewards_average_correlations.shape[1]+1)
+        for i, values in enumerate(steps_rewards_average_correlations, 1):
+            offset = width * multiplier
+            ax.bar(x + offset, values, width, label=f"t_{i}")
+            multiplier += 1
+
+        ax.set_xticks(x + width, x)
+        ax.set_xlabel('Methods')
+        ax.set_ylabel('Correlation')
+        ax.set_title(
+            'Average correlation per method for each timestep: number of steps taken and accumulated reward')
+        ax.legend(bbox_to_anchor=(1.08, 1), loc="upper right")
+        plt.show()
+
+        _, ax = plt.subplots(layout='constrained')
+        width = 0.25  # the width of the bars
+        multiplier = 0
+        terminals_rewards_average_correlations = np.array(
+            terminals_rewards_average_correlations).reshape((-1, len(summary)))
+        x = np.arange(1, terminals_rewards_average_correlations.shape[1]+1)
+        for i, values in enumerate(terminals_rewards_average_correlations):
+            offset = width * multiplier
+            ax.bar(x + offset, values, width, label=f"t_{i}")
+            multiplier += 1
+
+        ax.set_xticks(x + width, x)
+        ax.set_xlabel('Methods')
+        ax.set_ylabel('Correlation')
+        ax.set_title(
+            'Average correlation per method for each timestep: final solutions and accumulated reward')
+        ax.legend(bbox_to_anchor=(1.08, 1), loc="upper right")
         plt.show()
 
     @classmethod
@@ -350,7 +471,7 @@ class Evaluation:
         with open("json_files/classification_results.json") as file:
             summary = json.load(file)
 
-        x_axis = list(range(1,len(summary)+1))
+        x_axis = list(range(1, len(summary)+1))
         y_axis = []
         for result in summary:
             # append f scores
@@ -358,7 +479,7 @@ class Evaluation:
 
         _, ax = plt.subplots()
         ax.bar(x_axis, y_axis)
-        for method, f_score in enumerate(y_axis,1):
+        for method, f_score in enumerate(y_axis, 1):
             ax.text(method, f_score+0.005,
                     f"{round(f_score,2)}", ha='center')
 
@@ -366,6 +487,10 @@ class Evaluation:
         ax.set_ylabel('F-score')
         ax.set_xlabel('Methods')
         plt.show()
+
+    @classmethod
+    def plot_rewards(cls):
+        pass
 
     def __call__(self):
         self.create_combinations()
