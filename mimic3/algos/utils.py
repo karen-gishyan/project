@@ -454,7 +454,7 @@ class Evaluation:
         terminals_rewards_average_correlations = np.array(
             terminals_rewards_average_correlations).reshape((-1, len(summary)))
         x = np.arange(1, terminals_rewards_average_correlations.shape[1]+1)
-        for i, values in enumerate(terminals_rewards_average_correlations):
+        for i, values in enumerate(terminals_rewards_average_correlations,1):
             offset = width * multiplier
             ax.bar(x + offset, values, width, label=f"t_{i}")
             multiplier += 1
