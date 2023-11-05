@@ -354,7 +354,7 @@ class Evaluation:
         ax.set_xlabel('Methods')
         ax.set_ylabel('Count')
         ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
-        ax.set_title("Number of solutions per method averaged over patients")
+        ax.set_title("Number of solutions per method")
         plt.show()
 
     @classmethod
