@@ -334,7 +334,7 @@ class Evaluation:
                     ha='center', rotation='vertical')
 
         # increase ylim so as labels fit
-        ax.set_xticks(np.array(x_axis) + width, x_axis)
+        ax.set_xticks(x_axis)
         ax.set_xlabel('Methods')
         ax.set_ylabel('Reward')
         ax.set_ylim(bottom=min(vis_summary_dict['reward_sum'])-300,top=max(vis_summary_dict['reward_sum'])+200)
@@ -350,7 +350,7 @@ class Evaluation:
         for method, count in enumerate(vis_summary_dict['solutions_count'], 1):
             ax.text(method, count + 0.5, round(count), ha='center')
 
-        ax.set_xticks(np.array(x_axis) + width, x_axis)
+        ax.set_xticks(x_axis)
         ax.set_xlabel('Methods')
         ax.set_ylabel('Count')
         ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
@@ -504,6 +504,7 @@ class Evaluation:
             x_axis = range(1, len(y_axis)+1)
             ax.plot(x_axis, y_axis)
 
+        ax.set_xticks(list(range(1,len(x_axis)+1,9)))
         ax.set_xlabel('Epochs')
         ax.set_ylabel('Reward')
         ax.set_title("First difference of rewards per epoch")
