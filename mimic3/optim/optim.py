@@ -17,10 +17,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 lr=MultiClassLogisticRegression()
 lr.fit(X_train,y_train)
 print("Custom SGD",round(lr.score(X_test,y_test),2))
+print("Predicted test labels",lr.predict_classes(X_test))
+# lr.plot()
 
 clf=SGDClassifier(loss='log_loss',random_state=0)
 clf.fit(X_train,y_train)
 print("SGD",round(clf.score(X_test,y_test),2))
+print("Predicted test labels",clf.predict(X_test))
 
 ####
 hepatitis = fetch_ucirepo(id=46)
@@ -33,10 +36,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 lr=MultiClassLogisticRegression()
 lr.fit(X_train,y_train)
 print("Custom SGD",round(lr.score(X_test,y_test),2))
+print("Predicted test labels",lr.predict_classes(X_test))
+# lr.plot()
 
 clf=SGDClassifier(loss='log_loss',random_state=0)
 clf.fit(X_train,y_train)
 print("SGD",round(clf.score(X_test,y_test),2))
+print("Predicted test labels",clf.predict(X_test))
 
 # ####
 lung_cancer = fetch_ucirepo(id=62)
@@ -49,7 +55,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 lr=MultiClassLogisticRegression()
 lr.fit(X_train,y_train)
 print("Custom SGD",round(lr.score(X_test,y_test),2))
+print("Predicted test labels",lr.predict_classes(X_test))
+# lr.plot()
 
 clf=SGDClassifier(loss='log_loss',random_state=0)
 clf.fit(X_train,y_train)
 print("SGD",round(clf.score(X_test,y_test),2))
+print("Predicted test labels",clf.predict(X_test))

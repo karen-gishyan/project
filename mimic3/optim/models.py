@@ -37,7 +37,7 @@ class MultiClassLogisticRegression:
             lr=lr * (1. / (1. + self.decay * i))
             self.weights-=lr*dweight
             self.bias-=lr*dbias
-            print(np.abs(dweight).max())
+            # print(np.abs(dweight).max())
             if np.abs(dweight).max() < self.threshold:
                 break
             # if i % 100 == 0:
@@ -83,7 +83,7 @@ class MultiClassLogisticRegression:
 
     def evaluate(self, X, y):
         """Training evaluation. y is one-hot encoded format."""
-        return np.mean(self.predict_classes(X) == np.argmax(y, axis=1))
+        return np.mean(self.predict_classes(X) == np.vectorize(lambda c: self.classes[c])(np.argmax(y, axis=1)))
 
     def score(self, X_test, y_test):
         """Testing evaluation. y is a 1d vector."""
