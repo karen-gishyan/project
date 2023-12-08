@@ -1,6 +1,7 @@
 from ucimlrepo import fetch_ucirepo
 from sklearn.linear_model import LogisticRegression,SGDClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_recall_fscore_support
 from utils import remove_nan
 from models import MultiClassLogisticRegression
 import warnings
@@ -18,12 +19,15 @@ lr=MultiClassLogisticRegression()
 lr.fit(X_train,y_train)
 print("Custom SGD",round(lr.score(X_test,y_test),2))
 print("Predicted test labels",lr.predict_classes(X_test))
+print('Metrics',precision_recall_fscore_support(y_test,lr.predict_classes(X_test),average='macro'))
 # lr.plot()
 
 clf=SGDClassifier(loss='log_loss',random_state=0)
 clf.fit(X_train,y_train)
 print("SGD",round(clf.score(X_test,y_test),2))
 print("Predicted test labels",clf.predict(X_test))
+print('Metrics',precision_recall_fscore_support(y_test,clf.predict(X_test),average='macro'))
+print('\n')
 
 ####
 hepatitis = fetch_ucirepo(id=46)
@@ -37,12 +41,15 @@ lr=MultiClassLogisticRegression()
 lr.fit(X_train,y_train)
 print("Custom SGD",round(lr.score(X_test,y_test),2))
 print("Predicted test labels",lr.predict_classes(X_test))
+print('precision-recall-f1score',precision_recall_fscore_support(y_test,lr.predict_classes(X_test),average='macro'))
 # lr.plot()
 
 clf=SGDClassifier(loss='log_loss',random_state=0)
 clf.fit(X_train,y_train)
 print("SGD",round(clf.score(X_test,y_test),2))
 print("Predicted test labels",clf.predict(X_test))
+print('precision-recall-f1score',precision_recall_fscore_support(y_test,clf.predict(X_test),average='macro'))
+print('\n')
 
 # ####
 lung_cancer = fetch_ucirepo(id=62)
@@ -56,9 +63,11 @@ lr=MultiClassLogisticRegression()
 lr.fit(X_train,y_train)
 print("Custom SGD",round(lr.score(X_test,y_test),2))
 print("Predicted test labels",lr.predict_classes(X_test))
+print('precision-recall-f1score',precision_recall_fscore_support(y_test,lr.predict_classes(X_test),average='macro'))
 # lr.plot()
 
 clf=SGDClassifier(loss='log_loss',random_state=0)
 clf.fit(X_train,y_train)
 print("SGD",round(clf.score(X_test,y_test),2))
 print("Predicted test labels",clf.predict(X_test))
+print('precision-recall-f1score',precision_recall_fscore_support(y_test,clf.predict(X_test),average='macro'))

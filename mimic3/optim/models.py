@@ -8,20 +8,18 @@ class MultiClassLogisticRegression:
         Linear Prediction -> Softmax Activation -> Cross Entropy Calculation -> Derivative calculation -> Update
         Sources:https://github.com/bamtak/machine-learning-implemetation-python/blob/master/Multi%20Class%20Logistic%20Regression.ipynb
     """
-    def __init__(self,n_iter = 500, threshold=0.02,decay = 1e-6):
+    def __init__(self,n_iter = 1000, threshold=0.02):
         self.n_iter = n_iter
         self.threshold = threshold
-        self.decay=decay
 
-    def fit(self,X, y, batch_size=303, lr=0.01, random_seed=4):
+    def fit(self,X, y, batch_size=10, lr=0.001, random_seed=4):
         """Model training."""
         np.random.seed(random_seed)
         self.classes = np.unique(y)
         self.class_labels = {c:i for i,c in enumerate(self.classes)}
         y = self.one_hot(y)
         X=X.to_numpy()
-        X=(X-np.min(X))/(np.max(X)-np.min(X))
-        self.X_mean=X.mean(axis=0).reshape(-1,1)
+        #NOTE normalization does not help
         self.loss = []
         self.bias = np.zeros((1, len(self.classes)))
         self.weights = np.zeros(shape=(len(self.classes),X.shape[1]))
@@ -31,13 +29,11 @@ class MultiClassLogisticRegression:
             y_pred=self.predict(X_batch)
             loss=self.cross_entropy(y_batch,y_pred)
             self.loss.append(loss)
-            # print(loss)
             # update
             dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
-            lr=lr * (1. / (1. + self.decay * i))
+            #NOTE learning decay does not help
             self.weights-=lr*dweight
             self.bias-=lr*dbias
-            # print(np.abs(dweight).max())
             if np.abs(dweight).max() < self.threshold:
                 break
             # if i % 100 == 0:
@@ -59,12 +55,6 @@ class MultiClassLogisticRegression:
     def get_gradients(self,y,y_pred,X_batch):
         """ Calculates gradients of the loss function with respect to weights and bias."""
         dweight=-1* np.dot((y-y_pred).T,X_batch)/len(X_batch)
-        dbias=-1* np.sum((y-y_pred),axis=0)/len(X_batch)
-        return dweight,dbias
-
-    def get_gradients_with_penalty(self,y,y_pred,X_batch):
-        penalty=np.dot(X_batch,self.X_mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.X_mean))
-        dweight=-1* np.dot((y-y_pred).T,X_batch)/len(X_batch)-np.mean(penalty)
         dbias=-1* np.sum((y-y_pred),axis=0)/len(X_batch)
         return dweight,dbias
 
