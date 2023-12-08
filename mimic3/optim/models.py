@@ -8,9 +8,10 @@ class MultiClassLogisticRegression:
         Linear Prediction -> Softmax Activation -> Cross Entropy Calculation -> Derivative calculation -> Update
         Sources:https://github.com/bamtak/machine-learning-implemetation-python/blob/master/Multi%20Class%20Logistic%20Regression.ipynb
     """
-    def __init__(self,n_iter = 500, threshold=0.001):
+    def __init__(self,n_iter = 500, threshold=0.02,decay = 1e-6):
         self.n_iter = n_iter
         self.threshold = threshold
+        self.decay=decay
 
     def fit(self,X, y, batch_size=303, lr=0.01, random_seed=4):
         """Model training."""
@@ -30,11 +31,13 @@ class MultiClassLogisticRegression:
             y_pred=self.predict(X_batch)
             loss=self.cross_entropy(y_batch,y_pred)
             self.loss.append(loss)
-            print(loss)
+            # print(loss)
             # update
             dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
+            lr=lr * (1. / (1. + self.decay * i))
             self.weights-=lr*dweight
             self.bias-=lr*dbias
+            print(np.abs(dweight).max())
             if np.abs(dweight).max() < self.threshold:
                 break
             # if i % 100 == 0:
