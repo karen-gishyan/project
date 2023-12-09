@@ -12,13 +12,14 @@ class MultiClassLogisticRegression:
         self.n_iter = n_iter
         self.threshold = threshold
 
-    def fit(self,X, y, batch_size=10, lr=0.001, random_seed=4):
+    def fit(self,X, y, batch_size=100, lr=0.001, random_seed=4):
         """Model training."""
         np.random.seed(random_seed)
         self.classes = np.unique(y)
         self.class_labels = {c:i for i,c in enumerate(self.classes)}
         y = self.one_hot(y)
         X=X.to_numpy()
+        self.mean=X.mean(axis=0).reshape(-1,1)
         #NOTE normalization does not help
         self.loss = []
         self.bias = np.zeros((1, len(self.classes)))
@@ -31,7 +32,7 @@ class MultiClassLogisticRegression:
             self.loss.append(loss)
             # update
             dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
-            #NOTE learning decay does not help
+            lr=lr * (1 / (1 + 0.01 * i))
             self.weights-=lr*dweight
             self.bias-=lr*dbias
             if np.abs(dweight).max() < self.threshold:
