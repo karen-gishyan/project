@@ -1,0 +1,550 @@
+Custom SCD
+Batch size: 5,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 5,scaling_facor: 0.001
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 5,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 5,scaling_facor: 0.001
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 5,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 5,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 5,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 5,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 5,scaling_facor: 0.1
+Accuracy: 0.16666666666666666
+Precision: 0.08333333333333333,Recall:0.5, F1:0.14285714285714285
+
+SCD
+Batch size: 5,scaling_facor: 0.1
+Accuracy: 0.7916666666666666
+Precision: 0.41304347826086957,Recall:0.475, F1:0.44186046511627913
+
+Custom SCD
+Batch size: 10,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 10,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 10,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 10,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 10,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 10,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 10,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 10,scaling_facor: 0.05
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 10,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 10,scaling_facor: 0.1
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 15,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 15,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 15,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 15,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 15,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 15,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 15,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 15,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 15,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 15,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 20,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 20,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 20,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 20,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 20,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 20,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 20,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 20,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 20,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 20,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 25,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 25,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 25,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 25,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 25,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 25,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 25,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 25,scaling_facor: 0.05
+Accuracy: 0.7916666666666666
+Precision: 0.41304347826086957,Recall:0.475, F1:0.44186046511627913
+
+Custom SCD
+Batch size: 25,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.6818181818181819,Recall:0.6, F1:0.6190476190476191
+
+SCD
+Batch size: 25,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 30,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 30,scaling_facor: 0.001
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 30,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 30,scaling_facor: 0.001
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 30,scaling_facor: 0.01
+Accuracy: 0.875
+Precision: 0.7857142857142857,Recall:0.725, F1:0.7491289198606272
+
+SCD
+Batch size: 30,scaling_facor: 0.01
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 30,scaling_facor: 0.05
+Accuracy: 0.875
+Precision: 0.7857142857142857,Recall:0.925, F1:0.8230958230958231
+
+SCD
+Batch size: 30,scaling_facor: 0.05
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 30,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.7222222222222222,Recall:0.8, F1:0.7473684210526316
+
+SCD
+Batch size: 30,scaling_facor: 0.1
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 35,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 35,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 35,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 35,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 35,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 35,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 35,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 35,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 35,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 35,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 40,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 40,scaling_facor: 0.001
+Accuracy: 0.7083333333333334
+Precision: 0.5840336134453781,Recall:0.625, F1:0.5872235872235871
+
+Custom SCD
+Batch size: 40,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 40,scaling_facor: 0.001
+Accuracy: 0.7083333333333334
+Precision: 0.5840336134453781,Recall:0.625, F1:0.5872235872235871
+
+Custom SCD
+Batch size: 40,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 40,scaling_facor: 0.01
+Accuracy: 0.7083333333333334
+Precision: 0.5840336134453781,Recall:0.625, F1:0.5872235872235871
+
+Custom SCD
+Batch size: 40,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.6818181818181819,Recall:0.6, F1:0.6190476190476191
+
+SCD
+Batch size: 40,scaling_facor: 0.05
+Accuracy: 0.7083333333333334
+Precision: 0.5840336134453781,Recall:0.625, F1:0.5872235872235871
+
+Custom SCD
+Batch size: 40,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.7222222222222222,Recall:0.8, F1:0.7473684210526316
+
+SCD
+Batch size: 40,scaling_facor: 0.1
+Accuracy: 0.7083333333333334
+Precision: 0.5840336134453781,Recall:0.625, F1:0.5872235872235871
+
+Custom SCD
+Batch size: 45,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 45,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 45,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 45,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 45,scaling_facor: 0.01
+Accuracy: 0.875
+Precision: 0.7857142857142857,Recall:0.725, F1:0.7491289198606272
+
+SCD
+Batch size: 45,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 45,scaling_facor: 0.05
+Accuracy: 0.875
+Precision: 0.7857142857142857,Recall:0.725, F1:0.7491289198606272
+
+SCD
+Batch size: 45,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 45,scaling_facor: 0.1
+Accuracy: 0.4166666666666667
+Precision: 0.6111111111111112,Recall:0.65, F1:0.41258741258741255
+
+SCD
+Batch size: 45,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+Custom SCD
+Batch size: 50,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 50,scaling_facor: 0.001
+Accuracy: 0.625
+Precision: 0.5444444444444445,Recall:0.575, F1:0.5252747252747253
+
+Custom SCD
+Batch size: 50,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 50,scaling_facor: 0.001
+Accuracy: 0.625
+Precision: 0.5444444444444445,Recall:0.575, F1:0.5252747252747253
+
+Custom SCD
+Batch size: 50,scaling_facor: 0.01
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+SCD
+Batch size: 50,scaling_facor: 0.01
+Accuracy: 0.625
+Precision: 0.5444444444444445,Recall:0.575, F1:0.5252747252747253
+
+Custom SCD
+Batch size: 50,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.75,Recall:0.9, F1:0.7777777777777778
+
+SCD
+Batch size: 50,scaling_facor: 0.05
+Accuracy: 0.625
+Precision: 0.5444444444444445,Recall:0.575, F1:0.5252747252747253
+
+Custom SCD
+Batch size: 50,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 50,scaling_facor: 0.1
+Accuracy: 0.625
+Precision: 0.5444444444444445,Recall:0.575, F1:0.5252747252747253
+
+Custom SCD
+Batch size: 55,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 55,scaling_facor: 0.001
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 55,scaling_facor: 0.001
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 55,scaling_facor: 0.001
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 55,scaling_facor: 0.01
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 55,scaling_facor: 0.01
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 55,scaling_facor: 0.05
+Accuracy: 0.8333333333333334
+Precision: 0.6818181818181819,Recall:0.6, F1:0.6190476190476191
+
+SCD
+Batch size: 55,scaling_facor: 0.05
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+
+Custom SCD
+Batch size: 55,scaling_facor: 0.1
+Accuracy: 0.8333333333333334
+Precision: 0.4166666666666667,Recall:0.5, F1:0.45454545454545453
+
+SCD
+Batch size: 55,scaling_facor: 0.1
+Accuracy: 0.875
+Precision: 0.9347826086956521,Recall:0.625, F1:0.6651162790697674
+

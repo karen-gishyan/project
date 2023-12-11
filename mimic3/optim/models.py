@@ -8,12 +8,17 @@ class MultiClassLogisticRegression:
         Linear Prediction -> Softmax Activation -> Cross Entropy Calculation -> Derivative calculation -> Update
         Sources:https://github.com/bamtak/machine-learning-implemetation-python/blob/master/Multi%20Class%20Logistic%20Regression.ipynb
     """
-    def __init__(self,n_iter = 1000, threshold=0.02):
+    def __init__(self,n_iter = 500, threshold=0.02):
         self.n_iter = n_iter
         self.threshold = threshold
 
-    def fit(self,X, y, batch_size=100, lr=0.001, random_seed=4):
-        """Model training."""
+    def fit(self,X, y, batch_size=1, lr=None,scaling_factor=None, random_seed=4):
+        """Model training.
+        lr is the default update rate.
+        scaling_factor is custom update.
+        """
+        if not any([lr,scaling_factor]):
+            raise ValueError("Either learning rate or scaling factor should be provided.")
         np.random.seed(random_seed)
         self.classes = np.unique(y)
         self.class_labels = {c:i for i,c in enumerate(self.classes)}
@@ -25,13 +30,18 @@ class MultiClassLogisticRegression:
         self.bias = np.zeros((1, len(self.classes)))
         self.weights = np.zeros(shape=(len(self.classes),X.shape[1]))
         for i in range(self.n_iter):
-            idx = np.random.choice(X.shape[0], batch_size)
-            X_batch, y_batch = X[idx], y[idx]
+            if batch_size:
+                idx = np.random.choice(X.shape[0], batch_size)
+                X_batch, y_batch = X[idx], y[idx]
+            else:
+                X_batch, y_batch = X, y
             y_pred=self.predict(X_batch)
             loss=self.cross_entropy(y_batch,y_pred)
             self.loss.append(loss)
             # update
             dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
+            if scaling_factor:
+                lr=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))*scaling_factor
             lr=lr * (1 / (1 + 0.01 * i))
             self.weights-=lr*dweight
             self.bias-=lr*dbias
