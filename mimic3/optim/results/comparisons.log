@@ -1,128 +1,128 @@
 project/mimic3/optim/results/heart_disease.log
-Max f1 scaled:0.28855722566067393
-Max accuracy scaled:0.59
+Max f1 scaled:0.28855722566067393,batch_size:200,scaling_factor:0.01
+Max accuracy scaled:0.59,batch_size:100,scaling_factor:0.001
 Mean f1 scaled:0.18017380746902795
 Mean accuracy scaled:0.5405999999999996
 
-Max f1 not scaled:0.3285507645681224
-Max accuracy not scaled:0.6
+Max f1 scaled:0.3285507645681224,batch_size:160,scaling_factor:0.001
+Max accuracy scaled:0.6,batch_size:160,scaling_factor:0.001
 Mean f1 not scaled:0.17066588354301382
 Mean accuracy not scaled:0.5455999999999996
 
-Max f1 sklearn:0.20894736842105263
-Max accuracy sklearn:0.59
+Max f1 scaled:0.20894736842105263,batch_size:160,scaling_factor:0.0001
+Max accuracy scaled:0.59,batch_size:100,scaling_factor:0.001
 Mean f1 sklearn:0.12706732324234907
 Mean accuracy sklearn:0.5405999999999996
 
 project/mimic3/optim/results/hepatitis.log
-Max f1 scaled:0.8230958230958231
-Max accuracy scaled:0.88
+Max f1 scaled:0.8230958230958231,batch_size:30,scaling_factor:0.05
+Max accuracy scaled:0.88,batch_size:5,scaling_factor:0.0001
 Mean f1 scaled:0.5040396510845694
 Mean accuracy scaled:0.8159999999999993
 
-Max f1 not scaled:0.7491289198606272
-Max accuracy not scaled:0.88
+Max f1 scaled:0.7491289198606272,batch_size:55,scaling_factor:0.01
+Max accuracy scaled:0.88,batch_size:15,scaling_factor:0.001
 Mean f1 not scaled:0.38116891822661936
 Mean accuracy not scaled:0.5778181818181818
 
-Max f1 sklearn:0.6651162790697674
-Max accuracy sklearn:0.88
+Max f1 scaled:0.6651162790697674,batch_size:5,scaling_factor:0.001
+Max accuracy scaled:0.88,batch_size:5,scaling_factor:0.0001
 Mean f1 sklearn:0.5221164139557374
 Mean accuracy sklearn:0.8159999999999993
 
 project/mimic3/optim/results/lung_cancer.log
-Max f1 scaled:0.3055555555555555
-Max accuracy scaled:0.78
+Max f1 scaled:0.3055555555555555,batch_size:2,scaling_factor:0.001
+Max accuracy scaled:0.78,batch_size:1,scaling_factor:0.05
 Mean f1 scaled:0.20248988484282576
 Mean accuracy scaled:0.20470588235294124
 
-Max f1 not scaled:0.2916666666666667
-Max accuracy not scaled:0.78
+Max f1 scaled:0.2916666666666667,batch_size:1,scaling_factor:0.05
+Max accuracy scaled:0.78,batch_size:1,scaling_factor:0.05
 Mean f1 not scaled:0.17125116713351995
 Mean accuracy not scaled:0.18529411764705891
 
-Max f1 sklearn:0.4230769230769231
-Max accuracy sklearn:0.78
+Max f1 scaled:0.4230769230769231,batch_size:4,scaling_factor:0.0001
+Max accuracy scaled:0.78,batch_size:1,scaling_factor:0.05
 Mean f1 sklearn:0.10697624815271865
 Mean accuracy sklearn:0.20470588235294124
 
 project/mimic3/optim/results/diabetic.log
-Max f1 scaled:0.712119811407969
-Max accuracy scaled:0.71
+Max f1 scaled:0.712119811407969,batch_size:720,scaling_factor:0.05
+Max accuracy scaled:0.71,batch_size:80,scaling_factor:0.05
 Mean f1 scaled:0.5918976938507386
 Mean accuracy scaled:0.6468000000000004
 
-Max f1 not scaled:0.6786015875696673
-Max accuracy not scaled:0.68
+Max f1 scaled:0.6786015875696673,batch_size:80,scaling_factor:0.01
+Max accuracy scaled:0.68,batch_size:80,scaling_factor:0.01
 Mean f1 not scaled:0.5281772906898917
 Mean accuracy not scaled:0.5939999999999998
 
-Max f1 sklearn:0.6689273124055733
-Max accuracy sklearn:0.71
+Max f1 scaled:0.6689273124055733,batch_size:640,scaling_factor:0.05
+Max accuracy scaled:0.71,batch_size:80,scaling_factor:0.05
 Mean f1 sklearn:0.4751482162451244
 Mean accuracy sklearn:0.6468000000000004
 
 project/mimic3/optim/results/bone_marrow.log
-Max f1 scaled:0.4027777777777778
-Max accuracy scaled:0.67
+Max f1 scaled:0.4027777777777778,batch_size:9,scaling_factor:0.0001
+Max accuracy scaled:0.67,batch_size:9,scaling_factor:0.0001
 Mean f1 scaled:0.40277777777777823
 Mean accuracy scaled:0.6700000000000008
 
-Max f1 not scaled:0.4027777777777778
-Max accuracy not scaled:0.67
+Max f1 scaled:0.4027777777777778,batch_size:9,scaling_factor:0.0001
+Max accuracy scaled:0.67,batch_size:9,scaling_factor:0.0001
 Mean f1 not scaled:0.40277777777777823
 Mean accuracy not scaled:0.6700000000000008
 
-Max f1 sklearn:0.5234441602728048
-Max accuracy sklearn:0.67
+Max f1 scaled:0.5234441602728048,batch_size:90,scaling_factor:0.0001
+Max accuracy scaled:0.67,batch_size:9,scaling_factor:0.0001
 Mean f1 sklearn:0.3778734225853649
 Mean accuracy sklearn:0.6700000000000008
 
 project/mimic3/optim/results/glioma.log
-Max f1 scaled:0.8736392604694045
-Max accuracy scaled:0.88
+Max f1 scaled:0.8736392604694045,batch_size:232,scaling_factor:0.1
+Max accuracy scaled:0.88,batch_size:232,scaling_factor:0.1
 Mean f1 scaled:0.5916367339113164
 Mean accuracy scaled:0.6422
 
-Max f1 not scaled:0.86676279740447
-Max accuracy not scaled:0.87
+Max f1 scaled:0.86676279740447,batch_size:116,scaling_factor:0.1
+Max accuracy scaled:0.87,batch_size:58,scaling_factor:0.05
 Mean f1 not scaled:0.6317030381909106
 Mean accuracy not scaled:0.6889999999999997
 
-Max f1 sklearn:0.8460648148148148
-Max accuracy sklearn:0.88
+Max f1 scaled:0.8460648148148148,batch_size:174,scaling_factor:0.05
+Max accuracy scaled:0.88,batch_size:232,scaling_factor:0.1
 Mean f1 sklearn:0.35797418642047724
 Mean accuracy sklearn:0.6422
 
 project/mimic3/optim/results/heart_failure.log
-Max f1 scaled:0.3706293706293706
-Max accuracy scaled:0.59
+Max f1 scaled:0.3706293706293706,batch_size:20,scaling_factor:0.0001
+Max accuracy scaled:0.59,batch_size:20,scaling_factor:0.0001
 Mean f1 scaled:0.3706293706293703
 Mean accuracy scaled:0.59
 
-Max f1 not scaled:0.3706293706293706
-Max accuracy not scaled:0.59
+Max f1 scaled:0.3706293706293706,batch_size:20,scaling_factor:0.0001
+Max accuracy scaled:0.59,batch_size:20,scaling_factor:0.0001
 Mean f1 not scaled:0.3706293706293703
 Mean accuracy not scaled:0.59
 
-Max f1 sklearn:0.3706293706293706
-Max accuracy sklearn:0.59
+Max f1 scaled:0.3706293706293706,batch_size:40,scaling_factor:0.0001
+Max accuracy scaled:0.59,batch_size:20,scaling_factor:0.0001
 Mean f1 sklearn:0.3309839766532678
 Mean accuracy sklearn:0.59
 
 project/mimic3/optim/results/ilpd.log
-Max f1 scaled:0.6282051282051282
-Max accuracy scaled:0.66
+Max f1 scaled:0.6282051282051282,batch_size:80,scaling_factor:0.01
+Max accuracy scaled:0.66,batch_size:160,scaling_factor:0.01
 Mean f1 scaled:0.40178605001587364
 Mean accuracy scaled:0.6493999999999994
 
-Max f1 not scaled:0.5589160839160838
-Max accuracy not scaled:0.67
+Max f1 scaled:0.5589160839160838,batch_size:40,scaling_factor:0.001
+Max accuracy scaled:0.67,batch_size:40,scaling_factor:0.001
 Mean f1 not scaled:0.4230618637804699
 Mean accuracy not scaled:0.6473999999999995
 
-Max f1 sklearn:0.4816117216117216
-Max accuracy sklearn:0.66
+Max f1 scaled:0.4816117216117216,batch_size:160,scaling_factor:0.0001
+Max accuracy scaled:0.66,batch_size:160,scaling_factor:0.01
 Mean f1 sklearn:0.4282852338768503
 Mean accuracy sklearn:0.6493999999999994
 

@@ -79,10 +79,12 @@ def compare(path1,path2):
     logger.info(path1)
     #custom scd with scaling
     filtered_save_list=list(filter(lambda d: d['name'] =='custom_scd', save_list))
-    max_f1=max(filtered_save_list,key=lambda d:d['f1'])['f1']
-    logger.info("Max f1 scaled:{}".format(max_f1))
-    max_accuracy=max(save_list,key=lambda d:d['accuracy'])['accuracy']
-    logger.info("Max accuracy scaled:{}".format(max_accuracy))
+    res_f1=max(filtered_save_list,key=lambda d:d['f1'])
+    logger.info("Max f1 scaled:{},batch_size:{},scaling_factor:{}".\
+        format(res_f1['f1'],res_f1['batch_size'],res_f1['scaling_factor']))
+    res_accuracy=max(save_list,key=lambda d:d['accuracy'])
+    logger.info("Max accuracy scaled:{},batch_size:{},scaling_factor:{}".\
+        format(res_accuracy['accuracy'],res_accuracy['batch_size'],res_accuracy['scaling_factor']))
     average_f1=sum([d['f1'] for d in filtered_save_list])/len(filtered_save_list)
     logger.info("Mean f1 scaled:{}".format(average_f1))
     average_accuracy=sum([d['accuracy'] for d in filtered_save_list])/len(filtered_save_list)
@@ -90,10 +92,12 @@ def compare(path1,path2):
 
     #custom scd without scaling
     filtered_save_list_no_scale=list(filter(lambda d: d['name'] =='custom_scd', save_list_no_scale))
-    max_f1=max(filtered_save_list_no_scale,key=lambda d:d['f1'])['f1']
-    logger.info("Max f1 not scaled:{}".format(max_f1))
-    max_accuracy=max(filtered_save_list_no_scale,key=lambda d:d['accuracy'])['accuracy']
-    logger.info("Max accuracy not scaled:{}".format(max_accuracy))
+    res_f1=max(filtered_save_list_no_scale,key=lambda d:d['f1'])
+    logger.info("Max f1 scaled:{},batch_size:{},scaling_factor:{}".\
+        format(res_f1['f1'],res_f1['batch_size'],res_f1['scaling_factor']))
+    res_accuracy=max(filtered_save_list_no_scale,key=lambda d:d['accuracy'])
+    logger.info("Max accuracy scaled:{},batch_size:{},scaling_factor:{}".\
+        format(res_accuracy['accuracy'],res_accuracy['batch_size'],res_accuracy['scaling_factor']))
     average_f1=sum([d['f1'] for d in filtered_save_list_no_scale])/len(filtered_save_list_no_scale)
     logger.info("Mean f1 not scaled:{}".format(average_f1))
     average_accuracy=sum([d['accuracy'] for d in filtered_save_list_no_scale])/len(filtered_save_list_no_scale)
@@ -101,10 +105,12 @@ def compare(path1,path2):
 
     #scd
     filtered_saved_list_default=list(filter(lambda d: d['name'] =='scd', save_list))
-    max_f1=max(filtered_saved_list_default,key=lambda d:d['f1'])['f1']
-    logger.info("Max f1 sklearn:{}".format(max_f1))
-    max_accuracy=max(filtered_saved_list_default,key=lambda d:d['accuracy'])['accuracy']
-    logger.info("Max accuracy sklearn:{}".format(max_accuracy))
+    res_f1=max(filtered_saved_list_default,key=lambda d:d['f1'])
+    logger.info("Max f1 scaled:{},batch_size:{},scaling_factor:{}".\
+        format(res_f1['f1'],res_f1['batch_size'],res_f1['scaling_factor']))
+    res_accuracy=max(filtered_saved_list_default,key=lambda d:d['accuracy'])
+    logger.info("Max accuracy scaled:{},batch_size:{},scaling_factor:{}".\
+        format(res_accuracy['accuracy'],res_accuracy['batch_size'],res_accuracy['scaling_factor']))
     average_f1=sum([d['f1'] for d in filtered_saved_list_default])/len(filtered_saved_list_default)
     logger.info("Mean f1 sklearn:{}".format(average_f1))
     average_accuracy=sum([d['accuracy'] for d in filtered_saved_list_default])/len(filtered_saved_list_default)
