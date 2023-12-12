@@ -3,8 +3,11 @@ from sklearn.metrics import precision_recall_fscore_support
 from models import MultiClassLogisticRegression
 import numpy as np
 import json
-import os
+import logging
 
+logger=logging.getLogger('comparison_logger')
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.FileHandler(filename="project/mimic3/optim/results/comparisons.log",mode='w'))
 
 
 def remove_nan(X,y):
@@ -15,7 +18,7 @@ def remove_nan(X,y):
     return X,y
 
 
-def evaluate(X_train, X_test, y_train, y_test,save_path=None):
+def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True):
     """For no scaling, use lr parameter instead of scaling_factor."""
     if not save_path:raise ValueError("Log path is not provided")
     step_size=int(len(X_train)/10)
@@ -26,7 +29,10 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None):
     save_list=[]
     for batch_size in batches:
         for scaling_factor in scaling_factors:
-            lr.fit(X_train,y_train,batch_size=batch_size,scaling_factor=scaling_factor)
+            if scale:
+                lr.fit(X_train,y_train,batch_size=batch_size,scaling_factor=scaling_factor)
+            else:
+                lr.fit(X_train,y_train,batch_size=batch_size,lr=scaling_factor)
             accuracy=round(lr.score(X_test,y_test),2)
             p,r,f1,_=precision_recall_fscore_support(y_test,lr.predict_classes(X_test),average='macro')
             custom_scd_dict,scd_dict={},{}
@@ -59,9 +65,9 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None):
             save_list.append(custom_scd_dict)
             save_list.append(scd_dict)
 
-    if not os.path.exists(save_path):
-        with open(save_path,'w') as file:
-            json.dump(save_list,file,indent=4)
+
+    with open(save_path,'w') as file:
+        json.dump(save_list,file,indent=4)
 
 
 def compare(path1,path2):
@@ -70,43 +76,36 @@ def compare(path1,path2):
         save_list=json.load(file)
         save_list_no_scale=json.load(file_no_scale)
 
+    logger.info(path1)
     #custom scd with scaling
     filtered_save_list=list(filter(lambda d: d['name'] =='custom_scd', save_list))
     max_f1=max(filtered_save_list,key=lambda d:d['f1'])['f1']
-    print("Max f1 scaled:{}".format(max_f1))
+    logger.info("Max f1 scaled:{}".format(max_f1))
     max_accuracy=max(save_list,key=lambda d:d['accuracy'])['accuracy']
-    print("Max accuracy scaled:{}".format(max_accuracy))
+    logger.info("Max accuracy scaled:{}".format(max_accuracy))
     average_f1=sum([d['f1'] for d in filtered_save_list])/len(filtered_save_list)
-    print("Mean f1 scaled:{}".format(average_f1))
+    logger.info("Mean f1 scaled:{}".format(average_f1))
     average_accuracy=sum([d['accuracy'] for d in filtered_save_list])/len(filtered_save_list)
-    print("Mean accuracy scaled:{}\n".format(average_accuracy))
+    logger.info("Mean accuracy scaled:{}\n".format(average_accuracy))
 
     #custom scd without scaling
     filtered_save_list_no_scale=list(filter(lambda d: d['name'] =='custom_scd', save_list_no_scale))
     max_f1=max(filtered_save_list_no_scale,key=lambda d:d['f1'])['f1']
-    print("Max f1 not scaled:{}".format(max_f1))
+    logger.info("Max f1 not scaled:{}".format(max_f1))
     max_accuracy=max(filtered_save_list_no_scale,key=lambda d:d['accuracy'])['accuracy']
-    print("Max accuracy not scaled:{}".format(max_accuracy))
+    logger.info("Max accuracy not scaled:{}".format(max_accuracy))
     average_f1=sum([d['f1'] for d in filtered_save_list_no_scale])/len(filtered_save_list_no_scale)
-    print("Mean f1 not scaled:{}".format(average_f1))
+    logger.info("Mean f1 not scaled:{}".format(average_f1))
     average_accuracy=sum([d['accuracy'] for d in filtered_save_list_no_scale])/len(filtered_save_list_no_scale)
-    print("Mean accuracy not scaled:{}\n".format(average_accuracy))
+    logger.info("Mean accuracy not scaled:{}\n".format(average_accuracy))
 
     #scd
     filtered_saved_list_default=list(filter(lambda d: d['name'] =='scd', save_list))
     max_f1=max(filtered_saved_list_default,key=lambda d:d['f1'])['f1']
-    print("Max f1 sklearn:{}".format(max_f1))
+    logger.info("Max f1 sklearn:{}".format(max_f1))
     max_accuracy=max(filtered_saved_list_default,key=lambda d:d['accuracy'])['accuracy']
-    print("Max accuracy sklearn:{}".format(max_accuracy))
+    logger.info("Max accuracy sklearn:{}".format(max_accuracy))
     average_f1=sum([d['f1'] for d in filtered_saved_list_default])/len(filtered_saved_list_default)
-    print("Mean f1 sklearn:{}".format(average_f1))
+    logger.info("Mean f1 sklearn:{}".format(average_f1))
     average_accuracy=sum([d['accuracy'] for d in filtered_saved_list_default])/len(filtered_saved_list_default)
-    print("Mean accuracy sklearn:{}\n".format(average_accuracy))
-
-
-    # count=0
-    # for d1,d2 in zip(save_list,save_list_no_scale):
-    #     if d1['name']=="custom_scd":
-    #         if d1['f1']>d2['f1']:
-    #             count+=1
-    # print("{}% of cases scaling is better".format(count/(len(save_list)/2)*100))
+    logger.info("Mean accuracy sklearn:{}\n".format(average_accuracy))
