@@ -1,6 +1,6 @@
 from ucimlrepo import fetch_ucirepo
 from sklearn.model_selection import train_test_split
-from utils import remove_nan,evaluate
+from utils import remove_nan,evaluate, compare
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -12,7 +12,8 @@ X = heart_disease.data.features
 y = heart_disease.data.targets
 X,y=remove_nan(X,y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-evaluate(X_train, X_test, y_train, y_test,log_path='project/mimic3/optim/results/heart_disease.log')
+evaluate(X_train, X_test, y_train, y_test,save_path='project/mimic3/optim/results/heart_disease.log')
+compare('project/mimic3/optim/results/heart_disease.log','project/mimic3/optim/results/heart_disease_no_scale.log')
 
 hepatitis = fetch_ucirepo(id=46)
 print("hepatitis dataset shape {}".format(hepatitis.data.features.shape))
@@ -20,7 +21,9 @@ X = hepatitis.data.features
 y = hepatitis.data.targets
 X,y=remove_nan(X,y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-evaluate(X_train, X_test, y_train, y_test,log_path='project/mimic3/optim/results/hepatitis.log')
+evaluate(X_train, X_test, y_train, y_test,save_path='project/mimic3/optim/results/hepatitis.log')
+compare('project/mimic3/optim/results/hepatitis.log','project/mimic3/optim/results/hepatitis_no_scale.log')
+
 
 lung_cancer = fetch_ucirepo(id=62)
 print("lung_cancer dataset shape {}".format(lung_cancer.data.features.shape))
@@ -28,4 +31,5 @@ X = lung_cancer.data.features
 y = lung_cancer.data.targets
 X,y=remove_nan(X,y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-evaluate(X_train, X_test, y_train, y_test,log_path='project/mimic3/optim/results/lung_cancer.log')
+evaluate(X_train, X_test, y_train, y_test,save_path='project/mimic3/optim/results/lung_cancer.log')
+compare('project/mimic3/optim/results/lung_cancer.log','project/mimic3/optim/results/lung_cancer_no_scale.log')
