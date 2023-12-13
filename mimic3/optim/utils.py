@@ -25,10 +25,10 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True):
     batches=list(range(step_size,len(X_train),step_size))
     # scaling factors the same as learning rates
     scaling_factors=[0.0001,0.001,0.01,0.05,0.1]
-    lr=MultiClassLogisticRegression()
     save_list=[]
     for batch_size in batches:
         for scaling_factor in scaling_factors:
+            lr=MultiClassLogisticRegression()
             if scale:
                 lr.fit(X_train,y_train,batch_size=batch_size,scaling_factor=scaling_factor)
             else:
@@ -62,8 +62,8 @@ def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,n_iter=500)
     for batch_size in batches:
         for scaling_factor in scaling_factors:
             scd_dict={}
+            clf=SGDClassifier(loss='log_loss',eta0=scaling_factor,learning_rate='constant')
             for _ in range(n_iter):
-                clf=SGDClassifier(loss='log_loss',eta0=scaling_factor,learning_rate='constant')
                 idx = np.random.choice(X_train.to_numpy().shape[0], batch_size)
                 X_batch, y_batch = X_train.to_numpy()[idx], y_train.to_numpy()[idx]
                 clf.partial_fit(X_batch,y_batch,classes)
