@@ -8,7 +8,7 @@ class MultiClassLogisticRegression:
         Linear Prediction -> Softmax Activation -> Cross Entropy Calculation -> Derivative calculation -> Update
         Sources:https://github.com/bamtak/machine-learning-implemetation-python/blob/master/Multi%20Class%20Logistic%20Regression.ipynb
     """
-    def __init__(self,n_iter = 500, threshold=0.02):
+    def __init__(self,n_iter = 300, threshold=0.02):
         self.n_iter = n_iter
         self.threshold = threshold
 
@@ -45,8 +45,8 @@ class MultiClassLogisticRegression:
             lr=lr * (1 / (1 + 0.01 * i))
             self.weights-=lr*dweight
             self.bias-=lr*dbias
-            if np.abs(dweight).max() < self.threshold:
-                break
+            # if np.abs(dweight).max() < self.threshold:
+            #     break
             # if i % 100 == 0:
             #     print(' Training Accuray at {} iterations is {}'.format(i, self.evaluate(X, y)))
 
