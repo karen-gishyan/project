@@ -8,7 +8,7 @@ class MultiClassLogisticRegression:
         Linear Prediction -> Softmax Activation -> Cross Entropy Calculation -> Derivative calculation -> Update
         Sources:https://github.com/bamtak/machine-learning-implemetation-python/blob/master/Multi%20Class%20Logistic%20Regression.ipynb
     """
-    def __init__(self,n_iter = 300, threshold=0.02):
+    def __init__(self,n_iter = 500, threshold=0.02):
         self.n_iter = n_iter
         self.threshold = threshold
 

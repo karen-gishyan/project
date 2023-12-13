@@ -1,66 +1,66 @@
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\heart_disease.log
-Max f1 scaled:0.26204526938471895,batch_size:20,scaling_factor:0.01
-Max accuracy scaled:0.59,batch_size:60,scaling_factor:0.001
-Mean f1 scaled:0.17803703563914072
-Mean accuracy scaled:0.5185999999999998
+Max f1 scaled:0.28855722566067393,batch_size:200,scaling_factor:0.01
+Max accuracy scaled:0.59,batch_size:100,scaling_factor:0.001
+Mean f1 scaled:0.18017380746902795
+Mean accuracy scaled:0.5405999999999996
 
 Max f1 not scaled:0.3285507645681224,batch_size:160,scaling_factor:0.001
 Max accuracy not scaled:0.6,batch_size:160,scaling_factor:0.001
 Mean f1 not scaled:0.17066588354301382
 Mean accuracy not scaled:0.5455999999999996
 
-Max f1 sklearn:0.27322007676058435,batch_size:120,scaling_factor:0.1
-Max accuracy sklearn:0.56,batch_size:100,scaling_factor:0.0001
-Mean f1 sklearn:0.12856330453424558
-Mean accuracy sklearn:0.4165999999999998
+Max f1 sklearn:0.2607464607464608,batch_size:100,scaling_factor:0.001
+Max accuracy sklearn:0.59,batch_size:180,scaling_factor:0.1
+Mean f1 sklearn:0.11946037800385038
+Mean accuracy sklearn:0.35340000000000005
 
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\hepatitis.log
-Max f1 scaled:0.8736842105263158,batch_size:25,scaling_factor:0.05
-Max accuracy scaled:0.92,batch_size:10,scaling_factor:0.1
-Mean f1 scaled:0.5533274092095367
-Mean accuracy scaled:0.8263636363636356
+Max f1 scaled:0.9316239316239316,batch_size:5,scaling_factor:0.001
+Max accuracy scaled:0.96,batch_size:5,scaling_factor:0.001
+Mean f1 scaled:0.5318208378530196
+Mean accuracy scaled:0.8196363636363629
 
 Max f1 not scaled:0.7491289198606272,batch_size:55,scaling_factor:0.01
 Max accuracy not scaled:0.88,batch_size:5,scaling_factor:0.001
 Mean f1 not scaled:0.4003117204561023
 Mean accuracy not scaled:0.5823636363636364
 
-Max f1 sklearn:0.6651162790697674,batch_size:25,scaling_factor:0.001
-Max accuracy sklearn:0.88,batch_size:25,scaling_factor:0.001
-Mean f1 sklearn:0.44649003793502523
-Mean accuracy sklearn:0.7390909090909085
+Max f1 sklearn:0.8500000000000001,batch_size:35,scaling_factor:0.05
+Max accuracy sklearn:0.92,batch_size:35,scaling_factor:0.05
+Mean f1 sklearn:0.47166625484515967
+Mean accuracy sklearn:0.7747272727272722
 
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\lung_cancer.log
-Max f1 scaled:0.2619047619047619,batch_size:2,scaling_factor:0.001
-Max accuracy scaled:0.22,batch_size:1,scaling_factor:0.01
-Mean f1 scaled:0.19399937752878918
-Mean accuracy scaled:0.1876470588235295
+Max f1 scaled:0.3055555555555555,batch_size:2,scaling_factor:0.001
+Max accuracy scaled:0.22,batch_size:1,scaling_factor:0.001
+Mean f1 scaled:0.2055617802676624
+Mean accuracy scaled:0.19411764705882362
 
 Max f1 not scaled:0.2619047619047619,batch_size:3,scaling_factor:0.01
 Max accuracy not scaled:0.22,batch_size:1,scaling_factor:0.05
 Mean f1 not scaled:0.17432306255835653
 Mean accuracy not scaled:0.17470588235294127
 
-Max f1 sklearn:0.35555555555555557,batch_size:6,scaling_factor:0.1
-Max accuracy sklearn:0.78,batch_size:1,scaling_factor:0.1
-Mean f1 sklearn:0.11019538196008777
-Mean accuracy sklearn:0.18599999999999978
+Max f1 sklearn:0.40740740740740744,batch_size:2,scaling_factor:0.001
+Max accuracy sklearn:0.78,batch_size:2,scaling_factor:0.01
+Mean f1 sklearn:0.11342670401493929
+Mean accuracy sklearn:0.18858823529411753
 
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\diabetic.log
-Max f1 scaled:0.6978424657534247,batch_size:480,scaling_factor:0.05
-Max accuracy scaled:0.71,batch_size:480,scaling_factor:0.05
-Mean f1 scaled:0.5576329411922603
-Mean accuracy scaled:0.6282000000000003
+Max f1 scaled:0.712119811407969,batch_size:720,scaling_factor:0.05
+Max accuracy scaled:0.71,batch_size:80,scaling_factor:0.05
+Mean f1 scaled:0.5918976938507386
+Mean accuracy scaled:0.6468000000000004
 
 Max f1 not scaled:0.6786015875696673,batch_size:80,scaling_factor:0.01
 Max accuracy not scaled:0.68,batch_size:80,scaling_factor:0.01
 Mean f1 not scaled:0.5281772906898917
 Mean accuracy not scaled:0.5939999999999998
 
-Max f1 sklearn:0.6820703020582732,batch_size:720,scaling_factor:0.05
-Max accuracy sklearn:0.68,batch_size:720,scaling_factor:0.05
-Mean f1 sklearn:0.474412924708321
-Mean accuracy sklearn:0.5602000000000001
+Max f1 sklearn:0.6756068977063452,batch_size:800,scaling_factor:0.01
+Max accuracy sklearn:0.68,batch_size:800,scaling_factor:0.01
+Mean f1 sklearn:0.46111764625662327
+Mean accuracy sklearn:0.5578
 
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\bone_marrow.log
 Max f1 scaled:0.4027777777777778,batch_size:9,scaling_factor:0.0001
@@ -73,26 +73,26 @@ Max accuracy not scaled:0.67,batch_size:9,scaling_factor:0.0001
 Mean f1 not scaled:0.40277777777777823
 Mean accuracy not scaled:0.6700000000000008
 
-Max f1 sklearn:0.5234441602728048,batch_size:36,scaling_factor:0.001
-Max accuracy sklearn:0.7,batch_size:36,scaling_factor:0.001
-Mean f1 sklearn:0.40998591356706343
-Mean accuracy sklearn:0.5775999999999999
+Max f1 sklearn:0.5608798114689708,batch_size:81,scaling_factor:0.1
+Max accuracy sklearn:0.72,batch_size:90,scaling_factor:0.1
+Mean f1 sklearn:0.41134232746960686
+Mean accuracy sklearn:0.5908000000000001
 
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\glioma.log
-Max f1 scaled:0.8706614486430999,batch_size:464,scaling_factor:0.1
-Max accuracy scaled:0.87,batch_size:406,scaling_factor:0.05
-Mean f1 scaled:0.5476955796688057
-Mean accuracy scaled:0.6088
+Max f1 scaled:0.8736392604694045,batch_size:232,scaling_factor:0.1
+Max accuracy scaled:0.88,batch_size:232,scaling_factor:0.1
+Mean f1 scaled:0.5916367339113164
+Mean accuracy scaled:0.6422
 
 Max f1 not scaled:0.86676279740447,batch_size:116,scaling_factor:0.1
 Max accuracy not scaled:0.87,batch_size:58,scaling_factor:0.05
 Mean f1 not scaled:0.6317030381909106
 Mean accuracy not scaled:0.6889999999999997
 
-Max f1 sklearn:0.8615921426725252,batch_size:580,scaling_factor:0.001
-Max accuracy sklearn:0.87,batch_size:580,scaling_factor:0.001
-Mean f1 sklearn:0.35911604756653825
-Mean accuracy sklearn:0.524
+Max f1 sklearn:0.8592470836059557,batch_size:522,scaling_factor:0.1
+Max accuracy sklearn:0.86,batch_size:522,scaling_factor:0.1
+Mean f1 sklearn:0.35044432986503693
+Mean accuracy sklearn:0.5152000000000001
 
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\heart_failure.log
 Max f1 scaled:0.3706293706293706,batch_size:20,scaling_factor:0.0001
@@ -105,24 +105,24 @@ Max accuracy not scaled:0.59,batch_size:20,scaling_factor:0.0001
 Mean f1 not scaled:0.3706293706293703
 Mean accuracy not scaled:0.59
 
-Max f1 sklearn:0.3706293706293706,batch_size:20,scaling_factor:0.0001
-Max accuracy sklearn:0.59,batch_size:20,scaling_factor:0.0001
-Mean f1 sklearn:0.3515995815208411
-Mean accuracy sklearn:0.5468
+Max f1 sklearn:0.3706293706293706,batch_size:20,scaling_factor:0.01
+Max accuracy sklearn:0.59,batch_size:20,scaling_factor:0.01
+Mean f1 sklearn:0.3468421342437088
+Mean accuracy sklearn:0.5359999999999999
 
 C:\Users\gishy\OneDrive\phd\codes\orm-and-graph-benchmarks\project\mimic3\optim\results\ilpd.log
-Max f1 scaled:0.5516649048625792,batch_size:280,scaling_factor:0.01
-Max accuracy scaled:0.67,batch_size:200,scaling_factor:0.01
-Mean f1 scaled:0.4017426097679527
-Mean accuracy scaled:0.6481999999999996
+Max f1 scaled:0.6282051282051282,batch_size:80,scaling_factor:0.01
+Max accuracy scaled:0.66,batch_size:160,scaling_factor:0.01
+Mean f1 scaled:0.40178605001587364
+Mean accuracy scaled:0.6493999999999994
 
 Max f1 not scaled:0.5589160839160838,batch_size:40,scaling_factor:0.001
 Max accuracy not scaled:0.67,batch_size:40,scaling_factor:0.001
 Mean f1 not scaled:0.4230618637804699
 Mean accuracy not scaled:0.6473999999999995
 
-Max f1 sklearn:0.541029810298103,batch_size:400,scaling_factor:0.05
-Max accuracy sklearn:0.67,batch_size:200,scaling_factor:0.001
-Mean f1 sklearn:0.42330706702473625
-Mean accuracy sklearn:0.6109999999999998
+Max f1 sklearn:0.5667064642674399,batch_size:360,scaling_factor:0.001
+Max accuracy sklearn:0.67,batch_size:120,scaling_factor:0.0001
+Mean f1 sklearn:0.43461349882008554
+Mean accuracy sklearn:0.6133999999999998
 

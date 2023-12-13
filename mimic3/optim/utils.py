@@ -51,7 +51,7 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True):
         json.dump(save_list,file,indent=4)
 
 
-def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,n_iter=300):
+def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,n_iter=500):
     if not save_path:raise ValueError("save path is not provided")
     step_size=int(len(X_train)/10)
     batches=list(range(step_size,len(X_train),step_size))
