@@ -30,244 +30,244 @@
         "name": "custom_scd",
         "batch_size": 58,
         "scaling_factor": 0.05,
-        "accuracy": 0.87,
-        "precision": 0.8635036496350366,
-        "recall": 0.874313725490196,
-        "f1": 0.8664718444419468
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
     },
     {
         "name": "custom_scd",
         "batch_size": 58,
         "scaling_factor": 0.1,
-        "accuracy": 0.86,
-        "precision": 0.856921716054843,
-        "recall": 0.8692156862745097,
-        "f1": 0.8589770238076204
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 116,
-        "scaling_factor": 0.0001,
-        "accuracy": 0.6,
-        "precision": 0.2976190476190476,
-        "recall": 0.5,
-        "f1": 0.3731343283582089
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 116,
-        "scaling_factor": 0.001,
-        "accuracy": 0.86,
-        "precision": 0.8534090909090909,
-        "recall": 0.8658823529411764,
-        "f1": 0.8550891316848764
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 116,
-        "scaling_factor": 0.01,
-        "accuracy": 0.76,
-        "precision": 0.7881778244049571,
-        "recall": 0.7872549019607843,
-        "f1": 0.757932696093098
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 116,
-        "scaling_factor": 0.05,
-        "accuracy": 0.87,
-        "precision": 0.8635036496350366,
-        "recall": 0.874313725490196,
-        "f1": 0.8664718444419468
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 116,
-        "scaling_factor": 0.1,
-        "accuracy": 0.87,
-        "precision": 0.8641025641025641,
-        "recall": 0.8758823529411764,
-        "f1": 0.86676279740447
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 174,
-        "scaling_factor": 0.0001,
-        "accuracy": 0.6,
-        "precision": 0.2976190476190476,
-        "recall": 0.5,
-        "f1": 0.3731343283582089
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 174,
-        "scaling_factor": 0.001,
-        "accuracy": 0.4,
-        "precision": 0.20238095238095238,
-        "recall": 0.5,
-        "f1": 0.288135593220339
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 174,
-        "scaling_factor": 0.01,
-        "accuracy": 0.78,
-        "precision": 0.8029970995810506,
-        "recall": 0.8072549019607843,
-        "f1": 0.7816600765607524
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 174,
-        "scaling_factor": 0.05,
-        "accuracy": 0.86,
-        "precision": 0.8578954009210775,
-        "recall": 0.8707843137254901,
-        "f1": 0.8592470836059557
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 174,
-        "scaling_factor": 0.1,
-        "accuracy": 0.86,
-        "precision": 0.856921716054843,
-        "recall": 0.8692156862745097,
-        "f1": 0.8589770238076204
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 232,
-        "scaling_factor": 0.0001,
-        "accuracy": 0.6,
-        "precision": 0.2976190476190476,
-        "recall": 0.5,
-        "f1": 0.3731343283582089
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 232,
-        "scaling_factor": 0.001,
-        "accuracy": 0.42,
-        "precision": 0.7064777327935223,
-        "recall": 0.5166666666666667,
-        "f1": 0.3245216748313152
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 232,
-        "scaling_factor": 0.01,
-        "accuracy": 0.87,
-        "precision": 0.8597870182555781,
-        "recall": 0.8709803921568627,
-        "f1": 0.8625777891832938
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 232,
-        "scaling_factor": 0.05,
-        "accuracy": 0.86,
-        "precision": 0.8534090909090909,
-        "recall": 0.8658823529411764,
-        "f1": 0.8550891316848764
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 232,
-        "scaling_factor": 0.1,
-        "accuracy": 0.86,
-        "precision": 0.8534090909090909,
-        "recall": 0.8658823529411764,
-        "f1": 0.8550891316848764
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 290,
-        "scaling_factor": 0.0001,
-        "accuracy": 0.41,
-        "precision": 0.704,
-        "recall": 0.5066666666666667,
-        "f1": 0.3029306220095694
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 290,
-        "scaling_factor": 0.001,
-        "accuracy": 0.42,
-        "precision": 0.7064777327935223,
-        "recall": 0.5166666666666667,
-        "f1": 0.3245216748313152
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 290,
-        "scaling_factor": 0.01,
-        "accuracy": 0.79,
-        "precision": 0.8081413998845192,
-        "recall": 0.813921568627451,
-        "f1": 0.7895201323772751
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 290,
-        "scaling_factor": 0.05,
-        "accuracy": 0.86,
-        "precision": 0.8557207661290323,
-        "recall": 0.8690196078431373,
-        "f1": 0.8556057808620361
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 290,
-        "scaling_factor": 0.1,
-        "accuracy": 0.87,
-        "precision": 0.862421185372005,
-        "recall": 0.875686274509804,
-        "f1": 0.8633928571428571
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 348,
-        "scaling_factor": 0.0001,
-        "accuracy": 0.4,
-        "precision": 0.20238095238095238,
-        "recall": 0.5,
-        "f1": 0.288135593220339
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 348,
-        "scaling_factor": 0.001,
-        "accuracy": 0.42,
-        "precision": 0.7064777327935223,
-        "recall": 0.5166666666666667,
-        "f1": 0.3245216748313152
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 348,
-        "scaling_factor": 0.01,
         "accuracy": 0.69,
-        "precision": 0.7633766233766234,
-        "recall": 0.7319607843137255,
-        "f1": 0.6833919114489734
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 116,
+        "scaling_factor": 0.0001,
+        "accuracy": 0.4,
+        "precision": 0.20238095238095238,
+        "recall": 0.5,
+        "f1": 0.288135593220339
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 116,
+        "scaling_factor": 0.001,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 116,
+        "scaling_factor": 0.01,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 116,
+        "scaling_factor": 0.05,
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 116,
+        "scaling_factor": 0.1,
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 174,
+        "scaling_factor": 0.0001,
+        "accuracy": 0.4,
+        "precision": 0.20238095238095238,
+        "recall": 0.5,
+        "f1": 0.288135593220339
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 174,
+        "scaling_factor": 0.001,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 174,
+        "scaling_factor": 0.01,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 174,
+        "scaling_factor": 0.05,
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 174,
+        "scaling_factor": 0.1,
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 232,
+        "scaling_factor": 0.0001,
+        "accuracy": 0.4,
+        "precision": 0.20238095238095238,
+        "recall": 0.5,
+        "f1": 0.288135593220339
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 232,
+        "scaling_factor": 0.001,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 232,
+        "scaling_factor": 0.01,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 232,
+        "scaling_factor": 0.05,
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 232,
+        "scaling_factor": 0.1,
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 290,
+        "scaling_factor": 0.0001,
+        "accuracy": 0.4,
+        "precision": 0.20238095238095238,
+        "recall": 0.5,
+        "f1": 0.288135593220339
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 290,
+        "scaling_factor": 0.001,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 290,
+        "scaling_factor": 0.01,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 290,
+        "scaling_factor": 0.05,
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 290,
+        "scaling_factor": 0.1,
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 348,
+        "scaling_factor": 0.0001,
+        "accuracy": 0.4,
+        "precision": 0.20238095238095238,
+        "recall": 0.5,
+        "f1": 0.288135593220339
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 348,
+        "scaling_factor": 0.001,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 348,
+        "scaling_factor": 0.01,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 348,
         "scaling_factor": 0.05,
-        "accuracy": 0.86,
-        "precision": 0.8590470788428815,
-        "recall": 0.8723529411764706,
-        "f1": 0.8594982078853047
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
     },
     {
         "name": "custom_scd",
         "batch_size": 348,
         "scaling_factor": 0.1,
-        "accuracy": 0.87,
-        "precision": 0.862421185372005,
-        "recall": 0.875686274509804,
-        "f1": 0.8633928571428571
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
     },
     {
         "name": "custom_scd",
@@ -282,37 +282,37 @@
         "name": "custom_scd",
         "batch_size": 406,
         "scaling_factor": 0.001,
-        "accuracy": 0.4,
-        "precision": 0.20238095238095238,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
         "recall": 0.5,
-        "f1": 0.288135593220339
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 406,
         "scaling_factor": 0.01,
-        "accuracy": 0.76,
-        "precision": 0.7881778244049571,
-        "recall": 0.7872549019607843,
-        "f1": 0.757932696093098
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 406,
         "scaling_factor": 0.05,
-        "accuracy": 0.86,
-        "precision": 0.8534090909090909,
-        "recall": 0.8658823529411764,
-        "f1": 0.8550891316848764
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
     },
     {
         "name": "custom_scd",
         "batch_size": 406,
         "scaling_factor": 0.1,
-        "accuracy": 0.87,
-        "precision": 0.8641025641025641,
-        "recall": 0.8758823529411764,
-        "f1": 0.86676279740447
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
     },
     {
         "name": "custom_scd",
@@ -327,37 +327,37 @@
         "name": "custom_scd",
         "batch_size": 464,
         "scaling_factor": 0.001,
-        "accuracy": 0.4,
-        "precision": 0.20238095238095238,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
         "recall": 0.5,
-        "f1": 0.288135593220339
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 464,
         "scaling_factor": 0.01,
-        "accuracy": 0.85,
-        "precision": 0.8492063492063492,
-        "recall": 0.8623529411764705,
-        "f1": 0.8478260869565217
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 464,
         "scaling_factor": 0.05,
-        "accuracy": 0.87,
-        "precision": 0.8641025641025641,
-        "recall": 0.8758823529411764,
-        "f1": 0.86676279740447
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
     },
     {
         "name": "custom_scd",
         "batch_size": 464,
         "scaling_factor": 0.1,
-        "accuracy": 0.87,
-        "precision": 0.8641025641025641,
-        "recall": 0.8758823529411764,
-        "f1": 0.86676279740447
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
     },
     {
         "name": "custom_scd",
@@ -372,37 +372,37 @@
         "name": "custom_scd",
         "batch_size": 522,
         "scaling_factor": 0.001,
-        "accuracy": 0.4,
-        "precision": 0.20238095238095238,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
         "recall": 0.5,
-        "f1": 0.288135593220339
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 522,
         "scaling_factor": 0.01,
-        "accuracy": 0.87,
-        "precision": 0.8592677345537758,
-        "recall": 0.8694117647058823,
-        "f1": 0.8622685185185186
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 522,
         "scaling_factor": 0.05,
-        "accuracy": 0.86,
-        "precision": 0.8534090909090909,
-        "recall": 0.8658823529411764,
-        "f1": 0.8550891316848764
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
     },
     {
         "name": "custom_scd",
         "batch_size": 522,
         "scaling_factor": 0.1,
-        "accuracy": 0.86,
-        "precision": 0.8534090909090909,
-        "recall": 0.8658823529411764,
-        "f1": 0.8550891316848764
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
     },
     {
         "name": "custom_scd",
@@ -417,36 +417,36 @@
         "name": "custom_scd",
         "batch_size": 580,
         "scaling_factor": 0.001,
-        "accuracy": 0.4,
-        "precision": 0.20238095238095238,
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
         "recall": 0.5,
-        "f1": 0.288135593220339
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 580,
         "scaling_factor": 0.01,
-        "accuracy": 0.87,
-        "precision": 0.8592677345537758,
-        "recall": 0.8694117647058823,
-        "f1": 0.8622685185185186
+        "accuracy": 0.6,
+        "precision": 0.2976190476190476,
+        "recall": 0.5,
+        "f1": 0.3731343283582089
     },
     {
         "name": "custom_scd",
         "batch_size": 580,
         "scaling_factor": 0.05,
-        "accuracy": 0.86,
-        "precision": 0.8578954009210775,
-        "recall": 0.8707843137254901,
-        "f1": 0.8592470836059557
+        "accuracy": 0.63,
+        "precision": 0.7293882978723405,
+        "recall": 0.6803921568627451,
+        "f1": 0.6183048662584596
     },
     {
         "name": "custom_scd",
         "batch_size": 580,
         "scaling_factor": 0.1,
-        "accuracy": 0.86,
-        "precision": 0.8578954009210775,
-        "recall": 0.8707843137254901,
-        "f1": 0.8592470836059557
+        "accuracy": 0.69,
+        "precision": 0.7579205385234506,
+        "recall": 0.7303921568627452,
+        "f1": 0.6838745533942041
     }
 ]

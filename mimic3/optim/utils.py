@@ -18,21 +18,28 @@ def remove_nan(X,y):
     return X,y
 
 
-def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True):
-    """For no scaling, use lr parameter instead of scaling_factor."""
+def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True,epochs=1):
+    """For no scaling, use lr parameter instead of scaling_factor.
+    Feeds different chunks of data to the fit function, then performs stochastic gradient descent.
+    Same approach as partial_fit() from sklearn.
+    """
     if not save_path:raise ValueError("save path is not provided")
     step_size=int(len(X_train)/10)
     batches=list(range(step_size,len(X_train),step_size))
     # scaling factors the same as learning rates
     scaling_factors=[0.0001,0.001,0.01,0.05,0.1]
     save_list=[]
+    # batch does not do minibatching, rather a stochastic gd on a given batch
     for batch_size in batches:
         for scaling_factor in scaling_factors:
             lr=MultiClassLogisticRegression()
-            if scale:
-                lr.fit(X_train,y_train,batch_size=batch_size,scaling_factor=scaling_factor)
-            else:
-                lr.fit(X_train,y_train,batch_size=batch_size,lr=scaling_factor)
+            idx = np.random.choice(X_train.shape[0], batch_size)
+            X_batch, y_batch = X_train.to_numpy()[idx], y_train.to_numpy()[idx]
+            for _ in range(epochs):
+                if scale:
+                    lr.fit(X_batch,y_batch,scaling_factor=scaling_factor)
+                else:
+                    lr.fit(X_batch,y_batch,lr=scaling_factor)
             accuracy=round(lr.score(X_test,y_test),2)
             p,r,f1,_=precision_recall_fscore_support(y_test,lr.predict_classes(X_test),average='macro')
             custom_scd_dict={}
@@ -51,7 +58,7 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True):
         json.dump(save_list,file,indent=4)
 
 
-def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,n_iter=500):
+def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,epochs=1):
     if not save_path:raise ValueError("save path is not provided")
     step_size=int(len(X_train)/10)
     batches=list(range(step_size,len(X_train),step_size))
@@ -61,15 +68,14 @@ def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,n_iter=500)
     save_list=[]
     for batch_size in batches:
         for scaling_factor in scaling_factors:
-            scd_dict={}
-            clf=SGDClassifier(loss='log_loss',eta0=scaling_factor,learning_rate='constant')
-            for _ in range(n_iter):
-                idx = np.random.choice(X_train.to_numpy().shape[0], batch_size)
-                X_batch, y_batch = X_train.to_numpy()[idx], y_train.to_numpy()[idx]
+            clf=SGDClassifier(loss='log_loss',eta0=scaling_factor,learning_rate='constant',penalty=None)
+            idx = np.random.choice(X_train.to_numpy().shape[0], batch_size)
+            X_batch, y_batch = X_train.to_numpy()[idx], y_train.to_numpy()[idx]
+            for _ in range(epochs):
                 clf.partial_fit(X_batch,y_batch,classes)
-
             accuracy=round(clf.score(X_test,y_test),2)
             p,r,f1,_=precision_recall_fscore_support(y_test,clf.predict(X_test),average='macro')
+            scd_dict={}
             scd_dict.update({
                 "name":"scd",
                 "batch_size":batch_size,
