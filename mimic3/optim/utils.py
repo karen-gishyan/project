@@ -26,6 +26,8 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True,epochs=1
     if not save_path:raise ValueError("save path is not provided")
     step_size=int(len(X_train)/10)
     batches=list(range(step_size,len(X_train),step_size))
+    X_train=X_train.to_numpy()
+    y_train=y_train.to_numpy()
     # scaling factors the same as learning rates
     scaling_factors=[0.0001,0.001,0.01,0.05,0.1]
     save_list=[]
@@ -34,7 +36,7 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True,epochs=1
         for scaling_factor in scaling_factors:
             lr=MultiClassLogisticRegression()
             idx = np.random.choice(X_train.shape[0], batch_size)
-            X_batch, y_batch = X_train.to_numpy()[idx], y_train.to_numpy()[idx]
+            X_batch, y_batch = X_train[idx], y_train[idx]
             for _ in range(epochs):
                 if scale:
                     lr.fit(X_batch,y_batch,scaling_factor=scaling_factor)
@@ -62,6 +64,8 @@ def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,epochs=1):
     if not save_path:raise ValueError("save path is not provided")
     step_size=int(len(X_train)/10)
     batches=list(range(step_size,len(X_train),step_size))
+    X_train=X_train.to_numpy()
+    y_train=y_train.to_numpy()
     classes = np.unique(y_train)
     # scaling factors the same as learning rates
     scaling_factors=[0.0001,0.001,0.01,0.05,0.1]
@@ -69,8 +73,8 @@ def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,epochs=1):
     for batch_size in batches:
         for scaling_factor in scaling_factors:
             clf=SGDClassifier(loss='log_loss',eta0=scaling_factor,learning_rate='constant',penalty=None)
-            idx = np.random.choice(X_train.to_numpy().shape[0], batch_size)
-            X_batch, y_batch = X_train.to_numpy()[idx], y_train.to_numpy()[idx]
+            idx = np.random.choice(X_train.shape[0], batch_size)
+            X_batch, y_batch = X_train[idx], y_train[idx]
             for _ in range(epochs):
                 clf.partial_fit(X_batch,y_batch,classes)
             accuracy=round(clf.score(X_test,y_test),2)

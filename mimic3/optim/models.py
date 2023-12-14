@@ -12,7 +12,7 @@ class MultiClassLogisticRegression:
         self.n_iter = n_iter
         self.threshold = threshold
 
-    def fit(self,X, y, lr=None,scaling_factor=None, random_seed=4):
+    def fit(self,X, y,lr=None,scaling_factor=None, random_seed=4,):
         """Model training.
         lr is the default update rate.
         scaling_factor is custom update.
@@ -38,7 +38,7 @@ class MultiClassLogisticRegression:
             dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
             if scaling_factor:
                 lr=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))*scaling_factor
-            lr=lr * (1 / (1 + 0.01 * i))
+            # lr=lr * (1 / (1 + 0.01 * i))
             self.weights-=lr*dweight
             self.bias-=lr*dbias
             # if np.abs(dweight).max() < self.threshold:

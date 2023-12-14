@@ -156,10 +156,10 @@
         "name": "custom_scd",
         "batch_size": 20,
         "scaling_factor": 0.01,
-        "accuracy": 0.83,
-        "precision": 0.4166666666666667,
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
         "recall": 0.5,
-        "f1": 0.45454545454545453
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
@@ -192,19 +192,19 @@
         "name": "custom_scd",
         "batch_size": 25,
         "scaling_factor": 0.001,
-        "accuracy": 0.21,
-        "precision": 0.5869565217391304,
-        "recall": 0.525,
-        "f1": 0.19576719576719578
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
+        "recall": 0.5,
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
         "batch_size": 25,
         "scaling_factor": 0.01,
-        "accuracy": 0.5,
-        "precision": 0.625,
-        "recall": 0.7,
-        "f1": 0.48571428571428577
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
+        "recall": 0.5,
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
@@ -246,10 +246,10 @@
         "name": "custom_scd",
         "batch_size": 30,
         "scaling_factor": 0.01,
-        "accuracy": 0.83,
-        "precision": 0.4166666666666667,
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
         "recall": 0.5,
-        "f1": 0.45454545454545453
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
@@ -282,15 +282,6 @@
         "name": "custom_scd",
         "batch_size": 35,
         "scaling_factor": 0.001,
-        "accuracy": 0.83,
-        "precision": 0.7,
-        "recall": 0.7,
-        "f1": 0.7
-    },
-    {
-        "name": "custom_scd",
-        "batch_size": 35,
-        "scaling_factor": 0.01,
         "accuracy": 0.88,
         "precision": 0.7857142857142857,
         "recall": 0.725,
@@ -299,6 +290,15 @@
     {
         "name": "custom_scd",
         "batch_size": 35,
+        "scaling_factor": 0.01,
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
+        "recall": 0.5,
+        "f1": 0.14285714285714285
+    },
+    {
+        "name": "custom_scd",
+        "batch_size": 35,
         "scaling_factor": 0.05,
         "accuracy": 0.17,
         "precision": 0.08333333333333333,
@@ -336,10 +336,10 @@
         "name": "custom_scd",
         "batch_size": 40,
         "scaling_factor": 0.01,
-        "accuracy": 0.83,
-        "precision": 0.4166666666666667,
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
         "recall": 0.5,
-        "f1": 0.45454545454545453
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
@@ -381,10 +381,10 @@
         "name": "custom_scd",
         "batch_size": 45,
         "scaling_factor": 0.01,
-        "accuracy": 0.83,
-        "precision": 0.4166666666666667,
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
         "recall": 0.5,
-        "f1": 0.45454545454545453
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
@@ -426,10 +426,10 @@
         "name": "custom_scd",
         "batch_size": 50,
         "scaling_factor": 0.01,
-        "accuracy": 0.83,
-        "precision": 0.4166666666666667,
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
         "recall": 0.5,
-        "f1": 0.45454545454545453
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
@@ -462,19 +462,19 @@
         "name": "custom_scd",
         "batch_size": 55,
         "scaling_factor": 0.001,
-        "accuracy": 0.88,
-        "precision": 0.9347826086956521,
-        "recall": 0.625,
-        "f1": 0.6651162790697674
+        "accuracy": 0.83,
+        "precision": 0.4166666666666667,
+        "recall": 0.5,
+        "f1": 0.45454545454545453
     },
     {
         "name": "custom_scd",
         "batch_size": 55,
         "scaling_factor": 0.01,
-        "accuracy": 0.83,
-        "precision": 0.4166666666666667,
+        "accuracy": 0.17,
+        "precision": 0.08333333333333333,
         "recall": 0.5,
-        "f1": 0.45454545454545453
+        "f1": 0.14285714285714285
     },
     {
         "name": "custom_scd",
