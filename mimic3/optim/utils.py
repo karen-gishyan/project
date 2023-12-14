@@ -35,13 +35,11 @@ def evaluate(X_train, X_test, y_train, y_test,save_path=None,scale=True,epochs=1
     for batch_size in batches:
         for scaling_factor in scaling_factors:
             lr=MultiClassLogisticRegression()
-            idx = np.random.choice(X_train.shape[0], batch_size)
-            X_batch, y_batch = X_train[idx], y_train[idx]
             for _ in range(epochs):
                 if scale:
-                    lr.fit(X_batch,y_batch,scaling_factor=scaling_factor)
+                    lr.fit(X_train,y_train,scaling_factor=scaling_factor,batch_size=batch_size)
                 else:
-                    lr.fit(X_batch,y_batch,lr=scaling_factor)
+                    lr.fit(X_train,y_train,lr=scaling_factor,batch_size=batch_size)
             accuracy=round(lr.score(X_test,y_test),2)
             p,r,f1,_=precision_recall_fscore_support(y_test,lr.predict_classes(X_test),average='macro')
             custom_scd_dict={}
@@ -73,11 +71,8 @@ def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,epochs=1):
     for batch_size in batches:
         for scaling_factor in scaling_factors:
             clf=SGDClassifier(loss='log_loss',shuffle=False,alpha=0,penalty=None,l1_ratio=0,tol=None,
-                              learning_rate='constant',eta0=scaling_factor,power_t=0)
-            idx = np.random.choice(X_train.shape[0], batch_size)
-            X_batch, y_batch = X_train[idx], y_train[idx]
-            for _ in range(epochs):
-                clf.partial_fit(X_batch,y_batch,classes)
+                              learning_rate='constant',eta0=scaling_factor,power_t=0,max_iter=epochs)
+            clf.fit(X_train,y_train)
             accuracy=round(clf.score(X_test,y_test),2)
             p,r,f1,_=precision_recall_fscore_support(y_test,clf.predict(X_test),average='macro')
             scd_dict={}

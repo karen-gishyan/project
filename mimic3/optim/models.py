@@ -12,7 +12,7 @@ class MultiClassLogisticRegression:
         self.n_iter = n_iter
         self.threshold = threshold
 
-    def fit(self,X, y,lr=None,scaling_factor=None, random_seed=4,):
+    def fit(self,X, y,lr=None,scaling_factor=None, random_seed=4,batch_size=1):
         """Model training.
         lr is the default update rate.
         scaling_factor is custom update.
@@ -28,9 +28,9 @@ class MultiClassLogisticRegression:
         self.loss = []
         self.bias = np.zeros((1, len(self.classes)))
         self.weights = np.zeros(shape=(len(self.classes),X.shape[1]))
-        #stochastic gradient descent, one epoch
-        for i in range(len(X)):
-            X_batch, y_batch = X[i].reshape(1,-1), y[i].reshape(1,-1)
+        #stachastic and minibatch gd are supported
+        for i in range(0,len(X),batch_size):
+            X_batch, y_batch = X[i:i+batch_size], y[i:i+batch_size]
             y_pred=self.predict(X_batch)
             loss=self.cross_entropy(y_batch,y_pred)
             self.loss.append(loss)
