@@ -72,7 +72,8 @@ def evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=None,epochs=1):
     save_list=[]
     for batch_size in batches:
         for scaling_factor in scaling_factors:
-            clf=SGDClassifier(loss='log_loss',eta0=scaling_factor,learning_rate='constant',penalty=None)
+            clf=SGDClassifier(loss='log_loss',shuffle=False,alpha=0,penalty=None,l1_ratio=0,tol=None,
+                              learning_rate='constant',eta0=scaling_factor,power_t=0)
             idx = np.random.choice(X_train.shape[0], batch_size)
             X_batch, y_batch = X_train[idx], y_train[idx]
             for _ in range(epochs):
