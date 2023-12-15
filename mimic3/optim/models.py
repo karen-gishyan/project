@@ -12,7 +12,7 @@ class MultiClassLogisticRegression:
         self.n_iter = n_iter
         self.threshold = threshold
 
-    def fit(self,X, y,lr=None,scaling_factor=None, random_seed=4,batch_size=1):
+    def fit(self,X, y,lr=None,scaling_factor=None, random_seed=4,batch_size=1,n_epochs=1):
         """Model training.
         lr is the default update rate.
         scaling_factor is custom update.
@@ -29,22 +29,24 @@ class MultiClassLogisticRegression:
         self.bias = np.zeros((1, len(self.classes)))
         self.weights = np.zeros(shape=(len(self.classes),X.shape[1]))
         #stachastic and minibatch gd are supported
-        for i in range(0,len(X),batch_size):
-            X_batch, y_batch = X[i:i+batch_size], y[i:i+batch_size]
-            y_pred=self.predict(X_batch)
-            loss=self.cross_entropy(y_batch,y_pred)
-            self.loss.append(loss)
-            # update
-            dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
-            if scaling_factor:
-                lr=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))*scaling_factor
-            # lr=lr * (1 / (1 + 0.01 * i))
-            self.weights-=lr*dweight
-            self.bias-=lr*dbias
-            # if np.abs(dweight).max() < self.threshold:
-            #     break
-            # if i % 100 == 0:
-            #     print(' Training Accuray at {} iterations is {}'.format(i, self.evaluate(X, y)))
+        for _ in range(n_epochs):
+            for i in range(0,len(X),batch_size):
+                X_batch, y_batch = X[i:i+batch_size], y[i:i+batch_size]
+                y_pred=self.predict(X_batch)
+                loss=self.cross_entropy(y_batch,y_pred)
+                self.loss.append(loss)
+                # update
+                dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
+                if scaling_factor:
+                    lr=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))*scaling_factor
+                rescale=scaling_factor if scaling_factor else 0.01
+                lr=lr * (1 / (1 + rescale * i))
+                self.weights-=lr*dweight
+                self.bias-=lr*dbias
+                # if np.abs(dweight).max() < self.threshold:
+                #     break
+                # if i % 100 == 0:
+                #     print(' Training Accuray at {} iterations is {}'.format(i, self.evaluate(X, y)))
 
     def one_hot(self, y):
         """Dummy conversion."""
