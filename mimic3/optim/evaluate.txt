@@ -1,0 +1,29 @@
+Method: Scale learning of SGD by cosine-similarity, compare with and without learning rate decay.
+Rationale: Smaller the vector similarity between batch and the mean, smaller then learning rate, thus the update.
+----
+checkmark is applied if with cosine scaling, either max f1 or mean f1 if is better in comparison.
+no checkmark, when it is equal or worse.
+------
+                                                No Learning-decay
+                                    1 epoch                         10 epochs                   50 epochs
+                            base_no_scale   sklearn         base_no_scale   sklearn        base_no_scale   sklearn
+heart disease                      ✅         ✅                 ✅           ✅              ✅
+hepatitis                          ✅
+lung_cancer                                                                                                  ✅
+diabetic                           ✅                            ✅                            ✅
+bone_marrow                                    ✅                              ✅                           ✅
+glioma                                                            ✅           ✅              ✅           ✅
+heart_failure
+ilpd
+
+                                                Learning-decay
+                                    1 epoch                        10 epochs                   50 epochs
+                             base_no_scale   sklearn           base_no_scale   sklearn       base_no_scale   sklearn
+heart disease                     ✅                               ✅                              ✅
+hepatitis                         ✅           ✅                  ✅           ✅
+lung_cancer                                                         ✅                              ✅         ✅
+diabetic                          ✅           ✅                  ✅           ✅                 ✅         ✅
+bone_marrow                                     ✅                               ✅                             ✅
+glioma                                                              ✅                               ✅         ✅
+heart_failure
+ilpd                              ✅                                ✅                               ✅

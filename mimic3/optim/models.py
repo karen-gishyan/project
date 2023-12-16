@@ -38,7 +38,8 @@ class MultiClassLogisticRegression:
                 # update
                 dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
                 if scaling_factor:
-                    lr=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))*scaling_factor
+                    cosine_similarity=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))
+                    lr=cosine_similarity*scaling_factor
                 rescale=scaling_factor if scaling_factor else 0.01
                 lr=lr * (1 / (1 + rescale * i))
                 self.weights-=lr*dweight
