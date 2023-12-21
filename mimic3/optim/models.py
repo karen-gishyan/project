@@ -41,8 +41,8 @@ class MultiClassLogisticRegression:
                     cosine_similarity=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))
                     lr=cosine_similarity*scaling_factor
                 #NOTE comment out next two lines if lr should not decay
-                rescale=scaling_factor if scaling_factor else 0.01
-                lr=lr * (1 / (1 + rescale * i))
+                # rescale=scaling_factor if scaling_factor else 0.01
+                # lr=lr * (1 / (1 + rescale * i))
                 self.weights-=lr*dweight
                 self.bias-=lr*dbias
                 # if np.abs(dweight).max() < self.threshold:
