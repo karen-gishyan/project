@@ -25,7 +25,7 @@ def load_evaluate(data,name,remove_categorical=False,**kwargs):
     sklearn_path=os.path.join(cwd,name+"_sklearn.log")
     evaluate(X_train, X_test, y_train, y_test,save_path=path)
     evaluate(X_train, X_test, y_train, y_test,save_path=no_scale_path,scale=False)
-    evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=sklearn_path)
+    # evaluate_sklearn(X_train, X_test, y_train, y_test,save_path=sklearn_path)
     compare(path,no_scale_path,sklearn_path)
 
 #Loading and Preprocessing

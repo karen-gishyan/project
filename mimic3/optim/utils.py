@@ -86,9 +86,9 @@ def compare(path1,path2,path3):
     with open(path1) as file, open(path2)as file_no_scale,open(path3) as file_sklearn:
         save_list=json.load(file)
         save_list_no_scale=json.load(file_no_scale)
-        save_list_sklearn=json.load(file_sklearn)
+        # save_list_sklearn=json.load(file_sklearn)
 
-    assert len(save_list)==len(save_list_no_scale)==len(save_list_sklearn),"Lengths are not equal"
+    # assert len(save_list)==len(save_list_no_scale)==len(save_list_sklearn),"Lengths are not equal"
     logger.info(path1)
     #custom scd with scaling
     res_f1=max(save_list,key=lambda d:d['f1'])
@@ -115,13 +115,13 @@ def compare(path1,path2,path3):
     logger.info("Mean accuracy not scaled:{}\n".format(average_accuracy))
 
     #scd
-    res_f1=max(save_list_sklearn,key=lambda d:d['f1'])
-    logger.info("Max f1 sklearn:{},batch_size:{},scaling_factor:{}".\
-        format(res_f1['f1'],res_f1['batch_size'],res_f1['scaling_factor']))
-    res_accuracy=max(save_list_sklearn,key=lambda d:d['accuracy'])
-    logger.info("Max accuracy sklearn:{},batch_size:{},scaling_factor:{}".\
-        format(res_accuracy['accuracy'],res_accuracy['batch_size'],res_accuracy['scaling_factor']))
-    average_f1=sum([d['f1'] for d in save_list_sklearn])/len(save_list_sklearn)
-    logger.info("Mean f1 sklearn:{}".format(average_f1))
-    average_accuracy=sum([d['accuracy'] for d in save_list_sklearn])/len(save_list_sklearn)
-    logger.info("Mean accuracy sklearn:{}\n".format(average_accuracy))
+    # res_f1=max(save_list_sklearn,key=lambda d:d['f1'])
+    # logger.info("Max f1 sklearn:{},batch_size:{},scaling_factor:{}".\
+    #     format(res_f1['f1'],res_f1['batch_size'],res_f1['scaling_factor']))
+    # res_accuracy=max(save_list_sklearn,key=lambda d:d['accuracy'])
+    # logger.info("Max accuracy sklearn:{},batch_size:{},scaling_factor:{}".\
+    #     format(res_accuracy['accuracy'],res_accuracy['batch_size'],res_accuracy['scaling_factor']))
+    # average_f1=sum([d['f1'] for d in save_list_sklearn])/len(save_list_sklearn)
+    # logger.info("Mean f1 sklearn:{}".format(average_f1))
+    # average_accuracy=sum([d['accuracy'] for d in save_list_sklearn])/len(save_list_sklearn)
+    # logger.info("Mean accuracy sklearn:{}\n".format(average_accuracy))

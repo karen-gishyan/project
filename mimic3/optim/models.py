@@ -12,11 +12,24 @@ class MultiClassLogisticRegression:
         self.n_iter = n_iter
         self.threshold = threshold
 
-    def fit(self,X, y,lr=None,scaling_factor=None, random_seed=4,batch_size=1,n_epochs=1):
+    def fit(self,X, y,lr=None,scaling_factor=None, random_seed=4,batch_size=1,n_epochs=1,momentum=0.9,
+            nesterov=None,standard=True):
         """Model training.
         lr is the default update rate.
         scaling_factor is custom update.
+
+        nesterov=True,standard=False, runs nesterov
+        nesterov=False,standard=False, runs momentum
+        nesterov=None, standard=True, runs standard
+
         """
+        if nesterov is None:
+            assert standard==True, "standard should be True if nesterov is False."
+
+        if nesterov in [True,False]:
+            assert standard==False, "standar cannot be True if nesterov is either True or False."
+
+        #NOTE put nesterov=False to run with momentum only
         if not any([lr,scaling_factor]):
             raise ValueError("Either learning rate or scaling factor should be provided.")
         np.random.seed(random_seed)
@@ -28,11 +41,18 @@ class MultiClassLogisticRegression:
         self.loss = []
         self.bias = np.zeros((1, len(self.classes)))
         self.weights = np.zeros(shape=(len(self.classes),X.shape[1]))
+        self.velocity_w=np.zeros(shape=(len(self.classes),X.shape[1]))
+        self.velocity_b=0
         #stachastic and minibatch gd are supported
         for _ in range(n_epochs):
             for i in range(0,len(X),batch_size):
                 X_batch, y_batch = X[i:i+batch_size], y[i:i+batch_size]
-                y_pred=self.predict(X_batch)
+                if nesterov:
+                    self.look_ahead_weights = self.weights - momentum * self.velocity_w
+                    self.look_ahead_bias = self.bias - momentum * self.velocity_b
+                    y_pred=self.predict_nesterov(X_batch)
+                else:
+                    y_pred=self.predict(X_batch)
                 loss=self.cross_entropy(y_batch,y_pred)
                 self.loss.append(loss)
                 # update
@@ -40,11 +60,22 @@ class MultiClassLogisticRegression:
                 if scaling_factor:
                     cosine_similarity=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))
                     lr=cosine_similarity*scaling_factor
-                #NOTE comment out next two lines if lr should not decay
-                # rescale=scaling_factor if scaling_factor else 0.01
-                # lr=lr * (1 / (1 + rescale * i))
-                self.weights-=lr*dweight
-                self.bias-=lr*dbias
+
+                if standard:
+                    #NOTE comment out next two lines if lr should not decay
+                    # rescale=scaling_factor if scaling_factor else 0.01
+                    # lr=lr * (1 / (1 + rescale * i))
+                    self.weights-=lr*dweight
+                    self.bias-=lr*dbias
+
+                else:
+                    #momentum
+                    self.velocity_w=momentum*self.velocity_w+lr*dweight
+                    self.velocity_b=momentum*self.velocity_b+lr*dbias
+                    self.weights-=self.velocity_w
+                    self.bias-=self.velocity_b
+
+
                 # if np.abs(dweight).max() < self.threshold:
                 #     break
                 # if i % 100 == 0:
@@ -58,6 +89,12 @@ class MultiClassLogisticRegression:
         """Linear prediction, followed by softmax."""
         y_pred = np.dot(X, self.weights.T)+self.bias
         return self.softmax(y_pred)
+
+    def predict_nesterov(self,X):
+        """Linear prediction, followed by softmax for the Nesterov method."""
+        y_pred = np.dot(X, self.look_ahead_weights.T)+self.look_ahead_bias
+        return self.softmax(y_pred)
+
 
     def softmax(self,z):
         """Softmax activation."""
