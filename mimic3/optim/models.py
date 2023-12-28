@@ -61,9 +61,9 @@ class MultiClassLogisticRegression:
                 if scaling_factor:
                     cosine_similarity=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))
                     min_cosine=min(min_cosine,cosine_similarity)
-                    lr=cosine_similarity*scaling_factor
                     if cosine_similarity<=0:
                         continue
+                    lr=cosine_similarity*scaling_factor
 
                 if standard:
                     #NOTE comment out next two lines if lr should not decay
