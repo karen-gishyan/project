@@ -44,6 +44,7 @@ class MultiClassLogisticRegression:
         self.velocity_w=np.zeros(shape=(len(self.classes),X.shape[1]))
         self.velocity_b=0
         #stachastic and minibatch gd are supported
+        min_cosine=1
         for _ in range(n_epochs):
             for i in range(0,len(X),batch_size):
                 X_batch, y_batch = X[i:i+batch_size], y[i:i+batch_size]
@@ -59,7 +60,10 @@ class MultiClassLogisticRegression:
                 dweight,dbias=self.get_gradients(y_batch,y_pred,X_batch)
                 if scaling_factor:
                     cosine_similarity=np.mean(np.dot(X_batch,self.mean)/(np.linalg.norm(X_batch)*np.linalg.norm(self.mean)))
+                    min_cosine=min(min_cosine,cosine_similarity)
                     lr=cosine_similarity*scaling_factor
+                    if cosine_similarity<=0:
+                        continue
 
                 if standard:
                     #NOTE comment out next two lines if lr should not decay
@@ -75,7 +79,8 @@ class MultiClassLogisticRegression:
                     self.weights-=self.velocity_w
                     self.bias-=self.velocity_b
 
-
+        if scaling_factor:
+            print("Min cosine similarity {}, scaling factor {}".format(min_cosine,scaling_factor))
                 # if np.abs(dweight).max() < self.threshold:
                 #     break
                 # if i % 100 == 0:
