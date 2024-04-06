@@ -335,11 +335,11 @@ class Evaluation:
 
         # increase ylim so as labels fit
         ax.set_xticks(x_axis)
-        ax.set_xlabel('Methods')
+        ax.set_xlabel('Training combinations')
         ax.set_ylabel('Reward')
         ax.set_ylim(bottom=min(vis_summary_dict['reward_sum'])-300,top=max(vis_summary_dict['reward_sum'])+200)
         ax.set_title(
-            "Total reward per method grouped by timestep and averaged over patients")
+            "Total reward per combination grouped by timestep and averaged over patients")
         # move legent outside of box
         ax.legend(bbox_to_anchor=(1.1, 1), loc="upper right")
         plt.show()
@@ -351,10 +351,10 @@ class Evaluation:
             ax.text(method, count + 0.5, round(count), ha='center')
 
         ax.set_xticks(x_axis)
-        ax.set_xlabel('Methods')
+        ax.set_xlabel('Training combinations')
         ax.set_ylabel('Count')
         ax.set_ylim(top=max(vis_summary_dict['solutions_count'])+5)
-        ax.set_title("Number of solutions per method")
+        ax.set_title("Number of solutions per combination")
         plt.show()
 
     @classmethod
@@ -422,10 +422,10 @@ class Evaluation:
             multiplier += 1
 
         ax.set_xticks(x + width, x)
-        ax.set_xlabel('Methods')
+        ax.set_xlabel('Training combinations')
         ax.set_ylabel('Correlation')
         ax.set_title(
-            'Average correlation per method for each timestep: number of steps taken and final solutions')
+            'Average correlation per combination for each timestep: number of steps taken and final solutions')
         ax.legend(bbox_to_anchor=(1.08, 1), loc="upper right")
         plt.show()
 
@@ -441,10 +441,10 @@ class Evaluation:
             multiplier += 1
 
         ax.set_xticks(x + width, x)
-        ax.set_xlabel('Methods')
+        ax.set_xlabel('Training combinations')
         ax.set_ylabel('Correlation')
         ax.set_title(
-            'Average correlation per method for each timestep: number of steps taken and accumulated reward')
+            'Average correlation per combination for each timestep: number of steps taken and accumulated reward')
         ax.legend(bbox_to_anchor=(1.08, 1), loc="upper right")
         plt.show()
 
@@ -460,10 +460,10 @@ class Evaluation:
             multiplier += 1
 
         ax.set_xticks(x + width, x)
-        ax.set_xlabel('Methods')
+        ax.set_xlabel('Training combinations')
         ax.set_ylabel('Correlation')
         ax.set_title(
-            'Average correlation per method for each timestep: final solutions and accumulated reward')
+            'Average correlation per combination for each timestep: final solutions and accumulated reward')
         ax.legend(bbox_to_anchor=(1.08, 1), loc="upper right")
         plt.show()
 
@@ -484,9 +484,9 @@ class Evaluation:
             ax.text(method, f_score+0.005,
                     f"{round(f_score,2)}", ha='center')
 
-        ax.set_title("F-score per method")
+        ax.set_title("F-score per combination")
         ax.set_ylabel('F-score')
-        ax.set_xlabel('Methods')
+        ax.set_xlabel('Training combinations')
         plt.show()
 
     @classmethod
