@@ -84,6 +84,7 @@ class MDP:
             sorted(self.cosine_sim_scores.items(), key=lambda i: i[1]))
 
         goal_node_id = list(ordered_scores[-1])[0]
+        self.goal_node_id = goal_node_id
         self.goal_state = self.graph.nodes[goal_node_id]
         print(f"Goal State: {self.goal_state['label']}")
         self.graph.nodes[goal_node_id]['goal'] = True
@@ -225,6 +226,66 @@ class StageMDP:
                                               value=goal_state['value'],reward=0,start=True)
         return self
 
+    def create_multilayer_graph(self):
+        """Separate multilayer graph for modeling and testing, path existence checking."""
+
+        def get_start_node(mdp):
+            for node, attr in mdp.graph.nodes(data=True):
+                if attr.get("start"):
+                    return node
+
+        def get_goal_node(mdp):
+            return mdp.goal_node_id
+
+        def get_shortest_path(source):
+            """Source node can vary. It should be of this format (1,"layer1")"""
+            path = nx.shortest_path(M, source=source, target=(goal_G3,"layer3"), weight=None, method='dijkstra')
+            # Print the path
+            print(path,"\n")
+
+        # no predefined start node for the first layer
+        _= get_start_node(self.mdp_t1)
+        goal_G1 = get_goal_node(self.mdp_t1)
+
+        start_G2= get_start_node(self.mdp_t2)
+        goal_G2 = get_goal_node(self.mdp_t2)
+
+        start_G3= get_start_node(self.mdp_t3)
+        goal_G3 = get_goal_node(self.mdp_t3)
+
+        M = nx.DiGraph()
+        for node in self.mdp_t1.graph.nodes:
+            M.add_node((node,"layer1"))
+        for edge in self.mdp_t1.graph.edges:
+            M.add_edge((edge[0],"layer1"),(edge[1],"layer1"))
+
+        for node in self.mdp_t2.graph.nodes:
+            M.add_node((node,"layer2"))
+        for edge in self.mdp_t2.graph.edges:
+            M.add_edge((edge[0],"layer2"),(edge[1],"layer2"))
+
+        for node in self.mdp_t3.graph.nodes:
+            M.add_node((node,"layer3"))
+        for edge in self.mdp_t3.graph.edges:
+            M.add_edge((edge[0],"layer3"),(edge[1],"layer3"))
+
+        M.add_edge((goal_G1, 'layer1'), (start_G2, 'layer2'))
+        M.add_edge((goal_G2, 'layer2'), (start_G3, 'layer3'))
+
+        # interlayer edges
+        print("Interlayer edges")
+        for edge in M.edges:
+            if edge[0][1]!=edge[1][1]:
+                print(edge)
+
+        # shortest paths from different layer 1 start edges
+        for node in M.nodes:
+            if node[1]=="layer1":
+                try:
+                    get_shortest_path(node)
+                except nx.exception.NetworkXNoPath as e:
+                    print(str(e))
+
     def evaluate(self):
         """With current evaluation, if the algorithm reaches a full prescription, the outcomes is 1,
         if a self loop happens, the outcome is 0.
@@ -271,9 +332,14 @@ class StageMDP:
 
     def __call__(self):
         self.connect_graphs()
-        t1_policy_graph=self.mdp_t1.create_actions_and_transition_probabilities().value_iteration()
-        t2_policy_graph=self.mdp_t2.create_actions_and_transition_probabilities().value_iteration()
-        t3_policy_graph=self.mdp_t3.create_actions_and_transition_probabilities().value_iteration()
+        obj1=self.mdp_t1.create_actions_and_transition_probabilities()
+        obj2=self.mdp_t2.create_actions_and_transition_probabilities()
+        obj3=self.mdp_t3.create_actions_and_transition_probabilities()
+        self.create_multilayer_graph()
+
+        t1_policy_graph=obj1.value_iteration()
+        t2_policy_graph=obj2.value_iteration()
+        t3_policy_graph=obj3.value_iteration()
         self.combined_policy_graph=nx.compose_all([t1_policy_graph,t2_policy_graph,t3_policy_graph])
         self.evaluate()
 
