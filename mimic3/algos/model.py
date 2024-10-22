@@ -373,6 +373,12 @@ class StageMDP:
         # self.create_multilayer_graph()
         return self
 
+    def nullify_values(self, obj):
+        """Nullify values before evaluating multilayer value iteration."""
+        data = obj.graph.nodes(data=True)
+        for key, _ in obj.graph.nodes(data=True):
+            data[key]['value']=0
+
     def evaluate_value_iteration(self):
         t1_policy_graph, t1_algorithm_response=self.obj1.value_iteration()
         t2_policy_graph, t2_algorithm_response=self.obj2.value_iteration()
@@ -382,6 +388,10 @@ class StageMDP:
         return [t1_algorithm_response, t2_algorithm_response, t3_algorithm_response]
 
     def evaluate_multilayer_value_iteration(self):
+        self.nullify_values(self.obj1)
+        self.nullify_values(self.obj2)
+        self.nullify_values(self.obj3)
+        # print([{k:v["value"]} for k, v in self.obj1.graph.nodes(data=True)])
         t1_policy_graph, t1_algorithm_response=self.obj1.value_iteration()
         t2_policy_graph, t2_algorithm_response=self.obj2.value_iteration(prev_layer_mdp=self.obj1)
         t3_policy_graph, t3_algorithm_response=self.obj3.value_iteration(prev_layer_mdp=self.obj2)
