@@ -9,6 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import precision_recall_fscore_support
 from collections import defaultdict
 import matplotlib.pyplot as plt
+import math
 
 
 
@@ -158,7 +159,11 @@ class MDP:
             top_actions = list(sorted(similarities.items(), key=lambda dict_: dict_[1]))[-self.n_actions_per_state:]
             scores_only = [i[1] if i[1]>=0  else 0 for i in top_actions]
             for t in top_actions:
-                self.graph.add_edge(i, t[0], sim_score=1-t[1], probability=t[1]/sum(scores_only))
+                probability= t[1]/sum(scores_only)
+                # if scores_only is [0]
+                if math.isinf(probability):
+                    continue
+                self.graph.add_edge(i, t[0], sim_score=1-t[1], probability=probability)
 
         # nx.draw(self.graph, with_labels=True)
         return self
@@ -191,16 +196,19 @@ class MDP:
                     continue
                 current_value=self.graph.nodes[state]['value']
                 action_values=self.one_step_look_ahead(state=state)
+                if not action_values:
+                    continue
                 # take into account the value from the previous layer
                 if not prev_layer_mdp:
                     max_action_value=max(action_values)
                 else:
                     try:
-                        max_action_value=(max(action_values)+prev_layer_mdp.graph.nodes[state]['value'])/2
+                        max_action_value=0.5*max(action_values)+0.5*prev_layer_mdp.graph.nodes[state]['value']
                     except Exception as e:
-                        print(e)
+                        print(e) #7_t1, will be exception on such states
                 self.graph.nodes[state]['value']=max_action_value
                 delta=max(delta,abs(current_value-max_action_value))
+                # print(f"delta {delta}")
             if delta<=theta:
                 break
 
@@ -219,6 +227,8 @@ class MDP:
             # logger.info(f"State:{state},Value:{self.graph.nodes[state]['value']}")
             state_values.update({state:self.graph.nodes[state]['value']})
             action_values=self.one_step_look_ahead(state=state)
+            if not action_values:
+                continue
             best_action_id=np.argmax(action_values)
             best_action_state=list(self.graph.out_edges(state))[best_action_id][1]
             policy.append((state,best_action_state))
@@ -379,26 +389,7 @@ class StageMDP:
         # self.evaluate()
         return [t1_algorithm_response, t2_algorithm_response, t3_algorithm_response]
 
-
-    def __call__(self):
-        value_iteration_results=[]
-        multilayer_value_iteration_results=[]
-
-        for count in range(1,23):
-            stage_mdp=StageMDP(n_actions_per_state=count)
-            algorithm_responses=stage_mdp.create_state_spaces().evaluate_value_iteration()
-            for response in algorithm_responses:
-                value_iteration_results.append((response))
-            algorithm_responses=stage_mdp.create_state_spaces().evaluate_multilayer_value_iteration()
-            for response in algorithm_responses:
-                multilayer_value_iteration_results.append(response)
-
-        with open("json_files/value_iterations_results.json",'w') as file:
-            json.dump(value_iteration_results,file,indent=4)
-
-        with open("json_files/multilayer_value_iterations_results.json",'w') as file:
-            json.dump(multilayer_value_iteration_results,file,indent=4)
-
+    def plot_convergence(self,value_iteration_results, multilayer_value_iteration_results):
         x=[]
         t1_ys,t2_ys,t3_ys=[], [],[]
         for res in value_iteration_results:
@@ -442,6 +433,76 @@ class StageMDP:
 
         plt.tight_layout()  # Adjust layout to prevent overlap
         plt.show()
+
+    def plot_state_space_values(self,value_iteration_results, multilayer_value_iteration_results):
+        x=[]
+        t1_ys,t2_ys,t3_ys=[], [],[]
+        for res in value_iteration_results:
+            if res["time_period"]==1:
+                x.append(res["n_actions_per_state"])
+                t1_ys.append(res["total_value_of_state_space"])
+            elif res["time_period"]==2:
+                t2_ys.append(res["total_value_of_state_space"])
+            elif res["time_period"]==3:
+                t3_ys.append(res["total_value_of_state_space"])
+
+        t1_ys_ml,t2_ys_ml,t3_ys_ml=[], [],[]
+
+        for res in multilayer_value_iteration_results:
+            if res["time_period"]==1:
+                t1_ys_ml.append(res["total_value_of_state_space"])
+            elif res["time_period"]==2:
+                t2_ys_ml.append(res["total_value_of_state_space"])
+            elif res["time_period"]==3:
+                t3_ys_ml.append(res["total_value_of_state_space"])
+
+        fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+
+        axs[0].plot(x, t1_ys,label="standard")
+        axs[0].plot(x, t1_ys_ml,label="multilayer")
+        axs[0].set_title('t1')
+        axs[0].set_ylabel('Total state space value')
+        axs[0].legend()
+
+        axs[1].plot(x, t2_ys, label="standard")
+        axs[1].plot(x, t2_ys_ml, label="multilayer")
+        axs[1].set_title('t2')
+        axs[1].set_ylabel('Total state space value')
+        axs[1].legend()
+
+        axs[2].plot(x, t3_ys, label="standard")
+        axs[2].plot(x, t3_ys_ml, label="multilayer")
+        axs[2].set_title('t3')
+        axs[2].set_ylabel('Total state space value')
+        axs[2].legend()
+
+        plt.tight_layout()  # Adjust layout to prevent overlap
+        plt.show()
+
+    def __call__(self):
+        value_iteration_results=[]
+        multilayer_value_iteration_results=[]
+
+        for count in range(1,23):
+            stage_mdp=StageMDP(n_actions_per_state=count)
+            algorithm_responses=stage_mdp.create_state_spaces().evaluate_value_iteration()
+            for response in algorithm_responses:
+                value_iteration_results.append((response))
+            algorithm_responses=stage_mdp.create_state_spaces().evaluate_multilayer_value_iteration()
+            for response in algorithm_responses:
+                multilayer_value_iteration_results.append(response)
+
+        with open("json_files/value_iterations_results.json",'w') as file:
+            json.dump(value_iteration_results,file,indent=4)
+
+        with open("json_files/multilayer_value_iterations_results.json",'w') as file:
+            json.dump(multilayer_value_iteration_results,file,indent=4)
+
+        self.plot_convergence(value_iteration_results,multilayer_value_iteration_results)
+        self.plot_state_space_values(value_iteration_results,multilayer_value_iteration_results)
+
+
+
 
 
 
