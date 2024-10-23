@@ -246,6 +246,7 @@ class MDP:
 class StageMDP:
     def __init__(self, n_actions_per_state=3):
         # more actions means more the chance of positive policy_outcome
+        self.n_actions_per_state = n_actions_per_state
         self.mdp_t1=MDP(diagnosis="SEPSIS",n_actions_per_state=n_actions_per_state).make_models().create_states_base(time_period=1)
         self.mdp_t2=MDP(diagnosis="SEPSIS",n_actions_per_state=n_actions_per_state).make_models().create_states_base(time_period=2)
         self.mdp_t3=MDP(diagnosis="SEPSIS",n_actions_per_state=n_actions_per_state).make_models().create_states_base(time_period=3)
@@ -333,6 +334,9 @@ class StageMDP:
             current_state=state
             while True:
                 out_edge=self.combined_policy_graph.edges(current_state)
+                if not out_edge:
+                    policy_mapping['policy_outcome']=0
+                    break
                 next_state=list(out_edge)[0][1]
                 if next_state in policy_mapping[state]:
                     print(f'{i}th:Exiting because of a loop.')
@@ -357,13 +361,16 @@ class StageMDP:
 
 
         policy_outcomes=np.array([state['policy_outcome'] for state in mappings])
-        actual_outcomes=np.array(self.mdp_t3.model3.output)
-        evaluation=precision_recall_fscore_support(policy_outcomes,actual_outcomes,average='binary')
-        print(evaluation)
-        mappings.append(evaluation)
-
-        with open("json_files/discrete_policies.json",'w') as file:
-            json.dump(mappings,file,indent=4)
+        count_successful_policy = int(sum(policy_outcomes))
+        count_successful_policy_dict={
+            "n_actions_per_state": self.n_actions_per_state,
+            "count_successful_policy":count_successful_policy
+        }
+        # actual_outcomes=np.array(self.mdp_t3.model3.output)
+        # evaluation=precision_recall_fscore_support(policy_outcomes,actual_outcomes,average='binary')
+        # print(evaluation)
+        # mappings.append(evaluation)
+        return count_successful_policy_dict
 
     def create_state_spaces(self):
         self.connect_graphs()
@@ -383,9 +390,9 @@ class StageMDP:
         t1_policy_graph, t1_algorithm_response=self.obj1.value_iteration()
         t2_policy_graph, t2_algorithm_response=self.obj2.value_iteration()
         t3_policy_graph, t3_algorithm_response=self.obj3.value_iteration()
-        # self.combined_policy_graph=nx.compose_all([t1_policy_graph,t2_policy_graph,t3_policy_graph])
-        # self.evaluate()
-        return [t1_algorithm_response, t2_algorithm_response, t3_algorithm_response]
+        self.combined_policy_graph=nx.compose_all([t1_policy_graph,t2_policy_graph,t3_policy_graph])
+        count_successful_policy = self.evaluate()
+        return count_successful_policy, [t1_algorithm_response, t2_algorithm_response, t3_algorithm_response]
 
     def evaluate_multilayer_value_iteration(self):
         self.nullify_values(self.obj1)
@@ -395,31 +402,33 @@ class StageMDP:
         t1_policy_graph, t1_algorithm_response=self.obj1.value_iteration()
         t2_policy_graph, t2_algorithm_response=self.obj2.value_iteration(prev_layer_mdp=self.obj1)
         t3_policy_graph, t3_algorithm_response=self.obj3.value_iteration(prev_layer_mdp=self.obj2)
-        # self.combined_policy_graph=nx.compose_all([t1_policy_graph,t2_policy_graph,t3_policy_graph])
-        # self.evaluate()
-        return [t1_algorithm_response, t2_algorithm_response, t3_algorithm_response]
+        self.combined_policy_graph=nx.compose_all([t1_policy_graph,t2_policy_graph,t3_policy_graph])
+        count_successful_policy = self.evaluate()
+        return count_successful_policy, [t1_algorithm_response, t2_algorithm_response, t3_algorithm_response]
 
     def plot_convergence(self,value_iteration_results, multilayer_value_iteration_results):
         x=[]
         t1_ys,t2_ys,t3_ys=[], [],[]
         for res in value_iteration_results:
-            if res["time_period"]==1:
-                x.append(res["n_actions_per_state"])
-                t1_ys.append(res["steps_to_converge"])
-            elif res["time_period"]==2:
-                t2_ys.append(res["steps_to_converge"])
-            elif res["time_period"]==3:
-                t3_ys.append(res["steps_to_converge"])
+            if res.get("time_period"):
+                if res["time_period"]==1:
+                    x.append(res["n_actions_per_state"])
+                    t1_ys.append(res["steps_to_converge"])
+                elif res["time_period"]==2:
+                    t2_ys.append(res["steps_to_converge"])
+                elif res["time_period"]==3:
+                    t3_ys.append(res["steps_to_converge"])
 
         t1_ys_ml,t2_ys_ml,t3_ys_ml=[], [],[]
 
         for res in multilayer_value_iteration_results:
-            if res["time_period"]==1:
-                t1_ys_ml.append(res["steps_to_converge"])
-            elif res["time_period"]==2:
-                t2_ys_ml.append(res["steps_to_converge"])
-            elif res["time_period"]==3:
-                t3_ys_ml.append(res["steps_to_converge"])
+            if res.get("time_period"):
+                if res["time_period"]==1:
+                    t1_ys_ml.append(res["steps_to_converge"])
+                elif res["time_period"]==2:
+                    t2_ys_ml.append(res["steps_to_converge"])
+                elif res["time_period"]==3:
+                    t3_ys_ml.append(res["steps_to_converge"])
 
         fig, axs = plt.subplots(3, 1, figsize=(8, 10))
 
@@ -448,23 +457,25 @@ class StageMDP:
         x=[]
         t1_ys,t2_ys,t3_ys=[], [],[]
         for res in value_iteration_results:
-            if res["time_period"]==1:
-                x.append(res["n_actions_per_state"])
-                t1_ys.append(res["total_value_of_state_space"])
-            elif res["time_period"]==2:
-                t2_ys.append(res["total_value_of_state_space"])
-            elif res["time_period"]==3:
-                t3_ys.append(res["total_value_of_state_space"])
+            if res.get("time_period"):
+                if res["time_period"]==1:
+                    x.append(res["n_actions_per_state"])
+                    t1_ys.append(res["total_value_of_state_space"])
+                elif res["time_period"]==2:
+                    t2_ys.append(res["total_value_of_state_space"])
+                elif res["time_period"]==3:
+                    t3_ys.append(res["total_value_of_state_space"])
 
         t1_ys_ml,t2_ys_ml,t3_ys_ml=[], [],[]
 
         for res in multilayer_value_iteration_results:
-            if res["time_period"]==1:
-                t1_ys_ml.append(res["total_value_of_state_space"])
-            elif res["time_period"]==2:
-                t2_ys_ml.append(res["total_value_of_state_space"])
-            elif res["time_period"]==3:
-                t3_ys_ml.append(res["total_value_of_state_space"])
+            if res.get("time_period"):
+                if res["time_period"]==1:
+                    t1_ys_ml.append(res["total_value_of_state_space"])
+                elif res["time_period"]==2:
+                    t2_ys_ml.append(res["total_value_of_state_space"])
+                elif res["time_period"]==3:
+                    t3_ys_ml.append(res["total_value_of_state_space"])
 
         fig, axs = plt.subplots(3, 1, figsize=(8, 10))
 
@@ -489,16 +500,41 @@ class StageMDP:
         plt.tight_layout()  # Adjust layout to prevent overlap
         plt.show()
 
+    def plot_successfull_policy_count(self,value_iteration_results, multilayer_value_iteration_results):
+        x,y=[],[]
+        for res in value_iteration_results:
+            if res.get("count_successful_policy"):
+                x.append(res["n_actions_per_state"])
+                y.append(res["count_successful_policy"])
+
+        y_ml=[]
+        for res in multilayer_value_iteration_results:
+            if res.get("count_successful_policy"):
+                y_ml.append(res["count_successful_policy"])
+
+        fig, axs = plt.subplots(1, 1, figsize=(8, 10))
+
+        axs.plot(x, y,label="standard")
+        axs.plot(x, y_ml,label="multilayer")
+        axs.set_title('Count of successful policies')
+        axs.set_ylabel('Count')
+        axs.legend()
+        plt.tight_layout()  # Adjust layout to prevent overlap
+        plt.show()
+
+
     def __call__(self):
         value_iteration_results=[]
         multilayer_value_iteration_results=[]
 
         for count in range(1,23):
             stage_mdp=StageMDP(n_actions_per_state=count)
-            algorithm_responses=stage_mdp.create_state_spaces().evaluate_value_iteration()
+            count_successful_policy, algorithm_responses =stage_mdp.create_state_spaces().evaluate_value_iteration()
+            value_iteration_results.append(count_successful_policy)
             for response in algorithm_responses:
                 value_iteration_results.append((response))
-            algorithm_responses=stage_mdp.create_state_spaces().evaluate_multilayer_value_iteration()
+            count_successful_policy, algorithm_responses=stage_mdp.create_state_spaces().evaluate_multilayer_value_iteration()
+            multilayer_value_iteration_results.append(count_successful_policy)
             for response in algorithm_responses:
                 multilayer_value_iteration_results.append(response)
 
@@ -510,15 +546,7 @@ class StageMDP:
 
         self.plot_convergence(value_iteration_results,multilayer_value_iteration_results)
         self.plot_state_space_values(value_iteration_results,multilayer_value_iteration_results)
-
-
-
-
-
-
-
-
-
+        self.plot_successfull_policy_count(value_iteration_results,multilayer_value_iteration_results)
 
 
 if __name__=="__main__":
